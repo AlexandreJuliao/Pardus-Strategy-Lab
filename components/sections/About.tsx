@@ -56,12 +56,12 @@ export default function About() {
           className="relative mt-12 aspect-[16/7] overflow-hidden rounded-[10px] border border-line"
         >
           <Image
-            src="/img/about-leopard.jpg"
-            alt="Um leopardo em silêncio, ao entardecer — o símbolo da Pardus"
+            src="/img/about-tech.jpg"
+            alt="Núcleo de dados a ganhar vida — partículas douradas e circuitos que convergem"
             fill
             sizes="(max-width: 1024px) 100vw, 1320px"
             className="object-cover"
-            style={{ objectPosition: "center 35%" }}
+            style={{ objectPosition: "center center" }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/25 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-bg/70 via-transparent to-bg/40" />

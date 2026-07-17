@@ -3,7 +3,7 @@ import Manifesto from "@/components/sections/Manifesto";
 import Marquee from "@/components/sections/Marquee";
 import Services from "@/components/sections/Services";
 import Capabilities from "@/components/sections/Capabilities";
-import LeopardBand from "@/components/sections/LeopardBand";
+import StatementBand from "@/components/sections/StatementBand";
 import Process from "@/components/sections/Process";
 import StackTech from "@/components/sections/StackTech";
 import TechShowcase from "@/components/sections/TechShowcase";
@@ -27,8 +27,8 @@ export default function HomePage() {
       <Services />
       <Capabilities />
 
-      <LeopardBand
-        direction="lr"
+      <StatementBand
+        variant="stack"
         title={
           <>
             Precisão. Inteligência.{" "}
@@ -58,8 +58,8 @@ export default function HomePage() {
 
       <WhyPardus />
 
-      <LeopardBand
-        direction="rl"
+      <StatementBand
+        variant="cta"
         title={
           <>
             O próximo salto do teu negócio{" "}
@@ -67,6 +67,7 @@ export default function HomePage() {
           </>
         }
         sub="Meia hora, sem custo. Olhamos para o que fazes e dizemos-te o que faz sentido."
+        cta="Consultoria gratuita"
       />
 
       <Pricing />
