@@ -6,11 +6,11 @@ import AuroraGlow from "@/components/ui/AuroraGlow";
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 export default function PageHero({
-  label,
   title,
   subtitle,
 }: {
-  label: string;
+  /** kept for backwards-compat with existing call sites; no longer rendered */
+  label?: string;
   title: string;
   subtitle?: string;
 }) {
@@ -30,10 +30,9 @@ export default function PageHero({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASE }}
-          className="mb-5 flex items-center gap-3"
+          className="mb-6"
         >
-          <span className="h-px w-8 bg-gold/60" />
-          <span className="mono-label">{label.replace(/^\/\/\s*/, "")}</span>
+          <span className="block h-px w-10 bg-gold/50" />
         </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 18 }}

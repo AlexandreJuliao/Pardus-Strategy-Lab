@@ -12,10 +12,7 @@ export default function Manifesto() {
     <section className="relative overflow-hidden section-pad">
       <AuroraGlow variant="manifesto" />
       <div className="shell relative z-10">
-        <div className="mb-8 flex items-center gap-3">
-          <span className="h-px w-8 bg-gold/60" />
-          <span className="mono-label">Manifesto</span>
-        </div>
+        <span className="mb-8 block h-px w-10 bg-gold/50" />
 
         <h2 className="font-display text-[clamp(30px,5vw,68px)] font-semibold leading-[1.05] tracking-[-0.02em] text-text-muted">
           {words.map((w, i) => (

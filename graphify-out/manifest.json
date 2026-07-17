@@ -1,0 +1,677 @@
+{
+  ".claude/launch.json": {
+    "mtime": 1781003512.392789,
+    "ast_hash": "fafbf299577c427486ed63286a84b051",
+    "semantic_hash": "fafbf299577c427486ed63286a84b051"
+  },
+  ".eslintrc.json": {
+    "mtime": 1780954538.2167237,
+    "ast_hash": "9b8be5ef96ddd69ecd1ddc1554c61a88",
+    "semantic_hash": "9b8be5ef96ddd69ecd1ddc1554c61a88"
+  },
+  "app/contacto/page.tsx": {
+    "mtime": 1784288975.9080245,
+    "ast_hash": "3aa1d28012f2d35a776c557ed68b5d8e",
+    "semantic_hash": "3aa1d28012f2d35a776c557ed68b5d8e"
+  },
+  "app/eliminacao-de-dados/page.tsx": {
+    "mtime": 1783457187.0761285,
+    "ast_hash": "e70fa296933c32295f41aa52571b10e7",
+    "semantic_hash": "e70fa296933c32295f41aa52571b10e7"
+  },
+  "app/layout.tsx": {
+    "mtime": 1784327478.091972,
+    "ast_hash": "8c7ba8f72fdf48fc31c24e9d90e6aa8f",
+    "semantic_hash": "8c7ba8f72fdf48fc31c24e9d90e6aa8f"
+  },
+  "app/page.tsx": {
+    "mtime": 1784327693.1640956,
+    "ast_hash": "1273c4b9ec8a92a0183b31cf462ada43",
+    "semantic_hash": "1273c4b9ec8a92a0183b31cf462ada43"
+  },
+  "app/privacidade/page.tsx": {
+    "mtime": 1783458762.019772,
+    "ast_hash": "7370e4b035241b64e77f9753091f22d7",
+    "semantic_hash": "7370e4b035241b64e77f9753091f22d7"
+  },
+  "app/projetos/page.tsx": {
+    "mtime": 1781003477.4949121,
+    "ast_hash": "787792fa3e1a523421722a3973abc9cf",
+    "semantic_hash": "787792fa3e1a523421722a3973abc9cf"
+  },
+  "app/servicos/[slug]/page.tsx": {
+    "mtime": 1783161141.3255198,
+    "ast_hash": "3fb83c0d68216ac8c8a309f1f82c219b",
+    "semantic_hash": "3fb83c0d68216ac8c8a309f1f82c219b"
+  },
+  "app/servicos/page.tsx": {
+    "mtime": 1783159469.0254316,
+    "ast_hash": "3404472a9cf08996195f9105fd765f9a",
+    "semantic_hash": "3404472a9cf08996195f9105fd765f9a"
+  },
+  "app/termos/page.tsx": {
+    "mtime": 1783457215.676589,
+    "ast_hash": "71f672025fa2d51393a92a751db695a1",
+    "semantic_hash": "71f672025fa2d51393a92a751db695a1"
+  },
+  "components/canvas/EmberField.tsx": {
+    "mtime": 1781002873.9460206,
+    "ast_hash": "d08eebe9347c2e663c92bdbf04ff3b9e",
+    "semantic_hash": "d08eebe9347c2e663c92bdbf04ff3b9e"
+  },
+  "components/canvas/FlowField.tsx": {
+    "mtime": 1784327874.4570582,
+    "ast_hash": "a46def43a60c53114d9c78062d05e92c",
+    "semantic_hash": "a46def43a60c53114d9c78062d05e92c"
+  },
+  "components/canvas/LeopardMorph.tsx": {
+    "mtime": 1784325579.683599,
+    "ast_hash": "07604e5be49cf9ef72dab64d651904fc",
+    "semantic_hash": "07604e5be49cf9ef72dab64d651904fc"
+  },
+  "components/layout/Footer.tsx": {
+    "mtime": 1783458783.9102488,
+    "ast_hash": "1204210432fa2a452cd98509f6818722",
+    "semantic_hash": "1204210432fa2a452cd98509f6818722"
+  },
+  "components/layout/Navbar.tsx": {
+    "mtime": 1784326996.0632155,
+    "ast_hash": "36b513fb14bcd6f1f12f1c5f064bed94",
+    "semantic_hash": "36b513fb14bcd6f1f12f1c5f064bed94"
+  },
+  "components/layout/ScrollProgress.tsx": {
+    "mtime": 1780954159.4207458,
+    "ast_hash": "80baf0f58cd4e5b3aff109ffd39f5246",
+    "semantic_hash": "80baf0f58cd4e5b3aff109ffd39f5246"
+  },
+  "components/layout/SmoothScroll.tsx": {
+    "mtime": 1784289345.2460556,
+    "ast_hash": "969788d7eb6a2468e712d0ce687a5637",
+    "semantic_hash": "969788d7eb6a2468e712d0ce687a5637"
+  },
+  "components/legal/LegalDoc.tsx": {
+    "mtime": 1783457079.356598,
+    "ast_hash": "de96c31129496d7333ef24510c9957c5",
+    "semantic_hash": "de96c31129496d7333ef24510c9957c5"
+  },
+  "components/sections/About.tsx": {
+    "mtime": 1784325642.741751,
+    "ast_hash": "3819eebbce2ce757c9e31dfc1a209daf",
+    "semantic_hash": "3819eebbce2ce757c9e31dfc1a209daf"
+  },
+  "components/sections/CTAFinal.tsx": {
+    "mtime": 1784288902.5792143,
+    "ast_hash": "5f8c3e43e7b9c713846a29908151ccb5",
+    "semantic_hash": "5f8c3e43e7b9c713846a29908151ccb5"
+  },
+  "components/sections/Capabilities.tsx": {
+    "mtime": 1783161072.473379,
+    "ast_hash": "f172ed035bcd9382d443e0fbade47a43",
+    "semantic_hash": "f172ed035bcd9382d443e0fbade47a43"
+  },
+  "components/sections/ContactForm.tsx": {
+    "mtime": 1784288977.5999322,
+    "ast_hash": "7a0fb7d3357c4367b4768d69cf44ed35",
+    "semantic_hash": "7a0fb7d3357c4367b4768d69cf44ed35"
+  },
+  "components/sections/FAQ.tsx": {
+    "mtime": 1783166162.58424,
+    "ast_hash": "db6cfbdf4dbe0139ec3e10a575141aa9",
+    "semantic_hash": "db6cfbdf4dbe0139ec3e10a575141aa9"
+  },
+  "components/sections/Hero.tsx": {
+    "mtime": 1784326981.440356,
+    "ast_hash": "b2834e6fb63775253b42e03411aed690",
+    "semantic_hash": "b2834e6fb63775253b42e03411aed690"
+  },
+  "components/sections/LeadForm.tsx": {
+    "mtime": 1784288752.1954558,
+    "ast_hash": "5c8a2be687a62c671ef5d5864c71a0d3",
+    "semantic_hash": "5c8a2be687a62c671ef5d5864c71a0d3"
+  },
+  "components/sections/Manifesto.tsx": {
+    "mtime": 1783166114.6289499,
+    "ast_hash": "66cf117ca0f0e5d71fd3bae1ede55401",
+    "semantic_hash": "66cf117ca0f0e5d71fd3bae1ede55401"
+  },
+  "components/sections/Marquee.tsx": {
+    "mtime": 1781003047.7436717,
+    "ast_hash": "ef20b1226131314c192635fad4c1327c",
+    "semantic_hash": "ef20b1226131314c192635fad4c1327c"
+  },
+  "components/sections/Numbers.tsx": {
+    "mtime": 1784288785.0346558,
+    "ast_hash": "188cc99f7b89b1c3317ae7950617b14e",
+    "semantic_hash": "188cc99f7b89b1c3317ae7950617b14e"
+  },
+  "components/sections/PageHero.tsx": {
+    "mtime": 1783161137.3857996,
+    "ast_hash": "d17f31b75c03fed5ca95f046e708d6bc",
+    "semantic_hash": "d17f31b75c03fed5ca95f046e708d6bc"
+  },
+  "components/sections/Pricing.tsx": {
+    "mtime": 1784288812.9683754,
+    "ast_hash": "911172ed21facdcd32caa1acf6889d95",
+    "semantic_hash": "911172ed21facdcd32caa1acf6889d95"
+  },
+  "components/sections/Process.tsx": {
+    "mtime": 1783159302.4489226,
+    "ast_hash": "47d246ac45258d7aff108a88e2a2e2ff",
+    "semantic_hash": "47d246ac45258d7aff108a88e2a2e2ff"
+  },
+  "components/sections/ProjectsGrid.tsx": {
+    "mtime": 1783171547.6935055,
+    "ast_hash": "66f0078741b604a6b00ea8ea7af321b6",
+    "semantic_hash": "66f0078741b604a6b00ea8ea7af321b6"
+  },
+  "components/sections/ServiceDetail.tsx": {
+    "mtime": 1781006346.015216,
+    "ast_hash": "79de113df14b2ae6ca443fe0f8485a58",
+    "semantic_hash": "79de113df14b2ae6ca443fe0f8485a58"
+  },
+  "components/sections/Services.tsx": {
+    "mtime": 1783160886.415767,
+    "ast_hash": "e88265cda80c523fceb0e1f590f74d70",
+    "semantic_hash": "e88265cda80c523fceb0e1f590f74d70"
+  },
+  "components/sections/ServicesList.tsx": {
+    "mtime": 1781006352.2560515,
+    "ast_hash": "aabce0ab5848f5ce49b170924f10a987",
+    "semantic_hash": "aabce0ab5848f5ce49b170924f10a987"
+  },
+  "components/sections/StackTech.tsx": {
+    "mtime": 1783160940.2864752,
+    "ast_hash": "8d0531a8a6ff75fc8f51994a75b43fdc",
+    "semantic_hash": "8d0531a8a6ff75fc8f51994a75b43fdc"
+  },
+  "components/sections/StatementBand.tsx": {
+    "mtime": 1784327678.5600939,
+    "ast_hash": "2a30e86ec4f5192bf3b67a20f19d2f1f",
+    "semantic_hash": "2a30e86ec4f5192bf3b67a20f19d2f1f"
+  },
+  "components/sections/Team.tsx": {
+    "mtime": 1783166359.5492103,
+    "ast_hash": "34d2c0180ea51de77f6c93c950b785a3",
+    "semantic_hash": "34d2c0180ea51de77f6c93c950b785a3"
+  },
+  "components/sections/TechShowcase.tsx": {
+    "mtime": 1783159282.4417024,
+    "ast_hash": "cc4fbe94093e6bbc242956f4fa0f9199",
+    "semantic_hash": "cc4fbe94093e6bbc242956f4fa0f9199"
+  },
+  "components/sections/WhyPardus.tsx": {
+    "mtime": 1784289514.3471787,
+    "ast_hash": "a5396461603e68416942d81cf415b295",
+    "semantic_hash": "a5396461603e68416942d81cf415b295"
+  },
+  "components/sections/WordmarkStrip.tsx": {
+    "mtime": 1781006529.2836556,
+    "ast_hash": "4c46bc51db5a4adccbce49e67e35ac60",
+    "semantic_hash": "4c46bc51db5a4adccbce49e67e35ac60"
+  },
+  "components/ui/AuroraGlow.tsx": {
+    "mtime": 1783161320.1174116,
+    "ast_hash": "3110fa990014dd8e7b3e3121a73d6c85",
+    "semantic_hash": "3110fa990014dd8e7b3e3121a73d6c85"
+  },
+  "components/ui/Badge.tsx": {
+    "mtime": 1781002962.3409114,
+    "ast_hash": "b90e28e1bb200f7b7b018a247fc3ad81",
+    "semantic_hash": "b90e28e1bb200f7b7b018a247fc3ad81"
+  },
+  "components/ui/Button.tsx": {
+    "mtime": 1783160822.2343254,
+    "ast_hash": "b69f487dc6fd9b84d1a6bb4b308fb9d6",
+    "semantic_hash": "b69f487dc6fd9b84d1a6bb4b308fb9d6"
+  },
+  "components/ui/CodeTerminal.tsx": {
+    "mtime": 1783159330.8100889,
+    "ast_hash": "b5787e060540edec0505e34a8d76d4f8",
+    "semantic_hash": "b5787e060540edec0505e34a8d76d4f8"
+  },
+  "components/ui/CtaButton.tsx": {
+    "mtime": 1784288702.4005985,
+    "ast_hash": "28fcb78db10cea476f772c0c34238b98",
+    "semantic_hash": "28fcb78db10cea476f772c0c34238b98"
+  },
+  "components/ui/GeoPattern.tsx": {
+    "mtime": 1781003346.4112515,
+    "ast_hash": "6331cbb2cc5b1e4fb0aa050ba49357e4",
+    "semantic_hash": "6331cbb2cc5b1e4fb0aa050ba49357e4"
+  },
+  "components/ui/Logo.tsx": {
+    "mtime": 1781006124.005017,
+    "ast_hash": "1748d63767717f34d60844b1d1fa7860",
+    "semantic_hash": "1748d63767717f34d60844b1d1fa7860"
+  },
+  "components/ui/Reveal.tsx": {
+    "mtime": 1781006164.4591818,
+    "ast_hash": "dffe7ce7a6db67929b498bfbc4f175df",
+    "semantic_hash": "dffe7ce7a6db67929b498bfbc4f175df"
+  },
+  "components/ui/SectionHeader.tsx": {
+    "mtime": 1783159211.896355,
+    "ast_hash": "ac380f74044bc80147e5383ef7be7523",
+    "semantic_hash": "ac380f74044bc80147e5383ef7be7523"
+  },
+  "components/ui/SpotlightCard.tsx": {
+    "mtime": 1783160813.5900087,
+    "ast_hash": "887fede775cd4ea82da1c03e8e73648b",
+    "semantic_hash": "887fede775cd4ea82da1c03e8e73648b"
+  },
+  "lib/animations.ts": {
+    "mtime": 1780953981.9665349,
+    "ast_hash": "4c27df43da0cc6fd1a2cd743d5a7bfa3",
+    "semantic_hash": "4c27df43da0cc6fd1a2cd743d5a7bfa3"
+  },
+  "lib/legal.ts": {
+    "mtime": 1783458740.3080769,
+    "ast_hash": "765c30d94fc068cc6cf9f8aab8712b6b",
+    "semantic_hash": "765c30d94fc068cc6cf9f8aab8712b6b"
+  },
+  "lib/scrollTo.ts": {
+    "mtime": 1784289231.2765033,
+    "ast_hash": "28040324dea2c4c7c4eda647d03abbe5",
+    "semantic_hash": "28040324dea2c4c7c4eda647d03abbe5"
+  },
+  "lib/services.ts": {
+    "mtime": 1783166161.4949694,
+    "ast_hash": "c5c08389b47e586977bbaaa295f847f6",
+    "semantic_hash": "c5c08389b47e586977bbaaa295f847f6"
+  },
+  "lib/useCursorParallax.ts": {
+    "mtime": 1781002852.219282,
+    "ast_hash": "53cefb52b67292565765e61e26c06e5e",
+    "semantic_hash": "53cefb52b67292565765e61e26c06e5e"
+  },
+  "lib/useTextScramble.ts": {
+    "mtime": 1780953997.8334613,
+    "ast_hash": "96afbb86537543c7489fe0f7be692d0b",
+    "semantic_hash": "96afbb86537543c7489fe0f7be692d0b"
+  },
+  "next.config.mjs": {
+    "mtime": 1783454080.0496216,
+    "ast_hash": "92ddff5f54f4df2e7c2d948ce2faacf8",
+    "semantic_hash": "92ddff5f54f4df2e7c2d948ce2faacf8"
+  },
+  "package.json": {
+    "mtime": 1781002655.884003,
+    "ast_hash": "a2457a63fa965ae63beee6580b794a09",
+    "semantic_hash": "a2457a63fa965ae63beee6580b794a09"
+  },
+  "postcss.config.mjs": {
+    "mtime": 1780953836.3082883,
+    "ast_hash": "c56b5f3c12f777a86e2513f45daab56a",
+    "semantic_hash": "c56b5f3c12f777a86e2513f45daab56a"
+  },
+  "tailwind.config.ts": {
+    "mtime": 1781004478.825936,
+    "ast_hash": "30525b2f822462099d6025b82c403f99",
+    "semantic_hash": "30525b2f822462099d6025b82c403f99"
+  },
+  "tsconfig.json": {
+    "mtime": 1780953829.736981,
+    "ast_hash": "fb3479c72198cb7294e17631c80a47ce",
+    "semantic_hash": "fb3479c72198cb7294e17631c80a47ce"
+  },
+  "public/img/about-tech.jpg": {
+    "mtime": 1784325619.6873813,
+    "ast_hash": "babaf7d4b12611974323ed4d062bfc68",
+    "semantic_hash": "babaf7d4b12611974323ed4d062bfc68"
+  },
+  "public/img/case-chatbot.jpg": {
+    "mtime": 1781003130.689388,
+    "ast_hash": "f0c5440845e19eae9cd713f32eb6e721",
+    "semantic_hash": "f0c5440845e19eae9cd713f32eb6e721"
+  },
+  "public/img/case-crm.jpg": {
+    "mtime": 1781003130.634757,
+    "ast_hash": "b73041f2e5f37ee31d78797e8444af2f",
+    "semantic_hash": "b73041f2e5f37ee31d78797e8444af2f"
+  },
+  "public/img/case-ecommerce.jpg": {
+    "mtime": 1781003130.578751,
+    "ast_hash": "8b1f4017fe4b4db4a0107d09b7163b57",
+    "semantic_hash": "8b1f4017fe4b4db4a0107d09b7163b57"
+  },
+  "public/img/case-leads.jpg": {
+    "mtime": 1781003130.527288,
+    "ast_hash": "9a3feadb390220cbd133d9ac0e79b930",
+    "semantic_hash": "9a3feadb390220cbd133d9ac0e79b930"
+  },
+  "public/img/cases/case-arquitetura.jpg": {
+    "mtime": 1783166231.1022723,
+    "ast_hash": "e61560efcf27d2bbbc2639e2b9239303",
+    "semantic_hash": "e61560efcf27d2bbbc2639e2b9239303"
+  },
+  "public/img/cases/case-ecommerce.jpg": {
+    "mtime": 1783166231.2019749,
+    "ast_hash": "64fe6028a6ec0dbd592f10fddb90fb08",
+    "semantic_hash": "64fe6028a6ec0dbd592f10fddb90fb08"
+  },
+  "public/img/cases/case-leads-inbox.jpg": {
+    "mtime": 1783166231.1520958,
+    "ast_hash": "1003c89863942b7fe67af98991d49e18",
+    "semantic_hash": "1003c89863942b7fe67af98991d49e18"
+  },
+  "public/img/cases/case-nutri.jpg": {
+    "mtime": 1783166231.297508,
+    "ast_hash": "090376fefc927268ce0e517fcdc794da",
+    "semantic_hash": "090376fefc927268ce0e517fcdc794da"
+  },
+  "public/img/cases/case-pardus-os.jpg": {
+    "mtime": 1783166231.254182,
+    "ast_hash": "5e9c1ffb31ed41c4a7f7c9ffff2822bd",
+    "semantic_hash": "5e9c1ffb31ed41c4a7f7c9ffff2822bd"
+  },
+  "public/img/leopard-roar/frame_001.jpg": {
+    "mtime": 1784325555.5244026,
+    "ast_hash": "debcf404e206bd8bbf6f28eca155bf35",
+    "semantic_hash": "debcf404e206bd8bbf6f28eca155bf35"
+  },
+  "public/img/leopard-roar/frame_002.jpg": {
+    "mtime": 1784325555.5294201,
+    "ast_hash": "f6a162eb4e00d55652b83c705279bcc4",
+    "semantic_hash": "f6a162eb4e00d55652b83c705279bcc4"
+  },
+  "public/img/leopard-roar/frame_003.jpg": {
+    "mtime": 1784325555.5306315,
+    "ast_hash": "7ca01b783ca44e0111f14d80ae7a6709",
+    "semantic_hash": "7ca01b783ca44e0111f14d80ae7a6709"
+  },
+  "public/img/leopard-roar/frame_004.jpg": {
+    "mtime": 1784325555.5315797,
+    "ast_hash": "91b6ec273603604194dd30c2216380a2",
+    "semantic_hash": "91b6ec273603604194dd30c2216380a2"
+  },
+  "public/img/leopard-roar/frame_005.jpg": {
+    "mtime": 1784325555.5323727,
+    "ast_hash": "05d361436c0d97823deea5749f38e2d0",
+    "semantic_hash": "05d361436c0d97823deea5749f38e2d0"
+  },
+  "public/img/leopard-roar/frame_006.jpg": {
+    "mtime": 1784325555.5334318,
+    "ast_hash": "f16f9a630fbc377ea10d67aa109ee2f9",
+    "semantic_hash": "f16f9a630fbc377ea10d67aa109ee2f9"
+  },
+  "public/img/leopard-roar/frame_007.jpg": {
+    "mtime": 1784325555.5346859,
+    "ast_hash": "5821ac7b46b95636a061b2101daef4e5",
+    "semantic_hash": "5821ac7b46b95636a061b2101daef4e5"
+  },
+  "public/img/leopard-roar/frame_008.jpg": {
+    "mtime": 1784325555.5354729,
+    "ast_hash": "66215d7ac3ef184c057bde397e27481e",
+    "semantic_hash": "66215d7ac3ef184c057bde397e27481e"
+  },
+  "public/img/leopard-roar/frame_009.jpg": {
+    "mtime": 1784325555.5360231,
+    "ast_hash": "dbb0760ab11f9660b8b7d48c82889928",
+    "semantic_hash": "dbb0760ab11f9660b8b7d48c82889928"
+  },
+  "public/img/leopard-roar/frame_010.jpg": {
+    "mtime": 1784325555.536656,
+    "ast_hash": "9b55c6a2ec4c0a4fbad90e1269a7636f",
+    "semantic_hash": "9b55c6a2ec4c0a4fbad90e1269a7636f"
+  },
+  "public/img/leopard-roar/frame_011.jpg": {
+    "mtime": 1784325555.5369844,
+    "ast_hash": "eef42d3390fd4fd7d5df938bebe00fbe",
+    "semantic_hash": "eef42d3390fd4fd7d5df938bebe00fbe"
+  },
+  "public/img/leopard-roar/frame_012.jpg": {
+    "mtime": 1784325555.5388503,
+    "ast_hash": "422e5a117bd69f445d9702cd7a975f92",
+    "semantic_hash": "422e5a117bd69f445d9702cd7a975f92"
+  },
+  "public/img/leopard-roar/frame_013.jpg": {
+    "mtime": 1784325555.5400093,
+    "ast_hash": "67273074308aeaffcc5a914bb0916043",
+    "semantic_hash": "67273074308aeaffcc5a914bb0916043"
+  },
+  "public/img/leopard-roar/frame_014.jpg": {
+    "mtime": 1784325555.5413876,
+    "ast_hash": "caaf709c48b729db62f7cb3ee5daa774",
+    "semantic_hash": "caaf709c48b729db62f7cb3ee5daa774"
+  },
+  "public/img/leopard-roar/frame_015.jpg": {
+    "mtime": 1784325555.5421267,
+    "ast_hash": "2246e9dfe2498b00888ea58f61c332ed",
+    "semantic_hash": "2246e9dfe2498b00888ea58f61c332ed"
+  },
+  "public/img/leopard-roar/frame_016.jpg": {
+    "mtime": 1784325555.5430303,
+    "ast_hash": "998689d4bea9195da8c2a87ff9e517ff",
+    "semantic_hash": "998689d4bea9195da8c2a87ff9e517ff"
+  },
+  "public/img/leopard-roar/frame_017.jpg": {
+    "mtime": 1784325555.5445094,
+    "ast_hash": "e1b384c72acd4d803a0cd834bd4865ce",
+    "semantic_hash": "e1b384c72acd4d803a0cd834bd4865ce"
+  },
+  "public/img/leopard-roar/frame_018.jpg": {
+    "mtime": 1784325555.5450256,
+    "ast_hash": "6ff339910f3fd3ac2db0122c7981841b",
+    "semantic_hash": "6ff339910f3fd3ac2db0122c7981841b"
+  },
+  "public/img/leopard-roar/frame_019.jpg": {
+    "mtime": 1784325555.5467296,
+    "ast_hash": "ef8eb275862fe5e0badcd894fcb1e310",
+    "semantic_hash": "ef8eb275862fe5e0badcd894fcb1e310"
+  },
+  "public/img/leopard-roar/frame_020.jpg": {
+    "mtime": 1784325555.5472524,
+    "ast_hash": "f5fdc60f538257099d469760444bbfab",
+    "semantic_hash": "f5fdc60f538257099d469760444bbfab"
+  },
+  "public/img/leopard-roar/frame_021.jpg": {
+    "mtime": 1784325555.5491474,
+    "ast_hash": "3f76a505df4b4cc0a4c1a6582113c5f1",
+    "semantic_hash": "3f76a505df4b4cc0a4c1a6582113c5f1"
+  },
+  "public/img/leopard-roar/frame_022.jpg": {
+    "mtime": 1784325555.5495312,
+    "ast_hash": "215667f29e572b8b4aaa284aa7b09289",
+    "semantic_hash": "215667f29e572b8b4aaa284aa7b09289"
+  },
+  "public/img/leopard-roar/frame_023.jpg": {
+    "mtime": 1784325555.5511596,
+    "ast_hash": "ab3b46d8de38327d5e629c4ae7e2a87f",
+    "semantic_hash": "ab3b46d8de38327d5e629c4ae7e2a87f"
+  },
+  "public/img/leopard-roar/frame_024.jpg": {
+    "mtime": 1784325555.5516255,
+    "ast_hash": "e404c35adc4bb4ab7e1507403bd43c21",
+    "semantic_hash": "e404c35adc4bb4ab7e1507403bd43c21"
+  },
+  "public/img/leopard-roar/frame_025.jpg": {
+    "mtime": 1784325555.553069,
+    "ast_hash": "d8c30549db9e5ab8ae3e3b5f0c4b4cee",
+    "semantic_hash": "d8c30549db9e5ab8ae3e3b5f0c4b4cee"
+  },
+  "public/img/leopard-roar/frame_026.jpg": {
+    "mtime": 1784325555.5541673,
+    "ast_hash": "41ee3aa935e68d75c4448b55577655b3",
+    "semantic_hash": "41ee3aa935e68d75c4448b55577655b3"
+  },
+  "public/img/leopard-roar/frame_027.jpg": {
+    "mtime": 1784325555.5563338,
+    "ast_hash": "9aae8f772af5a8d5b721f019c0d20c83",
+    "semantic_hash": "9aae8f772af5a8d5b721f019c0d20c83"
+  },
+  "public/img/leopard-roar/frame_028.jpg": {
+    "mtime": 1784325555.5569131,
+    "ast_hash": "db2b467a591197966f70bb0d94200540",
+    "semantic_hash": "db2b467a591197966f70bb0d94200540"
+  },
+  "public/img/leopard-roar/frame_029.jpg": {
+    "mtime": 1784325555.5580184,
+    "ast_hash": "9797f20093293f7abd51b780fddafe80",
+    "semantic_hash": "9797f20093293f7abd51b780fddafe80"
+  },
+  "public/img/leopard-roar/frame_030.jpg": {
+    "mtime": 1784325555.5590165,
+    "ast_hash": "dd5c231245d491e8a2cbd0ece0d6faa6",
+    "semantic_hash": "dd5c231245d491e8a2cbd0ece0d6faa6"
+  },
+  "public/img/leopard-roar/frame_031.jpg": {
+    "mtime": 1784325555.5603006,
+    "ast_hash": "4635bdf00a7c4e279350758d8f39fafe",
+    "semantic_hash": "4635bdf00a7c4e279350758d8f39fafe"
+  },
+  "public/img/leopard-roar/frame_032.jpg": {
+    "mtime": 1784325555.5617244,
+    "ast_hash": "a976ef2d604256e43f7b1f3f425e6d62",
+    "semantic_hash": "a976ef2d604256e43f7b1f3f425e6d62"
+  },
+  "public/img/leopard-roar/frame_033.jpg": {
+    "mtime": 1784325555.5618336,
+    "ast_hash": "ad69d0880f3b2cb2700b2cd987c04106",
+    "semantic_hash": "ad69d0880f3b2cb2700b2cd987c04106"
+  },
+  "public/img/leopard-roar/frame_034.jpg": {
+    "mtime": 1784325555.5620904,
+    "ast_hash": "76f0a42196b8ebbeb004efa28e045e68",
+    "semantic_hash": "76f0a42196b8ebbeb004efa28e045e68"
+  },
+  "public/img/leopard-roar/frame_035.jpg": {
+    "mtime": 1784325555.5641158,
+    "ast_hash": "a1e80acfd5a10c57a8c1443ab988eb92",
+    "semantic_hash": "a1e80acfd5a10c57a8c1443ab988eb92"
+  },
+  "public/img/leopard-roar/frame_036.jpg": {
+    "mtime": 1784325555.5652544,
+    "ast_hash": "5b2b8025e47dab994c37040f4e6853f6",
+    "semantic_hash": "5b2b8025e47dab994c37040f4e6853f6"
+  },
+  "public/img/leopard-roar/frame_037.jpg": {
+    "mtime": 1784325555.5669212,
+    "ast_hash": "f946ec303e6c7729ac8f8d10ea447e08",
+    "semantic_hash": "f946ec303e6c7729ac8f8d10ea447e08"
+  },
+  "public/img/leopard-roar/frame_038.jpg": {
+    "mtime": 1784325555.5679605,
+    "ast_hash": "b10636926304d8a077f7d2543ec0047c",
+    "semantic_hash": "b10636926304d8a077f7d2543ec0047c"
+  },
+  "public/img/leopard-roar/frame_039.jpg": {
+    "mtime": 1784325555.5680926,
+    "ast_hash": "27d441c06a9d478b186090fedcd65f11",
+    "semantic_hash": "27d441c06a9d478b186090fedcd65f11"
+  },
+  "public/img/leopard-roar/frame_040.jpg": {
+    "mtime": 1784325555.5690274,
+    "ast_hash": "c9be0627be69dbd93ac9f26c930b2dfc",
+    "semantic_hash": "c9be0627be69dbd93ac9f26c930b2dfc"
+  },
+  "public/img/leopard-roar/frame_041.jpg": {
+    "mtime": 1784325555.5717843,
+    "ast_hash": "5202b57c653856a2600ce650b99fc776",
+    "semantic_hash": "5202b57c653856a2600ce650b99fc776"
+  },
+  "public/img/leopard-roar/frame_042.jpg": {
+    "mtime": 1784325555.572889,
+    "ast_hash": "d4141006f3be76514da165ef2982c6a6",
+    "semantic_hash": "d4141006f3be76514da165ef2982c6a6"
+  },
+  "public/img/leopard-roar/frame_043.jpg": {
+    "mtime": 1784325555.5736423,
+    "ast_hash": "cb08560e1299ee4d527bb8aa24d95461",
+    "semantic_hash": "cb08560e1299ee4d527bb8aa24d95461"
+  },
+  "public/img/leopard-roar/frame_044.jpg": {
+    "mtime": 1784325555.5746195,
+    "ast_hash": "8410118edb400c9c839d0ac05532ef4d",
+    "semantic_hash": "8410118edb400c9c839d0ac05532ef4d"
+  },
+  "public/img/leopard-roar/frame_045.jpg": {
+    "mtime": 1784325555.5757244,
+    "ast_hash": "a38c0634ffda58cab960dfcf952e1d4b",
+    "semantic_hash": "a38c0634ffda58cab960dfcf952e1d4b"
+  },
+  "public/img/leopard-roar/frame_046.jpg": {
+    "mtime": 1784325555.5784912,
+    "ast_hash": "365f85b469ba3310defdf29e145c3a12",
+    "semantic_hash": "365f85b469ba3310defdf29e145c3a12"
+  },
+  "public/img/leopard-roar/frame_047.jpg": {
+    "mtime": 1784325555.5785701,
+    "ast_hash": "e36e229ed3e04111822c70b26d01db1b",
+    "semantic_hash": "e36e229ed3e04111822c70b26d01db1b"
+  },
+  "public/img/leopard-roar/frame_048.jpg": {
+    "mtime": 1784325555.58123,
+    "ast_hash": "47adb4a49a5ffbe21d4ee49fa914ea25",
+    "semantic_hash": "47adb4a49a5ffbe21d4ee49fa914ea25"
+  },
+  "public/img/leopard-roar/frame_049.jpg": {
+    "mtime": 1784325555.582044,
+    "ast_hash": "2930a19049844879fbaff7f77d0ed088",
+    "semantic_hash": "2930a19049844879fbaff7f77d0ed088"
+  },
+  "public/img/leopard-roar/frame_050.jpg": {
+    "mtime": 1784325555.5824616,
+    "ast_hash": "bcf526d7a33338792fc587bdce37a113",
+    "semantic_hash": "bcf526d7a33338792fc587bdce37a113"
+  },
+  "public/img/leopard-roar/frame_051.jpg": {
+    "mtime": 1784325555.584489,
+    "ast_hash": "ff1396f8a158d7a7daaf0396172e38b2",
+    "semantic_hash": "ff1396f8a158d7a7daaf0396172e38b2"
+  },
+  "public/img/leopard-roar/frame_052.jpg": {
+    "mtime": 1784325555.5849497,
+    "ast_hash": "4a1082d465ff3577d9227e8ede026344",
+    "semantic_hash": "4a1082d465ff3577d9227e8ede026344"
+  },
+  "public/img/leopard-roar/frame_053.jpg": {
+    "mtime": 1784325555.5855885,
+    "ast_hash": "c5053223c74eb5bf3e6d0f4d6224b457",
+    "semantic_hash": "c5053223c74eb5bf3e6d0f4d6224b457"
+  },
+  "public/img/leopard-roar/frame_054.jpg": {
+    "mtime": 1784325555.5860808,
+    "ast_hash": "664097ea8c3559a6d0b466c7c823957c",
+    "semantic_hash": "664097ea8c3559a6d0b466c7c823957c"
+  },
+  "public/img/leopard-roar/frame_055.jpg": {
+    "mtime": 1784325555.5870419,
+    "ast_hash": "b3703e68537a2555ce51a225f2d9b541",
+    "semantic_hash": "b3703e68537a2555ce51a225f2d9b541"
+  },
+  "public/img/leopard-roar/frame_056.jpg": {
+    "mtime": 1784325555.587326,
+    "ast_hash": "27cbbad576e9c8a9e2877585facbf52a",
+    "semantic_hash": "27cbbad576e9c8a9e2877585facbf52a"
+  },
+  "public/img/leopard-roar/frame_057.jpg": {
+    "mtime": 1784325555.587378,
+    "ast_hash": "55f35a6252419f2b372f33ab28d7bebe",
+    "semantic_hash": "55f35a6252419f2b372f33ab28d7bebe"
+  },
+  "public/img/leopard-roar/frame_058.jpg": {
+    "mtime": 1784325555.587428,
+    "ast_hash": "eeccd78017b5120655fa6ed648275418",
+    "semantic_hash": "eeccd78017b5120655fa6ed648275418"
+  },
+  "public/img/leopard-roar/frame_059.jpg": {
+    "mtime": 1784325555.5881016,
+    "ast_hash": "235d1638d87b191e3275ebbc61383bce",
+    "semantic_hash": "235d1638d87b191e3275ebbc61383bce"
+  },
+  "public/img/leopard-roar/frame_060.jpg": {
+    "mtime": 1784325555.5889413,
+    "ast_hash": "9e651e83ad4c14a53b63d344b20e4dde",
+    "semantic_hash": "9e651e83ad4c14a53b63d344b20e4dde"
+  },
+  "public/img/leopard-roar/frame_061.jpg": {
+    "mtime": 1784325555.5892644,
+    "ast_hash": "ca640a6ee9bc0ceffe5c0aac45a4b929",
+    "semantic_hash": "ca640a6ee9bc0ceffe5c0aac45a4b929"
+  },
+  "public/img/og.jpg": {
+    "mtime": 1781002785.7642784,
+    "ast_hash": "1ad81abf7e250ab78b95155d87dc7eac",
+    "semantic_hash": "1ad81abf7e250ab78b95155d87dc7eac"
+  }
+}

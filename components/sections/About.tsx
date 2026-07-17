@@ -26,10 +26,7 @@ export default function About() {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6, ease: EASE }}
           >
-            <div className="mb-5 flex items-center gap-3">
-              <span className="h-px w-8 bg-gold/60" />
-              <span className="mono-label">Sobre</span>
-            </div>
+            <span className="mb-5 block h-px w-10 bg-gold/50" />
             <h2 className="text-h2 text-text-primary [text-wrap:balance]">
               Tecnologia com pés e cabeça
             </h2>

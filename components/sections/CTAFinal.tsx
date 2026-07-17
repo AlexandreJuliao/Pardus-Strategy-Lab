@@ -26,10 +26,8 @@ export default function CTAFinal() {
         viewport={{ once: true, margin: "-80px" }}
         className="shell relative z-10 flex flex-col items-center text-center"
       >
-        <motion.div variants={fadeUp} className="mb-6 flex items-center gap-3">
-          <span className="h-px w-8 bg-gold/60" />
-          <span className="mono-label">Próximo passo</span>
-          <span className="h-px w-8 bg-gold/60" />
+        <motion.div variants={fadeUp} className="mb-6 flex justify-center">
+          <span className="block h-px w-12 bg-gold/50" />
         </motion.div>
         <motion.h2
           variants={fadeUp}
