@@ -1,39 +1,72 @@
 "use client";
 
 import { motion } from "framer-motion";
-import AuroraGlow from "@/components/ui/AuroraGlow";
+import FlowField from "@/components/canvas/FlowField";
 import CtaButton from "@/components/ui/CtaButton";
 
 /**
- * A full-width cinematic statement — big centred line over drifting aurora.
- * Keeps the mid-page "beats" the leopard bands used to provide, without the
- * leopard (which now lives only in the hero). Optional CTA.
+ * A full-bleed cinematic statement over a living field of light (FlowField).
+ * Replaces the leopard bands as the mid-page "beats" — same impact, new
+ * material: gold/blue streams flowing and reacting to the cursor.
  */
 export default function StatementBand({
   title,
   sub,
   cta,
-  variant = "cta",
+  tone = "gold",
 }: {
   title: React.ReactNode;
   sub?: string;
   cta?: string;
-  variant?: "cta" | "manifesto" | "stack";
+  tone?: "gold" | "blue";
 }) {
   return (
-    <section className="relative overflow-hidden border-y border-line bg-bg-2/40">
-      <AuroraGlow variant={variant} />
-      <div className="grid-lines pointer-events-none absolute inset-0 opacity-[0.1]" />
+    <section
+      className="relative overflow-hidden border-y border-line"
+      style={{ background: "#060912" }}
+    >
+      {/* living light field */}
+      <FlowField tone={tone} />
+
+      {/* calm the centre so the words read; frame the streams at the edges */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 72% at 50% 50%, rgba(5,7,14,0.82) 0%, rgba(5,7,14,0.35) 42%, transparent 72%)",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute inset-y-0 left-0 w-[16%]"
+        style={{ background: "linear-gradient(90deg, #05070e, transparent)" }}
+      />
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 w-[16%]"
+        style={{ background: "linear-gradient(270deg, #05070e, transparent)" }}
+      />
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-16"
+        style={{ background: "linear-gradient(180deg, #05070e, transparent)" }}
+      />
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
+        style={{ background: "linear-gradient(0deg, #05070e, transparent)" }}
+      />
+      <div className="noise-overlay" />
+
       <div
         className="relative z-10 mx-auto flex flex-col items-center justify-center px-6 text-center"
-        style={{ minHeight: "clamp(300px, 38vw, 460px)", paddingBlock: "clamp(56px,8vw,96px)" }}
+        style={{
+          minHeight: "clamp(360px, 46vw, 580px)",
+          paddingBlock: "clamp(72px,10vw,120px)",
+        }}
       >
         <motion.h2
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15%" }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-4xl font-display font-bold leading-[1.04] text-text-primary [font-size:clamp(28px,4.6vw,64px)] [letter-spacing:-0.03em] [text-wrap:balance]"
+          className="max-w-4xl font-display font-bold leading-[1.03] text-text-primary [font-size:clamp(30px,5vw,72px)] [letter-spacing:-0.03em] [text-shadow:0_6px_40px_rgba(0,0,0,0.7)] [text-wrap:balance]"
         >
           {title}
         </motion.h2>
@@ -44,7 +77,7 @@ export default function StatementBand({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-15%" }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-6 max-w-xl font-sans text-[clamp(15px,1.5vw,19px)] leading-relaxed text-text-secondary"
+            className="mt-6 max-w-xl font-sans text-[clamp(15px,1.5vw,19px)] leading-relaxed text-text-secondary [text-shadow:0_2px_18px_rgba(0,0,0,0.8)]"
           >
             {sub}
           </motion.p>

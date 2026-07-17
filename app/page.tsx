@@ -28,7 +28,7 @@ export default function HomePage() {
       <Capabilities />
 
       <StatementBand
-        variant="stack"
+        tone="gold"
         title={
           <>
             Precisão. Inteligência.{" "}
@@ -59,7 +59,7 @@ export default function HomePage() {
       <WhyPardus />
 
       <StatementBand
-        variant="cta"
+        tone="blue"
         title={
           <>
             O próximo salto do teu negócio{" "}
