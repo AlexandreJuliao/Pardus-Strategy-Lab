@@ -6,39 +6,41 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
+  type MotionValue,
 } from "framer-motion";
 import { ChevronDown, ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import CtaButton from "@/components/ui/CtaButton";
 import LeopardMorph from "@/components/canvas/LeopardMorph";
-import { useTextScramble } from "@/lib/useTextScramble";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-function ScrambleWord({ word, delay }: { word: string; delay: number }) {
-  const out = useTextScramble(word, { delay, wordStagger: 0 });
-  return <span>{out || " "}</span>;
-}
+// The headline plays out in three beats, scrubbed by the same scroll that
+// turns the atoms into the roaring leopard: data → instinct → the roar.
+const BEATS: { lead: string; gold: string }[] = [
+  { lead: "Nasce", gold: "dos dados." },
+  { lead: "Ganha", gold: "instinto." },
+  { lead: "Ruge", gold: "no mercado." },
+];
 
-function ScrambleLine({
-  text,
-  base,
-  className = "",
+function Beat({
+  lead,
+  gold,
+  opacity,
+  y,
 }: {
-  text: string;
-  base: number;
-  className?: string;
+  lead: string;
+  gold: string;
+  opacity: MotionValue<number>;
+  y: MotionValue<number>;
 }) {
-  const words = text.split(" ");
   return (
-    <span className={`inline-block ${className}`}>
-      {words.map((w, i) => (
-        <span key={i} className="inline-block whitespace-pre">
-          <ScrambleWord word={w} delay={base + i * 80} />
-          {i < words.length - 1 ? " " : ""}
-        </span>
-      ))}
-    </span>
+    <motion.h1
+      style={{ opacity, y }}
+      className="absolute inset-x-0 top-0 text-display text-text-primary [text-shadow:0_6px_36px_rgba(0,0,0,0.6)]"
+    >
+      {lead} <span className="text-gold">{gold}</span>
+    </motion.h1>
   );
 }
 
@@ -51,11 +53,24 @@ export default function Hero() {
     offset: ["start start", "end end"],
   });
 
-  const cueOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
-  const hintOpacity = useTransform(scrollYProgress, [0, 0.08, 0.55], [0.9, 0.5, 0]);
+  // beat opacities (cross-fade) + slight vertical drift
+  const o0 = useTransform(scrollYProgress, [0, 0.18, 0.27], [1, 1, 0]);
+  const o1 = useTransform(scrollYProgress, [0.23, 0.34, 0.5, 0.58], [0, 1, 1, 0]);
+  const o2 = useTransform(scrollYProgress, [0.55, 0.68, 1], [0, 1, 1]);
+  const y0 = useTransform(scrollYProgress, [0, 0.27], [0, -34]);
+  const y1 = useTransform(scrollYProgress, [0.23, 0.58], [34, -34]);
+  const y2 = useTransform(scrollYProgress, [0.55, 1], [34, 0]);
+  const beatOps = [o0, o1, o2];
+  const beatYs = [y0, y1, y2];
+
+  // supporting copy drifts + settles as the beast forms
+  const subOpacity = useTransform(scrollYProgress, [0, 0.2, 0.85, 1], [1, 1, 1, 0.35]);
+  const subY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const cueOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
+  const hintOpacity = useTransform(scrollYProgress, [0, 0.08, 0.5], [0.9, 0.5, 0]);
 
   return (
-    <section ref={ref} className="relative h-[180vh] w-full bg-bg">
+    <section ref={ref} className="relative h-[200vh] w-full bg-bg">
       <div className="sticky top-0 h-[100svh] min-h-[640px] w-full overflow-hidden bg-bg">
         {/* leopard: atoms → real, driven by scroll */}
         <LeopardMorph progress={scrollYProgress} reduced={!!reduce} />
@@ -65,7 +80,7 @@ export default function Hero() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, var(--bg) 0%, rgba(5,7,14,0.82) 26%, rgba(5,7,14,0.32) 58%, transparent 100%)",
+              "linear-gradient(90deg, var(--bg) 0%, rgba(5,7,14,0.8) 26%, rgba(5,7,14,0.3) 58%, transparent 100%)",
           }}
         />
         <div
@@ -75,7 +90,7 @@ export default function Hero() {
               "linear-gradient(0deg, var(--bg) 1%, transparent 34%, transparent 72%, rgba(5,7,14,0.5) 100%)",
           }}
         />
-        <motion.div
+        <div
           aria-hidden
           className="pointer-events-none absolute left-[6%] top-[44%] h-[420px] w-[420px] rounded-full"
           style={{
@@ -90,7 +105,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: reduce ? 0 : 0.9, duration: 0.6, ease: EASE }}
+            transition={{ delay: reduce ? 0 : 0.5, duration: 0.6, ease: EASE }}
             className="mb-6 flex items-center gap-3"
           >
             <span className="h-px w-8 bg-gold/60" />
@@ -98,34 +113,46 @@ export default function Hero() {
             <span className="mono-tiny text-text-muted">Lisboa, PT</span>
           </motion.div>
 
-          <h1 className="text-display text-text-primary [text-shadow:0_6px_36px_rgba(0,0,0,0.6)]">
-            <span className="block md:whitespace-nowrap">
-              <ScrambleLine text="Sistemas que pensam." base={reduce ? 0 : 1500} />
-            </span>
-            <span className="block md:whitespace-nowrap">
-              <ScrambleLine
-                text="Negócios que crescem."
-                base={reduce ? 0 : 1500}
-                className="text-gold"
-              />
-            </span>
-          </h1>
+          {/* kinetic headline */}
+          {reduce ? (
+            <h1 className="text-display text-text-primary">
+              Instinto digital <span className="text-gold">para o teu negócio.</span>
+            </h1>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.7, ease: EASE }}
+              className="relative w-full [min-height:clamp(112px,17vh,190px)]"
+            >
+              {BEATS.map((b, i) => (
+                <Beat
+                  key={b.gold}
+                  lead={b.lead}
+                  gold={b.gold}
+                  opacity={beatOps[i]}
+                  y={beatYs[i]}
+                />
+              ))}
+            </motion.div>
+          )}
 
           <motion.p
             className="hero-sub mt-7 max-w-xl [text-shadow:0_2px_18px_rgba(0,0,0,0.7)]"
+            style={reduce ? undefined : { opacity: subOpacity, y: subY }}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: reduce ? 0 : 2.4, duration: 0.7, ease: EASE }}
+            transition={{ delay: reduce ? 0 : 1.1, duration: 0.7, ease: EASE }}
           >
-            Da ideia ao sistema que trabalha por ti. Criamos sites, inteligência
-            artificial e automação — e acompanhamos-te em cada passo.
+            Damos instinto ao teu negócio com inteligência artificial, sites e
+            automação — feitos para caçar resultados, não para encher relatórios.
           </motion.p>
 
           <motion.div
             className="mt-9 flex flex-wrap items-center gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: reduce ? 0 : 2.8, duration: 0.7, ease: EASE }}
+            transition={{ delay: reduce ? 0 : 1.4, duration: 0.7, ease: EASE }}
           >
             <CtaButton variant="primary" size="lg">
               Consultoria gratuita <ArrowRight size={18} />
@@ -139,7 +166,7 @@ export default function Hero() {
             className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: reduce ? 0 : 3.2, duration: 0.8 }}
+            transition={{ delay: reduce ? 0 : 1.7, duration: 0.8 }}
           >
             {[
               ["0€", "Primeira consultoria"],
@@ -156,14 +183,14 @@ export default function Hero() {
 
         {/* morph hint + scroll cue */}
         <motion.span
-          style={{ opacity: hintOpacity }}
-          className="pointer-events-none absolute right-[7%] top-[14%] hidden max-w-[180px] text-right mono-tiny leading-relaxed text-text-muted md:block"
+          style={{ opacity: reduce ? 0 : hintOpacity }}
+          className="pointer-events-none absolute right-[7%] top-[14%] hidden max-w-[190px] text-right mono-tiny leading-relaxed text-text-muted md:block"
         >
-          {"// dos dados nasce algo vivo — faz scroll"}
+          {"// dos dados nasce o predador — faz scroll"}
         </motion.span>
 
         <motion.div
-          style={{ opacity: cueOpacity }}
+          style={{ opacity: reduce ? 1 : cueOpacity }}
           className="pointer-events-none absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2"
         >
           <span className="mono-tiny text-text-muted">scroll</span>

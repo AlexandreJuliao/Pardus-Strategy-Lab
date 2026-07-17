@@ -25,11 +25,20 @@ export default function Navbar() {
   const isHome = pathname === "/";
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80);
+    // On the homepage the hero is a tall pinned section — keep the header
+    // transparent over it and only reveal the background once it's behind us.
+    const onScroll = () => {
+      const threshold = isHome ? window.innerHeight * 0.9 : 80;
+      setScrolled(window.scrollY > threshold);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [isHome]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
