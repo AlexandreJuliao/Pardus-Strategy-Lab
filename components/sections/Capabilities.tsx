@@ -21,7 +21,7 @@ export default function Capabilities() {
         <SectionHeader
           label="// Capacidades"
           title={<>Tudo o que entregamos</>}
-          intro="O detalhe importa. Eis o que está incluído em cada frente de trabalho."
+          intro="O que está incluído em cada frente de trabalho, sem letra pequena."
         />
 
         <div className="mt-12 overflow-hidden rounded-[6px] border border-line">

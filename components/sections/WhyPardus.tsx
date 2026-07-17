@@ -25,7 +25,7 @@ export default function WhyPardus() {
         <SectionHeader
           label="// Porquê Pardus"
           title={<>Como gostamos de trabalhar</>}
-          intro="Com gosto, proximidade e transparência. Eis o que podes esperar de nós."
+          intro="Com gosto, proximidade e transparência. É isto que podes esperar de nós."
         />
 
         <motion.div

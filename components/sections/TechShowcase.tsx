@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Cpu, Workflow, ShieldCheck } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
-import CodeTerminal from "@/components/ui/CodeTerminal";
+import LiveChat from "@/components/ui/LiveChat";
 
 const POINTS = [
   { icon: Cpu, t: "Inteligência que age", d: "Ligada às tuas ferramentas, faz o trabalho — não fica só a conversar." },
@@ -26,7 +26,7 @@ export default function TechShowcase() {
           <SectionHeader
             label="Ao vivo"
             title={<>Não falamos de tecnologia.<br />Mostramos.</>}
-            intro="O mesmo tipo de sistema que criamos para os nossos clientes: percebe um pedido, trata dele e responde em segundos."
+            intro="Este é o género de assistente que criamos para os nossos clientes: percebe o pedido, responde e até marca a reunião — em segundos, a qualquer hora."
           />
           <div className="mt-9 space-y-5">
             {POINTS.map((p, i) => {
@@ -59,7 +59,7 @@ export default function TechShowcase() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          <CodeTerminal />
+          <LiveChat />
         </motion.div>
       </div>
     </section>

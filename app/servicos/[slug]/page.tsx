@@ -67,10 +67,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
           <div className="mt-8 grid grid-cols-1 items-end gap-10 md:grid-cols-[1fr_auto]">
             <div>
               <Reveal preset="up" delay={0.05}>
-                <div className="mb-5 flex items-center gap-3">
-                  <span className="h-px w-8 bg-gold/60" />
-                  <span className="mono-label">{`${service.n} — Serviço`}</span>
-                </div>
+                <span className="mb-5 block h-px w-10 bg-gold/50" />
               </Reveal>
               <Reveal preset="up" delay={0.1}>
                 <h1 className="text-display text-text-primary">{service.title}</h1>
@@ -114,10 +111,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       <section className="relative section-pad">
         <div className="shell grid grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-16">
           <Reveal preset="left">
-            <div className="mb-5 flex items-center gap-3">
-              <span className="h-px w-8 bg-gold/60" />
-              <span className="mono-label">{"O desafio"}</span>
-            </div>
+            <span className="mb-5 block h-px w-10 bg-gold/50" />
             <h2 className="text-h2 text-text-primary">O problema que resolvemos</h2>
             <p className="mt-6 font-sans text-[16px] leading-relaxed text-text-secondary">
               {service.problem}
@@ -133,10 +127,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       <section className="relative border-y border-line bg-bg-2/50 section-pad">
         <div className="shell">
           <Reveal preset="up">
-            <div className="mb-5 flex items-center gap-3">
-              <span className="h-px w-8 bg-gold/60" />
-              <span className="mono-label">{"O que entregamos"}</span>
-            </div>
+            <span className="mb-5 block h-px w-10 bg-gold/50" />
             <h2 className="text-h2 text-text-primary">Tudo incluído</h2>
           </Reveal>
           <div className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-[6px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
@@ -159,10 +150,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       <section className="relative section-pad">
         <div className="shell">
           <Reveal preset="up">
-            <div className="mb-5 flex items-center gap-3">
-              <span className="h-px w-8 bg-gold/60" />
-              <span className="mono-label">{"Como abordamos"}</span>
-            </div>
+            <span className="mb-5 block h-px w-10 bg-gold/50" />
             <h2 className="text-h2 text-text-primary">O nosso método</h2>
           </Reveal>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -190,10 +178,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       <section className="relative border-t border-line bg-bg-2/50 section-pad">
         <div className="shell grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
           <Reveal preset="left">
-            <div className="mb-5 flex items-center gap-3">
-              <span className="h-px w-8 bg-gold/60" />
-              <span className="mono-label">{"Tecnologia"}</span>
-            </div>
+            <span className="mb-5 block h-px w-10 bg-gold/50" />
             <h2 className="text-h2 text-text-primary">Tecnologia que usamos</h2>
             <div className="mt-7 flex flex-wrap gap-2.5">
               {service.tech.map((t) => (
@@ -208,10 +193,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
           </Reveal>
 
           <Reveal preset="right">
-            <div className="mb-5 flex items-center gap-3">
-              <span className="h-px w-8 bg-gold/60" />
-              <span className="mono-label">{"Dúvidas"}</span>
-            </div>
+            <span className="mb-5 block h-px w-10 bg-gold/50" />
             <div className="flex flex-col">
               {service.faq.map((f) => (
                 <div key={f.q} className="border-b border-line py-5">

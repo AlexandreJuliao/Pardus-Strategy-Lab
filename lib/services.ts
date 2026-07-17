@@ -53,9 +53,9 @@ export const SERVICES: ServiceData[] = [
     ],
     tech: ["OpenAI", "Claude", "Automação", "Python", "Supabase"],
     outcomes: [
-      { stat: "−98%", label: "Tempo em tarefas manuais" },
-      { stat: "24/7", label: "Sempre a funcionar" },
-      { stat: "2 min", label: "Do pedido à resposta" },
+      { stat: "24/7", label: "Sempre a trabalhar por ti" },
+      { stat: "Segundos", label: "Do pedido à resposta" },
+      { stat: "Menos", label: "Trabalho manual e repetitivo" },
     ],
     faq: [
       { q: "Os meus dados ficam seguros?", a: "Sim. A privacidade está na base de tudo o que fazemos — os teus dados ficam isolados, nunca são usados para treinar nada, e podemos instalar tudo só para ti quando fizer sentido." },
@@ -86,9 +86,9 @@ export const SERVICES: ServiceData[] = [
     ],
     tech: ["Design à medida", "Preparado p/ Google", "Multi-dispositivo", "Rápido"],
     outcomes: [
-      { stat: "<1s", label: "Tempo para abrir" },
-      { stat: "100/100", label: "Nota máxima de velocidade" },
-      { stat: "+", label: "Feito para converter" },
+      { stat: "Rápido", label: "Abre num instante" },
+      { stat: "Google", label: "Pronto para ser encontrado" },
+      { stat: "Teu", label: "Editas sem depender de ninguém" },
     ],
     faq: [
       { q: "Posso editar o site sozinho?", a: "Sim. Deixamos-te uma forma simples de editar textos, imagens e páginas, e ensinamos-te a fazê-lo — sem tocares em código." },
@@ -119,9 +119,9 @@ export const SERVICES: ServiceData[] = [
     ],
     tech: ["Stripe", "MB Way", "Gestão de stock", "Relatórios"],
     outcomes: [
-      { stat: "+34%", label: "Valor médio por encomenda" },
       { stat: "0%", label: "Comissões a terceiros" },
-      { stat: "24/7", label: "Vendas automáticas" },
+      { stat: "24/7", label: "Vende enquanto descansas" },
+      { stat: "Tua", label: "A loja e os dados são teus" },
     ],
     faq: [
       { q: "Migram a minha loja atual?", a: "Sim. Passamos produtos, clientes e histórico da tua loja atual, sem perderes o teu lugar no Google nem os teus dados." },
@@ -152,9 +152,9 @@ export const SERVICES: ServiceData[] = [
     ],
     tech: ["WhatsApp", "Claude", "OpenAI", "Automação"],
     outcomes: [
-      { stat: "2 min", label: "Tempo de resposta" },
+      { stat: "Segundos", label: "Tempo de resposta" },
       { stat: "24/7", label: "Sempre disponível" },
-      { stat: "+", label: "Clientes bem atendidos" },
+      { stat: "Zero", label: "Contactos sem resposta" },
     ],
     faq: [
       { q: "O assistente parece um robô?", a: "Não. Usamos a inteligência artificial mais avançada, com o tom da tua marca. Os clientes têm conversas naturais, não menus rígidos." },
@@ -185,9 +185,9 @@ export const SERVICES: ServiceData[] = [
     ],
     tech: ["Gestão à medida", "Tempo real", "Acessos seguros"],
     outcomes: [
-      { stat: "5→1", label: "Ferramentas num só sistema" },
+      { stat: "Tudo", label: "Num só sistema" },
       { stat: "Tempo real", label: "Visibilidade da operação" },
-      { stat: "−horas", label: "Em trabalho manual" },
+      { stat: "Menos", label: "Trabalho manual" },
     ],
     faq: [
       { q: "Liga ao que já uso?", a: "Sim. Ligamos às ferramentas que já usas — faturação, email, calendários — para nada ficar isolado." },
