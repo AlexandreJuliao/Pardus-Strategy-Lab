@@ -40,11 +40,13 @@ export default function ServiceDetail({
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             <span className="font-mono text-[11px] text-gold/60">{service.n}</span>
-            <h2 className="mt-3 font-display text-[clamp(26px,3.5vw,40px)] font-semibold text-text-primary">
+            <h2 className="mt-3 font-display text-[clamp(26px,3.5vw,40px)] font-semibold text-text-primary [text-wrap:balance]">
               {service.title}
             </h2>
-            <p className="mt-2 font-display text-lg text-gold">{service.tagline}</p>
-            <p className="mt-4 font-sans text-[15.5px] leading-relaxed text-text-secondary">
+            <p className="mt-2.5 accent-serif text-[clamp(19px,2.4vw,26px)] leading-tight text-gold [text-wrap:balance]">
+              {service.tagline}
+            </p>
+            <p className="mt-4 max-w-prose font-sans text-[15.5px] leading-relaxed text-text-secondary">
               {service.short}
             </p>
             <ul className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">

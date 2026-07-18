@@ -20,9 +20,13 @@ export default function ServicosPage() {
   return (
     <>
       <PageHero
-        label="// SERVIÇOS"
-        title="O que construímos"
-        subtitle="Tudo o que fazemos para pôr o teu negócio a crescer com tecnologia e inteligência artificial."
+        title={<>O que <span className="accent-serif text-gold">construímos</span></>}
+        subtitle="Seis frentes de trabalho, uma só equipa. Do site à inteligência artificial, tudo pensado para pôr o teu negócio a andar."
+        meta={
+          <p className="font-sans text-sm text-text-secondary">
+            Seis frentes. <span className="text-text-primary">Uma equipa.</span>
+          </p>
+        }
       />
       <ServicesList />
       <CTAFinal />

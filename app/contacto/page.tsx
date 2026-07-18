@@ -19,7 +19,14 @@ export const metadata: Metadata = {
 export default function ContactoPage() {
   return (
     <>
-      <PageHero label="// Contacto" title="Vamos falar do teu negócio." />
+      <PageHero
+        title={<>Vamos falar do <span className="accent-serif text-gold">teu negócio.</span></>}
+        meta={
+          <p className="font-sans text-sm text-text-secondary">
+            Resposta em <span className="text-text-primary">24h</span> · Lisboa
+          </p>
+        }
+      />
 
       <section className="relative section-pad">
         <div className="shell">
@@ -62,16 +69,16 @@ export default function ContactoPage() {
               <div className="rule-gold my-9 max-w-md" />
 
               <a
-                href="#"
+                href="mailto:geral@pardus-lab.com?subject=Quero%20marcar%20uma%20chamada"
                 className="group flex items-center gap-4 text-text-secondary transition-colors hover:text-text-primary"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-[4px] border border-line bg-white/[0.02] text-gold">
+                <span className="flex h-11 w-11 items-center justify-center rounded-[4px] border border-line bg-white/[0.02] text-gold transition-colors group-hover:border-gold/40">
                   <Calendar size={18} />
                 </span>
                 <span className="font-sans text-[15px]">
                   Preferes uma chamada?{" "}
                   <span className="text-gold underline-offset-4 group-hover:underline">
-                    Agenda uma reunião.
+                    Diz-nos e ligamos-te.
                   </span>
                 </span>
               </a>

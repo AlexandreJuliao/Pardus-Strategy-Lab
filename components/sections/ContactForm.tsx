@@ -20,14 +20,13 @@ const TIPOS = [
   "Chatbot & Automação", "Consultoria", "Outro",
 ];
 const BUDGETS = [
-  "Menos de 5.000€", "5.000€ – 15.000€", "15.000€ – 30.000€",
-  "Mais de 30.000€", "A definir",
+  "Até 2.000€", "2.000€ – 5.000€", "Mais de 5.000€", "Ainda não sei",
 ];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ContactForm() {
   const [form, setForm] = useState<FormState>({
-    nome: "", email: "", empresa: "", tipo: TIPOS[0], mensagem: "", budget: BUDGETS[4],
+    nome: "", email: "", empresa: "", tipo: TIPOS[0], mensagem: "", budget: BUDGETS[3],
   });
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
@@ -122,7 +121,7 @@ export default function ContactForm() {
 
             <button
               type="submit"
-              className="group mt-2 inline-flex w-full items-center justify-center gap-2 rounded-[4px] bg-gold py-4 font-sans font-medium text-[#0a0a0a] transition-all duration-200 ease-premium hover:bg-gold-bright hover:shadow-[0_0_30px_-6px_rgba(212,175,96,0.55)]"
+              className="btn-shine group mt-2 inline-flex w-full items-center justify-center gap-2 rounded-[4px] bg-gold py-4 font-sans font-medium text-[#0a0a0a] shadow-[0_10px_30px_-16px_rgba(212,175,96,0.6)] transition-all duration-200 ease-premium hover:bg-gold-bright hover:shadow-[0_18px_46px_-18px_rgba(212,175,96,0.65)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99]"
             >
               Pedir consultoria gratuita
               <ArrowRight size={18} className="transition-transform group-hover:translate-x-0.5" />

@@ -120,11 +120,6 @@ export default function ProjectsGrid({ showFilters = true }: { showFilters?: boo
                 <span className="absolute bottom-4 right-4 rounded-[4px] border border-gold/30 bg-bg/60 px-2.5 py-1 font-mono text-[10px] text-gold backdrop-blur-sm">
                   {p.metric}
                 </span>
-                <div className="absolute inset-0 flex items-center justify-center bg-bg/60 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100">
-                  <span className="inline-flex items-center gap-1.5 rounded-[4px] border border-gold/50 bg-bg/70 px-4 py-2 font-mono text-sm text-gold">
-                    Ver projeto <ArrowUpRight size={14} />
-                  </span>
-                </div>
               </div>
 
               <div className="p-6">

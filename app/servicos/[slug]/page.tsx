@@ -73,7 +73,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                 <h1 className="text-display text-text-primary">{service.title}</h1>
               </Reveal>
               <Reveal preset="up" delay={0.16}>
-                <p className="mt-4 font-display text-[clamp(18px,2vw,26px)] font-medium text-gold">
+                <p className="mt-4 accent-serif text-[clamp(20px,2.2vw,30px)] text-gold [text-wrap:balance]">
                   {service.tagline}
                 </p>
               </Reveal>

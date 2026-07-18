@@ -19,9 +19,13 @@ export default function ProjetosPage() {
   return (
     <>
       <PageHero
-        label="// PROJETOS"
-        title="Projetos"
-        subtitle="Sistemas reais. Resultados mensuráveis."
+        title={<>Coisas reais, <span className="accent-serif text-gold">a funcionar.</span></>}
+        subtitle="Uma amostra do que já construímos para negócios como o teu. Sem nomes, só o que ficou a trabalhar todos os dias."
+        meta={
+          <p className="font-sans text-sm text-text-secondary">
+            Amostra de <span className="text-text-primary">5 projetos</span>
+          </p>
+        }
       />
       <ProjectsGrid />
       <CTAFinal />
