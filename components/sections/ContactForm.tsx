@@ -30,6 +30,9 @@ export default function ContactForm() {
   });
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState(false);
+  const [hp, setHp] = useState(""); // honeypot
 
   const update =
     (key: keyof FormState) =>
@@ -48,10 +51,24 @@ export default function ContactForm() {
     return Object.keys(next).length === 0;
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
-    setSubmitted(true);
+    if (sending || !validate()) return;
+    setSending(true);
+    setSendError(false);
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ origem: "Contacto", ...form, website: hp }),
+      });
+      if (!res.ok) throw new Error();
+      setSubmitted(true);
+    } catch {
+      setSendError(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -119,13 +136,35 @@ export default function ContactForm() {
               <textarea className="field resize-none" rows={5} value={form.mensagem} onChange={update("mensagem")} placeholder="Conta-nos sobre o teu projeto…" aria-invalid={!!errors.mensagem} />
             </Field>
 
+            {/* honeypot — invisível para humanos, apanha bots */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden
+              value={hp}
+              onChange={(e) => setHp(e.target.value)}
+              className="pointer-events-none absolute left-[-9999px] h-0 w-0 opacity-0"
+            />
+
             <button
               type="submit"
-              className="btn-shine group mt-2 inline-flex w-full items-center justify-center gap-2 rounded-[4px] bg-gold py-4 font-sans font-medium text-[#0a0a0a] shadow-[0_10px_30px_-16px_rgba(212,175,96,0.6)] transition-all duration-200 ease-premium hover:bg-gold-bright hover:shadow-[0_18px_46px_-18px_rgba(212,175,96,0.65)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99]"
+              disabled={sending}
+              className="btn-shine group mt-2 inline-flex w-full items-center justify-center gap-2 rounded-[4px] bg-gold py-4 font-sans font-medium text-[#0a0a0a] shadow-[0_10px_30px_-16px_rgba(212,175,96,0.6)] transition-all duration-200 ease-premium hover:bg-gold-bright hover:shadow-[0_18px_46px_-18px_rgba(212,175,96,0.65)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] disabled:pointer-events-none disabled:opacity-70"
             >
-              Pedir consultoria gratuita
-              <ArrowRight size={18} className="transition-transform group-hover:translate-x-0.5" />
+              {sending ? "A enviar…" : "Pedir consultoria gratuita"}
+              {!sending && (
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-0.5" />
+              )}
             </button>
+
+            {sendError && (
+              <p className="text-center font-sans text-[13px] text-gold">
+                Não deu para enviar agora. Tenta de novo ou escreve direto para
+                geral@pardus-lab.com.
+              </p>
+            )}
           </motion.form>
         )}
       </AnimatePresence>
