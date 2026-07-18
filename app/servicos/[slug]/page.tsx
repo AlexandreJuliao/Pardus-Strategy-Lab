@@ -48,7 +48,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(700px 420px at 80% 0%, rgba(63,107,255,0.12), transparent 60%), radial-gradient(560px 400px at 6% 100%, rgba(212,175,96,0.08), transparent 60%)",
+              "radial-gradient(700px 420px at 80% 0%, rgba(46,84,132,0.17), transparent 60%), radial-gradient(560px 400px at 6% 100%, rgba(212,175,96,0.09), transparent 60%)",
           }}
         />
         <div className="grid-lines pointer-events-none absolute inset-0 opacity-20" />

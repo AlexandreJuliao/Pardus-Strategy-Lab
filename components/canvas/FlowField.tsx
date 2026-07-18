@@ -27,7 +27,7 @@ interface P {
 }
 
 const GOLD = "233,197,120";
-const BLUE = "108,150,250";
+const BLUE = "120,152,206";
 
 export default function FlowField({ tone = "gold" }: { tone?: Tone }) {
   const ref = useRef<HTMLCanvasElement | null>(null);

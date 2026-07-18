@@ -10,6 +10,7 @@ import {
 } from "framer-motion";
 import { ChevronDown, ArrowRight, ArrowUpRight } from "lucide-react";
 import CtaButton from "@/components/ui/CtaButton";
+import Magnetic from "@/components/ui/Magnetic";
 import LeopardMorph from "@/components/canvas/LeopardMorph";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -67,7 +68,7 @@ export default function Hero() {
               className="font-display font-bold text-text-primary [font-size:clamp(38px,5.6vw,78px)] [line-height:1.02] [letter-spacing:-0.03em] [text-shadow:0_6px_36px_rgba(0,0,0,0.55)] [text-wrap:balance]"
             >
               Pomos a tecnologia a trabalhar{" "}
-              <span className="text-gold">pelo teu negócio.</span>
+              <span className="accent-serif text-gold">pelo teu negócio.</span>
             </motion.h1>
 
             <motion.p
@@ -88,9 +89,11 @@ export default function Hero() {
             className="flex flex-col gap-6 pb-[clamp(44px,9vh,96px)] md:flex-row md:items-end md:justify-between"
           >
             <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
-              <CtaButton variant="primary" size="lg">
-                Vamos conversar <ArrowRight size={18} />
-              </CtaButton>
+              <Magnetic>
+                <CtaButton variant="primary" size="lg">
+                  Vamos conversar <ArrowRight size={18} />
+                </CtaButton>
+              </Magnetic>
               <Link
                 href="/projetos"
                 className="group inline-flex items-center gap-1.5 font-sans text-[15px] text-text-secondary transition-colors hover:text-text-primary"

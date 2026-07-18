@@ -3,27 +3,49 @@
 @tailwind utilities;
 
 :root {
-  /* ---- Deep Tech Gold palette ---- */
+  /* ---- Deep Tech Gold · petrol-navy base ----
+     One hero accent (gold). Blue is demoted to atmospheric petrol so it
+     deepens the dark instead of competing with the gold. */
   --bg: #05070e;
-  --bg-2: #070a14;
+  --bg-2: #070b15;
   --surface: #0a0e1a;
-  --surface-2: #111726;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.14);
+  --surface-2: #101524;
+  --surface-3: #161d30;
 
+  /* borders carry a faint warm cast — reads richer than clinical white */
+  --border: rgba(234, 227, 214, 0.085);
+  --border-strong: rgba(234, 227, 214, 0.16);
+  --border-gold: rgba(212, 175, 96, 0.24);
+
+  /* gold ramp — depth from deep amber up to bright light */
   --gold: #d4af60;
   --gold-soft: #c9a84c;
-  --gold-bright: #eccb7a;
+  --gold-bright: #f0d089;
+  --gold-deep: #9c6f34;
 
-  --blue: #3f6bff;
-  --blue-bright: #6e9bff;
-  --blue-deep: #16203d;
+  /* petrol-steel — atmosphere only, never a second accent */
+  --blue: #3a5f9c;
+  --blue-bright: #6f92c8;
+  --blue-deep: #14203a;
+  --petrol: 46, 84, 132; /* rgb tuple for glows */
 
-  --text-primary: #edf1f8;
-  --text-secondary: #8a93a6;
-  --text-muted: #4a5063;
+  --text-primary: #eef2f9;
+  --text-secondary: #9aa3b6;
+  --text-muted: #5a6274;
 
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
+
+  /* tinted, wide, soft — depth without the neon-glow AI tell */
+  --shadow-card:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 18px 44px -26px rgba(0, 0, 0, 0.75);
+  --shadow-elevated:
+    inset 0 1px 0 rgba(255, 255, 255, 0.045),
+    0 32px 72px -30px rgba(0, 0, 0, 0.82);
+  --glow-gold:
+    0 0 0 1px rgba(212, 175, 96, 0.28),
+    0 24px 60px -28px rgba(212, 175, 96, 0.42);
 
   --shell: 1320px;
 }
@@ -55,20 +77,21 @@ body {
   color: var(--text-primary);
   font-family: var(--font-space-grotesk), system-ui, sans-serif;
   font-weight: 400;
-  line-height: 1.65;
+  line-height: 1.6;
+  letter-spacing: -0.004em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  /* atmospheric depth — petrol-blue glows over near-black */
+  /* atmospheric depth — deep petrol glows over near-black, gold warmth top-left */
   background-image:
-    radial-gradient(900px 600px at 78% -5%, rgba(63, 107, 255, 0.1), transparent 60%),
-    radial-gradient(1100px 700px at 8% 8%, rgba(212, 175, 96, 0.05), transparent 55%),
-    radial-gradient(800px 800px at 50% 120%, rgba(22, 32, 61, 0.55), transparent 60%);
+    radial-gradient(900px 620px at 80% -6%, rgba(var(--petrol), 0.15), transparent 60%),
+    radial-gradient(1100px 720px at 6% 6%, rgba(212, 175, 96, 0.055), transparent 55%),
+    radial-gradient(820px 820px at 50% 118%, rgba(var(--petrol), 0.42), transparent 62%);
   background-attachment: fixed;
 }
 
 ::selection {
-  background: rgba(212, 175, 96, 0.28);
+  background: rgba(212, 175, 96, 0.26);
   color: #fff;
 }
 
@@ -79,10 +102,15 @@ body {
   background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1b2336;
+  background: #20293d;
+  border-radius: 999px;
+  border: 2px solid var(--bg);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #28324b;
+  background: var(--gold-deep);
+}
+html {
+  scrollbar-color: #20293d var(--bg);
 }
 
 /* ---------- Typography ---------- */
@@ -90,41 +118,56 @@ body {
   font-family: var(--font-display), var(--font-space-grotesk), sans-serif;
 }
 
+.font-serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+/* signature accent — high-contrast optical serif, italic, for the one word
+   that should feel hand-set. The site's editorial-luxury tell. */
+.accent-serif {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  font-optical-sizing: auto;
+}
+
 .text-display {
   font-family: var(--font-display), var(--font-space-grotesk), sans-serif;
   font-size: clamp(46px, 7vw, 104px);
   font-weight: 700;
-  line-height: 0.96;
-  letter-spacing: -0.025em;
+  line-height: 0.93;
+  letter-spacing: -0.035em;
 }
 
 .text-h2 {
   font-family: var(--font-display), var(--font-space-grotesk), sans-serif;
   font-size: clamp(30px, 4vw, 56px);
   font-weight: 600;
-  line-height: 1.04;
-  letter-spacing: -0.02em;
+  line-height: 1.03;
+  letter-spacing: -0.028em;
 }
 
 .text-h3 {
   font-family: var(--font-display), var(--font-space-grotesk), sans-serif;
   font-size: clamp(22px, 2.2vw, 30px);
   font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  line-height: 1.14;
+  letter-spacing: -0.016em;
 }
 
 .hero-sub {
   font-size: clamp(16px, 1.5vw, 21px);
   font-weight: 400;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.58;
 }
 
 .mono-label {
   font-family: var(--font-jetbrains-mono), monospace;
   font-size: 11px;
-  letter-spacing: 0.3em;
+  font-weight: 500;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--gold);
 }
@@ -244,18 +287,38 @@ body {
 .field::placeholder {
   color: var(--text-muted);
 }
+.field:hover {
+  border-color: var(--border-strong);
+}
 .field:focus {
   outline: none;
   border-color: var(--gold);
-  background: rgba(212, 175, 96, 0.04);
-  box-shadow: 0 0 0 2px rgba(212, 175, 96, 0.16);
+  background: rgba(212, 175, 96, 0.045);
+  box-shadow: 0 0 0 3px rgba(212, 175, 96, 0.14);
 }
 select.field {
   appearance: none;
 }
 
 .gold-glow {
-  box-shadow: 0 0 0 1px rgba(212, 175, 96, 0.4), 0 0 40px -8px rgba(212, 175, 96, 0.45);
+  box-shadow: var(--glow-gold);
+}
+
+/* premium surface — soft tinted elevation + a hairline top edge-light,
+   the "liquid-glass" refraction cue. Compose on cards that need to sit up. */
+.surface-elevated {
+  box-shadow: var(--shadow-elevated);
+}
+.edge-light {
+  position: relative;
+}
+.edge-light::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .will-change-transform {
@@ -320,11 +383,11 @@ select.field {
   border-radius: inherit;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.35s var(--ease-premium);
+  transition: opacity 0.4s var(--ease-premium);
   background: radial-gradient(
-    260px circle at var(--mx) var(--my),
-    var(--glow-color, rgba(212, 175, 96, 0.16)),
-    transparent 62%
+    340px circle at var(--mx) var(--my),
+    var(--glow-color, rgba(212, 175, 96, 0.15)),
+    transparent 66%
   );
   z-index: 0;
 }
@@ -355,12 +418,12 @@ select.field {
   55%, 100% { transform: translateX(320%); }
 }
 
-/* ---- Breathing glow (featured surfaces) ---- */
+/* ---- Breathing glow (featured surfaces) — soft, wide, tinted ---- */
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 0 1px rgba(212, 175, 96, 0.28), 0 0 34px -10px rgba(212, 175, 96, 0.35); }
-  50% { box-shadow: 0 0 0 1px rgba(212, 175, 96, 0.5), 0 0 56px -8px rgba(212, 175, 96, 0.6); }
+  0%, 100% { box-shadow: 0 0 0 1px rgba(212, 175, 96, 0.24), 0 26px 58px -30px rgba(212, 175, 96, 0.34); }
+  50% { box-shadow: 0 0 0 1px rgba(212, 175, 96, 0.42), 0 34px 74px -28px rgba(212, 175, 96, 0.5); }
 }
-.glow-pulse { animation: glow-pulse 4.5s ease-in-out infinite; }
+.glow-pulse { animation: glow-pulse 5s ease-in-out infinite; }
 
 /* ---- Soft float (icons / accents) ---- */
 @keyframes float-y {

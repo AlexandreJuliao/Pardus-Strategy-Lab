@@ -4,6 +4,7 @@ import {
   JetBrains_Mono,
   Bricolage_Grotesque,
   Cormorant,
+  Fraunces,
 } from "next/font/google";
 import "../styles/globals.css";
 import Navbar from "@/components/layout/Navbar";
@@ -37,6 +38,16 @@ const cormorant = Cormorant({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
   variable: "--font-wordmark",
+  display: "swap",
+});
+
+// Signature display serif — high-contrast optical cut used italic for the one
+// emotional word in a headline. The site's editorial-luxury accent.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-serif",
   display: "swap",
 });
 
@@ -97,7 +108,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-PT"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${bricolage.variable} ${cormorant.variable}`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${bricolage.variable} ${cormorant.variable} ${fraunces.variable}`}
     >
       <body>
         <SmoothScroll />

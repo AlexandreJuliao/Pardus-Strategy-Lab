@@ -20,7 +20,7 @@ export default function PageHero({
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(700px 400px at 12% 10%, rgba(63,107,255,0.1), transparent 60%), radial-gradient(600px 400px at 90% 120%, rgba(212,175,96,0.06), transparent 60%)",
+            "radial-gradient(700px 400px at 12% 10%, rgba(46,84,132,0.16), transparent 60%), radial-gradient(600px 400px at 90% 120%, rgba(212,175,96,0.07), transparent 60%)",
         }}
       />
       <div className="grid-lines pointer-events-none absolute inset-0 opacity-25" />

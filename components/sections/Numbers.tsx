@@ -47,7 +47,7 @@ function Counter({ stat, run }: { stat: Stat; run: boolean }) {
   }, [run, stat.target]);
 
   return (
-    <span className="font-display font-bold leading-none text-gold [font-size:clamp(48px,6vw,80px)] [text-shadow:0_0_40px_rgba(212,175,96,0.35)]">
+    <span className="font-display font-bold leading-none text-gold [font-size:clamp(48px,6vw,80px)] [text-shadow:0_10px_54px_rgba(212,175,96,0.26)]">
       {stat.prefix}
       {value}
       {stat.suffix}

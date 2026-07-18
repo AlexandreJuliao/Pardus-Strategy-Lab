@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import CtaButton from "@/components/ui/CtaButton";
+import Magnetic from "@/components/ui/Magnetic";
 import { ArrowRight } from "lucide-react";
 import AuroraGlow from "@/components/ui/AuroraGlow";
 import { fadeUp, staggerContainer } from "@/lib/animations";
@@ -13,7 +14,7 @@ export default function CTAFinal() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 60% 60% at 50% 40%, rgba(63,107,255,0.1), transparent 70%), radial-gradient(ellipse 50% 50% at 50% 60%, rgba(212,175,96,0.07), transparent 70%)",
+            "radial-gradient(ellipse 60% 60% at 50% 40%, rgba(46,84,132,0.16), transparent 70%), radial-gradient(ellipse 50% 50% at 50% 60%, rgba(212,175,96,0.08), transparent 70%)",
         }}
       />
       <div className="grid-lines pointer-events-none absolute inset-0 opacity-20" />
@@ -35,7 +36,7 @@ export default function CTAFinal() {
         >
           Vamos falar do
           <br />
-          teu <span className="text-gold">negócio?</span>
+          teu <span className="accent-serif text-gold">negócio?</span>
         </motion.h2>
         <motion.p
           variants={fadeUp}
@@ -45,9 +46,11 @@ export default function CTAFinal() {
           dizemos-te onde a tecnologia pode ajudar — e onde não vale a pena.
         </motion.p>
         <motion.div variants={fadeUp} className="mt-10">
-          <CtaButton variant="primary" size="lg">
-            Quero a consultoria gratuita <ArrowRight size={18} />
-          </CtaButton>
+          <Magnetic>
+            <CtaButton variant="primary" size="lg">
+              Quero a consultoria gratuita <ArrowRight size={18} />
+            </CtaButton>
+          </Magnetic>
         </motion.div>
         <motion.p variants={fadeUp} className="mt-6 mono-tiny text-text-muted">
           geral@pardus-lab.com · Lisboa, Portugal

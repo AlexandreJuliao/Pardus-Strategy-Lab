@@ -20,7 +20,7 @@ export default function GeoPattern({
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(120% 90% at 70% 20%, rgba(63,107,255,0.12), transparent 60%), radial-gradient(80% 80% at 20% 90%, rgba(212,175,96,0.08), transparent 60%)",
+            "radial-gradient(120% 90% at 70% 20%, rgba(46,84,132,0.16), transparent 60%), radial-gradient(80% 80% at 20% 90%, rgba(212,175,96,0.09), transparent 60%)",
         }}
       />
       <svg
@@ -36,9 +36,9 @@ export default function GeoPattern({
         </defs>
         <rect width="200" height="150" fill={`url(#grid-${seed})`} />
         <line x1="0" y1={42 + seed * 5} x2="200" y2={20 + seed * 4} stroke="#d4af60" strokeWidth="0.6" opacity="0.45" />
-        <circle cx={bx} cy={by} r="2.5" fill="#6e9bff" opacity="0.8" />
+        <circle cx={bx} cy={by} r="2.5" fill="#6f92c8" opacity="0.8" />
         <circle cx={170 - seed * 7} cy={112} r="2" fill="#d4af60" opacity="0.6" />
-        <rect x={118} y={48} width="42" height="42" fill="none" stroke="#3f6bff" strokeWidth="0.6" opacity="0.4" transform={`rotate(${12 + seed * 8} 139 69)`} />
+        <rect x={118} y={48} width="42" height="42" fill="none" stroke="#3a5f9c" strokeWidth="0.6" opacity="0.45" transform={`rotate(${12 + seed * 8} 139 69)`} />
         <path d={`M8 132 L${48 + seed * 5} 92 L88 112 L142 58`} fill="none" stroke="#d4af60" strokeWidth="0.6" opacity="0.35" />
       </svg>
 

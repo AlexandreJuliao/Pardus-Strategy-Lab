@@ -32,7 +32,7 @@ export default function HomePage() {
         title={
           <>
             Precisão. Inteligência.{" "}
-            <span className="text-gold">Velocidade.</span>
+            <span className="accent-serif text-gold">Velocidade.</span>
           </>
         }
         sub="Três coisas que levamos para dentro de cada projeto."
@@ -63,7 +63,7 @@ export default function HomePage() {
         title={
           <>
             O próximo salto do teu negócio{" "}
-            <span className="text-gold">começa numa conversa.</span>
+            <span className="accent-serif text-gold">começa numa conversa.</span>
           </>
         }
         sub="Meia hora, sem custo. Olhamos para o que fazes e dizemos-te o que faz sentido."

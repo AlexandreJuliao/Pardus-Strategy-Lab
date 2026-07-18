@@ -18,7 +18,7 @@ export default function TechShowcase() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(700px 400px at 85% 10%, rgba(63,107,255,0.1), transparent 60%)",
+            "radial-gradient(700px 400px at 85% 10%, rgba(46,84,132,0.15), transparent 60%)",
         }}
       />
       <div className="shell relative z-10 grid grid-cols-1 items-center gap-14 lg:grid-cols-2 lg:gap-20">

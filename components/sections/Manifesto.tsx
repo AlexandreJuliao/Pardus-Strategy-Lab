@@ -22,7 +22,7 @@ export default function Manifesto() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-15% 0px -15% 0px" }}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-              className={`inline-block ${GOLD_WORDS.has(w) ? "text-gold" : "text-text-primary"} mr-[0.28em]`}
+              className={`inline-block ${GOLD_WORDS.has(w) ? "accent-serif text-gold" : "text-text-primary"} mr-[0.28em]`}
             >
               {w}
             </motion.span>

@@ -40,7 +40,7 @@ export default function StackTech() {
                 e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
               }}
               className="spotlight-card group relative bg-surface p-7"
-              style={{ ["--glow-color" as string]: "rgba(63,107,255,0.14)" }}
+              style={{ ["--glow-color" as string]: "rgba(46,84,132,0.2)" }}
             >
               <span className="spotlight-glow" aria-hidden />
               <div className="relative z-10 mb-5 flex items-center gap-2">

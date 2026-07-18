@@ -14,13 +14,13 @@ interface BaseProps {
 }
 
 const base =
-  "group/btn inline-flex items-center justify-center gap-2 font-sans font-medium tracking-wide rounded-[4px] transition-all duration-200 ease-premium select-none disabled:opacity-50 disabled:pointer-events-none";
+  "group/btn inline-flex items-center justify-center gap-2 font-sans font-medium tracking-wide rounded-[4px] transition-all duration-200 ease-premium select-none active:translate-y-0 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none";
 
 const variants: Record<Variant, string> = {
   primary:
-    "btn-shine bg-gold text-[#0a0a0a] hover:bg-gold-bright hover:shadow-[0_0_36px_-6px_rgba(212,175,96,0.6)] hover:-translate-y-0.5",
+    "btn-shine bg-gold text-[#0a0a0a] shadow-[0_10px_30px_-16px_rgba(212,175,96,0.6)] hover:bg-gold-bright hover:shadow-[0_18px_46px_-18px_rgba(212,175,96,0.65)] hover:-translate-y-0.5",
   outline:
-    "border border-line-strong bg-white/[0.02] text-text-primary hover:border-gold hover:text-gold",
+    "border border-line-strong bg-white/[0.02] text-text-primary hover:border-gold/70 hover:text-gold hover:bg-gold/[0.04] hover:-translate-y-0.5",
   ghost: "bg-transparent text-text-secondary hover:text-text-primary",
 };
 

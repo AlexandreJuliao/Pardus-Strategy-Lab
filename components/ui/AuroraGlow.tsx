@@ -15,8 +15,9 @@ type Blob = {
 };
 
 const GOLD = (a: number) => `radial-gradient(circle, rgba(212,175,96,${a}), transparent 70%)`;
-const BLUE = (a: number) => `radial-gradient(circle, rgba(63,107,255,${a}), transparent 70%)`;
-const VIOLET = (a: number) => `radial-gradient(circle, rgba(110,120,255,${a}), transparent 70%)`;
+// petrol-steel atmosphere — cool depth, never a competing accent
+const BLUE = (a: number) => `radial-gradient(circle, rgba(46,84,132,${a}), transparent 70%)`;
+const STEEL = (a: number) => `radial-gradient(circle, rgba(34,72,112,${a}), transparent 70%)`;
 
 const PRESETS: Record<string, Blob[]> = {
   services: [
@@ -38,7 +39,7 @@ const PRESETS: Record<string, Blob[]> = {
   ],
   manifesto: [
     { color: GOLD(0.13), size: "40rem", pos: { top: "-20%", left: "-10%" }, anim: "aurora-b" },
-    { color: VIOLET(0.12), size: "40rem", pos: { bottom: "-26%", right: "-6%" }, anim: "aurora-c" },
+    { color: STEEL(0.16), size: "40rem", pos: { bottom: "-26%", right: "-6%" }, anim: "aurora-c" },
   ],
   cta: [
     { color: BLUE(0.18), size: "48rem", pos: { top: "-24%", left: "22%" }, anim: "aurora-a" },
