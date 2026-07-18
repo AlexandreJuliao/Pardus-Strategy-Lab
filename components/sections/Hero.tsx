@@ -8,12 +8,23 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { ChevronDown, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import CtaButton from "@/components/ui/CtaButton";
 import Magnetic from "@/components/ui/Magnetic";
 import LeopardMorph from "@/components/canvas/LeopardMorph";
+import { useTextScramble } from "@/lib/useTextScramble";
+import { useCursorParallax } from "@/lib/useCursorParallax";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+
+const HEAD_A = "Colocamos a tecnologia a trabalhar";
+const HEAD_B = "pelo teu negócio.";
+
+const TRUST = [
+  { v: "0€", l: "Primeira consultoria" },
+  { v: "24h", l: "Tempo de resposta" },
+  { v: "100%", l: "Código e acessos teus" },
+];
 
 export default function Hero() {
   const reduce = useReducedMotion();
@@ -24,71 +35,91 @@ export default function Hero() {
     offset: ["start start", "end end"],
   });
 
-  const headlineY = useTransform(scrollYProgress, [0, 1], [0, -90]);
-  const actionsY = useTransform(scrollYProgress, [0, 1], [0, 60]);
-  const cueOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -70]);
+  const cueOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0]);
+  const cueFill = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
+
+  const { px, py } = useCursorParallax(50, 20);
+  const canvasX = useTransform(px, [-1, 1], [-16, 16]);
+  const canvasY = useTransform(py, [-1, 1], [-11, 11]);
+
+  const scrambledA = useTextScramble(HEAD_A, {
+    delay: 260,
+    frameInterval: 26,
+    wordStagger: 85,
+  });
+  const scrambledB = useTextScramble(HEAD_B, {
+    delay: 720,
+    frameInterval: 26,
+    wordStagger: 85,
+  });
 
   return (
     <section ref={ref} className="relative h-[200vh] w-full bg-bg">
       <div className="sticky top-0 h-[100svh] min-h-[640px] w-full overflow-hidden bg-bg">
-        <LeopardMorph progress={scrollYProgress} reduced={!!reduce} />
+        <motion.div
+          aria-hidden
+          className="absolute inset-0 scale-[1.06]"
+          style={reduce ? undefined : { x: canvasX, y: canvasY }}
+        >
+          <LeopardMorph progress={scrollYProgress} reduced={!!reduce} />
+        </motion.div>
 
         {/* legibility */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, var(--bg) 0%, rgba(5,7,14,0.78) 30%, rgba(5,7,14,0.28) 60%, transparent 100%)",
+              "linear-gradient(90deg, var(--bg) 0%, rgba(5,7,14,0.8) 32%, rgba(5,7,14,0.32) 62%, transparent 100%)",
           }}
         />
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[42%]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[38%]"
           style={{
-            background: "linear-gradient(180deg, rgba(5,7,14,0.72), transparent)",
+            background: "linear-gradient(180deg, rgba(5,7,14,0.65), transparent)",
           }}
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[38%]"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%]"
           style={{
-            background: "linear-gradient(0deg, var(--bg) 4%, transparent 100%)",
+            background: "linear-gradient(0deg, var(--bg) 6%, transparent 100%)",
           }}
         />
         <div className="noise-overlay" />
 
-        {/* content: headline up top, actions along the bottom */}
-        <div className="shell relative z-10 flex h-full flex-col">
-          <motion.div
-            style={reduce ? undefined : { y: headlineY }}
-            className="max-w-[52rem] pt-[clamp(104px,22vh,240px)]"
-          >
-            <motion.h1
-              initial={{ y: reduce ? 0 : 22 }}
-              animate={{ y: 0 }}
-              transition={{ delay: reduce ? 0 : 0.25, duration: 0.8, ease: EASE }}
-              className="font-display font-bold text-text-primary [font-size:clamp(38px,5.6vw,78px)] [line-height:1.02] [letter-spacing:-0.03em] [text-shadow:0_6px_36px_rgba(0,0,0,0.55)] [text-wrap:balance]"
-            >
-              Pomos a tecnologia a trabalhar{" "}
-              <span className="accent-serif text-gold">pelo teu negócio.</span>
-            </motion.h1>
+        {/* content: one unified, vertically-centred block */}
+        <motion.div
+          style={reduce ? undefined : { y: contentY }}
+          className="shell relative z-10 flex h-full flex-col justify-center pb-[6vh]"
+        >
+          <div className="max-w-[50rem]">
+            <h1 className="font-display font-bold text-text-primary [font-size:clamp(38px,5.8vw,80px)] [line-height:1.02] [letter-spacing:-0.03em] [text-shadow:0_6px_36px_rgba(0,0,0,0.55)] [text-wrap:balance] min-h-[2.1em] md:min-h-[2.05em]">
+              {scrambledA || " "}{" "}
+              <span className="accent-serif text-gold">
+                {scrambledB || " "}
+              </span>
+            </h1>
 
             <motion.p
-              initial={{ y: reduce ? 0 : 18 }}
-              animate={{ y: 0 }}
-              transition={{ delay: reduce ? 0 : 0.45, duration: 0.7, ease: EASE }}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: reduce ? 0 : 1.25, duration: 0.7, ease: EASE }}
               className="mt-6 max-w-xl font-sans text-[clamp(16px,1.6vw,20px)] leading-relaxed text-text-secondary [text-shadow:0_2px_18px_rgba(0,0,0,0.7)]"
             >
               Sites, inteligência artificial e automações à tua medida — para
               teres menos trabalho manual e mais tempo para o que importa.
             </motion.p>
-          </motion.div>
 
-          <div className="grow" />
-
-          <motion.div
-            style={reduce ? undefined : { y: actionsY }}
-            className="flex flex-col gap-6 pb-[clamp(44px,9vh,96px)] md:flex-row md:items-end md:justify-between"
-          >
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: reduce ? 0 : 1.45,
+                duration: 0.6,
+                ease: EASE,
+              }}
+              className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4"
+            >
               <Magnetic>
                 <CtaButton variant="primary" size="lg">
                   Vamos conversar <ArrowRight size={18} />
@@ -104,19 +135,44 @@ export default function Hero() {
                   className="text-gold transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 />
               </Link>
-            </div>
+            </motion.div>
 
-            <p className="font-sans text-[14.5px] text-text-secondary md:text-right">
-              A primeira conversa é <span className="text-text-primary">gratuita</span>.
-            </p>
-          </motion.div>
-        </div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: reduce ? 0 : 1.6,
+                duration: 0.6,
+                ease: EASE,
+              }}
+              className="mt-11 flex flex-wrap items-center gap-x-9 gap-y-3 border-t border-line/70 pt-6"
+            >
+              {TRUST.map((t) => (
+                <div key={t.l} className="flex items-baseline gap-2">
+                  <span className="font-display text-[17px] font-semibold text-gold">
+                    {t.v}
+                  </span>
+                  <span className="font-sans text-[13px] text-text-secondary">
+                    {t.l}
+                  </span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </motion.div>
 
+        {/* scroll cue — a filling line instead of a bouncing chevron */}
         <motion.div
           style={{ opacity: reduce ? 1 : cueOpacity }}
-          className="pointer-events-none absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1.5"
+          className="pointer-events-none absolute bottom-7 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2.5"
         >
-          <ChevronDown size={16} className="animate-bounce-chevron text-gold/60" />
+          <span className="mono-tiny text-text-secondary/60">Scroll</span>
+          <div className="relative h-9 w-px overflow-hidden bg-line-strong">
+            <motion.div
+              style={{ scaleY: cueFill }}
+              className="absolute inset-0 origin-top bg-gold"
+            />
+          </div>
         </motion.div>
       </div>
     </section>

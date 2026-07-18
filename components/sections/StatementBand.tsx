@@ -22,8 +22,14 @@ export default function StatementBand({
 }) {
   return (
     <section
-      className="relative overflow-hidden border-y border-line"
-      style={{ background: "#060912" }}
+      className="relative overflow-hidden"
+      style={{
+        background: "#060912",
+        // a slanted silhouette instead of a hard rectangle — the section
+        // reads as cut into the page, not pasted on top of it like a print
+        clipPath:
+          "polygon(0 26px, 100% 0, 100% calc(100% - 26px), 0 100%)",
+      }}
     >
       {/* living light field */}
       <FlowField tone={tone} />

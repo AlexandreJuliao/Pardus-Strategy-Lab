@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Check, ArrowUpRight } from "lucide-react";
-import GeoPattern from "@/components/ui/GeoPattern";
+import ServiceVisual from "@/components/ui/ServiceVisual";
 import { ICONS, type ServiceData } from "@/lib/services";
 
 export default function ServiceDetail({
@@ -30,7 +30,7 @@ export default function ServiceDetail({
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <GeoPattern icon={Icon} seed={index} />
+            <ServiceVisual slug={service.slug} icon={Icon} seed={index} />
           </motion.div>
 
           <motion.div

@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
-import { SERVICES, SERVICE_SLUGS, getService, ICONS } from "@/lib/services";
+import { PROJECTS, PROJECT_SLUGS, getProject } from "@/lib/projects";
 import Reveal from "@/components/ui/Reveal";
-import ServiceVisual from "@/components/ui/ServiceVisual";
 import AuroraGlow from "@/components/ui/AuroraGlow";
 import CTAFinal from "@/components/sections/CTAFinal";
 import Button from "@/components/ui/Button";
 
 export function generateStaticParams() {
-  return SERVICE_SLUGS.map((slug) => ({ slug }));
+  return PROJECT_SLUGS.map((slug) => ({ slug }));
 }
 
 export function generateMetadata({
@@ -18,27 +18,26 @@ export function generateMetadata({
 }: {
   params: { slug: string };
 }): Metadata {
-  const s = getService(params.slug);
-  if (!s) return {};
+  const p = getProject(params.slug);
+  if (!p) return {};
   return {
-    title: s.title,
-    description: s.short,
-    alternates: { canonical: `https://pardus-lab.com/servicos/${s.slug}` },
+    title: p.name,
+    description: p.description,
+    alternates: { canonical: `https://pardus-lab.com/projetos/${p.slug}` },
     openGraph: {
-      title: `${s.title} · Pardus Strategy Lab`,
-      description: s.tagline,
-      images: [{ url: "/img/og.jpg", width: 1200, height: 630 }],
+      title: `${p.name} · Pardus Strategy Lab`,
+      description: p.tagline,
+      images: [{ url: p.image, width: 1200, height: 630 }],
     },
   };
 }
 
-export default function ServicePage({ params }: { params: { slug: string } }) {
-  const service = getService(params.slug);
-  if (!service) notFound();
+export default function ProjectPage({ params }: { params: { slug: string } }) {
+  const project = getProject(params.slug);
+  if (!project) notFound();
 
-  const Icon = ICONS[service.iconKey];
-  const idx = SERVICES.findIndex((s) => s.slug === service.slug);
-  const next = SERVICES[(idx + 1) % SERVICES.length];
+  const idx = PROJECTS.findIndex((p) => p.slug === project.slug);
+  const next = PROJECTS[(idx + 1) % PROJECTS.length];
 
   return (
     <>
@@ -48,7 +47,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(700px 420px at 80% 0%, rgba(46,84,132,0.17), transparent 60%), radial-gradient(560px 400px at 6% 100%, rgba(212,175,96,0.09), transparent 60%)",
+              "radial-gradient(700px 420px at 80% 0%, rgba(46,84,132,0.17), transparent 60%), radial-gradient(560px 400px at 6% 100%, rgba(212,175,96,0.08), transparent 60%)",
           }}
         />
         <div className="grid-lines pointer-events-none absolute inset-0 opacity-20" />
@@ -56,35 +55,47 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
         <div className="shell relative z-10">
           <Reveal preset="fade">
             <Link
-              href="/servicos"
+              href="/projetos"
               className="group inline-flex items-center gap-2 mono-tiny text-text-secondary transition-colors hover:text-gold"
             >
               <ArrowLeft size={13} className="transition-transform group-hover:-translate-x-0.5" />
-              Todos os serviços
+              Todos os projetos
             </Link>
           </Reveal>
 
-          <div className="mt-8 grid grid-cols-1 items-end gap-10 md:grid-cols-[1fr_auto]">
+          <div className="mt-8 grid grid-cols-1 items-center gap-10 md:grid-cols-[1fr_auto]">
             <div>
               <Reveal preset="up" delay={0.05}>
-                <span className="mb-5 block h-px w-10 bg-gold/50" />
+                <span className="mb-5 flex items-center gap-3">
+                  <span className="block h-px w-10 bg-gold/50" />
+                  <span className="mono-tiny text-gold">{project.category}</span>
+                </span>
               </Reveal>
               <Reveal preset="up" delay={0.1}>
-                <h1 className="text-display text-text-primary">{service.title}</h1>
+                <h1 className="text-display text-text-primary [text-wrap:balance]">
+                  {project.name}
+                </h1>
               </Reveal>
               <Reveal preset="up" delay={0.16}>
                 <p className="mt-4 accent-serif text-[clamp(20px,2.2vw,30px)] text-gold [text-wrap:balance]">
-                  {service.tagline}
+                  {project.tagline}
                 </p>
               </Reveal>
               <Reveal preset="up" delay={0.22}>
-                <p className="hero-sub mt-6 max-w-2xl">{service.intro}</p>
+                <p className="hero-sub mt-6 max-w-2xl [text-wrap:pretty]">{project.intro}</p>
               </Reveal>
             </div>
 
             <Reveal preset="scale" delay={0.2}>
-              <div className="flex h-28 w-28 items-center justify-center rounded-[10px] border border-line bg-white/[0.02] text-gold gold-glow">
-                <Icon size={52} strokeWidth={1.2} />
+              <div className="relative h-52 w-full overflow-hidden rounded-[10px] border border-line md:h-64 md:w-64">
+                <Image
+                  src={project.image}
+                  alt={project.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 256px"
+                  className="object-cover"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg-2/50 via-transparent to-transparent" />
               </div>
             </Reveal>
           </div>
@@ -94,9 +105,9 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       {/* outcomes */}
       <section className="border-b border-line bg-bg">
         <div className="shell grid grid-cols-1 divide-y divide-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-          {service.outcomes.map((o, i) => (
+          {project.outcomes.map((o, i) => (
             <Reveal key={i} preset="up" delay={i * 0.08} className="px-2 py-10 text-center">
-              <span className="font-display text-[clamp(34px,4vw,52px)] font-bold text-gold">
+              <span className="font-display text-[clamp(28px,3.4vw,44px)] font-bold text-gold">
                 {o.stat}
               </span>
               <span className="mt-2 block font-sans text-sm text-text-secondary">
@@ -109,29 +120,26 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
 
       {/* problem */}
       <section className="relative section-pad">
-        <div className="shell grid grid-cols-1 items-center gap-12 md:grid-cols-2 md:gap-16">
-          <Reveal preset="left">
-            <span className="mb-5 block h-px w-10 bg-gold/50" />
+        <div className="shell">
+          <Reveal preset="up" className="mx-auto max-w-3xl text-center">
+            <span className="mx-auto mb-5 block h-px w-10 bg-gold/50" />
             <h2 className="text-h2 text-text-primary">O problema que resolvemos</h2>
-            <p className="mt-6 font-sans text-[16px] leading-relaxed text-text-secondary">
-              {service.problem}
+            <p className="mt-6 font-sans text-[16px] leading-relaxed text-text-secondary [text-wrap:pretty]">
+              {project.problem}
             </p>
-          </Reveal>
-          <Reveal preset="right">
-            <ServiceVisual slug={service.slug} icon={Icon} seed={idx} />
           </Reveal>
         </div>
       </section>
 
-      {/* deliverables */}
+      {/* built */}
       <section className="relative border-y border-line bg-bg-2/50 section-pad">
         <div className="shell">
           <Reveal preset="up">
             <span className="mb-5 block h-px w-10 bg-gold/50" />
-            <h2 className="text-h2 text-text-primary">Tudo incluído</h2>
+            <h2 className="text-h2 text-text-primary">O que construímos</h2>
           </Reveal>
           <div className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-[6px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-            {service.deliverables.map((d, i) => (
+            {project.builtItems.map((d, i) => (
               <Reveal
                 key={d}
                 preset="up"
@@ -151,10 +159,10 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
         <div className="shell">
           <Reveal preset="up">
             <span className="mb-5 block h-px w-10 bg-gold/50" />
-            <h2 className="text-h2 text-text-primary">O nosso método</h2>
+            <h2 className="text-h2 text-text-primary">Como abordámos</h2>
           </Reveal>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-            {service.approach.map((a, i) => (
+            {project.approach.map((a, i) => (
               <Reveal
                 key={a.n}
                 preset="up"
@@ -174,14 +182,14 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
         </div>
       </section>
 
-      {/* tech + faq */}
+      {/* tech */}
       <section className="relative border-t border-line bg-bg-2/50 section-pad">
-        <div className="shell grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
+        <div className="shell">
           <Reveal preset="left">
             <span className="mb-5 block h-px w-10 bg-gold/50" />
-            <h2 className="text-h2 text-text-primary">Tecnologia que usamos</h2>
+            <h2 className="text-h2 text-text-primary">Tecnologia que usámos</h2>
             <div className="mt-7 flex flex-wrap gap-2.5">
-              {service.tech.map((t) => (
+              {project.tech.map((t) => (
                 <span
                   key={t}
                   className="rounded-[4px] border border-line bg-white/[0.02] px-3.5 py-2 font-mono text-[12.5px] text-text-secondary"
@@ -191,37 +199,21 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
               ))}
             </div>
           </Reveal>
-
-          <Reveal preset="right">
-            <span className="mb-5 block h-px w-10 bg-gold/50" />
-            <div className="flex flex-col">
-              {service.faq.map((f) => (
-                <div key={f.q} className="border-b border-line py-5">
-                  <p className="font-display text-[16px] font-semibold text-text-primary">
-                    {f.q}
-                  </p>
-                  <p className="mt-2 font-sans text-[14.5px] leading-relaxed text-text-secondary">
-                    {f.a}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
         </div>
       </section>
 
-      {/* next service */}
+      {/* next project */}
       <section className="relative border-t border-line section-pad">
         <div className="shell">
           <Reveal preset="up">
             <Link
-              href={`/servicos/${next.slug}`}
+              href={`/projetos/${next.slug}`}
               className="group flex flex-col items-start justify-between gap-6 rounded-[8px] border border-line bg-surface/60 p-8 transition-all duration-300 hover:border-gold/40 hover:bg-surface md:flex-row md:items-center md:p-10"
             >
               <div>
-                <span className="mono-tiny text-text-muted">Próximo serviço</span>
+                <span className="mono-tiny text-text-muted">Próximo projeto</span>
                 <p className="mt-2 font-display text-[clamp(24px,3vw,38px)] font-semibold text-text-primary transition-colors group-hover:text-gold">
-                  {next.title}
+                  {next.name}
                 </p>
               </div>
               <span className="flex h-14 w-14 items-center justify-center rounded-full border border-gold/40 text-gold transition-all duration-300 group-hover:bg-gold group-hover:text-[#0a0a0a]">
@@ -232,7 +224,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
 
           <div className="mt-10 flex justify-center">
             <Button href="/contacto" variant="primary" size="lg">
-              Iniciar este projeto <ArrowRight size={18} />
+              Quero um projeto assim <ArrowRight size={18} />
             </Button>
           </div>
         </div>
