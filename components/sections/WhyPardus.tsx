@@ -33,10 +33,11 @@ export default function WhyPardus() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
-          className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+          className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3 md:[grid-auto-flow:dense] md:auto-rows-[168px]"
         >
-          {ITEMS.map((it) => {
+          {ITEMS.map((it, i) => {
             const Icon = it.icon;
+            const featured = i === 0;
             return (
               <motion.div
                 key={it.title}
@@ -46,16 +47,40 @@ export default function WhyPardus() {
                   e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
                   e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
                 }}
-                className="spotlight-card group relative overflow-hidden rounded-[6px] border border-line bg-surface/60 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:bg-surface"
+                className={`spotlight-card group relative overflow-hidden rounded-[6px] border border-line bg-surface/60 transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:bg-surface ${
+                  featured
+                    ? "flex flex-col justify-end p-8 md:col-span-2 md:row-span-2 md:p-10"
+                    : "p-6"
+                }`}
               >
                 <span className="spotlight-glow" aria-hidden />
-                <div className="relative z-10 flex h-11 w-11 items-center justify-center rounded-[4px] border border-line bg-white/[0.02] text-gold transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-gold/40 group-hover:shadow-[0_10px_26px_-12px_rgba(212,175,96,0.6)]">
-                  <Icon size={20} strokeWidth={1.7} />
+                {featured && (
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute -right-6 -top-10 font-display text-[180px] font-bold leading-none text-white/[0.025]"
+                  >
+                    01
+                  </span>
+                )}
+                <div
+                  className={`relative z-10 flex items-center justify-center rounded-[4px] border border-line bg-white/[0.02] text-gold transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-gold/40 group-hover:shadow-[0_10px_26px_-12px_rgba(212,175,96,0.6)] ${
+                    featured ? "h-14 w-14" : "h-11 w-11"
+                  }`}
+                >
+                  <Icon size={featured ? 24 : 20} strokeWidth={1.7} />
                 </div>
-                <h3 className="relative z-10 mt-5 font-display text-lg font-semibold text-text-primary transition-colors duration-300 group-hover:text-gold">
+                <h3
+                  className={`relative z-10 font-display font-semibold text-text-primary transition-colors duration-300 group-hover:text-gold ${
+                    featured ? "mt-6 text-[26px]" : "mt-5 text-lg"
+                  }`}
+                >
                   {it.title}
                 </h3>
-                <p className="relative z-10 mt-2.5 font-sans text-[14.5px] leading-relaxed text-text-secondary">
+                <p
+                  className={`relative z-10 mt-2.5 font-sans leading-relaxed text-text-secondary ${
+                    featured ? "max-w-sm text-[15px]" : "text-[13.5px]"
+                  }`}
+                >
                   {it.desc}
                 </p>
               </motion.div>

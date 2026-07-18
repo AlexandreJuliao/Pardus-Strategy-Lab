@@ -28,7 +28,7 @@ export default function StackTech() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
-          className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-[6px] border border-line bg-line md:grid-cols-2 lg:grid-cols-4"
+          className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-[6px] border border-line bg-line md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.3fr]"
         >
           {GROUPS.map((g) => (
             <motion.div

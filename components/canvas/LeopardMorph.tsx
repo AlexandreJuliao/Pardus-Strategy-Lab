@@ -117,16 +117,23 @@ export default function LeopardMorph({
       }
       // Cap for performance; keep the brightest so the head reads clearly.
       const isMobile = window.matchMedia("(max-width: 767px)").matches;
-      const MAX = isMobile ? 1000 : 2000;
+      const MAX = isMobile ? 1200 : 2400;
       targets.sort((a, b) => b.lum - a.lum);
       const chosen = targets.slice(0, Math.min(MAX, targets.length));
+
+      // Gaussian-ish jitter (sum of 3 uniforms) — denser near 0 than plain
+      // random, so the scatter clusters instead of spreading edge-to-edge.
+      const jitter = () => (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
+      // Atoms scatter *around* their target, not across the whole canvas —
+      // at rest this already reads as a hazy, gathering head, not a starfield.
+      const HALO = 0.5;
 
       particles.current = chosen.map((t, i) => ({
         u: t.u,
         v: t.v,
-        su: Math.random(),
-        sv: Math.random(),
-        r: 0.7 + Math.random() * 1.5,
+        su: clamp(t.u + jitter() * HALO),
+        sv: clamp(t.v + jitter() * HALO),
+        r: 0.8 + Math.random() * 1.8,
         blue: i % 4 === 0,
         ph: Math.random() * Math.PI * 2,
         amp: 0.02 + Math.random() * 0.06,
@@ -196,8 +203,11 @@ export default function LeopardMorph({
 
     const draw = (t: number) => {
       const p = clamp(progress.get());
-      const form = smooth(0, 0.52, p);
-      const realOp = reduced ? 1 : smooth(0.26, 0.86, p);
+      // Floors keep the atoms already half-gathered and the photo already
+      // ghosting through at rest — the signature moment reads instantly,
+      // scrolling sharpens it rather than being the only thing that reveals it.
+      const form = reduced ? 1 : Math.max(0.22, smooth(0, 0.52, p));
+      const realOp = reduced ? 1 : Math.max(0.06, smooth(0.26, 0.86, p));
       const partOp = reduced ? 0 : 0.92 * (1 - smooth(0.55, 0.86, p));
       const scale = reduced ? 1.02 : lerp(1.08, 1.0, p);
 
