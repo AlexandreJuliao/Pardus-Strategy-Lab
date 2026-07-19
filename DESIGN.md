@@ -28,7 +28,11 @@ Regras: navy domina; ~2–3 secções de cor invertida por página (dourada → 
 - Banidas: Inter, Archivo, JetBrains Mono, Fraunces (migradas jul/2026).
 
 ## Materials & texture
-- **Grão:** `.grain-fixed` global (SVG turbulence, opacity ~0.05, overlay). Secções de cor têm o grão visível — faz parte do look.
+- **Grão (visível, afinado por superfície — o blend importa):** o overlay anula-se no navy quase-preto, por isso o grão do escuro usa **`screen`**. Base `--grain` (turbulence baseFreq 0.62, 200px) + `--grain-soft` (cinzas claros p/ multiply no creme).
+  - Escuro (hero `.noise-overlay`, features): `screen` 0.11.
+  - Camada global `.grain-fixed`: `screen` 0.06, `z-30` fixa (acima do conteúdo, abaixo da navbar) — filmic sobre todo o site.
+  - Cor (`.grain-section` gold/petrol): `overlay` 0.16.
+  - Creme (`.card-cream`): `--grain-soft` em `multiply` 190px (textura de papel sem acinzentar).
 - **Glows:** elipses blur 280–340, dourado/petrol @ 10–22%, atrás do conteúdo (`AuroraGlow`).
 - **Cards creme:** `#f4ecdb`, radius 8–24, sombra difusa, texto navy, labels bronze.
 - Radius: 4–8px em UI; até 24px nos cards creme "de posts".
