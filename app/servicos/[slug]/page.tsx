@@ -43,7 +43,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
   return (
     <>
       {/* hero */}
-      <section className="relative overflow-hidden border-b border-line bg-bg-2 pb-16 pt-36 md:pb-24 md:pt-44">
+      <section className="relative overflow-hidden bg-bg-2 pb-16 pt-36 md:pb-24 md:pt-44">
         <div
           className="pointer-events-none absolute inset-0"
           style={{
@@ -92,7 +92,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       </section>
 
       {/* outcomes */}
-      <section className="border-b border-line bg-bg">
+      <section className="bg-bg">
         <div className="shell grid grid-cols-1 divide-y divide-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {service.outcomes.map((o, i) => (
             <Reveal key={i} preset="up" delay={i * 0.08} className="px-2 py-10 text-center">
@@ -124,7 +124,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       </section>
 
       {/* deliverables */}
-      <section className="relative border-y border-line bg-bg-2/50 section-pad">
+      <section className="relative bg-bg-2/50 section-pad">
         <div className="shell">
           <Reveal preset="up">
             <span className="mb-5 block h-px w-10 bg-gold/50" />
@@ -175,7 +175,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       </section>
 
       {/* tech + faq */}
-      <section className="relative border-t border-line bg-bg-2/50 section-pad">
+      <section className="relative bg-bg-2/50 section-pad">
         <div className="shell grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
           <Reveal preset="left">
             <span className="mb-5 block h-px w-10 bg-gold/50" />
@@ -211,7 +211,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
       </section>
 
       {/* next service */}
-      <section className="relative border-t border-line section-pad">
+      <section className="relative section-pad">
         <div className="shell">
           <Reveal preset="up">
             <Link

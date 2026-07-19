@@ -36,7 +36,7 @@ export default function CTAFinal() {
           className="mt-6 max-w-lg font-sans text-[clamp(15px,1.5vw,19px)] leading-relaxed text-[#3b2d16]"
         >
           Meia hora, sem custo e sem compromisso. Olhamos para o que fazes e
-          dizemos-te onde a tecnologia pode ajudar — e onde não vale a pena.
+          dizemos-te onde a tecnologia pode ajudar, e onde não vale a pena.
         </motion.p>
         <motion.div variants={fadeUp} className="mt-10">
           <Magnetic>

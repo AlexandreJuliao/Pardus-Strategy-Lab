@@ -9,11 +9,11 @@ import AuroraGlow from "@/components/ui/AuroraGlow";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 
 const ITEMS: { icon: LucideIcon; title: string; desc: string }[] = [
-  { icon: Zap, title: "Levamos até ao fim", desc: "Cada projeto termina a funcionar de verdade — no ar, entregue e a dar resultado." },
+  { icon: Zap, title: "Levamos até ao fim", desc: "Cada projeto termina a funcionar de verdade: no ar, entregue e a dar resultado." },
   { icon: Layers, title: "IA e web, juntas", desc: "Não tens de escolher entre uma agência de inteligência artificial e uma de sites. Somos as duas, a trabalhar como uma só." },
   { icon: GitBranch, title: "Tecnologia que fica tua", desc: "Usamos as melhores ferramentas do mundo e entregamos tudo em teu nome. Nunca ficas preso a nós." },
   { icon: MapPin, title: "Proximidade portuguesa", desc: "Equipa em Lisboa, comunicação em português, suporte real. Resposta em menos de 24h." },
-  { icon: LineChart, title: "Resultados mensuráveis", desc: "Cada entrega vem com métricas concretas — sabes exatamente o que mudou no teu negócio." },
+  { icon: LineChart, title: "Resultados mensuráveis", desc: "Cada entrega vem com métricas concretas. Sabes exatamente o que mudou no teu negócio." },
   { icon: Eye, title: "Transparência total", desc: "Mostramos o processo, os prazos e os números. Sem caixas fechadas, sem surpresas." },
 ];
 
@@ -24,7 +24,7 @@ export default function WhyPardus() {
       <div className="shell relative z-10">
         <SectionHeader
           label="// Porquê Pardus"
-          title={<>Como gostamos de trabalhar</>}
+          title={<>Como gostamos de <span className="accent-serif text-gold">trabalhar</span></>}
           intro="Com gosto, proximidade e transparência. É isto que podes esperar de nós."
         />
 

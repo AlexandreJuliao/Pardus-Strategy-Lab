@@ -7,7 +7,7 @@ import ContactForm from "@/components/sections/ContactForm";
 export const metadata: Metadata = {
   title: "Contacto",
   description:
-    "Vamos construir algo juntos. Conta-nos o teu projeto — respondemos em menos de 24 horas. Pardus Strategy Lab, Lisboa, Portugal.",
+    "Vamos construir algo juntos. Conta-nos o teu projeto. Respondemos em menos de 24 horas. Pardus Strategy Lab, Lisboa, Portugal.",
   alternates: { canonical: "https://pardus-lab.com/contacto" },
   openGraph: {
     title: "Contacto · Pardus Strategy Lab",
@@ -35,7 +35,7 @@ export default function ContactoPage() {
             <div>
               <p className="hero-sub max-w-md text-base">
                 A primeira conversa é uma consultoria gratuita: olhamos para o
-                que fazes e dizemos-te onde a tecnologia pode ajudar — e onde
+                que fazes e dizemos-te onde a tecnologia pode ajudar, e onde
                 não vale a pena. Sem custo, sem compromisso e sem guiões de
                 vendas.
               </p>

@@ -8,24 +8,32 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "var(--bg)",
-        "bg-2": "var(--bg-2)",
-        surface: "var(--surface)",
-        "surface-2": "var(--surface-2)",
+        // rgb(var(--x-rgb) / <alpha-value>) lets Tailwind's opacity modifier
+        // (bg-gold/50, border-gold/40...) actually work — a hex value inside
+        // var() can't be split into a channel + alpha by Tailwind, so every
+        // `/NN` on these tokens used to silently render transparent.
+        bg: "rgb(var(--bg-rgb) / <alpha-value>)",
+        "bg-2": "rgb(var(--bg-2-rgb) / <alpha-value>)",
+        surface: "rgb(var(--surface-rgb) / <alpha-value>)",
+        "surface-2": "rgb(var(--surface-2-rgb) / <alpha-value>)",
+        // line/line-strong keep their baked-in low alpha (rgba(...)) — they're
+        // used bare (border-line) almost everywhere; switching them to the
+        // <alpha-value> pattern would make every plain hairline fully opaque.
         line: "var(--border)",
         "line-strong": "var(--border-strong)",
-        gold: "var(--gold)",
-        "gold-soft": "var(--gold-soft)",
-        "gold-bright": "var(--gold-bright)",
-        blue: "var(--blue)",
-        "blue-bright": "var(--blue-bright)",
-        "blue-deep": "var(--blue-deep)",
-        "text-primary": "var(--text-primary)",
-        "text-secondary": "var(--text-secondary)",
-        "text-muted": "var(--text-muted)",
-        cream: "var(--cream)",
-        "cream-ink": "var(--cream-ink)",
-        bronze: "var(--bronze)",
+        gold: "rgb(var(--gold-rgb) / <alpha-value>)",
+        "gold-soft": "rgb(var(--gold-soft-rgb) / <alpha-value>)",
+        "gold-bright": "rgb(var(--gold-bright-rgb) / <alpha-value>)",
+        "gold-deep": "rgb(var(--gold-deep-rgb) / <alpha-value>)",
+        blue: "rgb(var(--blue-rgb) / <alpha-value>)",
+        "blue-bright": "rgb(var(--blue-bright-rgb) / <alpha-value>)",
+        "blue-deep": "rgb(var(--blue-deep-rgb) / <alpha-value>)",
+        "text-primary": "rgb(var(--text-primary-rgb) / <alpha-value>)",
+        "text-secondary": "rgb(var(--text-secondary-rgb) / <alpha-value>)",
+        "text-muted": "rgb(var(--text-muted-rgb) / <alpha-value>)",
+        cream: "rgb(var(--cream-rgb) / <alpha-value>)",
+        "cream-ink": "rgb(var(--cream-ink-rgb) / <alpha-value>)",
+        bronze: "rgb(var(--bronze-rgb) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],

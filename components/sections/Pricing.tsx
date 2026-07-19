@@ -45,7 +45,7 @@ export default function Pricing() {
         <SectionHeader
           label="// Investimento"
           title={<>Preços claros, <span className="accent-serif text-gold">sem letra pequena.</span></>}
-          intro="Mostramos o ponto de partida de tudo o que fazemos. O valor final fecha-se contigo, antes de começar — e adaptamo-nos à forma de pagamento que te der mais jeito."
+          intro="Mostramos o ponto de partida de tudo o que fazemos. O valor final fecha-se contigo, antes de começar, e adaptamo-nos à forma de pagamento que te der mais jeito."
         />
 
         {/* 1 — sites */}
@@ -129,7 +129,7 @@ export default function Pricing() {
               </p>
               <p className="mt-3 max-w-md font-sans text-[15px] leading-relaxed text-text-secondary">
                 Um sistema de gestão, uma app, inteligência artificial à volta do teu
-                negócio. Desenhamos contigo, de raiz — o orçamento nasce do teu caso.
+                negócio. Desenhamos contigo, de raiz. O orçamento nasce do teu caso.
               </p>
             </div>
             <div className="mt-7">
@@ -152,7 +152,7 @@ export default function Pricing() {
               </p>
               <p className="mt-3 max-w-md font-sans text-[15px] leading-relaxed text-[#4a3c22]">
                 A maioria chega sem saber ao certo o que precisa. Em 20 minutos, sem
-                custo, dizemos-te o que faz sentido — e o que não vale a pena.
+                custo, dizemos-te o que faz sentido, e o que não vale a pena.
               </p>
             </div>
             <div className="mt-7">

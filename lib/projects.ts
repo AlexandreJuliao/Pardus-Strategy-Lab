@@ -30,7 +30,7 @@ export const PROJECTS: ProjectData[] = [
     intro:
       "Uma marca de arquitetura que desenha e constrói casas contemporâneas à medida precisava de um site à altura do que entrega: cada projeto é único, e o site tinha de mostrar isso em vez de se limitar a dizê-lo. Construímos uma experiência imersiva, com modelos em 3D que se exploram diretamente no browser, disponível em vários idiomas para receber clientes de fora de Portugal.",
     problem:
-      "As fotografias e plantas tradicionais não faziam justiça ao trabalho — quem visitava o site via um portefólio bonito, mas não sentia o espaço. E como grande parte dos pedidos vinha de fora do país, um site só em português deixava clientes internacionais pelo caminho antes da primeira conversa.",
+      "As fotografias e plantas tradicionais não faziam justiça ao trabalho. Quem visitava o site via um portefólio bonito, mas não sentia o espaço. E como grande parte dos pedidos vinha de fora do país, um site só em português deixava clientes internacionais pelo caminho antes da primeira conversa.",
     builtItems: [
       "Modelos de casas navegáveis em 3D, direto no browser",
       "Site em três idiomas, com deteção automática",
@@ -58,11 +58,11 @@ export const PROJECTS: ProjectData[] = [
     slug: "central-contactos-ia",
     name: "Central de contactos com assistente inteligente",
     category: "IA & Automação",
-    tagline: "Todas as conversas, um só sítio — e uma resposta sempre pronta.",
+    tagline: "Todas as conversas, um só sítio, e uma resposta sempre pronta.",
     description:
-      "Para a mesma marca de arquitetura: um sistema que junta o registo de clientes e as conversas de todas as plataformas — email, Instagram, Facebook e WhatsApp — num só lugar, com um assistente que responde e encaminha cada contacto para o sítio certo.",
+      "Para a mesma marca de arquitetura: um sistema que junta o registo de clientes e as conversas de todas as plataformas (email, Instagram, Facebook e WhatsApp) num só lugar, com um assistente que responde e encaminha cada contacto para o sítio certo.",
     intro:
-      "A mesma marca de arquitetura recebia pedidos de várias fontes ao mesmo tempo — email, Instagram, Facebook, WhatsApp — e cada plataforma vivia isolada das outras. Construímos uma central que junta tudo, com um assistente de inteligência artificial que lê cada mensagem, entende o que a pessoa precisa e responde ou encaminha, sem ninguém ter de estar sempre a saltar entre apps.",
+      "A mesma marca de arquitetura recebia pedidos de várias fontes ao mesmo tempo (email, Instagram, Facebook, WhatsApp) e cada plataforma vivia isolada das outras. Construímos uma central que junta tudo, com um assistente de inteligência artificial que lê cada mensagem, entende o que a pessoa precisa e responde ou encaminha, sem ninguém ter de estar sempre a saltar entre apps.",
     problem:
       "Nenhuma pessoa consegue vigiar quatro plataformas ao mesmo tempo sem deixar coisas escapar. Pedidos ficavam sem resposta durante horas, contactos repetiam-se em sítios diferentes, e a equipa perdia tempo a copiar informação de um lado para o outro em vez de falar com quem interessava.",
     builtItems: [
@@ -94,11 +94,11 @@ export const PROJECTS: ProjectData[] = [
     category: "E-commerce",
     tagline: "Uma loja pensada para vender enquanto a equipa dorme.",
     description:
-      "Loja completa para uma marca de suplementos e emagrecimento, com o sistema interno de gestão de produtos, encomendas e operação do negócio — tudo ligado.",
+      "Loja completa para uma marca de suplementos e emagrecimento, com o sistema interno de gestão de produtos, encomendas e operação do negócio, tudo ligado.",
     intro:
-      "Uma marca de suplementos alimentares e emagrecimento precisava de sair de uma solução de loja pronta que já lhe estava a ficar pequena — comissões por venda, pouca liberdade de design e limites na gestão de stock. Construímos uma loja só dela, com um sistema interno por trás que junta produtos, encomendas e operação num único sítio.",
+      "Uma marca de suplementos alimentares e emagrecimento precisava de sair de uma solução de loja pronta que já lhe estava a ficar pequena: comissões por venda, pouca liberdade de design e limites na gestão de stock. Construímos uma loja só dela, com um sistema interno por trás que junta produtos, encomendas e operação num único sítio.",
     problem:
-      "Cada venda tinha uma comissão a sair do lado da marca, e à medida que o negócio crescia, essa fatia começava a pesar a sério. Ao mesmo tempo, gerir stock e encomendas em ferramentas separadas criava erros — produtos vendidos sem stock, encomendas esquecidas, relatórios que tinham de ser montados à mão.",
+      "Cada venda tinha uma comissão a sair do lado da marca, e à medida que o negócio crescia, essa fatia começava a pesar a sério. Ao mesmo tempo, gerir stock e encomendas em ferramentas separadas criava erros: produtos vendidos sem stock, encomendas esquecidas, relatórios que tinham de ser montados à mão.",
     builtItems: [
       "Loja completa com gestão de produtos e variantes",
       "Pagamentos por cartão e MB Way",
@@ -128,9 +128,9 @@ export const PROJECTS: ProjectData[] = [
     category: "Apps",
     tagline: "A operação toda de uma agência, dentro de uma app só.",
     description:
-      "Plataforma completa de gestão para uma agência criativa: tarefas, equipa, finanças, contabilidade, projetos e uma agenda com gestão de horas por pessoa — tudo reunido numa só app.",
+      "Plataforma completa de gestão para uma agência criativa: tarefas, equipa, finanças, contabilidade, projetos e uma agenda com gestão de horas por pessoa, tudo reunido numa só app.",
     intro:
-      "Uma agência criativa geria tarefas, equipa, finanças e projetos em várias ferramentas diferentes, sem nenhuma a falar com as outras. Construímos uma plataforma à medida que junta tudo isso — projetos, pessoas, agenda e números — numa app só, pensada para o dia a dia real de uma equipa criativa.",
+      "Uma agência criativa geria tarefas, equipa, finanças e projetos em várias ferramentas diferentes, sem nenhuma a falar com as outras. Construímos uma plataforma à medida que junta tudo isso (projetos, pessoas, agenda e números) numa app só, pensada para o dia a dia real de uma equipa criativa.",
     problem:
       "Informação espalhada por várias ferramentas significa tempo perdido a juntar tudo à mão, e decisões tomadas sem a imagem completa. A equipa sabia o que estava a acontecer em cada ferramenta isolada, mas ninguém tinha uma visão do negócio inteiro num único sítio.",
     builtItems: [
@@ -143,7 +143,7 @@ export const PROJECTS: ProjectData[] = [
     ],
     approach: [
       { n: "01", title: "Mapeamento da operação", desc: "Percebemos como a equipa trabalhava de facto, ferramenta a ferramenta, antes de desenhar nada." },
-      { n: "02", title: "Construção modular", desc: "Entregámos primeiro o essencial — projetos e agenda — e fomos somando finanças e relatórios." },
+      { n: "02", title: "Construção modular", desc: "Entregámos primeiro o essencial (projetos e agenda) e fomos somando finanças e relatórios." },
       { n: "03", title: "Adoção pela equipa", desc: "Acompanhámos as primeiras semanas de uso real e ajustámos o que não encaixava no dia a dia." },
     ],
     tech: ["Gestão à medida", "Tempo real", "Acessos seguros"],
@@ -164,9 +164,9 @@ export const PROJECTS: ProjectData[] = [
     description:
       "Para uma profissional de nutrição: um assistente que conversa com quem chega, tira dúvidas e marca as consultas automaticamente, sem ninguém ter de estar sempre a responder.",
     intro:
-      "Uma profissional de nutrição respondia sozinha a todas as mensagens de quem queria marcar consulta — muitas delas fora de horas, muitas com as mesmas perguntas. Construímos um assistente que conversa com quem chega, esclarece o essencial e marca a consulta diretamente na agenda, sem esperar por ninguém.",
+      "Uma profissional de nutrição respondia sozinha a todas as mensagens de quem queria marcar consulta, muitas delas fora de horas, muitas com as mesmas perguntas. Construímos um assistente que conversa com quem chega, esclarece o essencial e marca a consulta diretamente na agenda, sem esperar por ninguém.",
     problem:
-      "Cada pergunta repetida — preços, disponibilidade, o que levar à primeira consulta — tirava tempo a uma agenda já cheia. E fora de horas, as mensagens ficavam simplesmente à espera até ao dia seguinte, com o risco real de a pessoa desistir e procurar outra solução entretanto.",
+      "Cada pergunta repetida (preços, disponibilidade, o que levar à primeira consulta) tirava tempo a uma agenda já cheia. E fora de horas, as mensagens ficavam simplesmente à espera até ao dia seguinte, com o risco real de a pessoa desistir e procurar outra solução entretanto.",
     builtItems: [
       "Assistente disponível a qualquer hora, no WhatsApp",
       "Respostas às perguntas mais comuns, com o tom da profissional",

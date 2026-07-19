@@ -38,6 +38,31 @@
   --text-secondary: #9aa3b6;
   --text-muted: #5a6274;
 
+  /* RGB triplets for the tokens above — lets Tailwind's `/NN` opacity
+     modifier (bg-gold/50, border-gold/40, bg-bg-2/50...) actually compose
+     an alpha channel. A hex string inside var() can't be sliced by Tailwind,
+     so every `-token/NN` class was silently resolving to transparent before
+     this existed. `line`/`line-strong` stay hex-in-rgba on purpose — their
+     alpha is already baked in for the bare (no-modifier) case used everywhere. */
+  --bg-rgb: 5 7 14;
+  --bg-2-rgb: 7 11 21;
+  --surface-rgb: 10 14 26;
+  --surface-2-rgb: 16 21 36;
+  --surface-3-rgb: 22 29 48;
+  --gold-rgb: 212 175 96;
+  --gold-soft-rgb: 201 168 76;
+  --gold-bright-rgb: 240 208 137;
+  --gold-deep-rgb: 156 111 52;
+  --blue-rgb: 46 84 132;
+  --blue-bright-rgb: 111 146 200;
+  --blue-deep-rgb: 20 32 58;
+  --text-primary-rgb: 238 242 249;
+  --text-secondary-rgb: 154 163 182;
+  --text-muted-rgb: 90 98 116;
+  --cream-rgb: 244 236 219;
+  --cream-ink-rgb: 10 14 26;
+  --bronze-rgb: 180 113 42;
+
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
 
@@ -265,6 +290,12 @@ html {
   mix-blend-mode: overlay;
   background-image: var(--grain);
   background-size: 200px;
+}
+/* the gold panel is the boldest surface on the site — grain gets to be
+   the boldest too, exactly like the posts' D2/4 gold slide. */
+.section-gold .grain-section {
+  opacity: 0.26;
+  background-size: 170px;
 }
 
 /* cream card — the "post card" material, grain baked into its own background

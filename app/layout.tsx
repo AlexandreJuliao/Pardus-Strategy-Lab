@@ -51,7 +51,7 @@ const SITE_URL = "https://pardus-lab.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Pardus Strategy Lab — Instinto digital para o teu negócio",
+    default: "Pardus Strategy Lab · Instinto digital para o teu negócio",
     template: "%s · Pardus Strategy Lab",
   },
   description:
@@ -76,15 +76,15 @@ export const metadata: Metadata = {
     locale: "pt_PT",
     url: SITE_URL,
     siteName: "Pardus Strategy Lab",
-    title: "Pardus Strategy Lab — Instinto digital para o teu negócio",
+    title: "Pardus Strategy Lab · Instinto digital para o teu negócio",
     description:
-      "Da ideia ao sistema inteligente — criamos sites, inteligência artificial e automação, e ficamos contigo até funcionar.",
+      "Da ideia ao sistema inteligente: criamos sites, inteligência artificial e automação, e ficamos contigo até funcionar.",
     images: [{ url: "/img/og.jpg", width: 1200, height: 630, alt: "Pardus Strategy Lab" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Pardus Strategy Lab",
-    description: "Instinto digital para o teu negócio — IA, sites e automação, feitos para caçar resultados.",
+    description: "Instinto digital para o teu negócio: IA, sites e automação, feitos para caçar resultados.",
     images: ["/img/og.jpg"],
   },
   robots: { index: true, follow: true },

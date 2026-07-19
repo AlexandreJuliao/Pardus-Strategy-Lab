@@ -28,7 +28,7 @@ export default function About() {
           >
             <span className="mb-5 block h-px w-10 bg-gold/50" />
             <h2 className="text-h2 text-text-primary [text-wrap:balance]">
-              Tecnologia com pés e cabeça
+              Tecnologia com pés e <span className="accent-serif text-gold">cabeça</span>
             </h2>
           </motion.div>
 
@@ -54,7 +54,7 @@ export default function About() {
         >
           <Image
             src="/img/about-tech.jpg"
-            alt="Núcleo de dados a ganhar vida — partículas douradas e circuitos que convergem"
+            alt="Núcleo de dados a ganhar vida: partículas douradas e circuitos que convergem"
             fill
             sizes="(max-width: 1024px) 100vw, 1320px"
             className="object-cover"
@@ -77,10 +77,10 @@ export default function About() {
           className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-14"
         >
           <p className="font-sans text-[16px] leading-relaxed text-text-secondary [text-wrap:pretty]">
-            Por isso começamos sempre pelo teu negócio — o que te tira tempo, o
+            Por isso começamos sempre pelo teu negócio: o que te tira tempo, o
             que te faz perder clientes, o que te tira o sono. Só depois falamos
             de sites, de inteligência artificial ou de automação. Às vezes a
-            resposta é simples. Às vezes nem precisas de nós para já — e
+            resposta é simples. Às vezes nem precisas de nós para já, e
             dizemos-te à mesma.
           </p>
           <p className="font-sans text-[16px] leading-relaxed text-text-secondary [text-wrap:pretty]">

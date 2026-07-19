@@ -24,7 +24,7 @@ export default function Services() {
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeader
             label="// Serviços"
-            title={<>O que construímos</>}
+            title={<>O que <span className="accent-serif text-gold">construímos</span></>}
             intro="Seis formas de te ajudar, uma só equipa. Do site à inteligência artificial, tudo ligado."
           />
           <Link

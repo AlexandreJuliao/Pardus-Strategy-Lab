@@ -60,7 +60,7 @@ export default function Navbar() {
           href="/"
           className="group transition-opacity duration-200 hover:opacity-80"
           onClick={() => setOpen(false)}
-          aria-label="Pardus — Início"
+          aria-label="Pardus, início"
         >
           <Logo size="md" />
         </Link>

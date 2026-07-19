@@ -35,9 +35,9 @@ export const SERVICES: ServiceData[] = [
     n: "01",
     title: "Sistemas de IA",
     tagline: "Inteligência que trabalha enquanto dormes.",
-    short: "Assistentes inteligentes que tratam do trabalho repetitivo por ti — respondem, organizam e decidem em segundos, a qualquer hora.",
+    short: "Assistentes inteligentes que tratam do trabalho repetitivo por ti: respondem, organizam e decidem em segundos, a qualquer hora.",
     intro: "Criamos inteligência artificial que trabalha sozinha nos bastidores do teu negócio: responde a pedidos, organiza informação e trata das tarefas chatas que roubam horas à tua equipa. Tu ficas com o tempo para o que só tu podes fazer.",
-    problem: "A tua equipa passa horas em tarefas manuais e repetitivas — copiar dados, responder às mesmas perguntas, andar de uma ferramenta para outra. Cada hora nisso é uma hora longe do que importa. Quase toda a gente sabe que a inteligência artificial pode ajudar, mas não sabe por onde começar nem em quem confiar.",
+    problem: "A tua equipa passa horas em tarefas manuais e repetitivas: copiar dados, responder às mesmas perguntas, andar de uma ferramenta para outra. Cada hora nisso é uma hora longe do que importa. Quase toda a gente sabe que a inteligência artificial pode ajudar, mas não sabe por onde começar nem em quem confiar.",
     deliverables: [
       "Assistentes inteligentes que agem sozinhos",
       "Automação de tarefas do início ao fim",
@@ -58,7 +58,7 @@ export const SERVICES: ServiceData[] = [
       { stat: "Menos", label: "Trabalho manual e repetitivo" },
     ],
     faq: [
-      { q: "Os meus dados ficam seguros?", a: "Sim. A privacidade está na base de tudo o que fazemos — os teus dados ficam isolados, nunca são usados para treinar nada, e podemos instalar tudo só para ti quando fizer sentido." },
+      { q: "Os meus dados ficam seguros?", a: "Sim. A privacidade está na base de tudo o que fazemos. Os teus dados ficam isolados, nunca são usados para treinar nada, e podemos instalar tudo só para ti quando fizer sentido." },
       { q: "E se a inteligência artificial se enganar?", a: "Nos pontos importantes há sempre uma validação e uma pessoa a decidir. A IA acelera o trabalho, mas não fica sozinha onde o risco é maior." },
     ],
   },
@@ -69,8 +69,8 @@ export const SERVICES: ServiceData[] = [
     title: "Websites",
     tagline: "Rápidos. Bonitos. Feitos para converter.",
     short: "Sites rápidos, bonitos e pensados para transformar visitantes em clientes. Da página simples ao site completo.",
-    intro: "Cada site que fazemos tem uma missão: aparecer no Google, abrir num instante e transformar quem visita em cliente. Com um design que parece feito à medida da tua marca — porque é mesmo.",
-    problem: "Quando um site é lento ou não te representa, perdes clientes todos os dias — as pessoas desistem antes de abrir e a tua marca não se destaca. Um bom site trabalha por ti: rápido, fácil de encontrar no Google e com a tua cara.",
+    intro: "Cada site que fazemos tem uma missão: aparecer no Google, abrir num instante e transformar quem visita em cliente. Com um design que parece feito à medida da tua marca, porque é mesmo.",
+    problem: "Quando um site é lento ou não te representa, perdes clientes todos os dias. As pessoas desistem antes de abrir e a tua marca não se destaca. Um bom site trabalha por ti: rápido, fácil de encontrar no Google e com a tua cara.",
     deliverables: [
       "Design 100% à medida da tua marca",
       "Site rápido e moderno",
@@ -82,7 +82,7 @@ export const SERVICES: ServiceData[] = [
     approach: [
       { n: "01", title: "Estratégia", desc: "Definimos objetivos, público e a história que o site tem de contar." },
       { n: "02", title: "Design", desc: "Vês a tua marca ganhar forma em maquetas reais, antes de escrevermos uma linha de código." },
-      { n: "03", title: "Construção e lançamento", desc: "Construímos, afinamos e colocamos no ar — e ensinamos-te a gerir o conteúdo." },
+      { n: "03", title: "Construção e lançamento", desc: "Construímos, afinamos e colocamos no ar, e ensinamos-te a gerir o conteúdo." },
     ],
     tech: ["Design à medida", "Preparado p/ Google", "Multi-dispositivo", "Rápido"],
     outcomes: [
@@ -91,8 +91,8 @@ export const SERVICES: ServiceData[] = [
       { stat: "Teu", label: "Editas sem depender de ninguém" },
     ],
     faq: [
-      { q: "Posso editar o site sozinho?", a: "Sim. Deixamos-te uma forma simples de editar textos, imagens e páginas, e ensinamos-te a fazê-lo — sem tocares em código." },
-      { q: "Tratam do alojamento e domínio?", a: "Tratamos de tudo — domínio, alojamento e segurança. Entregamos-te um site pronto e no ar, não um ficheiro para te desenrascares." },
+      { q: "Posso editar o site sozinho?", a: "Sim. Deixamos-te uma forma simples de editar textos, imagens e páginas, e ensinamos-te a fazê-lo, sem tocares em código." },
+      { q: "Tratam do alojamento e domínio?", a: "Tratamos de tudo: domínio, alojamento e segurança. Entregamos-te um site pronto e no ar, não um ficheiro para te desenrascares." },
     ],
   },
   {
@@ -102,8 +102,8 @@ export const SERVICES: ServiceData[] = [
     title: "E-commerce",
     tagline: "Lojas construídas para vender.",
     short: "Lojas online feitas para vender, com pagamentos, gestão de stock e relatórios, tudo no mesmo sítio.",
-    intro: "Juntamos pagamentos, gestão de stock e relatórios numa loja só tua, com uma experiência de compra tão simples que os clientes voltam — e gastam mais de cada vez. Uma loja que vende enquanto descansas.",
-    problem: "À medida que uma loja cresce, as comissões e os limites das soluções prontas começam a pesar. Faz sentido ter uma loja que seja mesmo tua — sem taxas por venda, com o design que queres e livre para crescer ao teu ritmo.",
+    intro: "Juntamos pagamentos, gestão de stock e relatórios numa loja só tua, com uma experiência de compra tão simples que os clientes voltam e gastam mais de cada vez. Uma loja que vende enquanto descansas.",
+    problem: "À medida que uma loja cresce, as comissões e os limites das soluções prontas começam a pesar. Faz sentido ter uma loja que seja mesmo tua: sem taxas por venda, com o design que queres e livre para crescer ao teu ritmo.",
     deliverables: [
       "Loja completa com gestão de produtos",
       "Pagamentos por cartão e MB Way",
@@ -135,7 +135,7 @@ export const SERVICES: ServiceData[] = [
     title: "Chatbots & Automações",
     tagline: "Atendimento que nunca dorme.",
     short: "Assistentes que respondem aos teus clientes na hora, no WhatsApp e no site, a qualquer hora do dia ou da noite.",
-    intro: "Um assistente que nunca dorme: responde a perguntas, percebe quem é cliente a sério e regista tudo por ti — para nenhum contacto ficar sem resposta e nenhuma venda escapar.",
+    intro: "Um assistente que nunca dorme: responde a perguntas, percebe quem é cliente a sério e regista tudo por ti, para nenhum contacto ficar sem resposta e nenhuma venda escapar.",
     problem: "Os contactos chegam fora de horas e arrefecem. Os clientes esperam horas por respostas simples. A tua equipa repete as mesmas respostas dezenas de vezes por dia. Cada minuto de espera pode ser um cliente perdido.",
     deliverables: [
       "Assistente no WhatsApp e no site",
@@ -190,7 +190,7 @@ export const SERVICES: ServiceData[] = [
       { stat: "Menos", label: "Trabalho manual" },
     ],
     faq: [
-      { q: "Liga ao que já uso?", a: "Sim. Ligamos às ferramentas que já usas — faturação, email, calendários — para nada ficar isolado." },
+      { q: "Liga ao que já uso?", a: "Sim. Ligamos às ferramentas que já usas: faturação, email, calendários, para nada ficar isolado." },
       { q: "Cresce com o meu negócio?", a: "Sim. Construímos de forma segura e organizada, pensada para crescer contigo em pessoas e funcionalidades." },
     ],
   },
@@ -200,9 +200,9 @@ export const SERVICES: ServiceData[] = [
     n: "06",
     title: "Consultoria em IA",
     tagline: "Estratégia antes de tecnologia.",
-    short: "Ajudamos-te a perceber onde a tecnologia e a inteligência artificial fazem a diferença no teu negócio — e por onde começar.",
-    intro: "Para quem quer crescer com tecnologia mas não sabe por onde começar. Analisamos como trabalhas, desenhamos um plano claro e acompanhamos-te até ao resultado — com ou sem a nossa equipa a construir.",
-    problem: "Toda a gente fala de inteligência artificial, mas a maioria dos projetos morre na apresentação. Investe-se nas ferramentas erradas, sem plano, e o retorno nunca aparece. O risco não é a tecnologia — é começar pelo sítio errado.",
+    short: "Ajudamos-te a perceber onde a tecnologia e a inteligência artificial fazem a diferença no teu negócio, e por onde começar.",
+    intro: "Para quem quer crescer com tecnologia mas não sabe por onde começar. Analisamos como trabalhas, desenhamos um plano claro e acompanhamos-te até ao resultado, com ou sem a nossa equipa a construir.",
+    problem: "Toda a gente fala de inteligência artificial, mas a maioria dos projetos morre na apresentação. Investe-se nas ferramentas erradas, sem plano, e o retorno nunca aparece. O risco não é a tecnologia. É começar pelo sítio errado.",
     deliverables: [
       "Análise de como trabalhas hoje",
       "Plano de implementação por prioridades",
@@ -223,7 +223,7 @@ export const SERVICES: ServiceData[] = [
       { stat: "0", label: "Dinheiro desperdiçado" },
     ],
     faq: [
-      { q: "Têm de ser vocês a construir?", a: "Não. Entregamos o plano e podes executá-lo com a tua equipa. Se quiseres, construímos nós — a decisão é tua." },
+      { q: "Têm de ser vocês a construir?", a: "Não. Entregamos o plano e podes executá-lo com a tua equipa. Se quiseres, construímos nós. A decisão é tua." },
       { q: "Serve para a minha área?", a: "O nosso método adapta-se a qualquer setor. Ajustamos a análise ao teu negócio e ao teu contexto." },
     ],
   },

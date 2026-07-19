@@ -36,7 +36,7 @@ export default function Footer() {
             </Link>
             <p className="mt-5 max-w-xs font-sans text-sm leading-relaxed text-text-secondary">
               Da ideia ao sistema inteligente. Criamos, construímos e
-              acompanhamos — com gosto e proximidade.
+              acompanhamos, com gosto e proximidade.
             </p>
             <div className="mt-6 flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse-soft" />

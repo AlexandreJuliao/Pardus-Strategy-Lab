@@ -104,7 +104,7 @@ export default function LeadForm() {
                 <br />o teu <span className="text-gold">próximo ano</span>
               </>
             }
-            intro="Marca uma conversa connosco, sem custo nenhum. Olhamos para o teu negócio e dizemos-te com honestidade o que faz sentido — e o que não faz."
+            intro="Marca uma conversa connosco, sem custo nenhum. Olhamos para o teu negócio e dizemos-te com honestidade o que faz sentido, e o que não faz."
           />
 
           <div className="mt-10 space-y-6">
@@ -214,7 +214,7 @@ export default function LeadForm() {
                     type="tel"
                     value={form.telefone}
                     onChange={update("telefone")}
-                    placeholder="Opcional — se preferires que te liguemos"
+                    placeholder="Se preferires que te liguemos (opcional)"
                   />
                 </Field>
 
@@ -235,7 +235,7 @@ export default function LeadForm() {
                     rows={4}
                     value={form.mensagem}
                     onChange={update("mensagem")}
-                    placeholder="Opcional — o que te tira mais tempo, ou onde sentes que perdes clientes."
+                    placeholder="O que te tira mais tempo, ou onde sentes que perdes clientes (opcional)"
                   />
                 </Field>
 

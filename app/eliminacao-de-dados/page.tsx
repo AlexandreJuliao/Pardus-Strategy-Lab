@@ -95,8 +95,8 @@ const sections: LegalSection[] = [
         </ul>
         <p>
           Dados que estejam nas próprias plataformas (Facebook, Instagram,
-          LinkedIn, TikTok) continuam sujeitos às políticas dessas plataformas —
-          a eliminação junto delas faz-se nas respetivas definições de conta.
+          LinkedIn, TikTok) continuam sujeitos às políticas dessas plataformas.
+          A eliminação junto delas faz-se nas respetivas definições de conta.
         </p>
       </>
     ),
@@ -119,7 +119,7 @@ export default function EliminacaoDadosPage() {
     <LegalDoc
       label="// Legal"
       title="Eliminação de Dados"
-      subtitle="Pede a remoção dos teus dados e revoga o acesso às tuas contas — de forma simples e rápida."
+      subtitle="Pede a remoção dos teus dados e revoga o acesso às tuas contas, de forma simples e rápida."
       sections={sections}
     />
   );

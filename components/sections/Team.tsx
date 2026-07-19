@@ -19,7 +19,7 @@ const FOUNDERS = [
     name: "Tomás Araújo",
     role: "Desenvolvimento & Produto",
     blurb:
-      "Transforma as ideias em coisas que funcionam — do site ao sistema — com atenção ao detalhe em cada ecrã.",
+      "Transforma as ideias em coisas que funcionam, do site ao sistema, com atenção ao detalhe em cada ecrã.",
   },
 ];
 

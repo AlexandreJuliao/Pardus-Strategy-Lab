@@ -17,7 +17,7 @@ export default function ServiceDetail({
   const Icon = ICONS[service.iconKey];
 
   return (
-    <section className="border-b border-line py-20 md:py-24">
+    <section className="py-20 md:py-24">
       <div className="shell">
         <div
           className={`grid items-center gap-12 md:grid-cols-2 md:gap-16 ${

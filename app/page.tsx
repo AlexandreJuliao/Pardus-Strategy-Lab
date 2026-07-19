@@ -49,7 +49,7 @@ export default function HomePage() {
         <div className="shell mb-12">
           <SectionHeader
             label="// Projetos"
-            title={<>Sistemas reais, resultados reais</>}
+            title={<>Sistemas reais, resultados <span className="accent-serif text-gold">reais</span></>}
             intro="Uma amostra do que construímos. Cada projeto, um problema resolvido."
           />
         </div>

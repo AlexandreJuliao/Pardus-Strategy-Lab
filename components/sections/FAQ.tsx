@@ -16,11 +16,11 @@ const QA: { q: string; a: string }[] = [
   },
   {
     q: "Ficamos presos à vossa tecnologia?",
-    a: "Não. Usamos ferramentas conhecidas e abertas, e entregamos tudo em teu nome — o site, os sistemas e os acessos são teus. Se um dia quiseres continuar com outra equipa, podes, sem ficar dependente de nós.",
+    a: "Não. Usamos ferramentas conhecidas e abertas, e entregamos tudo em teu nome: o site, os sistemas e os acessos são teus. Se um dia quiseres continuar com outra equipa, podes, sem ficar dependente de nós.",
   },
   {
     q: "O que diferencia a IA da Pardus?",
-    a: "Para nós, a inteligência artificial não é uma moda — é uma ferramenta. Criamos assistentes e automações que resolvem problemas concretos — responder a clientes, tratar de pedidos, organizar informação — e medimos o impacto real no teu negócio.",
+    a: "Para nós, a inteligência artificial não é uma moda. É uma ferramenta. Criamos assistentes e automações que resolvem problemas concretos: responder a clientes, tratar de pedidos, organizar informação. E medimos o impacto real no teu negócio.",
   },
   {
     q: "Dão suporte depois do lançamento?",
@@ -28,7 +28,7 @@ const QA: { q: string; a: string }[] = [
   },
   {
     q: "Como começamos?",
-    a: "Conta-nos o projeto pelo formulário de contacto ou por email. Respondemos em menos de 24h e marcamos uma conversa de descoberta — sem compromisso — para mapear objetivos e propor um caminho.",
+    a: "Conta-nos o projeto pelo formulário de contacto ou por email. Respondemos em menos de 24h e marcamos uma conversa de descoberta, sem compromisso, para mapear objetivos e propor um caminho.",
   },
 ];
 
@@ -49,7 +49,7 @@ export default function FAQ() {
             {QA.map((item, i) => {
               const isOpen = open === i;
               return (
-                <div key={i} className="border-b border-line">
+                <div key={i} className="border-b border-line last:border-b-0">
                   <button
                     onClick={() => setOpen(isOpen ? null : i)}
                     className="flex w-full items-center justify-between gap-6 py-6 text-left"

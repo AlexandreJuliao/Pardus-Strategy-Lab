@@ -18,7 +18,7 @@ export const LEGAL = {
   phone: "+351 913 387 098",
   site: "https://pardus-lab.com",
   appHost: "office.pardus-lab.com",
-  supervisoryAuthority: "Comissão Nacional de Proteção de Dados (CNPD) — www.cnpd.pt",
+  supervisoryAuthority: "Comissão Nacional de Proteção de Dados (CNPD), www.cnpd.pt",
   lastUpdated: "7 de julho de 2026",
 } as const;
 

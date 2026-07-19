@@ -15,7 +15,7 @@ const ROWS: { n: string; title: string; items: string[] }[] = [
 
 export default function Capabilities() {
   return (
-    <section className="relative overflow-hidden border-y border-line bg-bg-2/50 section-pad">
+    <section className="relative overflow-hidden bg-bg-2/50 pb-[clamp(72px,11vw,160px)] pt-[clamp(44px,6vw,88px)]">
       <AuroraGlow variant="capabilities" />
       <div className="shell relative z-10">
         <SectionHeader

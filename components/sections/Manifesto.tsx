@@ -38,8 +38,8 @@ export default function Manifesto() {
         >
           <p className="max-w-xl font-sans text-[clamp(16px,1.6vw,20px)] leading-relaxed text-text-secondary">
             Gostamos de estar por perto. Desenhamos, construímos e mantemos
-            coisas que funcionam de verdade — sites, inteligência artificial e
-            automação — que trabalham pelo teu negócio todos os dias. Da
+            coisas que funcionam de verdade: sites, inteligência artificial e
+            automação que trabalham pelo teu negócio todos os dias. Da
             primeira conversa ao lançamento, e muito para lá disso: ficamos
             contigo enquanto precisares.
           </p>

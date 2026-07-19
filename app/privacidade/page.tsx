@@ -5,7 +5,7 @@ import { LEGAL, SUBPROCESSORS } from "@/lib/legal";
 export const metadata: Metadata = {
   title: "Política de Privacidade",
   description:
-    "Como a Pardus recolhe, usa e protege dados pessoais — website, plataforma de gestão e integrações com Meta (Facebook/Instagram), LinkedIn e TikTok. RGPD.",
+    "Como a Pardus recolhe, usa e protege dados pessoais: website, plataforma de gestão e integrações com Meta (Facebook/Instagram), LinkedIn e TikTok. RGPD.",
   alternates: { canonical: `${LEGAL.site}/privacidade` },
   robots: { index: true, follow: true },
 };
@@ -47,15 +47,15 @@ const sections: LegalSection[] = [
         <p>Esta política cobre três grupos de pessoas:</p>
         <ul>
           <li>
-            <strong>Visitantes do website</strong> — quem navega ou preenche o
+            <strong>Visitantes do website</strong>: quem navega ou preenche o
             formulário de contacto.
           </li>
           <li>
-            <strong>Clientes e potenciais clientes</strong> — quem contrata ou
+            <strong>Clientes e potenciais clientes</strong>: quem contrata ou
             avalia os nossos serviços.
           </li>
           <li>
-            <strong>Titulares de contas geridas</strong> — clientes que nos
+            <strong>Titulares de contas geridas</strong>: clientes que nos
             autorizam a gerir as suas páginas e contas de redes sociais e
             publicidade (Meta/Facebook/Instagram, LinkedIn, TikTok) através da
             nossa plataforma.
@@ -121,25 +121,25 @@ const sections: LegalSection[] = [
       <>
         <ul>
           <li>
-            <strong>Responder a contactos e pedidos</strong> — base:
+            <strong>Responder a contactos e pedidos</strong>. Base:
             diligências pré-contratuais / interesse legítimo.
           </li>
           <li>
             <strong>Prestar os serviços contratados</strong> (gestão de redes,
-            publicidade, desenvolvimento) — base: execução do contrato.
+            publicidade, desenvolvimento). Base: execução do contrato.
           </li>
           <li>
             <strong>Gerir contas de redes sociais e campanhas</strong> em nome
-            dos clientes — base: execução do contrato com o cliente, que é o
+            dos clientes. Base: execução do contrato com o cliente, que é o
             titular/controlador desses dados.
           </li>
           <li>
-            <strong>Comunicações de marketing</strong> (quando aplicável) — base:
+            <strong>Comunicações de marketing</strong> (quando aplicável). Base:
             consentimento, revogável a qualquer momento.
           </li>
           <li>
             <strong>Cumprir obrigações legais</strong> (ex.: faturação,
-            contabilidade) — base: obrigação legal.
+            contabilidade). Base: obrigação legal.
           </li>
         </ul>
       </>
@@ -191,7 +191,7 @@ const sections: LegalSection[] = [
         <ul>
           {SUBPROCESSORS.map((s) => (
             <li key={s.name}>
-              <strong>{s.name}</strong> — {s.purpose} ({s.location}).
+              <strong>{s.name}</strong>: {s.purpose} ({s.location}).
             </li>
           ))}
         </ul>
@@ -275,9 +275,9 @@ const sections: LegalSection[] = [
     title: "Segurança",
     content: (
       <p>
-        Aplicamos medidas técnicas e organizativas adequadas — encriptação em
-        trânsito (HTTPS), controlo de acessos, autenticação e minimização de
-        dados — para proteger a informação contra acesso, perda ou divulgação não
+        Aplicamos medidas técnicas e organizativas adequadas (encriptação em
+        trânsito via HTTPS, controlo de acessos, autenticação e minimização de
+        dados) para proteger a informação contra acesso, perda ou divulgação não
         autorizados.
       </p>
     ),
@@ -300,7 +300,7 @@ export default function PrivacidadePage() {
     <LegalDoc
       label="// Legal"
       title="Política de Privacidade"
-      subtitle="Como recolhemos, usamos e protegemos dados pessoais — com transparência e em conformidade com o RGPD."
+      subtitle="Como recolhemos, usamos e protegemos dados pessoais, com transparência e em conformidade com o RGPD."
       sections={sections}
     />
   );

@@ -106,7 +106,7 @@ export default function Hero() {
               transition={{ delay: reduce ? 0 : 1.25, duration: 0.7, ease: EASE }}
               className="mt-6 max-w-xl font-sans text-[clamp(16px,1.6vw,20px)] leading-relaxed text-text-secondary [text-shadow:0_2px_18px_rgba(0,0,0,0.7)]"
             >
-              Sites, inteligência artificial e automações à tua medida — para
+              Sites, inteligência artificial e automações à tua medida, para
               teres menos trabalho manual e mais tempo para o que importa.
             </motion.p>
 
@@ -145,7 +145,7 @@ export default function Hero() {
                 duration: 0.6,
                 ease: EASE,
               }}
-              className="mt-11 flex flex-wrap items-center gap-x-9 gap-y-3 border-t border-line/70 pt-6"
+              className="mt-11 flex flex-wrap items-center gap-x-9 gap-y-3 border-t border-line-strong pt-6"
             >
               {TRUST.map((t) => (
                 <div key={t.l} className="flex items-baseline gap-2">

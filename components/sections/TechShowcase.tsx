@@ -6,7 +6,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import LiveChat from "@/components/ui/LiveChat";
 
 const POINTS = [
-  { icon: Cpu, t: "Inteligência que age", d: "Ligada às tuas ferramentas, faz o trabalho — não fica só a conversar." },
+  { icon: Cpu, t: "Inteligência que age", d: "Ligada às tuas ferramentas, faz o trabalho. Não fica só a conversar." },
   { icon: Workflow, t: "Automação a sério", d: "Tarefas que acontecem sozinhas, dia e noite, sem ninguém a carregar em botões." },
   { icon: ShieldCheck, t: "Seguro desde o início", d: "Os teus dados protegidos e uma pessoa sempre pronta a intervir quando é preciso." },
 ];
@@ -25,8 +25,8 @@ export default function TechShowcase() {
         <div>
           <SectionHeader
             label="Ao vivo"
-            title={<>Não falamos de tecnologia.<br />Mostramos.</>}
-            intro="Este é o género de assistente que criamos para os nossos clientes: percebe o pedido, responde e até marca a reunião — em segundos, a qualquer hora."
+            title={<>Não falamos de tecnologia.<br /><span className="accent-serif text-gold">Mostramos.</span></>}
+            intro="Este é o género de assistente que criamos para os nossos clientes. Percebe o pedido, responde e até marca a reunião, em segundos, a qualquer hora."
           />
           <div className="mt-9 space-y-5">
             {POINTS.map((p, i) => {
