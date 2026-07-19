@@ -47,10 +47,10 @@ export default function WhyPardus() {
                   e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
                   e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
                 }}
-                className={`spotlight-card group relative overflow-hidden rounded-[6px] border border-line bg-surface/60 transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:bg-surface ${
+                className={`spotlight-card group relative overflow-hidden rounded-[6px] transition-all duration-300 hover:-translate-y-1 ${
                   featured
-                    ? "flex flex-col justify-end p-8 md:col-span-2 md:row-span-2 md:p-10"
-                    : "p-6"
+                    ? "section-petrol flex flex-col justify-end border border-white/[0.06] p-8 md:col-span-2 md:row-span-2 md:p-10"
+                    : "border border-line bg-surface/60 p-6 hover:border-gold/30 hover:bg-surface"
                 }`}
               >
                 <span className="spotlight-glow" aria-hidden />

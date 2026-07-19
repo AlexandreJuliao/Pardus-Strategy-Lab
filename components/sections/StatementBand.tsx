@@ -5,9 +5,12 @@ import FlowField from "@/components/canvas/FlowField";
 import CtaButton from "@/components/ui/CtaButton";
 
 /**
- * A full-bleed cinematic statement over a living field of light (FlowField).
- * Replaces the leopard bands as the mid-page "beats" — same impact, new
- * material: gold/blue streams flowing and reacting to the cursor.
+ * The site's colour-contrast beats, ported from the social system:
+ *   gold — the surface IS the colour: solid gold, navy ink, grain. The
+ *          scroll-stopping inverted panel (posts D2/4, C3/4).
+ *   blue — deep petrol gradient with the living FlowField underneath
+ *          (posts D1/4, C4/4). Light ink, gold accent survives.
+ * Both keep the slanted clip so they read as cut into the page.
  */
 export default function StatementBand({
   title,
@@ -20,50 +23,35 @@ export default function StatementBand({
   cta?: string;
   tone?: "gold" | "blue";
 }) {
+  const gold = tone === "gold";
+
   return (
     <section
-      className="relative overflow-hidden"
+      className={`relative overflow-hidden ${gold ? "section-gold" : "section-petrol"}`}
       style={{
-        background: "#060912",
-        // a slanted silhouette instead of a hard rectangle — the section
-        // reads as cut into the page, not pasted on top of it like a print
-        clipPath:
-          "polygon(0 26px, 100% 0, 100% calc(100% - 26px), 0 100%)",
+        // slanted silhouette — the section reads as cut into the page
+        clipPath: "polygon(0 26px, 100% 0, 100% calc(100% - 26px), 0 100%)",
       }}
     >
-      {/* living light field */}
-      <FlowField tone={tone} />
-
-      {/* calm the centre so the words read; frame the streams at the edges */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 72% at 50% 50%, rgba(5,7,14,0.82) 0%, rgba(5,7,14,0.35) 42%, transparent 72%)",
-        }}
-      />
-      <div
-        className="pointer-events-none absolute inset-y-0 left-0 w-[16%]"
-        style={{ background: "linear-gradient(90deg, #05070e, transparent)" }}
-      />
-      <div
-        className="pointer-events-none absolute inset-y-0 right-0 w-[16%]"
-        style={{ background: "linear-gradient(270deg, #05070e, transparent)" }}
-      />
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-16"
-        style={{ background: "linear-gradient(180deg, #05070e, transparent)" }}
-      />
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
-        style={{ background: "linear-gradient(0deg, #05070e, transparent)" }}
-      />
-      <div className="noise-overlay" />
+      {!gold && (
+        <>
+          <FlowField tone="blue" />
+          {/* calm the centre so the words read */}
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse 62% 74% at 50% 50%, rgba(10,18,36,0.72) 0%, rgba(10,18,36,0.28) 44%, transparent 74%)",
+            }}
+          />
+        </>
+      )}
+      <div className="grain-section" />
 
       <div
         className="relative z-10 mx-auto flex flex-col items-center justify-center px-6 text-center"
         style={{
-          minHeight: "clamp(360px, 46vw, 580px)",
+          minHeight: "clamp(340px, 44vw, 560px)",
           paddingBlock: "clamp(72px,10vw,120px)",
         }}
       >
@@ -72,7 +60,11 @@ export default function StatementBand({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15%" }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-4xl font-display font-bold leading-[1.03] text-text-primary [font-size:clamp(30px,5vw,72px)] [letter-spacing:-0.03em] [text-shadow:0_6px_40px_rgba(0,0,0,0.7)] [text-wrap:balance]"
+          className={`max-w-4xl font-display font-semibold leading-[1.03] [font-size:clamp(30px,5vw,68px)] [letter-spacing:-0.028em] [text-wrap:balance] ${
+            gold
+              ? "text-cream-ink"
+              : "text-text-primary [text-shadow:0_6px_40px_rgba(0,0,0,0.55)]"
+          }`}
         >
           {title}
         </motion.h2>
@@ -83,7 +75,11 @@ export default function StatementBand({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-15%" }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-6 max-w-xl font-sans text-[clamp(15px,1.5vw,19px)] leading-relaxed text-text-secondary [text-shadow:0_2px_18px_rgba(0,0,0,0.8)]"
+            className={`mt-6 max-w-xl font-sans text-[clamp(15px,1.5vw,19px)] leading-relaxed ${
+              gold
+                ? "text-[#3b2d16]"
+                : "text-[#c8d4e6] [text-shadow:0_2px_18px_rgba(0,0,0,0.6)]"
+            }`}
           >
             {sub}
           </motion.p>
@@ -97,7 +93,9 @@ export default function StatementBand({
             transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="mt-9"
           >
-            <CtaButton size="lg">{cta}</CtaButton>
+            <CtaButton size="lg" variant={gold ? "inverse" : "primary"}>
+              {cta}
+            </CtaButton>
           </motion.div>
         )}
       </div>

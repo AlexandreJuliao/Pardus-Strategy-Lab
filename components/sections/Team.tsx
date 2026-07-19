@@ -51,30 +51,26 @@ export default function Team() {
           viewport={{ once: true, margin: "-60px" }}
           className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2"
         >
-          {FOUNDERS.map((m) => (
+          {FOUNDERS.map((m, i) => (
             <motion.div
               key={m.name}
               variants={fadeUp}
-              onMouseMove={(e) => {
-                const r = e.currentTarget.getBoundingClientRect();
-                e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
-                e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
-              }}
-              className="spotlight-card group relative overflow-hidden rounded-[8px] border border-line bg-surface/60 p-9 transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:bg-surface"
+              className={`card-cream group relative overflow-hidden rounded-[18px] p-9 transition-transform duration-300 hover:-translate-y-1 ${
+                i % 2 === 0 ? "md:-rotate-[0.6deg]" : "md:rotate-[0.6deg]"
+              }`}
             >
-              <span className="spotlight-glow" aria-hidden />
               <div className="relative z-10 flex items-center gap-5">
-                <span className="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-full border border-gold/40 bg-white/[0.03] font-wordmark text-[29px] font-semibold text-gold gold-glow transition-transform duration-300 group-hover:-translate-y-0.5">
+                <span className="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-full bg-cream-ink font-serif text-[26px] font-semibold italic text-gold transition-transform duration-300 group-hover:-translate-y-0.5">
                   {m.initials}
                 </span>
                 <div>
-                  <p className="font-display text-xl font-semibold text-text-primary">
+                  <p className="font-display text-xl font-semibold text-cream-ink">
                     {m.name}
                   </p>
-                  <p className="mt-1 mono-tiny text-gold">{m.role}</p>
+                  <p className="mt-1 mono-tiny text-bronze">{m.role}</p>
                 </div>
               </div>
-              <p className="relative z-10 mt-7 max-w-md font-sans text-[15px] leading-relaxed text-text-secondary">
+              <p className="relative z-10 mt-7 max-w-md font-sans text-[15px] leading-relaxed text-[#4a3c22]">
                 {m.blurb}
               </p>
             </motion.div>

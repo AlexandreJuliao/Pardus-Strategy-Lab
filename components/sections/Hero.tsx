@@ -93,7 +93,7 @@ export default function Hero() {
           className="shell relative z-10 flex h-full flex-col justify-center pb-[6vh]"
         >
           <div className="max-w-[50rem]">
-            <h1 className="font-display font-bold text-text-primary [font-size:clamp(38px,5.8vw,80px)] [line-height:1.02] [letter-spacing:-0.03em] [text-shadow:0_6px_36px_rgba(0,0,0,0.55)] [text-wrap:balance] min-h-[2.1em] md:min-h-[2.05em]">
+            <h1 className="font-display font-semibold text-text-primary [font-size:clamp(38px,5.8vw,80px)] [line-height:1.02] [letter-spacing:-0.03em] [text-shadow:0_6px_36px_rgba(0,0,0,0.55)] [text-wrap:balance] min-h-[2.1em] md:min-h-[2.05em]">
               {scrambledA || " "}{" "}
               <span className="accent-serif text-gold">
                 {scrambledB || " "}

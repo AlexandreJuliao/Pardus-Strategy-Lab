@@ -19,17 +19,24 @@ export default function Logo({
 }: {
   size?: keyof typeof SIZES | string;
   subtitle?: boolean;
-  tone?: "light" | "muted";
+  /** dark = navy ink for gold/cream surfaces (the posts' black logo) */
+  tone?: "light" | "muted" | "dark";
   className?: string;
 }) {
   const sizeCls = SIZES[size] ?? size;
-  const text = tone === "muted" ? "text-text-secondary" : "text-text-primary";
+  const text =
+    tone === "muted"
+      ? "text-text-secondary"
+      : tone === "dark"
+        ? "text-cream-ink"
+        : "text-text-primary";
+  const dot = tone === "dark" ? "text-cream-ink" : "text-gold";
   return (
     <span className={`inline-flex flex-col leading-none ${className}`}>
       <span
         className={`font-wordmark font-semibold leading-none tracking-[0.1em] ${text} ${sizeCls}`}
       >
-        PARDUS<span className="text-gold">.</span>
+        PARDUS<span className={dot}>.</span>
       </span>
       {subtitle && (
         <span className="mt-1.5 font-sans text-[10px] font-light tracking-[0.36em] text-text-secondary">

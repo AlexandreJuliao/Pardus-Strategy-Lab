@@ -23,13 +23,18 @@ const config: Config = {
         "text-primary": "var(--text-primary)",
         "text-secondary": "var(--text-secondary)",
         "text-muted": "var(--text-muted)",
+        cream: "var(--cream)",
+        "cream-ink": "var(--cream-ink)",
+        bronze: "var(--bronze)",
       },
       fontFamily: {
         sans: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
         display: ["var(--font-display)", "var(--font-space-grotesk)", "sans-serif"],
         serif: ["var(--font-serif)", "Georgia", "serif"],
         wordmark: ["var(--font-wordmark)", "Georgia", "serif"],
-        mono: ["var(--font-jetbrains-mono)", "monospace"],
+        // 2-font rule: "mono" contexts (kickers, numbers, chips) render in
+        // Space Grotesk, matching the social system.
+        mono: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
       },
       transitionTimingFunction: {
         premium: "cubic-bezier(0.16, 1, 0.3, 1)",

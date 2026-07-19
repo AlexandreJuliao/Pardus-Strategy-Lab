@@ -96,7 +96,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
         <div className="shell grid grid-cols-1 divide-y divide-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {service.outcomes.map((o, i) => (
             <Reveal key={i} preset="up" delay={i * 0.08} className="px-2 py-10 text-center">
-              <span className="font-display text-[clamp(34px,4vw,52px)] font-bold text-gold">
+              <span className="font-display text-[clamp(34px,4vw,52px)] font-semibold text-gold">
                 {o.stat}
               </span>
               <span className="mt-2 block font-sans text-sm text-text-secondary">

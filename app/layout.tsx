@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import {
   Space_Grotesk,
-  JetBrains_Mono,
   Bricolage_Grotesque,
   Cormorant,
-  Fraunces,
+  Playfair_Display,
 } from "next/font/google";
 import "../styles/globals.css";
 import Navbar from "@/components/layout/Navbar";
@@ -19,12 +18,8 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-jetbrains-mono",
-  display: "swap",
-});
+// Kickers, labels e números usam Space Grotesk (regra das 2 fontes) — a
+// variável mantém o nome por compat com as classes .mono-* existentes.
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -41,9 +36,9 @@ const cormorant = Cormorant({
   display: "swap",
 });
 
-// Signature display serif — high-contrast optical cut used italic for the one
-// emotional word in a headline. The site's editorial-luxury accent.
-const fraunces = Fraunces({
+// Signature accent — Didone italic (Didot da marca; Playfair é o corte web
+// equivalente, o mesmo usado nos posts). Uma palavra por headline, dourada.
+const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
@@ -108,7 +103,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-PT"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${bricolage.variable} ${cormorant.variable} ${fraunces.variable}`}
+      className={`${spaceGrotesk.variable} ${bricolage.variable} ${cormorant.variable} ${playfair.variable}`}
     >
       <body>
         <SmoothScroll />

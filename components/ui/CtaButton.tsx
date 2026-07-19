@@ -17,7 +17,7 @@ export default function CtaButton({
   targetId = CTA_TARGET_ID,
 }: {
   children: React.ReactNode;
-  variant?: "primary" | "outline" | "ghost";
+  variant?: "primary" | "outline" | "ghost" | "inverse";
   size?: "md" | "lg";
   className?: string;
   targetId?: string;

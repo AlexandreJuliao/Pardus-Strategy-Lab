@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { forwardRef } from "react";
 
-type Variant = "primary" | "outline" | "ghost";
+type Variant = "primary" | "outline" | "ghost" | "inverse";
 type Size = "md" | "lg";
 
 interface BaseProps {
@@ -22,6 +22,9 @@ const variants: Record<Variant, string> = {
   outline:
     "border border-line-strong bg-white/[0.02] text-text-primary hover:border-gold/70 hover:text-gold hover:bg-gold/[0.04] hover:-translate-y-0.5",
   ghost: "bg-transparent text-text-secondary hover:text-text-primary",
+  // for gold/light sections — navy solid with gold text (the posts' inverted CTA)
+  inverse:
+    "bg-[#05070e] text-gold shadow-[0_14px_36px_-16px_rgba(5,7,14,0.7)] hover:bg-[#101524] hover:-translate-y-0.5 hover:shadow-[0_20px_48px_-18px_rgba(5,7,14,0.8)]",
 };
 
 const sizes: Record<Size, string> = {

@@ -76,7 +76,7 @@ export default function Pricing() {
                 </p>
                 <p className="mt-6 flex items-baseline gap-2">
                   <span className="mono-tiny text-text-muted">desde</span>
-                  <span className="font-display text-[28px] font-bold text-gold">{s.price}</span>
+                  <span className="font-display text-[28px] font-semibold text-gold">{s.price}</span>
                 </p>
               </motion.div>
             ))}
@@ -104,7 +104,7 @@ export default function Pricing() {
                 </div>
                 <p className="flex shrink-0 items-baseline gap-2 sm:justify-end">
                   <span className="mono-tiny text-text-muted">desde</span>
-                  <span className="font-display text-[24px] font-bold text-gold">{w.price}</span>
+                  <span className="font-display text-[24px] font-semibold text-gold">{w.price}</span>
                 </p>
               </motion.div>
             ))}
@@ -144,19 +144,19 @@ export default function Pricing() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col justify-between rounded-[10px] border border-gold/40 bg-surface p-8 gold-glow md:p-9"
+            className="card-cream flex flex-col justify-between rounded-[16px] p-8 md:p-9"
           >
             <div>
-              <p className="font-display text-[22px] font-semibold text-text-primary">
-                Não sabes por onde <span className="accent-serif text-gold">começar?</span>
+              <p className="font-display text-[22px] font-semibold text-cream-ink">
+                Não sabes por onde <span className="accent-serif text-cream-ink">começar?</span>
               </p>
-              <p className="mt-3 max-w-md font-sans text-[15px] leading-relaxed text-text-secondary">
+              <p className="mt-3 max-w-md font-sans text-[15px] leading-relaxed text-[#4a3c22]">
                 A maioria chega sem saber ao certo o que precisa. Em 20 minutos, sem
                 custo, dizemos-te o que faz sentido — e o que não vale a pena.
               </p>
             </div>
             <div className="mt-7">
-              <CtaButton variant="primary" size="md">
+              <CtaButton variant="inverse" size="md">
                 Consultoria gratuita <ArrowRight size={16} />
               </CtaButton>
             </div>

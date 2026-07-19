@@ -3,22 +3,18 @@
 import { motion } from "framer-motion";
 import CtaButton from "@/components/ui/CtaButton";
 import Magnetic from "@/components/ui/Magnetic";
+import Logo from "@/components/ui/Logo";
 import { ArrowRight } from "lucide-react";
-import AuroraGlow from "@/components/ui/AuroraGlow";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 
+/**
+ * The closing beat: a full gold inverted panel — the posts' signature
+ * contrast (D2/4) as the site's final word. Navy ink, grain, real wordmark.
+ */
 export default function CTAFinal() {
   return (
-    <section className="relative overflow-hidden border-t border-line section-pad">
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 60% at 50% 40%, rgba(46,84,132,0.16), transparent 70%), radial-gradient(ellipse 50% 50% at 50% 60%, rgba(212,175,96,0.08), transparent 70%)",
-        }}
-      />
-      <div className="grid-lines pointer-events-none absolute inset-0 opacity-20" />
-      <AuroraGlow variant="cta" />
+    <section className="section-gold relative overflow-hidden section-pad">
+      <div className="grain-section" />
 
       <motion.div
         variants={staggerContainer}
@@ -27,34 +23,35 @@ export default function CTAFinal() {
         viewport={{ once: true, margin: "-80px" }}
         className="shell relative z-10 flex flex-col items-center text-center"
       >
-        <motion.div variants={fadeUp} className="mb-6 flex justify-center">
-          <span className="block h-px w-12 bg-gold/50" />
-        </motion.div>
         <motion.h2
           variants={fadeUp}
-          className="font-display text-[clamp(34px,5.5vw,72px)] font-bold leading-[1.02] tracking-[-0.02em] text-text-primary"
+          className="font-display text-[clamp(34px,5.5vw,72px)] font-semibold leading-[1.02] tracking-[-0.025em] text-cream-ink [text-wrap:balance]"
         >
           Vamos falar do
           <br />
-          teu <span className="accent-serif text-gold">negócio?</span>
+          teu <span className="accent-serif">negócio?</span>
         </motion.h2>
         <motion.p
           variants={fadeUp}
-          className="hero-sub mt-6 max-w-lg text-[clamp(15px,1.5vw,19px)]"
+          className="mt-6 max-w-lg font-sans text-[clamp(15px,1.5vw,19px)] leading-relaxed text-[#3b2d16]"
         >
           Meia hora, sem custo e sem compromisso. Olhamos para o que fazes e
           dizemos-te onde a tecnologia pode ajudar — e onde não vale a pena.
         </motion.p>
         <motion.div variants={fadeUp} className="mt-10">
           <Magnetic>
-            <CtaButton variant="primary" size="lg">
+            <CtaButton variant="inverse" size="lg">
               Quero a consultoria gratuita <ArrowRight size={18} />
             </CtaButton>
           </Magnetic>
         </motion.div>
-        <motion.p variants={fadeUp} className="mt-6 mono-tiny text-text-muted">
+        <motion.p variants={fadeUp} className="mt-6 mono-tiny text-[#6b4f22]">
           geral@pardus-lab.com · Lisboa, Portugal
         </motion.p>
+
+        <motion.div variants={fadeUp} className="mt-12">
+          <Logo size="md" tone="dark" />
+        </motion.div>
       </motion.div>
     </section>
   );
