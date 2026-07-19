@@ -20,13 +20,13 @@ const TIPOS = [
   "Chatbot & Automação", "Consultoria", "Outro",
 ];
 const BUDGETS = [
-  "Até 2.000€", "2.000€ – 5.000€", "Mais de 5.000€", "Ainda não sei",
+  "Até 1.000€", "1.000€ – 3.000€", "3.000€ – 6.000€", "Mais de 6.000€", "Ainda não sei",
 ];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ContactForm() {
   const [form, setForm] = useState<FormState>({
-    nome: "", email: "", empresa: "", tipo: TIPOS[0], mensagem: "", budget: BUDGETS[3],
+    nome: "", email: "", empresa: "", tipo: TIPOS[0], mensagem: "", budget: BUDGETS[4],
   });
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
