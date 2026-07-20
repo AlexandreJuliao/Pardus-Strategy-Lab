@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ArrowRight, Search, Map, HeartHandshake } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -37,6 +38,7 @@ const STEPS = [
 ];
 
 export default function LeadForm() {
+  const router = useRouter();
   const [form, setForm] = useState<FormState>({
     nome: "",
     email: "",
@@ -63,6 +65,8 @@ export default function LeadForm() {
     if (!form.email.trim()) next.email = "Precisamos do teu email para responder.";
     else if (!EMAIL_RE.test(form.email)) next.email = "Este email não parece certo.";
     if (!form.negocio.trim()) next.negocio = "Conta-nos o que fazes.";
+    if (!form.telefone.trim()) next.telefone = "Deixa-nos um contacto telefónico.";
+    if (!form.mensagem.trim()) next.mensagem = "Diz-nos o que gostavas de melhorar.";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -80,6 +84,7 @@ export default function LeadForm() {
       });
       if (!res.ok) throw new Error();
       setSubmitted(true);
+      router.push("/obrigado");
     } catch {
       setSendError(true);
     } finally {
@@ -208,13 +213,14 @@ export default function LeadForm() {
                   </Field>
                 </div>
 
-                <Field label="Telemóvel" error={errors.telefone}>
+                <Field label="Telemóvel" error={errors.telefone} required>
                   <input
                     className="field"
                     type="tel"
                     value={form.telefone}
                     onChange={update("telefone")}
-                    placeholder="Se preferires que te liguemos (opcional)"
+                    placeholder="Para te ligarmos, se preferires"
+                    aria-invalid={!!errors.telefone}
                   />
                 </Field>
 
@@ -229,13 +235,14 @@ export default function LeadForm() {
                   />
                 </Field>
 
-                <Field label="O que gostavas de melhorar?" error={errors.mensagem}>
+                <Field label="O que gostavas de melhorar?" error={errors.mensagem} required>
                   <textarea
                     className="field resize-none"
                     rows={4}
                     value={form.mensagem}
                     onChange={update("mensagem")}
-                    placeholder="O que te tira mais tempo, ou onde sentes que perdes clientes (opcional)"
+                    placeholder="O que te tira mais tempo, ou onde sentes que perdes clientes"
+                    aria-invalid={!!errors.mensagem}
                   />
                 </Field>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ArrowRight } from "lucide-react";
 
@@ -25,8 +26,9 @@ const BUDGETS = [
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ContactForm() {
+  const router = useRouter();
   const [form, setForm] = useState<FormState>({
-    nome: "", email: "", empresa: "", tipo: TIPOS[0], mensagem: "", budget: BUDGETS[4],
+    nome: "", email: "", empresa: "", tipo: "", mensagem: "", budget: "",
   });
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
@@ -46,6 +48,9 @@ export default function ContactForm() {
     if (!form.nome.trim()) next.nome = "Indica o teu nome.";
     if (!form.email.trim()) next.email = "Indica o teu email.";
     else if (!EMAIL_RE.test(form.email)) next.email = "Email inválido.";
+    if (!form.empresa.trim()) next.empresa = "Indica a tua empresa.";
+    if (!form.tipo) next.tipo = "Escolhe o tipo de projeto.";
+    if (!form.budget) next.budget = "Escolhe um budget.";
     if (!form.mensagem.trim()) next.mensagem = "Escreve uma mensagem.";
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -64,6 +69,7 @@ export default function ContactForm() {
       });
       if (!res.ok) throw new Error();
       setSubmitted(true);
+      router.push("/obrigado");
     } catch {
       setSendError(true);
     } finally {
@@ -115,18 +121,20 @@ export default function ContactForm() {
               </Field>
             </div>
 
-            <Field label="Empresa" error={errors.empresa}>
-              <input className="field" type="text" value={form.empresa} onChange={update("empresa")} placeholder="Opcional" />
+            <Field label="Empresa" error={errors.empresa} required>
+              <input className="field" type="text" value={form.empresa} onChange={update("empresa")} placeholder="Nome da tua empresa" aria-invalid={!!errors.empresa} />
             </Field>
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <Field label="Tipo de projeto">
-                <select className="field" value={form.tipo} onChange={update("tipo")}>
+              <Field label="Tipo de projeto" error={errors.tipo} required>
+                <select className="field" value={form.tipo} onChange={update("tipo")} aria-invalid={!!errors.tipo}>
+                  <option value="" disabled>Seleciona…</option>
                   {TIPOS.map((t) => <option key={t} value={t}>{t}</option>)}
                 </select>
               </Field>
-              <Field label="Budget">
-                <select className="field" value={form.budget} onChange={update("budget")}>
+              <Field label="Budget" error={errors.budget} required>
+                <select className="field" value={form.budget} onChange={update("budget")} aria-invalid={!!errors.budget}>
+                  <option value="" disabled>Seleciona…</option>
                   {BUDGETS.map((b) => <option key={b} value={b}>{b}</option>)}
                 </select>
               </Field>

@@ -1,7 +1,10 @@
 # Pardus — Design System (posts de redes sociais)
 
 Fonte de verdade extraída do site (pardus-lab.com) e da board Figma "Pardus." → página **📱 Posts v6**.
-Formato default: **1080×1350** (4:5). Margem lateral: **88px**. Grelha de slides: x = 0 / 1180 / 2360 / 3540; filas y de 1500 em 1500.
+Formato default: **1080×1350** (4:5, feed). **Story: 1080×1920** (9:16) — versão de cada post na zona Stories da board. Margem lateral: **88px**. Grelha de slides: x = 0 / 1180 / 2360 / 3540; filas y de 1500 em 1500.
+
+**Copy sem travessões:** não usar travessões/hífens-soltos ("—", " - ") como conectores no meio das frases (cara de IA). Preferir vírgula ou frase nova. Hífen só quando gramatical (enclíticos, compostos).
+**Grão sempre por cima:** em qualquer frame, a textura de grão fica no topo do z-order (nos posts, sobre os fundos e sob o texto).
 
 ## Paleta
 | Papel | Hex | Uso |
@@ -25,14 +28,19 @@ Proporção: fundo navy domina; dourado só em acentos (1 palavra por headline +
 | Tudo o resto (corpo, kicker, CTA, "arrasta", números) | **Space Grotesk Regular** | 19–34 (kicker 22–24 ls 8%) |
 
 **Banidas / migradas:** Inter, Archivo, Archivo Black, JetBrains Mono, Fraunces, Cutive Mono → tudo trocado em jul/2026.
-**Exceção:** o **logótipo** usa a sua própria fonte (Cormorant, "PARDUS.") — é asset de marca, fora da regra das 2 fontes.
+**Exceção:** o **logótipo** é asset de marca (fora da regra das 2 fontes): wordmark "PARDUS." num serif Didone próprio + tagline "Strategy Lab" em **Jost** (geométrica). Ver secção Logótipo.
 
 ## Componentes recorrentes
 - **CTA:** frame 560–660×96, radius 8, fundo `#d4af60`, texto navy. Invertido em fundos de cor (petrol/dourado): botão navy sólido + texto dourado.
 - **Card creme:** radius 24, drop shadow `0 18–22 44–52 rgba(0,0,0,.35–.4)`; rotação ±0.6–1.2° em stacks de quotes.
 - **Campo de cor + grão (contraste — a assinatura visual):** cada slide leva um campo de cor (glow elipse blur 300–330) + textura de **grão** por cima. Grão = imageHash `e516d0dcb2165791817195104606c94f3ab16e96`, scaleMode FILL scalingFactor 0.5, node **opacity 0.06, blendMode PASS_THROUGH** (valores do Julian). Cores dos campos variam por slide: dourado `#d4af60`, petrol `#2e5484`, azul-profundo `#14203a`. Slides invertidos de cor sólida (ex.: D2/4 dourado, D1/4 petrol) para ritmo.
 - **"arrasta →"** Space Grotesk Regular 24 ls10% dourado, y≈1272.
-- **Logótipo (asset real, NÃO escrever à mão):** clonar os vetores das versões na board — branco `23:56` (fundos escuros), preto `23:83` (fundos claros/dourados). `rescale(largura/1607)`, canto inf. direito. Podem surgir novas versões de cor, sempre com o mesmo design/tipo de letra (Cormorant).
+- **Logótipo — sistema oficial (jul/2026, NÃO escrever à mão; usar sempre o vetor real):**
+  - **3 formas:** (1) **lockup** `PARDUS. + Strategy Lab` — principal, mas usar com parcimónia (capas, 1.º slide, apresentações); (2) **wordmark** `PARDUS.` — o cavalo de batalha, assinatura na maioria dos posts; (3) **ícone** `P.` — só favicon/avatar/selo.
+  - **4 cores oficiais:** dourado `#d4af60`, petrol `#264578`, preto, branco. Combinações: fundo petrol → dourado (ou branco); fundo dourado → petrol (ou branco); fundo claro/creme → preto; fundo escuro → branco.
+  - **Ponto bicolor (assinatura):** o `.` é sempre acento e faz parte do desenho — **branco** sobre logo dourado/petrol, **dourado** sobre logo branco, **preto** sobre logo preto. Não recolorir nem remover.
+  - Vetores-fonte na board (fila de tiles, page Posts v6): wordmark dourado `86:2168`/petrol `86:2192`/preto `86:2240`/branco `86:2120`; lockup (Group 8) branco `86:1874`, etc.; ícone P. `86:3278`(dourado)/`86:3288`(preto)/`86:3293`(branco). Guia visual completa: frame **BG/2 — Logótipo** (`76:2`).
+  - Assinatura de canto: wordmark `PARDUS.` simples, canto inf. direito. Espaço livre à volta ≥ altura do "P".
 - **Fotos:** cinematográficas, navy+dourado, kie.ai Seedream V5 Lite 3:4 high. Scrim gradient navy. Nunca repetir imagem. **Sem leopardo** nas fotos de conteúdo — imagens do que se vende (sites, lojas, dashboards, redes/automação). Hashes atuais: site `a2349eca…`, ecom `a9b3314c…`, dash `b6397b14…`, auto/rede `691e00de…`.
 - **Leopardo** = ícone da marca, só na capa D1/1.
 

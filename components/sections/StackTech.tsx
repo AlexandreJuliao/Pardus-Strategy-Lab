@@ -28,7 +28,7 @@ export default function StackTech() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
-          className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-[6px] border border-line bg-line md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.3fr]"
+          className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-[6px] border border-line bg-line md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.3fr]"
         >
           {GROUPS.map((g) => (
             <motion.div
@@ -39,7 +39,7 @@ export default function StackTech() {
                 e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
                 e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
               }}
-              className="spotlight-card group relative bg-surface p-7"
+              className="spotlight-card group relative bg-surface p-5 sm:p-7"
               style={{ ["--glow-color" as string]: "rgba(46,84,132,0.2)" }}
             >
               <span className="spotlight-glow" aria-hidden />

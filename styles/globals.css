@@ -228,7 +228,9 @@ html {
 }
 
 .section-pad {
-  padding-block: clamp(72px, 11vw, 160px);
+  /* min floor only bites on mobile (<~655px, where 11vw < 60); desktop is
+     unchanged. Tighter mobile rhythm so a long page feels less endless. */
+  padding-block: clamp(60px, 11vw, 160px);
 }
 
 /* ---------- Atmosphere / texture ---------- */
@@ -565,3 +567,11 @@ select.field {
   .glow-pulse, .float-y, .spin-slow,
   .hairline-anim::after { animation: none !important; }
 }
+
+/* ---- Mobile snap rail — horizontal card carousels ---- */
+.snap-rail {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.snap-rail::-webkit-scrollbar { display: none; }

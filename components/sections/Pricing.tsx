@@ -56,7 +56,7 @@ export default function Pricing() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}
-            className="grid grid-cols-1 gap-4 sm:grid-cols-3"
+            className="snap-rail -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0"
           >
             {SITES.map((s) => (
               <motion.div
@@ -67,7 +67,7 @@ export default function Pricing() {
                   e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
                   e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
                 }}
-                className="spotlight-card group relative flex flex-col rounded-[8px] border border-line bg-surface/60 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:bg-surface"
+                className="spotlight-card group relative flex w-[76%] shrink-0 snap-start flex-col rounded-[8px] border border-line bg-surface/60 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:bg-surface sm:w-auto"
               >
                 <span className="spotlight-glow" aria-hidden />
                 <p className="font-display text-xl font-semibold text-text-primary">{s.name}</p>

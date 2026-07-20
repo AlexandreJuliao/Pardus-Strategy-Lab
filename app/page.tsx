@@ -17,6 +17,7 @@ import FAQ from "@/components/sections/FAQ";
 import About from "@/components/sections/About";
 import Team from "@/components/sections/Team";
 import LeadForm from "@/components/sections/LeadForm";
+import MobileContactFab from "@/components/layout/MobileContactFab";
 
 export default function HomePage() {
   return (
@@ -75,6 +76,7 @@ export default function HomePage() {
       <About />
       <Team />
       <LeadForm />
+      <MobileContactFab />
     </>
   );
 }
