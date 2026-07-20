@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Users } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
@@ -8,14 +9,14 @@ import { fadeUp, staggerContainer } from "@/lib/animations";
 
 const FOUNDERS = [
   {
-    initials: "AJ",
+    photo: "/img/team/alexandre.jpg",
     name: "Alexandre Julião",
     role: "Fundador & CEO",
     blurb:
       "A visão, a estratégia e o produto de cada projeto. É quem garante que aquilo que entregamos faz mesmo diferença para o teu negócio.",
   },
   {
-    initials: "TA",
+    photo: "/img/team/tomas.jpg",
     name: "Tomás Araújo",
     role: "Desenvolvimento & Produto",
     blurb:
@@ -60,8 +61,14 @@ export default function Team() {
               }`}
             >
               <div className="relative z-10 flex items-center gap-5">
-                <span className="flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-full bg-cream-ink font-serif text-[26px] font-semibold italic text-gold transition-transform duration-300 group-hover:-translate-y-0.5">
-                  {m.initials}
+                <span className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-full ring-1 ring-cream-ink/15 transition-transform duration-300 group-hover:-translate-y-0.5">
+                  <Image
+                    src={m.photo}
+                    alt={m.name}
+                    fill
+                    sizes="72px"
+                    className="object-cover"
+                  />
                 </span>
                 <div>
                   <p className="font-display text-xl font-semibold text-cream-ink">
