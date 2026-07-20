@@ -2,6 +2,20 @@ import type { Metadata } from "next";
 import PageHero from "@/components/sections/PageHero";
 import ProjectsGrid from "@/components/sections/ProjectsGrid";
 import CTAFinal from "@/components/sections/CTAFinal";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
+import { PROJECTS } from "@/lib/projects";
+
+const projectsItemList = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: PROJECTS.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: `https://pardus-lab.com/projetos/${p.slug}`,
+    name: p.name,
+  })),
+};
 
 export const metadata: Metadata = {
   title: "Projetos",
@@ -18,6 +32,15 @@ export const metadata: Metadata = {
 export default function ProjetosPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          projectsItemList,
+          breadcrumbSchema([
+            { name: "Início", path: "/" },
+            { name: "Projetos", path: "/projetos" },
+          ]),
+        ]}
+      />
       <PageHero
         title={<>Coisas reais, <span className="accent-serif text-gold">a funcionar.</span></>}
         subtitle="Uma amostra do que já construímos para negócios como o teu. Sem nomes, só o que ficou a trabalhar todos os dias."

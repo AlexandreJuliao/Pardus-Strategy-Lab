@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Mail, MapPin, Calendar, ArrowUpRight, Clock } from "lucide-react";
 import PageHero from "@/components/sections/PageHero";
 import ContactForm from "@/components/sections/ContactForm";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Contacto",
@@ -19,6 +21,12 @@ export const metadata: Metadata = {
 export default function ContactoPage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Início", path: "/" },
+          { name: "Contacto", path: "/contacto" },
+        ])}
+      />
       <PageHero
         title={<>Vamos falar do <span className="accent-serif text-gold">teu negócio.</span></>}
         meta={

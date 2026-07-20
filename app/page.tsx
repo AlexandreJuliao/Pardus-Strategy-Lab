@@ -18,10 +18,26 @@ import About from "@/components/sections/About";
 import Team from "@/components/sections/Team";
 import LeadForm from "@/components/sections/LeadForm";
 import MobileContactFab from "@/components/layout/MobileContactFab";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  organizationSchema,
+  websiteSchema,
+  serviceCatalogSchema,
+  faqSchema,
+} from "@/lib/schema";
+import { FAQ_ITEMS } from "@/lib/faq";
 
 export default function HomePage() {
   return (
     <>
+      <JsonLd
+        data={[
+          organizationSchema,
+          websiteSchema,
+          serviceCatalogSchema,
+          faqSchema(FAQ_ITEMS),
+        ]}
+      />
       <Hero />
       <Manifesto />
       <Marquee />

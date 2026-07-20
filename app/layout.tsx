@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Space_Grotesk,
   Bricolage_Grotesque,
@@ -87,12 +87,30 @@ export const metadata: Metadata = {
     description: "Instinto digital para o teu negócio: IA, sites e automação, feitos para caçar resultados.",
     images: ["/img/og.jpg"],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   verification: {
     other: {
       "facebook-domain-verification": "dbwpr2ak7grpb1xt3m0ey86ya2jxOv",
     },
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#05070e",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

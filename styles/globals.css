@@ -95,6 +95,11 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Clip stray horizontal overflow (e.g. off-screen slide-in reveals) at the
+     scroll container so it never counts toward scrollWidth — keeps the
+     Lighthouse "content sized to viewport" audit green. `clip` (not `hidden`)
+     doesn't create a scroll container, so position:sticky + Lenis stay intact. */
+  overflow-x: clip;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -119,7 +124,7 @@ body {
   letter-spacing: -0.004em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
   /* atmospheric depth — deep petrol glows over near-black, gold warmth top-left */
   background-image:
     radial-gradient(900px 620px at 80% -6%, rgba(var(--petrol), 0.15), transparent 60%),
@@ -569,9 +574,20 @@ select.field {
 }
 
 /* ---- Mobile snap rail — horizontal card carousels ---- */
+/* Bleeds to the screen edges by cancelling exactly the .shell padding, so the
+   rail never overshoots the viewport (a fixed -mx- would overflow when the
+   fluid shell padding is smaller than it). Reset to flush at sm+ via utilities. */
 .snap-rail {
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
+}
+/* Only below the sm breakpoint (640px), where the rail scrolls horizontally.
+   At sm+ Tailwind's grid + sm:mx-0/sm:px-0 take over untouched. */
+@media (max-width: 639.98px) {
+  .snap-rail {
+    margin-inline: calc(clamp(20px, 5vw, 64px) * -1);
+    padding-inline: clamp(20px, 5vw, 64px);
+  }
 }
 .snap-rail::-webkit-scrollbar { display: none; }

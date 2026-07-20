@@ -1,0 +1,7 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="112" fill="#05070e"/>
+  <rect x="8" y="8" width="496" height="496" rx="104" fill="none" stroke="#d4af60" stroke-opacity="0.16" stroke-width="4"/>
+  <text x="188" y="366" font-family="Georgia, 'Times New Roman', 'Cormorant', serif" font-size="360" font-weight="600" fill="#d4af60" text-anchor="middle" letter-spacing="0">P</text>
+  <circle cx="352" cy="336" r="34" fill="#d4af60"/>
+  <path d="M352 302 a34 34 0 0 1 0 68 z" fill="#2e5484"/>
+</svg>

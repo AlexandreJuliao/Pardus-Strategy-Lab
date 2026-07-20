@@ -8,6 +8,8 @@ import ServiceVisual from "@/components/ui/ServiceVisual";
 import AuroraGlow from "@/components/ui/AuroraGlow";
 import CTAFinal from "@/components/sections/CTAFinal";
 import Button from "@/components/ui/Button";
+import JsonLd from "@/components/seo/JsonLd";
+import { serviceSchema, breadcrumbSchema, faqSchema } from "@/lib/schema";
 
 export function generateStaticParams() {
   return SERVICE_SLUGS.map((slug) => ({ slug }));
@@ -42,6 +44,17 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
 
   return (
     <>
+      <JsonLd
+        data={[
+          serviceSchema(service),
+          breadcrumbSchema([
+            { name: "Início", path: "/" },
+            { name: "Serviços", path: "/servicos" },
+            { name: service.title, path: `/servicos/${service.slug}` },
+          ]),
+          faqSchema(service.faq),
+        ]}
+      />
       {/* hero */}
       <section className="relative overflow-hidden bg-bg-2 pb-16 pt-36 md:pb-24 md:pt-44">
         <div

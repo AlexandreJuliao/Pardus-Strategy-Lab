@@ -15,13 +15,17 @@ const COLS: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "Serviços",
     links: [
-      { label: "Sistemas de IA", href: "/servicos" },
-      { label: "Websites", href: "/servicos" },
-      { label: "E-commerce", href: "/servicos" },
-      { label: "Apps Empresariais", href: "/servicos" },
+      { label: "Sistemas de IA", href: "/servicos/sistemas-de-ia" },
+      { label: "Websites", href: "/servicos/websites" },
+      { label: "E-commerce", href: "/servicos/e-commerce" },
+      { label: "Apps Empresariais", href: "/servicos/apps-empresariais" },
     ],
   },
 ];
+
+// Redes sociais — preencher com os URLs reais dos perfis da Pardus para os
+// mostrar no rodapé. Vazio = não renderiza (evita links partidos).
+const SOCIALS: { label: string; href: string }[] = [];
 
 export default function Footer() {
   return (
@@ -83,18 +87,22 @@ export default function Footer() {
                 Lisboa, Portugal
               </li>
             </ul>
-            <div className="mt-6 flex items-center gap-3">
-              {["LinkedIn", "GitHub"].map((s) => (
-                <a
-                  key={s}
-                  href="#"
-                  className="group inline-flex items-center gap-1 rounded-[4px] border border-line px-3 py-1.5 mono-tiny text-text-secondary transition-colors hover:border-gold/40 hover:text-gold"
-                >
-                  {s}
-                  <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </a>
-              ))}
-            </div>
+            {SOCIALS.length > 0 && (
+              <div className="mt-6 flex items-center gap-3">
+                {SOCIALS.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-1 rounded-[4px] border border-line px-3 py-1.5 mono-tiny text-text-secondary transition-colors hover:border-gold/40 hover:text-gold"
+                  >
+                    {s.label}
+                    <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 

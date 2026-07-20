@@ -8,6 +8,8 @@ import Reveal from "@/components/ui/Reveal";
 import AuroraGlow from "@/components/ui/AuroraGlow";
 import CTAFinal from "@/components/sections/CTAFinal";
 import Button from "@/components/ui/Button";
+import JsonLd from "@/components/seo/JsonLd";
+import { projectSchema, breadcrumbSchema } from "@/lib/schema";
 
 export function generateStaticParams() {
   return PROJECT_SLUGS.map((slug) => ({ slug }));
@@ -41,6 +43,16 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
   return (
     <>
+      <JsonLd
+        data={[
+          projectSchema(project),
+          breadcrumbSchema([
+            { name: "Início", path: "/" },
+            { name: "Projetos", path: "/projetos" },
+            { name: project.name, path: `/projetos/${project.slug}` },
+          ]),
+        ]}
+      />
       {/* hero */}
       <section className="relative overflow-hidden bg-bg-2 pb-16 pt-36 md:pb-24 md:pt-44">
         <div

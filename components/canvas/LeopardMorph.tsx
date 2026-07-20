@@ -58,13 +58,21 @@ export default function LeopardMorph({
   const particles = useRef<Particle[]>([]);
   const [ready, setReady] = useState(false);
 
-  // Preload the roar frames.
+  // Preload the roar frames — but keep the 61-frame sequence (~3.9 MB) off the
+  // critical path so it never competes with the LCP / hydration. Only the sample
+  // frame loads immediately (first paint + atom silhouette); the rest stream in
+  // during idle after `load`. The scrub uses the nearest *loaded* frame, so
+  // scrolling before they arrive degrades gracefully instead of breaking.
   useEffect(() => {
     let alive = true;
-    const arr: HTMLImageElement[] = [];
+    const arr: HTMLImageElement[] = new Array(FRAME_COUNT);
     const done: boolean[] = new Array(FRAME_COUNT).fill(false);
+    imgs.current = arr;
+    loaded.current = done;
     let first = false;
-    for (let i = 0; i < FRAME_COUNT; i++) {
+
+    const loadFrame = (i: number) => {
+      if (!alive || arr[i]) return;
       const img = new window.Image();
       img.decoding = "async";
       img.onload = () => {
@@ -79,11 +87,45 @@ export default function LeopardMorph({
       };
       img.src = framePath(i);
       arr[i] = img;
+    };
+
+    // The sample frame is needed right away.
+    loadFrame(SAMPLE_FRAME);
+
+    // Data-saver / 2G: don't prefetch the whole sequence — the sample frame
+    // alone still gives a valid (static) hero.
+    const conn = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    if (conn?.saveData || /(^|\b)(slow-)?2g$/.test(conn?.effectiveType ?? "")) {
+      return () => {
+        alive = false;
+      };
     }
-    imgs.current = arr;
-    loaded.current = done;
+
+    const ric = window as unknown as {
+      requestIdleCallback?: (cb: () => void, o?: { timeout?: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    let idleId: number | undefined;
+    const kickoff = () => {
+      for (let i = 0; i < FRAME_COUNT; i++) if (i !== SAMPLE_FRAME) loadFrame(i);
+    };
+    const schedule = () => {
+      if (typeof ric.requestIdleCallback === "function") {
+        idleId = ric.requestIdleCallback(kickoff, { timeout: 2500 });
+      } else {
+        idleId = window.setTimeout(kickoff, 800);
+      }
+    };
+    if (document.readyState === "complete") schedule();
+    else window.addEventListener("load", schedule, { once: true });
+
     return () => {
       alive = false;
+      window.removeEventListener("load", schedule);
+      if (idleId !== undefined) {
+        if (typeof ric.cancelIdleCallback === "function") ric.cancelIdleCallback(idleId);
+        else clearTimeout(idleId);
+      }
     };
   }, []);
 

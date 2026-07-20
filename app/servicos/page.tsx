@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import PageHero from "@/components/sections/PageHero";
 import ServicesList from "@/components/sections/ServicesList";
 import CTAFinal from "@/components/sections/CTAFinal";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, serviceCatalogSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Serviços",
@@ -19,6 +21,15 @@ export const metadata: Metadata = {
 export default function ServicosPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          serviceCatalogSchema,
+          breadcrumbSchema([
+            { name: "Início", path: "/" },
+            { name: "Serviços", path: "/servicos" },
+          ]),
+        ]}
+      />
       <PageHero
         title={<>O que <span className="accent-serif text-gold">construímos</span></>}
         subtitle="Seis frentes de trabalho, uma só equipa. Do site à inteligência artificial, tudo pensado para pôr o teu negócio a andar."
