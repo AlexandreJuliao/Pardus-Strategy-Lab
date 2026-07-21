@@ -10,6 +10,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ScrollProgress from "@/components/layout/ScrollProgress";
 import SmoothScroll from "@/components/layout/SmoothScroll";
+import Analytics from "@/components/Analytics";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -124,6 +125,7 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${bricolage.variable} ${cormorant.variable} ${playfair.variable}`}
     >
       <body>
+        <Analytics />
         <SmoothScroll />
         <ScrollProgress />
         <div className="grain-fixed" aria-hidden />
