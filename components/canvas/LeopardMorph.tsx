@@ -58,11 +58,12 @@ export default function LeopardMorph({
   const particles = useRef<Particle[]>([]);
   const [ready, setReady] = useState(false);
 
-  // Preload the roar frames — but keep the 61-frame sequence (~3.9 MB) off the
-  // critical path so it never competes with the LCP / hydration. Only the sample
-  // frame loads immediately (first paint + atom silhouette); the rest stream in
-  // during idle after `load`. The scrub uses the nearest *loaded* frame, so
-  // scrolling before they arrive degrades gracefully instead of breaking.
+  // Preload the roar frames — but keep the sequence off the critical path so it
+  // never competes with the LCP / hydration. Only the sample frame loads
+  // immediately (first paint + atom silhouette); the rest stream in during idle
+  // after `load`. The scrub uses the nearest *loaded* frame, so scrolling before
+  // they arrive (or on mobile, where we deliberately load a sparse subset)
+  // degrades gracefully instead of breaking.
   useEffect(() => {
     let alive = true;
     const arr: HTMLImageElement[] = new Array(FRAME_COUNT);
@@ -92,14 +93,28 @@ export default function LeopardMorph({
     // The sample frame is needed right away.
     loadFrame(SAMPLE_FRAME);
 
-    // Data-saver / 2G: don't prefetch the whole sequence — the sample frame
-    // alone still gives a valid (static) hero.
     const conn = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    // Data-saver / 2G: don't prefetch the sequence — the sample frame alone
+    // still gives a valid (static) hero.
     if (conn?.saveData || /(^|\b)(slow-)?2g$/.test(conn?.effectiveType ?? "")) {
       return () => {
         alive = false;
       };
     }
+
+    // Which frames to prefetch. On phones the full 61-frame roar (~3.9 MB) is a
+    // desktop-scroll indulgence not worth the mobile data / bandwidth contention,
+    // so load a sparse subset (~every 5th frame). nearestFrame() fills the gaps,
+    // so the scrub still reads as a roar — just coarser. Cuts the hero payload
+    // from ~3.9 MB to ~0.8 MB on mobile.
+    const coarse =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(pointer: coarse)").matches;
+    const frames: number[] = [];
+    const step = coarse ? 5 : 1;
+    for (let i = 0; i < FRAME_COUNT; i += step) if (i !== SAMPLE_FRAME) frames.push(i);
+    if (coarse && frames[frames.length - 1] !== FRAME_COUNT - 1) frames.push(FRAME_COUNT - 1);
 
     const ric = window as unknown as {
       requestIdleCallback?: (cb: () => void, o?: { timeout?: number }) => number;
@@ -107,7 +122,7 @@ export default function LeopardMorph({
     };
     let idleId: number | undefined;
     const kickoff = () => {
-      for (let i = 0; i < FRAME_COUNT; i++) if (i !== SAMPLE_FRAME) loadFrame(i);
+      for (const i of frames) loadFrame(i);
     };
     const schedule = () => {
       if (typeof ric.requestIdleCallback === "function") {
@@ -159,7 +174,9 @@ export default function LeopardMorph({
       }
       // Cap for performance; keep the brightest so the head reads clearly.
       const isMobile = window.matchMedia("(max-width: 767px)").matches;
-      const MAX = isMobile ? 1200 : 2400;
+      // Fewer atoms on phones — the head still reads clearly, and each atom is
+      // an arc + composite blend per frame, so this is a direct mobile CPU win.
+      const MAX = isMobile ? 750 : 2400;
       targets.sort((a, b) => b.lum - a.lum);
       const chosen = targets.slice(0, Math.min(MAX, targets.length));
 
@@ -199,6 +216,16 @@ export default function LeopardMorph({
     let dpr = 1;
     let raf = 0;
     let visible = true;
+
+    // Cap the ambient loop on touch devices: the drifting atoms read the same
+    // at 30fps but cost half the per-frame CPU/GPU — meaningful for INP and
+    // battery on phones. Desktop stays uncapped for a silky scrub.
+    const coarse =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(pointer: coarse)").matches;
+    const minFrameMs = coarse ? 33 : 0;
+    let lastDraw = 0;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -301,6 +328,8 @@ export default function LeopardMorph({
     const loop = (t: number) => {
       raf = requestAnimationFrame(loop);
       if (!visible || document.hidden) return;
+      if (minFrameMs && t - lastDraw < minFrameMs) return;
+      lastDraw = t;
       draw(t);
     };
 

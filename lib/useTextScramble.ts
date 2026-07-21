@@ -17,21 +17,30 @@ interface Options {
 
 /**
  * Resolves `text` from random characters, word by word.
- * Each character settles after a random delay (200–600ms).
+ *
+ * The output is initialised to the REAL text so the server (and the first
+ * client paint) render the final headline — critical for LCP: the largest
+ * element paints its content immediately instead of waiting for hydration +
+ * the scramble to run, and for CLS: the element reserves its true height from
+ * the first frame. The scramble is then a desktop-only enhancement: it never
+ * runs on touch devices or under reduced-motion, where it would only add jank
+ * and hurt Core Web Vitals for no benefit.
  */
 export function useTextScramble(
   text: string,
   { delay = 0, frameInterval = 35, wordStagger = 100, active = true }: Options = {},
 ) {
-  const [output, setOutput] = useState<string>(() =>
-    prefersReducedMotion() ? text : "",
-  );
+  // Real text on the server and first client render (they must match to avoid
+  // a hydration mismatch). The effect below may temporarily scramble it.
+  const [output, setOutput] = useState<string>(text);
   const rafTimer = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!active) return;
-    if (prefersReducedMotion()) {
+    // Only decode-scramble on precise-pointer devices (desktop) with motion
+    // allowed. Mobile keeps the static real text painted at SSR.
+    if (!shouldScramble()) {
       setOutput(text);
       return;
     }
@@ -39,17 +48,14 @@ export function useTextScramble(
     const words = text.split(" ");
     // assign each character a resolve time relative to effect start
     const charPlan: { char: string; resolveAt: number; isSpace: boolean }[] = [];
-    let cursor = 0;
     words.forEach((word, wi) => {
       const wordStart = wi * wordStagger;
       for (const ch of word) {
         const dur = 200 + Math.random() * 400; // 200–600ms
         charPlan.push({ char: ch, resolveAt: wordStart + dur, isSpace: false });
-        cursor++;
       }
       if (wi < words.length - 1) {
         charPlan.push({ char: " ", resolveAt: wordStart, isSpace: true });
-        cursor++;
       }
     });
 
@@ -87,7 +93,9 @@ export function useTextScramble(
   return output;
 }
 
-function prefersReducedMotion(): boolean {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function shouldScramble(): boolean {
+  if (typeof window === "undefined" || !window.matchMedia) return false;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finePointer = window.matchMedia("(pointer: fine)").matches;
+  return !reduced && finePointer;
 }

@@ -133,6 +133,14 @@ body {
   background-attachment: fixed;
 }
 
+/* On touch devices a fixed background repaints every scroll frame (jank + INP
+   cost) for a parallax that's barely perceptible on a phone — pin it instead. */
+@media (hover: none) and (pointer: coarse) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
 ::selection {
   background: rgba(212, 175, 96, 0.26);
   color: #fff;
