@@ -3,13 +3,14 @@
 import Script from "next/script";
 
 // Analytics do site público da Pardus.
-// - Microsoft Clarity (heatmaps + gravações + comportamento) — sempre ativo.
-// - Google Analytics 4 — ativa-se sozinho quando existir a env NEXT_PUBLIC_GA4_ID
-//   (formato G-XXXXXXXXXX). Sem a env, o GA4 não carrega (nenhum pedido extra).
-// Ambos via next/script strategy="afterInteractive" → não bloqueiam o first paint.
+// - Microsoft Clarity (heatmaps + gravações + comportamento).
+// - Google Analytics 4 (gtag.js).
+// Ambos os IDs são públicos por natureza (vão no HTML do browser), por isso ficam
+// hardcoded aqui. Ambos via next/script strategy="afterInteractive" → não bloqueiam
+// o first paint.
 
 const CLARITY_ID = "xpvphllowj";
-const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID;
+const GA4_ID = "G-EZ1S3CPSZX";
 
 export default function Analytics() {
   return (
