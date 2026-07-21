@@ -8,6 +8,14 @@ import { NextResponse } from "next/server";
 const WEBHOOK =
   process.env.N8N_LEAD_WEBHOOK ?? "https://n8n.pardus-lab.com/webhook/pardus-lead";
 
+// Pardus OS — caixa de Leads (Métricas do Negócio). A lead da própria Pardus cai no
+// cliente interno is_agency. Intake público; opcionalmente protegido por token.
+const OFFICE_LEADS_URL =
+  process.env.OFFICE_LEADS_URL ?? "https://office.pardus-lab.com/api/leads";
+const OFFICE_CLIENT_ID =
+  process.env.OFFICE_LEADS_CLIENT_ID ?? "38b3c985-3f13-41d5-b202-956fb086bd9d";
+const OFFICE_LEADS_TOKEN = process.env.OFFICE_LEADS_TOKEN; // opcional (x-leads-token)
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -46,15 +54,43 @@ export async function POST(req: Request) {
     mensagem: s(data.mensagem, 4000),
   };
 
-  try {
-    const r = await fetch(WEBHOOK, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(12000),
-    });
-    if (!r.ok) throw new Error(`webhook ${r.status}`);
-  } catch {
+  // Entrega em DOIS sítios em paralelo: (1) webhook n8n → Google Sheets + email (fluxo
+  // antigo), (2) caixa de Leads do Pardus OS. O envio tem sucesso se PELO MENOS UM
+  // recebeu — assim a lead nunca se perde por um dos destinos estar em baixo.
+  const toN8n = fetch(WEBHOOK, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    signal: AbortSignal.timeout(12000),
+  }).then((r) => r.ok).catch(() => false);
+
+  const toOffice = fetch(OFFICE_LEADS_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(OFFICE_LEADS_TOKEN ? { "x-leads-token": OFFICE_LEADS_TOKEN } : {}),
+    },
+    body: JSON.stringify({
+      client_id: OFFICE_CLIENT_ID,
+      source: (payload.origem || "website").toLowerCase(),
+      name: payload.nome,
+      email: payload.email,
+      phone: payload.telefone || null,
+      message: payload.mensagem || null,
+      // Campos extra do site preservados no meta (empresa, negócio, tipo, budget).
+      meta: {
+        empresa: payload.empresa || null,
+        negocio: payload.negocio || null,
+        tipo: payload.tipo || null,
+        budget: payload.budget || null,
+        origem: payload.origem || "Website",
+      },
+    }),
+    signal: AbortSignal.timeout(12000),
+  }).then((r) => r.ok).catch(() => false);
+
+  const [n8nOk, officeOk] = await Promise.all([toN8n, toOffice]);
+  if (!n8nOk && !officeOk) {
     return NextResponse.json({ ok: false, error: "delivery" }, { status: 502 });
   }
 
