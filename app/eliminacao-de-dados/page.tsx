@@ -57,6 +57,13 @@ const sections: LegalSection[] = [
           Ao remover, os tokens de acesso deixam de ser válidos e a nossa
           plataforma perde qualquer acesso à conta.
         </p>
+        <p>
+          Se, ao remover a aplicação no Facebook, escolheres também{" "}
+          <strong>&quot;Pedir eliminação de dados&quot;</strong>, o pedido chega-nos
+          automaticamente: recebes um código de confirmação e um link para
+          acompanhares o estado do pedido, que é concluído no prazo máximo de{" "}
+          <strong>30 dias</strong>.
+        </p>
       </>
     ),
   },

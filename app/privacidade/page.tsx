@@ -99,6 +99,12 @@ const sections: LegalSection[] = [
             (insights) para reporte.
           </li>
           <li>
+            Quando o cliente usa <strong>anúncios de geração de contactos</strong>{" "}
+            (Lead Ads), os dados submetidos pelos interessados nesses formulários
+            — tipicamente nome, email e telefone —, que entregamos ao cliente
+            titular da campanha e usamos exclusivamente para esse fim.
+          </li>
+          <li>
             Quando o cliente ativa funcionalidades de{" "}
             <strong>mensagens automáticas / chatbot</strong>, as mensagens
             trocadas nas páginas ou contas autorizadas, usadas
@@ -231,6 +237,11 @@ const sections: LegalSection[] = [
         <li>
           Tokens e dados de contas geridas: enquanto durar a autorização; são
           eliminados quando o serviço termina ou o acesso é revogado.
+        </li>
+        <li>
+          Contactos recebidos por Lead Ads: enquanto durar o contrato com o
+          cliente titular da campanha, ou até pedido de eliminação do próprio
+          titular dos dados.
         </li>
       </ul>
     ),
