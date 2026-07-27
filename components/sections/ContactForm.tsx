@@ -76,7 +76,7 @@ export default function ContactForm() {
         }),
       });
       if (!res.ok) throw new Error();
-      trackLead("Contacto", eventId);
+      await trackLead("Contacto", eventId);
       setSubmitted(true);
       router.push("/obrigado");
     } catch {

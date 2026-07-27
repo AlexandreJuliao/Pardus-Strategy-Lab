@@ -20,8 +20,16 @@ export function newEventId() {
   return `lead-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
-/** Dispara o evento de lead no Meta Pixel e no GA4. Chamar após submit com sucesso. */
-export function trackLead(origem: string, eventId: string) {
+/**
+ * Dispara o evento de lead no Meta Pixel e no GA4. Chamar após submit com
+ * sucesso — e com `await`, antes de navegar.
+ *
+ * O `fbq` envia o evento por pedido de rede assíncrono. Se navegarmos para
+ * /obrigado no mesmo instante, o browser cancela esse pedido em voo: o Pixel
+ * Helper mostra o evento como disparado (foi, do lado do browser) mas ele nunca
+ * chega aos servidores da Meta. Daí a pausa curta antes de devolver.
+ */
+export async function trackLead(origem: string, eventId: string) {
   if (typeof window === "undefined") return;
 
   // Meta Pixel — evento standard "Lead", o que as campanhas otimizam.
@@ -35,4 +43,6 @@ export function trackLead(origem: string, eventId: string) {
 
   // GA4 — evento equivalente, para o funil no Analytics.
   window.gtag?.("event", "generate_lead", { form_origem: origem });
+
+  await new Promise((r) => setTimeout(r, 400));
 }

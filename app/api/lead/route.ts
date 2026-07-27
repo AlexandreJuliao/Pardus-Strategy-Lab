@@ -108,6 +108,8 @@ export async function POST(req: Request) {
     userAgent: req.headers.get("user-agent") ?? undefined,
     fbc: cookie("_fbc"),
     fbp: cookie("_fbp"),
+    // Permite validar a ligação na aba "Testar eventos" sem sujar os dados reais.
+    testEventCode: s(data.testEventCode, 40) || process.env.META_CAPI_TEST_CODE,
   });
 
   const [n8nOk, officeOk] = await Promise.all([toN8n, toOffice, toMeta]);

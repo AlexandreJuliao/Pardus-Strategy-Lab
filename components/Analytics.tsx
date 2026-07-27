@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 
 // Analytics do site público da Pardus.
@@ -14,9 +16,33 @@ const CLARITY_ID = "xpvphllowj";
 const GA4_ID = "G-EZ1S3CPSZX";
 const META_PIXEL_ID = "1818427879129367";
 
+/**
+ * O snippet do Pixel só corre uma vez, no primeiro carregamento. Como o site é
+ * uma SPA (App Router), navegar para /obrigado ou /servicos não disparava
+ * PageView nenhum — daí o aviso "nenhum píxel foi acionado nesta página" no
+ * Assistente do Píxel. Isto repõe o PageView a cada mudança de rota, o que
+ * também é o que alimenta públicos de retargeting por página visitada.
+ */
+function PageViewOnRouteChange() {
+  const pathname = usePathname();
+  const primeiraRota = useRef(true);
+
+  useEffect(() => {
+    if (primeiraRota.current) {
+      primeiraRota.current = false; // o snippet inicial já tratou desta
+      return;
+    }
+    window.fbq?.("track", "PageView");
+    window.gtag?.("event", "page_view", { page_path: pathname });
+  }, [pathname]);
+
+  return null;
+}
+
 export default function Analytics() {
   return (
     <>
+      <PageViewOnRouteChange />
       {/* Microsoft Clarity */}
       <Script id="ms-clarity" strategy="afterInteractive">
         {`(function(c,l,a,r,i,t,y){

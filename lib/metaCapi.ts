@@ -39,6 +39,8 @@ export type CapiLead = {
   /** Cookies _fbc / _fbp — o que mais melhora o Event Match Quality. */
   fbc?: string;
   fbp?: string;
+  /** Código do "Testar eventos" do Gestor de Eventos (ex.: TEST45319). */
+  testEventCode?: string;
 };
 
 /**
@@ -47,7 +49,13 @@ export type CapiLead = {
  */
 export async function sendLeadToMeta(lead: CapiLead): Promise<boolean> {
   const token = process.env.META_CAPI_TOKEN;
-  if (!token) return false;
+  if (!token) {
+    // Ruidoso de propósito: em silêncio, uma variável de ambiente em falta
+    // parece exatamente igual a "está tudo bem" e não se percebe porque é que o
+    // Gestor de Eventos não recebe nada do servidor.
+    console.error("[meta-capi] META_CAPI_TOKEN em falta — evento NÃO enviado");
+    return false;
+  }
 
   const [primeiro, ...resto] = (lead.nome ?? "").split(/\s+/).filter(Boolean);
 
@@ -66,6 +74,9 @@ export async function sendLeadToMeta(lead: CapiLead): Promise<boolean> {
   };
 
   const body = {
+    // Só com este código é que o evento aparece na aba "Testar eventos" do
+    // Gestor de Eventos. Sem ele vai para os dados reais e não é visível ali.
+    ...(lead.testEventCode ? { test_event_code: lead.testEventCode } : {}),
     data: [
       {
         event_name: "Lead",

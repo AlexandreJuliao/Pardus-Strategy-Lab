@@ -93,7 +93,7 @@ export default function LeadForm() {
         }),
       });
       if (!res.ok) throw new Error();
-      trackLead("Homepage", eventId);
+      await trackLead("Homepage", eventId);
       setSubmitted(true);
       router.push("/obrigado");
     } catch {
