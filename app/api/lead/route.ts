@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { sendLeadToMeta } from "@/lib/metaCapi";
 
 // Ingest endpoint for the site's lead forms. Validates, drops obvious bots,
 // then forwards a normalized payload to the n8n webhook, which writes the row
@@ -89,7 +90,27 @@ export async function POST(req: Request) {
     signal: AbortSignal.timeout(12000),
   }).then((r) => r.ok).catch(() => false);
 
-  const [n8nOk, officeOk] = await Promise.all([toN8n, toOffice]);
+  // Conversions API da Meta. Corre em paralelo com a entrega da lead e o
+  // resultado não afeta a resposta: se a Meta estiver em baixo, a lead entra na
+  // mesma. O eventId vem do browser para a Meta deduplicar com o pixel.
+  const cookies = req.headers.get("cookie") ?? "";
+  const cookie = (nome: string) =>
+    cookies.match(new RegExp(`(?:^|;\\s*)${nome}=([^;]+)`))?.[1];
+
+  const toMeta = sendLeadToMeta({
+    eventId: s(data.eventId, 100) || crypto.randomUUID(),
+    email,
+    nome,
+    telefone: payload.telefone,
+    origem: payload.origem,
+    sourceUrl: s(data.sourceUrl, 500) || undefined,
+    clientIp: req.headers.get("x-forwarded-for")?.split(",")[0]?.trim(),
+    userAgent: req.headers.get("user-agent") ?? undefined,
+    fbc: cookie("_fbc"),
+    fbp: cookie("_fbp"),
+  });
+
+  const [n8nOk, officeOk] = await Promise.all([toN8n, toOffice, toMeta]);
   if (!n8nOk && !officeOk) {
     return NextResponse.json({ ok: false, error: "delivery" }, { status: 502 });
   }

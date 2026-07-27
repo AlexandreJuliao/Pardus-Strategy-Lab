@@ -1,7 +1,7 @@
 export const CTA_TARGET_ID = "consultoria";
 export const SCROLL_EVENT = "pardus:scrollto";
 
-const NAV_OFFSET = -84; // clears the fixed navbar
+export const NAV_OFFSET = -84; // clears the fixed navbar
 
 export type ScrollRequest = {
   el: HTMLElement;

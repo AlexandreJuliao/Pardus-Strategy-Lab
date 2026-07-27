@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ArrowRight } from "lucide-react";
-import { trackLead } from "@/lib/tracking";
+import { newEventId, trackLead } from "@/lib/tracking";
 
 interface FormState {
   nome: string;
@@ -63,13 +63,20 @@ export default function ContactForm() {
     setSending(true);
     setSendError(false);
     try {
+      const eventId = newEventId();
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ origem: "Contacto", ...form, website: hp }),
+        body: JSON.stringify({
+          origem: "Contacto",
+          ...form,
+          website: hp,
+          eventId,
+          sourceUrl: window.location.href,
+        }),
       });
       if (!res.ok) throw new Error();
-      trackLead("Contacto");
+      trackLead("Contacto", eventId);
       setSubmitted(true);
       router.push("/obrigado");
     } catch {

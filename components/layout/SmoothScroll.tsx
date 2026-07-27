@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
-import { SCROLL_EVENT, type ScrollRequest } from "@/lib/scrollTo";
+import { NAV_OFFSET, SCROLL_EVENT, type ScrollRequest } from "@/lib/scrollTo";
 
 export default function SmoothScroll() {
   useEffect(() => {
@@ -20,18 +20,47 @@ export default function SmoothScroll() {
       touchMultiplier: 1.6,
     });
 
+    // Chegadas com hash (#consultoria vindo de um anúncio, de um link partilhado
+    // ou de outra página). O browser tenta o salto nativo antes de o Lenis montar
+    // e o Lenis assume o scroll a zero, por isso a âncora era ignorada e a pessoa
+    // ficava no topo. Repetimos o salto aqui, já com o Lenis a controlar.
+    const jumpToHash = () => {
+      const id = window.location.hash.slice(1);
+      if (!id) return;
+      const el = document.getElementById(id);
+      if (!el) return;
+      // Duas passagens: a primeira posiciona, a segunda corrige o desvio causado
+      // por imagens e secções que só ganham altura depois de carregarem.
+      lenis.scrollTo(el, { offset: NAV_OFFSET, immediate: true, force: true });
+      window.setTimeout(
+        () => lenis.scrollTo(el, { offset: NAV_OFFSET, duration: 0.6, force: true }),
+        600,
+      );
+    };
+    const hashRaf = requestAnimationFrame(jumpToHash);
+    window.addEventListener("hashchange", jumpToHash);
+
     // Lenis owns the scroll position, so CTAs ask it to move (lib/scrollTo.ts).
     // The listener closes over the live instance and is removed with it, which
     // a `window.__lenis` handle can't guarantee across Fast Refresh.
     const onScrollTo = (e: Event) => {
       const detail = (e as CustomEvent<Partial<ScrollRequest>>).detail;
       if (!detail?.el) return;
-      lenis.scrollTo(detail.el, {
-        offset: detail.offset ?? 0,
-        duration: 1.4,
-        force: true, // move even if the instance thinks it is stopped
-        lock: true, // don't let a stray input event abort a long jump
-      });
+      const offset = detail.offset ?? 0;
+      const distancia = Math.abs(
+        detail.el.getBoundingClientRect().top + offset,
+      );
+
+      // Saltos longos (o FAB do telemóvel salta ~20.000px até ao formulário) não
+      // sobrevivem a uma animação: o Lenis não a conclui e o utilizador fica
+      // parado onde estava. Acima de dois ecrãs vamos direitos ao destino — que
+      // além de fiável é o que se espera de um botão "leva-me lá".
+      if (distancia > window.innerHeight * 2) {
+        lenis.scrollTo(detail.el, { offset, immediate: true, force: true });
+      } else {
+        // Percursos curtos (menu → secção) mantêm o deslize suave.
+        lenis.scrollTo(detail.el, { offset, duration: 1.1, force: true });
+      }
       detail.handled = true;
     };
     window.addEventListener(SCROLL_EVENT, onScrollTo);
@@ -45,6 +74,8 @@ export default function SmoothScroll() {
 
     return () => {
       window.removeEventListener(SCROLL_EVENT, onScrollTo);
+      window.removeEventListener("hashchange", jumpToHash);
+      cancelAnimationFrame(hashRaf);
       cancelAnimationFrame(raf);
       lenis.destroy();
     };

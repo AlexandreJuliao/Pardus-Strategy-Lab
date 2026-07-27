@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ArrowRight, Search, Map, HeartHandshake } from "lucide-react";
-import { trackLead } from "@/lib/tracking";
+import { newEventId, trackLead } from "@/lib/tracking";
 import SectionHeader from "@/components/ui/SectionHeader";
 import AuroraGlow from "@/components/ui/AuroraGlow";
 
@@ -67,7 +67,9 @@ export default function LeadForm() {
     else if (!EMAIL_RE.test(form.email)) next.email = "Este email não parece certo.";
     if (!form.negocio.trim()) next.negocio = "Conta-nos o que fazes.";
     if (!form.telefone.trim()) next.telefone = "Deixa-nos um contacto telefónico.";
-    if (!form.mensagem.trim()) next.mensagem = "Diz-nos o que gostavas de melhorar.";
+    // Mensagem opcional de propósito: escrever um parágrafo no telemóvel é a
+    // maior barreira do formulário e quem vem de um anúncio ainda não tem o
+    // problema formulado. O contexto tira-se na chamada.
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -78,13 +80,20 @@ export default function LeadForm() {
     setSending(true);
     setSendError(false);
     try {
+      const eventId = newEventId();
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ origem: "Homepage", ...form, website: hp }),
+        body: JSON.stringify({
+          origem: "Homepage",
+          ...form,
+          website: hp,
+          eventId,
+          sourceUrl: window.location.href,
+        }),
       });
       if (!res.ok) throw new Error();
-      trackLead("Homepage");
+      trackLead("Homepage", eventId);
       setSubmitted(true);
       router.push("/obrigado");
     } catch {
@@ -237,7 +246,7 @@ export default function LeadForm() {
                   />
                 </Field>
 
-                <Field label="O que gostavas de melhorar?" error={errors.mensagem} required>
+                <Field label="O que gostavas de melhorar? (opcional)" error={errors.mensagem}>
                   <textarea
                     className="field resize-none"
                     rows={4}
