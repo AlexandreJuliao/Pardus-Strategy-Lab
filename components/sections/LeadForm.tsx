@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ArrowRight, Search, Map, HeartHandshake } from "lucide-react";
+import { trackLead } from "@/lib/tracking";
 import SectionHeader from "@/components/ui/SectionHeader";
 import AuroraGlow from "@/components/ui/AuroraGlow";
 
@@ -83,6 +84,7 @@ export default function LeadForm() {
         body: JSON.stringify({ origem: "Homepage", ...form, website: hp }),
       });
       if (!res.ok) throw new Error();
+      trackLead("Homepage");
       setSubmitted(true);
       router.push("/obrigado");
     } catch {

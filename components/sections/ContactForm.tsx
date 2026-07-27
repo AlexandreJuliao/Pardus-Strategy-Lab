@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ArrowRight } from "lucide-react";
+import { trackLead } from "@/lib/tracking";
 
 interface FormState {
   nome: string;
@@ -68,6 +69,7 @@ export default function ContactForm() {
         body: JSON.stringify({ origem: "Contacto", ...form, website: hp }),
       });
       if (!res.ok) throw new Error();
+      trackLead("Contacto");
       setSubmitted(true);
       router.push("/obrigado");
     } catch {
