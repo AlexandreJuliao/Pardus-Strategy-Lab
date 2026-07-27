@@ -24,20 +24,34 @@ export default function SmoothScroll() {
     // ou de outra página). O browser tenta o salto nativo antes de o Lenis montar
     // e o Lenis assume o scroll a zero, por isso a âncora era ignorada e a pessoa
     // ficava no topo. Repetimos o salto aqui, já com o Lenis a controlar.
+    const timers: number[] = [];
+
     const jumpToHash = () => {
       const id = window.location.hash.slice(1);
       if (!id) return;
-      const el = document.getElementById(id);
-      if (!el) return;
-      // Duas passagens: a primeira posiciona, a segunda corrige o desvio causado
-      // por imagens e secções que só ganham altura depois de carregarem.
-      lenis.scrollTo(el, { offset: NAV_OFFSET, immediate: true, force: true });
-      window.setTimeout(
-        () => lenis.scrollTo(el, { offset: NAV_OFFSET, duration: 0.6, force: true }),
-        600,
-      );
+      // A secção alvo pode ainda não existir (hidratação) e a página cresce à
+      // medida que imagens e secções carregam, o que desloca o destino. Por isso
+      // repetimos o salto durante os primeiros segundos em vez de tentar uma vez
+      // só — e paramos assim que a pessoa fizer scroll, para não a arrastar.
+      let cancelado = false;
+      const parar = () => {
+        cancelado = true;
+      };
+      window.addEventListener("wheel", parar, { once: true, passive: true });
+      window.addEventListener("touchstart", parar, { once: true, passive: true });
+
+      [0, 150, 400, 800, 1400, 2200, 3000].forEach((atraso) => {
+        timers.push(
+          window.setTimeout(() => {
+            if (cancelado) return;
+            const el = document.getElementById(id);
+            if (!el) return;
+            lenis.scrollTo(el, { offset: NAV_OFFSET, immediate: true, force: true });
+          }, atraso),
+        );
+      });
     };
-    const hashRaf = requestAnimationFrame(jumpToHash);
+    jumpToHash();
     window.addEventListener("hashchange", jumpToHash);
 
     // Lenis owns the scroll position, so CTAs ask it to move (lib/scrollTo.ts).
@@ -75,7 +89,7 @@ export default function SmoothScroll() {
     return () => {
       window.removeEventListener(SCROLL_EVENT, onScrollTo);
       window.removeEventListener("hashchange", jumpToHash);
-      cancelAnimationFrame(hashRaf);
+      timers.forEach(clearTimeout);
       cancelAnimationFrame(raf);
       lenis.destroy();
     };
