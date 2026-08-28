@@ -35,3 +35,6 @@ next-env.d.ts
 
 # Graphify (grafo de código local — não commitar)
 graphify-out/
+
+# Claude Ads — estado operacional confidencial (perfis, runs). Nunca versionar.
+.claude-ads/
