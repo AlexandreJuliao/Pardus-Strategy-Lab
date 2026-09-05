@@ -1,4 +1,5 @@
 import SectionHeader from "@/components/ui/SectionHeader";
+import Reveal from "@/components/lp/Reveal";
 import type { Vertical } from "@/lib/verticals";
 
 /**
@@ -8,7 +9,7 @@ import type { Vertical } from "@/lib/verticals";
  */
 export default function LpProcess({ v }: { v: Vertical }) {
   return (
-    <section className="relative section-pad">
+    <section className="seam-bottom relative overflow-hidden section-pad">
       <div className="shell">
         <SectionHeader
           title={<>Como <span className="accent-serif text-gold">funciona</span></>}
@@ -19,14 +20,14 @@ export default function LpProcess({ v }: { v: Vertical }) {
           {/* a régua que liga os passos */}
           <span className="pointer-events-none absolute left-[22px] top-0 hidden h-full w-px bg-gradient-to-b from-gold/50 via-line to-transparent md:left-0 md:top-[22px] md:h-px md:w-full md:bg-gradient-to-r" aria-hidden />
           {v.process.map((p, i) => (
-            <li key={p.title} className="relative pl-16 md:pl-0 md:pt-16">
+            <Reveal tag="li" key={p.title} delay={i * 0.12} className="relative pl-16 md:pl-0 md:pt-16">
               <span className="absolute left-0 top-0 flex h-11 w-11 items-center justify-center rounded-full border border-gold/60 bg-bg font-display text-[15px] font-semibold text-gold">
                 {i + 1}
               </span>
               <span className="mono-tiny text-text-muted">{p.when}</span>
               <h3 className="mt-2 font-display text-[21px] font-semibold text-text-primary">{p.title}</h3>
               <p className="mt-2 max-w-sm font-sans text-[14.5px] leading-relaxed text-text-secondary">{p.desc}</p>
-            </li>
+            </Reveal>
           ))}
         </ol>
       </div>

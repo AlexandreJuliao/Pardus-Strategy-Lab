@@ -166,7 +166,7 @@ export const VERTICALS: Record<string, Vertical> = {
     extras: {
       pre: "Quando o site estiver a trabalhar,",
       accent: "há mais.",
-      intro: "Nada disto é preciso para começar. Fica aqui só para saberes que, quando fizer sentido, o site cresce sem trocar de agência.",
+      intro: "Também construímos sistemas de gestão, lojas online, aplicações internas e automação com inteligência artificial. Nada disto é preciso para arrancar, mas quando fizer falta já sabes a quem pedir.",
       items: [
         { icon: "bot", title: "Assistente no WhatsApp", desc: "Responde a quem escreve fora de horas e marca por ti." },
         { icon: "inbox", title: "Gestão de pedidos", desc: "Todos os contactos num só sítio, com quem já respondeu e quem falta." },

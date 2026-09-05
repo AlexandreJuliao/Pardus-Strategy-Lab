@@ -1,32 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import {
-  Space_Grotesk,
-  Bricolage_Grotesque,
-  Cormorant,
-  Playfair_Display,
-} from "next/font/google";
+import { Schibsted_Grotesk, Cormorant, Bodoni_Moda } from "next/font/google";
 import "../styles/globals.css";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import Analytics from "@/components/Analytics";
 
-const spaceGrotesk = Space_Grotesk({
+// Uma só grotesca para títulos e texto, com o contraste a vir do peso e da
+// escala. Schibsted Grotesk é um tipo editorial nórdico: tem carácter nas
+// terminações e aguenta tracking apertado em display, sem a assinatura de
+// "ferramenta de IA" que Space Grotesk e Bricolage carregam.
+const schibsted = Schibsted_Grotesk({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-space-grotesk",
+  variable: "--font-sans",
   display: "swap",
 });
 
-// Kickers, labels e números usam Space Grotesk (regra das 2 fontes) — a
-// variável mantém o nome por compat com as classes .mono-* existentes.
-
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-// Wordmark serif — matches the official "PARDUS." logotype
+// Wordmark serif — o logótipo oficial "PARDUS.", intocado.
 const cormorant = Cormorant({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
@@ -34,11 +22,11 @@ const cormorant = Cormorant({
   display: "swap",
 });
 
-// Signature accent — Didone italic (Didot da marca; Playfair é o corte web
-// equivalente, o mesmo usado nos posts). Uma palavra por headline, dourada.
-const playfair = Playfair_Display({
+// Acento de assinatura — o Didone da marca. Bodoni Moda é um Didot a sério
+// (contraste alto, serifas finas), mais fiel ao guia do que o Playfair e
+// muito menos gasto na web. Uma palavra por headline, dourada.
+const bodoni = Bodoni_Moda({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
@@ -119,7 +107,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-PT"
-      className={`${spaceGrotesk.variable} ${bricolage.variable} ${cormorant.variable} ${playfair.variable}`}
+      className={`${schibsted.variable} ${cormorant.variable} ${bodoni.variable}`}
     >
       <body>
         <Analytics />

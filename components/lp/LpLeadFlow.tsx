@@ -78,7 +78,7 @@ export default function LpLeadFlow({ v }: { v: Vertical }) {
   const sent = phase === "sent" || phase === "notified";
 
   return (
-    <section className="relative overflow-hidden section-pad">
+    <section className="seam-top relative overflow-hidden section-pad">
       <div className="dot-grid pointer-events-none absolute inset-0 opacity-30" />
       <div className="shell relative z-10 grid grid-cols-1 items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
         <div>

@@ -1,4 +1,5 @@
 import { FileText, Globe, ShieldCheck, Zap, LineChart, Phone, type LucideIcon } from "lucide-react";
+import Reveal from "@/components/lp/Reveal";
 import type { Vertical } from "@/lib/verticals";
 
 const ICONS: Record<Vertical["features"][number]["icon"], LucideIcon> = {
@@ -29,10 +30,10 @@ export default function LpFeatures({ v }: { v: Vertical }) {
         </div>
 
         <ul className="divide-y divide-line border-t border-line">
-          {v.features.map((f) => {
+          {v.features.map((f, i) => {
             const Icon = ICONS[f.icon];
             return (
-              <li key={f.title} className="grid grid-cols-[44px_1fr] gap-5 py-6 first:pt-0 lg:first:pt-6">
+              <Reveal tag="li" key={f.title} delay={i * 0.1} className="grid grid-cols-[44px_1fr] gap-5 py-6 first:pt-0 lg:first:pt-6">
                 <span className="flex h-11 w-11 items-center justify-center rounded-[4px] border border-line bg-white/[0.02] text-gold">
                   <Icon size={19} strokeWidth={1.7} />
                 </span>
@@ -40,7 +41,7 @@ export default function LpFeatures({ v }: { v: Vertical }) {
                   <h3 className="font-display text-[19px] font-semibold text-text-primary">{f.title}</h3>
                   <p className="mt-1.5 max-w-xl font-sans text-[14.5px] leading-relaxed text-text-secondary">{f.desc}</p>
                 </div>
-              </li>
+              </Reveal>
             );
           })}
         </ul>
