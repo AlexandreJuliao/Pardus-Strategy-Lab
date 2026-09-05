@@ -19,14 +19,17 @@ export type Vertical = {
   origem: string;
   seo: { title: string; description: string };
   hero: {
-    pill: string;
     pre: string;
     accent: string;
     post?: string;
     sub: string;
+    /** a promessa em número: introdução, o número em dourado e o resto da frase */
+    metricPre: string;
+    metricNumber: string;
+    metric: string;
     cta: string;
     ctaSecondary?: { label: string; targetId: string };
-    trust: string[];
+    footnote: string;
   };
   stats: { value: string; label: string }[];
   statement: { pre: string; accent: string; post?: string; sub: string };
@@ -61,13 +64,15 @@ export const VERTICALS: Record<string, Vertical> = {
         "Sites profissionais para negócios em Portugal: design à medida, rápidos no telemóvel, ligados ao WhatsApp e a aparecer no Google. Desde 399€. Consultoria gratuita.",
     },
     hero: {
-      pill: "Sites profissionais · entrega em 2 semanas",
-      pre: "Um site novo em 2 semanas, feito para",
-      accent: "captar.",
-      sub: "Design à tua medida, rápido em qualquer telemóvel, ligado ao WhatsApp e a aparecer no Google. Tratamos de tudo: textos, imagens, domínio e alojamento.",
+      pre: "Sites que põem o telefone a",
+      accent: "tocar.",
+      sub: "Desenhamos, escrevemos e lançamos o site do teu negócio em duas semanas. Ligado ao Google e ao WhatsApp, a receber pedidos no dia em que entra no ar.",
+      metricPre: "Trabalhamos para um número",
+      metricNumber: "2 a 10",
+      metric: "pedidos de orçamento por mês.",
       cta: "Quero o meu site",
       ctaSecondary: { label: "Ver preços", targetId: "investimento" },
-      trust: ["Consultoria gratuita", "Resposta em 24h", "Domínio e código teus"],
+      footnote: "Começa com 20 minutos de conversa, sem custo nem compromisso.",
     },
     stats: [
       { value: "2 sem.", label: "Do primeiro contacto ao site no ar" },
@@ -76,20 +81,20 @@ export const VERTICALS: Record<string, Vertical> = {
       { value: "24h", label: "Resposta a qualquer pedido" },
     ],
     statement: {
-      pre: "Um site bonito que não traz clientes é só",
+      pre: "Um site bonito que não traz trabalho é só",
       accent: "decoração.",
-      sub: "Cada página que fazemos tem um objetivo: o teu telefone tocar.",
+      sub: "Antes de desenhar o que quer que seja, perguntamos como é que este site te vai dar dinheiro.",
     },
     bento: [
       {
         title: "Apareces no Google",
-        desc: "Estrutura, velocidade e textos pensados para o Google te encontrar quando alguém procura o que fazes na tua zona.",
+        desc: "Estrutura e textos escritos para as pesquisas que os teus clientes fazem mesmo, com o teu serviço e a tua zona.",
         mock: "search",
         wide: true,
       },
       {
         title: "Contactos direto no WhatsApp",
-        desc: "Botão sempre à mão. Quem chega ao site fala contigo em dois toques, sem formulários compridos.",
+        desc: "Botão sempre à mão. Quem chega ao site fala contigo em dois toques, em vez de preencher um formulário de dez campos.",
         mock: "chat",
       },
       {
@@ -99,22 +104,22 @@ export const VERTICALS: Record<string, Vertical> = {
       },
       {
         title: "Sabes o que está a acontecer",
-        desc: "Visitas, pedidos e de onde vêm, num painel simples. Sem relatórios que ninguém lê.",
+        desc: "Visitas, pedidos e de onde vieram, num painel que se lê em dois minutos.",
         mock: "chart",
         wide: true,
       },
     ],
     demo: {
-      title: "É assim que o teu site atende quem chega",
-      intro: "Um cliente entra às 22h, carrega no WhatsApp e recebe resposta na hora. Sem ninguém do outro lado. Isto pode ser o teu negócio.",
-      business: "Canalizações Ribeiro",
+      title: "O site também atende quem chega de noite",
+      intro: "Alguém abre o site às 22h e escreve pelo WhatsApp. O assistente responde, percebe o que a pessoa precisa e deixa o pedido registado. Tu vês tudo de manhã.",
+      business: "Imporwood",
       script: [
-        { who: "them", text: "Boa noite, vi o site. Fazem desentupimentos urgentes?", at: "22:14" },
-        { who: "us", text: "Boa noite! Fazemos, sim, 24h. Em que zona está?", at: "22:14" },
-        { who: "them", text: "Odivelas. É a cozinha, está tudo a transbordar.", at: "22:15" },
-        { who: "us", text: "Já mandei o pedido ao técnico de serviço. Liga-lhe em 5 minutos. Feche a torneira de segurança entretanto 🙏", at: "22:15" },
+        { who: "them", text: "Boa noite. Preciso de tirar 24 t de rolaria de Vinhais.", at: "22:14" },
+        { who: "us", text: "Boa noite. Temos camião livre amanhã de manhã. A descarga é em que serração?", at: "22:14" },
+        { who: "them", text: "Viseu, a do Dão. Dá para estar lá às 8h?", at: "22:15" },
+        { who: "us", text: "Dá. Reservei a AB-42-QT para as 7h20 e enviei-lhe o preço por tonelada por email.", at: "22:15" },
       ],
-      done: "Pedido entregue ao técnico · o cliente não foi para a concorrência",
+      done: "Carga reservada · o cliente não teve de esperar pela manhã",
     },
     features: [
       { icon: "text", title: "Textos e imagens incluídos", desc: "Escrevemos e escolhemos as imagens contigo. Não precisas de chegar com nada pronto." },
@@ -122,12 +127,12 @@ export const VERTICALS: Record<string, Vertical> = {
       { icon: "shield", title: "30 dias de acompanhamento", desc: "Depois do lançamento ficamos por perto: ajustes, dúvidas e afinações, sem custo." },
     ],
     process: [
-      { title: "Conversa de 20 minutos", desc: "Percebemos o teu negócio, quem são os teus clientes e o que o site tem de fazer. Sais com preço fechado." },
+      { title: "Conversa de 20 minutos", desc: "Percebemos o que fazes, quem te compra e o que o site tem de resolver. Sais da conversa com o preço fechado." },
       { title: "Desenho e construção", desc: "Em 10 dias úteis mostramos-te o site a funcionar. Afinamos contigo até estar certo." },
       { title: "Lançamento e formação", desc: "Pomos no ar, ligamos o Google e o WhatsApp, e mostramos-te como mudar textos e imagens sozinho." },
     ],
     pricing: {
-      intro: "Preço fechado antes de começar. O valor final depende do que o teu site precisa, mas começa aqui.",
+      intro: "Preço fechado antes de começar. O valor final depende do que o teu site precisa, mas parte daqui.",
       plans: [
         {
           name: "Landing page",
@@ -148,13 +153,13 @@ export const VERTICALS: Record<string, Vertical> = {
     faq: [
       { q: "Quanto tempo demora mesmo?", a: "Uma landing page fica no ar em cerca de 7 dias úteis; um site profissional em 2 semanas. O prazo conta a partir da conversa inicial, e o que mais o atrasa é a aprovação do teu lado, por isso mantemos tudo simples." },
       { q: "O que preciso de vos dar?", a: "Quase nada: o nome do negócio, o que fazes e para quem, e o teu logótipo se tiveres. Os textos e as imagens tratamos nós contigo. Se não tiveres logótipo, fazemos um simples incluído." },
-      { q: "O site fica meu ou vosso?", a: "Teu. Domínio em teu nome, alojamento na tua conta, código entregue. Se um dia quiseres mudar de agência, levas tudo contigo. Nunca ficas preso a nós." },
+      { q: "O site fica meu ou vosso?", a: "Teu. Domínio em teu nome, alojamento na tua conta, código entregue. Se um dia quiseres mudar de agência, levas tudo contigo." },
       { q: "E depois do lançamento?", a: "Tens 30 dias de acompanhamento incluídos para ajustes e dúvidas. Depois, se quiseres que tratemos das atualizações, segurança e posição no Google todos os meses, há uma avença desde 90€/mês. Opcional." },
       { q: "Como funciona o pagamento?", a: "Metade para arrancar, metade no lançamento, ou outra forma que te dê mais jeito. Falamos disso na primeira conversa, sem surpresas." },
     ],
     form: {
       title: "Vamos falar do teu site",
-      intro: "20 minutos, sem custo. Dizemos-te o que faz sentido para o teu negócio e quanto custa, sem rodeios.",
+      intro: "20 minutos, sem custo. Ouvimos o que precisas, dizemos o que faz sentido fazer e quanto custa. Se não for connosco, dizemos isso também.",
       cta: "Quero a minha consultoria gratuita",
       negocioPlaceholder: "Ex.: oficina, restaurante, escritório de advogados…",
     },

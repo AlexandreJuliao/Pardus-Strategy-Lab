@@ -48,7 +48,7 @@ export default function VerticalPage({ params }: Props) {
       <LpBento
         v={v}
         title={<>O que vem no teu <span className="accent-serif text-gold">site</span></>}
-        intro="Não é só design. É um site a fazer o trabalho de um comercial, todos os dias."
+        intro="Quatro coisas que vão dentro de todos os sites que fazemos. São elas que trazem os pedidos."
       />
       <StatementBand
         tone="gold"
@@ -72,7 +72,7 @@ export default function VerticalPage({ params }: Props) {
             <span className="accent-serif text-gold">começa numa conversa.</span>
           </>
         }
-        sub="20 minutos, sem custo. Sais com preço fechado e um caminho claro."
+        sub="20 minutos ao telefone. Sais com o preço fechado e com uma ideia clara do que vale a pena fazer."
         cta="Marcar a minha consultoria"
       />
       <FAQ items={v.faq} intro="O que nos perguntam antes de começar." />

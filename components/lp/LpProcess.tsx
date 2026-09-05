@@ -11,7 +11,7 @@ export default function LpProcess({ v }: { v: Vertical }) {
       <div className="shell">
         <SectionHeader
           title={<>Como <span className="accent-serif text-gold">funciona</span></>}
-          intro="Três passos. Sem reuniões a mais, sem surpresas no fim."
+          intro="Três passos, com o preço fechado logo no primeiro."
         />
         <motion.ol
           variants={staggerContainer}
