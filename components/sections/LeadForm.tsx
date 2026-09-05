@@ -38,7 +38,31 @@ const STEPS = [
   },
 ];
 
-export default function LeadForm() {
+export default function LeadForm({
+  origem = "Homepage",
+  label = "Consultoria gratuita",
+  title = (
+    <>
+      Meia hora que pode mudar
+      <br />o teu <span className="text-gold">próximo ano</span>
+    </>
+  ),
+  intro = "Marca uma conversa connosco, sem custo nenhum. Olhamos para o teu negócio e dizemos-te com honestidade o que faz sentido, e o que não faz.",
+  formTitle = "Marcar a minha consultoria",
+  cta = "Quero a consultoria gratuita",
+  negocioPlaceholder = "Ex.: clínica, loja, imobiliária, restaurante…",
+  steps = STEPS,
+}: {
+  /** Vai no evento Lead (content_name) e na coluna "origem" da folha */
+  origem?: string;
+  label?: string;
+  title?: React.ReactNode;
+  intro?: string;
+  formTitle?: string;
+  cta?: string;
+  negocioPlaceholder?: string;
+  steps?: { icon: typeof Search; title: string; desc: string }[];
+} = {}) {
   const router = useRouter();
   const [form, setForm] = useState<FormState>({
     nome: "",
@@ -85,7 +109,7 @@ export default function LeadForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          origem: "Homepage",
+          origem,
           ...form,
           website: hp,
           eventId,
@@ -93,7 +117,7 @@ export default function LeadForm() {
         }),
       });
       if (!res.ok) throw new Error();
-      await trackLead("Homepage", eventId);
+      await trackLead(origem, eventId);
       setSubmitted(true);
       router.push("/obrigado");
     } catch {
@@ -113,18 +137,13 @@ export default function LeadForm() {
         {/* the offer */}
         <div>
           <SectionHeader
-            label="Consultoria gratuita"
-            title={
-              <>
-                Meia hora que pode mudar
-                <br />o teu <span className="text-gold">próximo ano</span>
-              </>
-            }
-            intro="Marca uma conversa connosco, sem custo nenhum. Olhamos para o teu negócio e dizemos-te com honestidade o que faz sentido, e o que não faz."
+            label={label}
+            title={title}
+            intro={intro}
           />
 
           <div className="mt-10 space-y-6">
-            {STEPS.map((s, i) => {
+            {steps.map((s, i) => {
               const Icon = s.icon;
               return (
                 <motion.div
@@ -198,7 +217,7 @@ export default function LeadForm() {
                 className="flex flex-col gap-5"
               >
                 <p className="font-display text-lg font-semibold text-text-primary">
-                  Marcar a minha consultoria
+                  {formTitle}
                 </p>
 
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -241,7 +260,7 @@ export default function LeadForm() {
                     type="text"
                     value={form.negocio}
                     onChange={update("negocio")}
-                    placeholder="Ex.: clínica, loja, imobiliária, restaurante…"
+                    placeholder={negocioPlaceholder}
                     aria-invalid={!!errors.negocio}
                   />
                 </Field>
@@ -274,7 +293,7 @@ export default function LeadForm() {
                   disabled={sending}
                   className="btn-shine group relative mt-2 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[4px] bg-gold py-4 font-sans font-medium text-[#0a0a0a] shadow-[0_10px_30px_-16px_rgba(212,175,96,0.6)] transition-all duration-200 ease-premium hover:bg-gold-bright hover:shadow-[0_18px_46px_-18px_rgba(212,175,96,0.65)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] disabled:pointer-events-none disabled:opacity-70"
                 >
-                  {sending ? "A enviar…" : "Quero a consultoria gratuita"}
+                  {sending ? "A enviar…" : cta}
                   {!sending && (
                     <ArrowRight
                       size={18}

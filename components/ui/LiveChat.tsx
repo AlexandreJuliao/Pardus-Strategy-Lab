@@ -14,7 +14,7 @@ import { Check } from "lucide-react";
 
 type Msg = { who: "them" | "us"; text: string; at: string };
 
-const SCRIPT: Msg[] = [
+const DEFAULT_SCRIPT: Msg[] = [
   { who: "them", text: "Boa tarde! Ainda têm vaga para esta semana?", at: "14:02" },
   { who: "us", text: "Olá! 👋 Temos, sim. Qual é o melhor dia para si?", at: "14:02" },
   { who: "them", text: "Quinta à tarde, se der.", at: "14:03" },
@@ -29,7 +29,18 @@ const reducedMotion = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export default function LiveChat() {
+export default function LiveChat({
+  script = DEFAULT_SCRIPT,
+  name = "Assistente Pardus",
+  initial = "P",
+  done: doneLabel = "Reunião marcada · respondido em segundos, sem ninguém do outro lado",
+}: {
+  script?: Msg[];
+  name?: string;
+  initial?: string;
+  done?: string;
+} = {}) {
+  const SCRIPT = script;
   const [count, setCount] = useState(reducedMotion() ? SCRIPT.length : 1);
   const [typing, setTyping] = useState(false);
   const [done, setDone] = useState(reducedMotion());
@@ -79,11 +90,11 @@ export default function LiveChat() {
       {/* header */}
       <div className="flex items-center gap-3 border-b border-line bg-white/[0.02] px-4 py-3">
         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gold/15 font-display text-sm font-bold text-gold">
-          P
+          {initial}
         </span>
         <div className="leading-tight">
           <p className="font-sans text-[13.5px] font-medium text-text-primary">
-            Assistente Pardus
+            {name}
           </p>
           <span className="flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[#5fd0a8] animate-pulse-soft" />
@@ -134,7 +145,7 @@ export default function LiveChat() {
           <div className="mt-1 flex items-center gap-2 self-center rounded-full border border-line bg-white/[0.02] px-3 py-1.5">
             <Check size={13} strokeWidth={2.6} className="text-[#5fd0a8]" />
             <span className="font-sans text-[12px] text-text-secondary">
-              Reunião marcada · respondido em segundos, sem ninguém do outro lado
+              {doneLabel}
             </span>
           </div>
         )}

@@ -6,7 +6,15 @@ import { Plus } from "lucide-react";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { FAQ_ITEMS as QA } from "@/lib/faq";
 
-export default function FAQ() {
+export default function FAQ({
+  items = QA,
+  title = <>Perguntas frequentes</>,
+  intro = "O que precisas de saber antes de começarmos.",
+}: {
+  items?: { q: string; a: string }[];
+  title?: React.ReactNode;
+  intro?: string;
+} = {}) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
@@ -15,12 +23,12 @@ export default function FAQ() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <SectionHeader
             label="// FAQ"
-            title={<>Perguntas frequentes</>}
-            intro="O que precisas de saber antes de começarmos."
+            title={title}
+            intro={intro}
           />
 
           <div className="flex flex-col">
-            {QA.map((item, i) => {
+            {items.map((item, i) => {
               const isOpen = open === i;
               return (
                 <div key={i} className="border-b border-line last:border-b-0">

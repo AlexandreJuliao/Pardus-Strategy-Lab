@@ -18,7 +18,8 @@ export default function Logo({
   className = "",
 }: {
   size?: keyof typeof SIZES | string;
-  subtitle?: boolean;
+  /** true = "STRATEGY LAB"; string = descriptor de vertical ("WEBSITES") */
+  subtitle?: boolean | string;
   /** dark = navy ink for gold/cream surfaces (the posts' black logo) */
   tone?: "light" | "muted" | "dark";
   className?: string;
@@ -31,6 +32,7 @@ export default function Logo({
         ? "text-cream-ink"
         : "text-text-primary";
   const dot = tone === "dark" ? "text-cream-ink" : "text-gold";
+  const sub = tone === "dark" ? "text-cream-ink/70" : "text-text-secondary";
   return (
     <span className={`inline-flex flex-col leading-none ${className}`}>
       <span
@@ -39,8 +41,8 @@ export default function Logo({
         PARDUS<span className={dot}>.</span>
       </span>
       {subtitle && (
-        <span className="mt-1.5 font-sans text-[10px] font-light tracking-[0.36em] text-text-secondary">
-          STRATEGY LAB
+        <span className={`mt-1.5 font-sans text-[10px] font-light uppercase tracking-[0.36em] ${sub}`}>
+          {subtitle === true ? "STRATEGY LAB" : subtitle}
         </span>
       )}
     </span>

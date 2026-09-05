@@ -6,9 +6,6 @@ import {
   Playfair_Display,
 } from "next/font/google";
 import "../styles/globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import ScrollProgress from "@/components/layout/ScrollProgress";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import Analytics from "@/components/Analytics";
 
@@ -127,11 +124,8 @@ export default function RootLayout({
       <body>
         <Analytics />
         <SmoothScroll />
-        <ScrollProgress />
         <div className="grain-fixed" aria-hidden />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

@@ -1,13 +1,14 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import { scrollToId, CTA_TARGET_ID } from "@/lib/scrollTo";
 
 /**
  * The site's single call to action: book the free consultation.
- * On the homepage it scrolls to the lead form; anywhere else it routes to
- * the contact page, where the same form lives.
+ * If the lead form (#consultoria) is on the current page — homepage and the
+ * vertical landing pages — it scrolls to it; otherwise it routes to the
+ * contact page, where the same form lives.
  */
 export default function CtaButton({
   children,
@@ -22,23 +23,18 @@ export default function CtaButton({
   className?: string;
   targetId?: string;
 }) {
-  const pathname = usePathname();
-
-  if (pathname === "/") {
-    return (
-      <Button
-        variant={variant}
-        size={size}
-        className={className}
-        onClick={() => scrollToId(targetId)}
-      >
-        {children}
-      </Button>
-    );
-  }
+  const router = useRouter();
 
   return (
-    <Button href="/contacto" variant={variant} size={size} className={className}>
+    <Button
+      variant={variant}
+      size={size}
+      className={className}
+      onClick={() => {
+        if (document.getElementById(targetId)) scrollToId(targetId);
+        else router.push("/contacto");
+      }}
+    >
       {children}
     </Button>
   );
