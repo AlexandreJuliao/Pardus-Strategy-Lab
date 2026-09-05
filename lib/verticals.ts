@@ -34,19 +34,30 @@ export type Vertical = {
   stats: { value: string; label: string }[];
   statement: { pre: string; accent: string; post?: string; sub: string };
   bento: { title: string; desc: string; mock: MockKind; wide?: boolean }[];
-  demo: {
+  /** formulário do site a ser preenchido + notificação a chegar ao dono */
+  flow: {
     title: string;
     intro: string;
-    business: string;
-    script: { who: "them" | "us"; text: string; at: string }[];
-    done: string;
+    cta: string;
+    formTitle: string;
+    formIntro: string;
+    submit: string;
+    fields: { label: string; placeholder: string; value: string; wide?: boolean }[];
+    notify: { title: string; also: string };
   };
   features: { icon: "text" | "globe" | "shield" | "zap" | "chart" | "phone"; title: string; desc: string }[];
-  process: { title: string; desc: string }[];
+  process: { when: string; title: string; desc: string }[];
   pricing?: {
     intro: string;
     plans: { name: string; desc: string; price: string; items: string[]; featured?: boolean }[];
     note: string;
+  };
+  /** aparte: o que se pode juntar ao site mais tarde */
+  extras: {
+    pre: string;
+    accent: string;
+    intro: string;
+    items: { icon: "bot" | "inbox" | "workflow" | "shop" | "care"; title: string; desc: string }[];
   };
   faq: { q: string; a: string }[];
   form: { title: string; intro: string; cta: string; negocioPlaceholder: string };
@@ -109,17 +120,19 @@ export const VERTICALS: Record<string, Vertical> = {
         wide: true,
       },
     ],
-    demo: {
-      title: "O site também atende quem chega de noite",
-      intro: "Alguém abre o site às 22h e escreve pelo WhatsApp. O assistente responde, percebe o que a pessoa precisa e deixa o pedido registado. Tu vês tudo de manhã.",
-      business: "Imporwood",
-      script: [
-        { who: "them", text: "Boa noite. Preciso de tirar 24 t de rolaria de Vinhais.", at: "22:14" },
-        { who: "us", text: "Boa noite. Temos camião livre amanhã de manhã. A descarga é em que serração?", at: "22:14" },
-        { who: "them", text: "Viseu, a do Dão. Dá para estar lá às 8h?", at: "22:15" },
-        { who: "us", text: "Dá. Reservei a AB-42-QT para as 7h20 e enviei-lhe o preço por tonelada por email.", at: "22:15" },
+    flow: {
+      title: "Cada pedido chega-te ao telemóvel",
+      intro: "Quem preenche o formulário do site aparece-te no WhatsApp e no email no mesmo minuto, com nome, contacto e o que precisa. Respondes quando puderes, sem perder ninguém.",
+      cta: "Quero isto no meu site",
+      formTitle: "Diga-nos o que tem para sair",
+      formIntro: "Respondemos com preço por tonelada no mesmo dia útil.",
+      submit: "Pedir preço",
+      fields: [
+        { label: "Nome", placeholder: "O seu nome", value: "Carlos Amaral" },
+        { label: "Telemóvel", placeholder: "9xx xxx xxx", value: "912 440 118" },
+        { label: "O que precisa", placeholder: "Carga, origem e destino", value: "24 t de rolaria, de Vinhais para Viseu, esta semana", wide: true },
       ],
-      done: "Carga reservada · o cliente não teve de esperar pela manhã",
+      notify: { title: "Novo pedido no site", also: "Também no email da empresa, com os mesmos dados" },
     },
     features: [
       { icon: "text", title: "Textos e imagens incluídos", desc: "Escrevemos e escolhemos as imagens contigo. Não precisas de chegar com nada pronto." },
@@ -127,9 +140,9 @@ export const VERTICALS: Record<string, Vertical> = {
       { icon: "shield", title: "30 dias de acompanhamento", desc: "Depois do lançamento ficamos por perto: ajustes, dúvidas e afinações, sem custo." },
     ],
     process: [
-      { title: "Conversa de 20 minutos", desc: "Percebemos o que fazes, quem te compra e o que o site tem de resolver. Sais da conversa com o preço fechado." },
-      { title: "Desenho e construção", desc: "Em 10 dias úteis mostramos-te o site a funcionar. Afinamos contigo até estar certo." },
-      { title: "Lançamento e formação", desc: "Pomos no ar, ligamos o Google e o WhatsApp, e mostramos-te como mudar textos e imagens sozinho." },
+      { when: "Dia 1", title: "Conversa de 20 minutos", desc: "Percebemos o que fazes, quem te compra e o que o site tem de resolver. Sais da conversa com o preço fechado." },
+      { when: "Dias 2 a 11", title: "Desenho e construção", desc: "Em 10 dias úteis mostramos-te o site a funcionar. Afinamos contigo até estar certo." },
+      { when: "Dia 12", title: "Lançamento e formação", desc: "Pomos no ar, ligamos o Google e o WhatsApp, e mostramos-te como mudar textos e imagens sozinho." },
     ],
     pricing: {
       intro: "Preço fechado antes de começar. O valor final depende do que o teu site precisa, mas parte daqui.",
@@ -149,6 +162,18 @@ export const VERTICALS: Record<string, Vertical> = {
         },
       ],
       note: "Precisas de vender online? Temos lojas desde 1.899€. Adaptamo-nos a várias formas de pagamento e, se quiseres que cuidemos do site todos os meses, há avenças desde 90€/mês.",
+    },
+    extras: {
+      pre: "Quando o site estiver a trabalhar,",
+      accent: "há mais.",
+      intro: "Nada disto é preciso para começar. Fica aqui só para saberes que, quando fizer sentido, o site cresce sem trocar de agência.",
+      items: [
+        { icon: "bot", title: "Assistente no WhatsApp", desc: "Responde a quem escreve fora de horas e marca por ti." },
+        { icon: "inbox", title: "Gestão de pedidos", desc: "Todos os contactos num só sítio, com quem já respondeu e quem falta." },
+        { icon: "workflow", title: "Automações", desc: "Orçamentos, lembretes e faturas a sair sozinhos." },
+        { icon: "shop", title: "Loja online", desc: "Vender no próprio site, sem comissões de terceiros." },
+        { icon: "care", title: "Avença de cuidado", desc: "Atualizações, segurança e posição no Google, todos os meses." },
+      ],
     },
     faq: [
       { q: "Quanto tempo demora mesmo?", a: "Uma landing page fica no ar em cerca de 7 dias úteis; um site profissional em 2 semanas. O prazo conta a partir da conversa inicial, e o que mais o atrasa é a aprovação do teu lado, por isso mantemos tudo simples." },

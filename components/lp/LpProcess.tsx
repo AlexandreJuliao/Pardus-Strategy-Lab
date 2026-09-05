@@ -1,10 +1,11 @@
-"use client";
-
-import { motion } from "framer-motion";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { fadeUp, staggerContainer } from "@/lib/animations";
 import type { Vertical } from "@/lib/verticals";
 
+/**
+ * Três passos numa linha do tempo: os números ligados por uma régua, o
+ * prazo de cada passo à vista. É uma sequência a sério, por isso os
+ * números têm razão de existir aqui.
+ */
 export default function LpProcess({ v }: { v: Vertical }) {
   return (
     <section className="relative section-pad">
@@ -13,27 +14,21 @@ export default function LpProcess({ v }: { v: Vertical }) {
           title={<>Como <span className="accent-serif text-gold">funciona</span></>}
           intro="Três passos, com o preço fechado logo no primeiro."
         />
-        <motion.ol
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-          className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3"
-        >
+
+        <ol className="relative mt-14 grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
+          {/* a régua que liga os passos */}
+          <span className="pointer-events-none absolute left-[22px] top-0 hidden h-full w-px bg-gradient-to-b from-gold/50 via-line to-transparent md:left-0 md:top-[22px] md:h-px md:w-full md:bg-gradient-to-r" aria-hidden />
           {v.process.map((p, i) => (
-            <motion.li
-              key={p.title}
-              variants={fadeUp}
-              className="relative rounded-[10px] border border-line bg-surface/40 p-7"
-            >
-              <span className="font-display text-[44px] font-bold leading-none text-gold/25">
-                0{i + 1}
+            <li key={p.title} className="relative pl-16 md:pl-0 md:pt-16">
+              <span className="absolute left-0 top-0 flex h-11 w-11 items-center justify-center rounded-full border border-gold/60 bg-bg font-display text-[15px] font-semibold text-gold">
+                {i + 1}
               </span>
-              <h3 className="mt-4 font-display text-[19px] font-semibold text-text-primary">{p.title}</h3>
-              <p className="mt-2 font-sans text-[14.5px] leading-relaxed text-text-secondary">{p.desc}</p>
-            </motion.li>
+              <span className="mono-tiny text-text-muted">{p.when}</span>
+              <h3 className="mt-2 font-display text-[21px] font-semibold text-text-primary">{p.title}</h3>
+              <p className="mt-2 max-w-sm font-sans text-[14.5px] leading-relaxed text-text-secondary">{p.desc}</p>
+            </li>
           ))}
-        </motion.ol>
+        </ol>
       </div>
     </section>
   );

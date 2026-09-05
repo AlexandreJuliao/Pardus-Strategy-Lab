@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import LpHero from "@/components/lp/LpHero";
 import LpStats from "@/components/lp/LpStats";
 import LpBento from "@/components/lp/LpBento";
-import LpDemo from "@/components/lp/LpDemo";
+import LpLeadFlow from "@/components/lp/LpLeadFlow";
+import LpExtras from "@/components/lp/LpExtras";
 import LpFeatures from "@/components/lp/LpFeatures";
 import LpProcess from "@/components/lp/LpProcess";
 import LpPricing from "@/components/lp/LpPricing";
@@ -60,21 +61,11 @@ export default function VerticalPage({ params }: Props) {
         }
         sub={v.statement.sub}
       />
-      <LpDemo v={v} />
+      <LpLeadFlow v={v} />
       <LpFeatures v={v} />
       <LpProcess v={v} />
       <LpPricing v={v} />
-      <StatementBand
-        tone="blue"
-        title={
-          <>
-            O teu site novo{" "}
-            <span className="accent-serif text-gold">começa numa conversa.</span>
-          </>
-        }
-        sub="20 minutos ao telefone. Sais com o preço fechado e com uma ideia clara do que vale a pena fazer."
-        cta="Marcar a minha consultoria"
-      />
+      <LpExtras v={v} />
       <FAQ items={v.faq} intro="O que nos perguntam antes de começar." />
       <LeadForm
         origem={v.origem}
