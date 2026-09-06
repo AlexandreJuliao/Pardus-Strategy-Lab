@@ -17,6 +17,8 @@ export type Vertical = {
   descriptor?: string;
   /** Vai no evento Lead (content_name), na coluna "origem" (n8n) e no source (Office) */
   origem: string;
+  /** lockup oficial da vertical; sem ele usa-se o tipográfico */
+  logo?: string;
   seo: { title: string; description: string };
   hero: {
     pre: string;
@@ -69,6 +71,7 @@ export const VERTICALS: Record<string, Vertical> = {
     kind: "produto",
     name: "Websites",
     origem: "LP Websites",
+    logo: "/img/logo/pardus-websites.png",
     seo: {
       title: "PARDUS. Websites · O teu site pronto em 2 semanas",
       description:

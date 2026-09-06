@@ -1,13 +1,13 @@
-import Logo from "@/components/ui/Logo";
+import LpLockup from "@/components/lp/LpLockup";
 import { ROOT_DOMAIN } from "@/lib/verticals";
 
-export default function LpFooter({ name }: { name: string }) {
+export default function LpFooter({ name, logo }: { name: string; logo?: string }) {
   const site = `https://${ROOT_DOMAIN}`;
   return (
     <footer className="border-t border-line bg-bg-2/60">
       <div className="shell flex flex-col gap-8 py-12 md:flex-row md:items-end md:justify-between">
         <div>
-          <Logo size="lg" subtitle={name} />
+          <LpLockup name={name} src={logo} height={54} />
           <p className="mt-5 max-w-sm font-sans text-[13.5px] leading-relaxed text-text-secondary">
             {name} é uma vertical da Pardus Strategy Lab, agência de sites, automação e
             inteligência artificial em Lisboa.{" "}

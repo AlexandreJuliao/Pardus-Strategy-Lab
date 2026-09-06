@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
-import Logo from "@/components/ui/Logo";
+import LpLockup from "@/components/lp/LpLockup";
 import CtaButton from "@/components/ui/CtaButton";
 import { ROOT_DOMAIN } from "@/lib/verticals";
 
 /** Cabeçalho mínimo das landing pages: lockup da vertical + uma só ação. */
-export default function LpHeader({ name }: { name: string }) {
+export default function LpHeader({ name, logo }: { name: string; logo?: string }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function LpHeader({ name }: { name: string }) {
       }`}
     >
       <div className="shell flex h-16 items-center justify-between md:h-[72px]">
-        <Logo size="md" subtitle={name} />
+        <LpLockup name={name} src={logo} height={34} />
         <div className="flex items-center gap-5">
           <a
             href={`https://${ROOT_DOMAIN}`}

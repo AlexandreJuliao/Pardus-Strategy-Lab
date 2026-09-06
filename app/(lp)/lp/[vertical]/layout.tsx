@@ -19,9 +19,9 @@ export default function LpLayout({
   if (!v) notFound();
   return (
     <>
-      <LpHeader name={v.name} />
+      <LpHeader name={v.name} logo={v.logo} />
       <main>{children}</main>
-      <LpFooter name={v.name} />
+      <LpFooter name={v.name} logo={v.logo} />
     </>
   );
 }
