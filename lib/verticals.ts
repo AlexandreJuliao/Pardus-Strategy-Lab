@@ -36,6 +36,17 @@ export type Vertical = {
   stats: { value: string; label: string }[];
   statement: { pre: string; accent: string; post?: string; sub: string };
   bento: { title: string; desc: string; mock: MockKind; wide?: boolean }[];
+  /** o site como canal de aquisição: subir no Google e converter a visita */
+  organic: {
+    pre: string;
+    accent: string;
+    intro: string;
+    points: string[];
+    query: string;
+    result: string;
+    resultUrl: string;
+    cta: string;
+  };
   /** formulário do site a ser preenchido + notificação a chegar ao dono */
   flow: {
     title: string;
@@ -123,6 +134,21 @@ export const VERTICALS: Record<string, Vertical> = {
         wide: true,
       },
     ],
+    organic: {
+      pre: "O site é para trazer clientes",
+      accent: "de graça.",
+      intro: "Não fazemos montras. Cada página é construída para aparecer nas pesquisas que os teus clientes fazem mesmo, e para transformar essa visita num contacto.",
+      points: [
+        "Escrevemos os textos à volta do que as pessoas procuram, com o teu serviço e a tua zona, e damos ao Google a estrutura que ele precisa para perceber o site.",
+        "Ficha técnica limpa e páginas rápidas: o Google premeia sites que abrem depressa no telemóvel, e as pessoas também.",
+        "Depois de a visita chegar, trabalhamos o caminho até ao contacto: onde entram os botões, o que se pede no formulário, o que se corta.",
+        "Ao fim de cada mês vês na plataforma quantas visitas vieram do Google e quantas se tornaram pedidos.",
+      ],
+      query: "casas modulares chave na mão",
+      result: "Al Durr · Casas modulares em A-frame",
+      resultUrl: "aldurr.pt",
+      cta: "Quero um site assim",
+    },
     flow: {
       title: "Cada pedido chega-te ao telemóvel",
       intro: "Quem preenche o formulário do site aparece-te no WhatsApp e no email no mesmo minuto, com nome, contacto e o que precisa. Respondes quando puderes, sem perder ninguém.",
@@ -203,6 +229,13 @@ export function getVertical(slug: string): Vertical | undefined {
   return VERTICALS[slug];
 }
 
+/**
+ * O URL público da landing page. Enquanto o subdomínio não tiver registo DNS,
+ * a página vive no domínio principal, em pardus-lab.com/<slug> — é este o URL
+ * que os anúncios usam e o que vai no canónico. Quando o DNS estiver de pé,
+ * troca-se pelo subdomínio e repõe-se o redirecionamento
+ * no middleware.
+ */
 export function verticalUrl(slug: string) {
-  return `https://${slug}.${ROOT_DOMAIN}`;
+  return `https://${ROOT_DOMAIN}/${slug}`;
 }

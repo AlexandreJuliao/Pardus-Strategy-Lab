@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ArrowRight, Search, Map, HeartHandshake } from "lucide-react";
 import { newEventId, trackLead } from "@/lib/tracking";
+import { VERTICAL_SLUGS } from "@/lib/verticals";
 import SectionHeader from "@/components/ui/SectionHeader";
 import AuroraGlow from "@/components/ui/AuroraGlow";
 
@@ -51,6 +52,7 @@ export default function LeadForm({
   formTitle = "Marcar a minha consultoria",
   cta = "Quero a consultoria gratuita",
   negocioPlaceholder = "Ex.: clínica, loja, imobiliária, restaurante…",
+  thanksPath,
   steps = STEPS,
 }: {
   /** Vai no evento Lead (content_name) e na coluna "origem" da folha */
@@ -61,9 +63,19 @@ export default function LeadForm({
   formTitle?: string;
   cta?: string;
   negocioPlaceholder?: string;
+  /**
+   * Para onde ir depois de enviar. Por omissão descobre-se do caminho: numa
+   * landing page servida em /<vertical> o obrigado é o dela, no resto do site
+   * é o /obrigado normal.
+   */
+  thanksPath?: string;
   steps?: { icon: typeof Search; title: string; desc: string }[];
 } = {}) {
   const router = useRouter();
+  const pathname = usePathname();
+  const vertical = pathname.split("/")[1];
+  const thanks =
+    thanksPath ?? (VERTICAL_SLUGS.includes(vertical) ? `/${vertical}/obrigado` : "/obrigado");
   const [form, setForm] = useState<FormState>({
     nome: "",
     email: "",
@@ -119,7 +131,7 @@ export default function LeadForm({
       if (!res.ok) throw new Error();
       await trackLead(origem, eventId);
       setSubmitted(true);
-      router.push("/obrigado");
+      router.push(thanks);
     } catch {
       setSendError(true);
     } finally {
