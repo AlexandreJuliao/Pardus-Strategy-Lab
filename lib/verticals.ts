@@ -21,15 +21,12 @@ export type Vertical = {
   logo?: string;
   seo: { title: string; description: string };
   hero: {
+    /** faixa curta por cima do título, no lugar da lousa de um filme */
+    kicker: string;
     /** a headline em linhas; o recuo cresce de linha para linha */
     lines: { t: string; accent?: boolean }[];
-    sub: string;
-    metricNumber: string;
-    metric: string;
-    cta: string;
-    ctaSecondary?: { label: string; targetId: string };
-    /** legenda por baixo do monitor */
-    proof: string;
+    /** linha de créditos por baixo do ecrã: rótulo pequeno + o que interessa */
+    credits: { label: string; figure?: string; value: string }[];
   };
   stats: { value: string; label: string }[];
   statement: { pre: string; accent: string; post?: string; sub: string };
@@ -87,17 +84,17 @@ export const VERTICALS: Record<string, Vertical> = {
         "Sites profissionais para negócios em Portugal: design à medida, rápidos no telemóvel, ligados ao WhatsApp e a aparecer no Google. Desde 399€. Consultoria gratuita.",
     },
     hero: {
+      kicker: "Duas semanas · Preço fechado · Portugal",
       lines: [
         { t: "Websites à medida" },
         { t: "que fazem o teu negócio" },
         { t: "subir de nível", accent: true },
       ],
-      sub: "Desenhamos, escrevemos e lançamos em duas semanas.",
-      metricNumber: "2 a 10",
-      metric: "pedidos de orçamento por mês.",
-      cta: "Quero o meu site",
-      ctaSecondary: { label: "Ver preços", targetId: "investimento" },
-      proof: "Site que fizemos para a Al Durr, casas modulares",
+      credits: [
+        { label: "O que entregamos", value: "Desenho, textos e lançamento — tudo feito por nós." },
+        { label: "O que muda", figure: "2 a 10", value: "pedidos de orçamento por mês." },
+        { label: "No ecrã", value: "Al Durr · casas modulares" },
+      ],
     },
     stats: [
       { value: "2 sem.", label: "Do primeiro contacto ao site no ar" },

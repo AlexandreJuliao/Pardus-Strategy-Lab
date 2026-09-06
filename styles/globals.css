@@ -277,10 +277,14 @@ html {
   inset: 0;
   pointer-events: none;
   z-index: 30;
-  opacity: 0.06;
-  mix-blend-mode: screen;
+  opacity: 0.055;
+  /* sem mix-blend-mode de propósito: uma camada fixa e misturada por cima de
+     tudo obriga a repintar a página inteira a cada fotograma de scroll. O
+     ruído é cinzento-médio, por isso em transparência normal sobre o navy dá
+     praticamente o mesmo resultado — e passa a ser uma camada composta. */
   background-image: var(--grain);
   background-size: 220px;
+  transform: translateZ(0);
 }
 
 /* ---------- Inverted colour sections (a assinatura dos posts no site) ----------
@@ -470,7 +474,9 @@ select.field {
 .aurora-blob {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(72px);
+  /* sem filter: blur() — era recalculado a cada fotograma da órbita e era o
+     maior custo da página. Os gradientes já morrem em transparência aos 70%,
+     por isso a mancha continua a ser uma mancha. */
   will-change: transform;
   opacity: 0.6;
 }

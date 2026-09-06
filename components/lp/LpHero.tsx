@@ -1,12 +1,8 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
-import CtaButton from "@/components/ui/CtaButton";
-import Button from "@/components/ui/Button";
 import HeroBackdrop from "@/components/lp/HeroBackdrop";
 import MockMonitor from "@/components/lp/MockMonitor";
 import MockSiteVideo from "@/components/lp/MockSiteVideo";
-import { scrollToId } from "@/lib/scrollTo";
 import type { Vertical } from "@/lib/verticals";
 
 /** Entrada escalonada, em CSS (ver .lp-rise em globals.css). */
@@ -26,7 +22,7 @@ function MaskedWords({ text, from = 0, accent = false }: { text: string; from?: 
           className={`lp-word ${accent ? "lp-word-accent" : ""}`}
           style={{ marginRight: "0.24em" }}
         >
-          <span style={{ animationDelay: `${0.05 + (from + i) * 0.055}s` }}>{word}</span>
+          <span style={{ animationDelay: `${0.06 + (from + i) * 0.055}s` }}>{word}</span>
         </span>
       ))}
     </>
@@ -34,61 +30,110 @@ function MaskedWords({ text, from = 0, accent = false }: { text: string; from?: 
 }
 
 /**
- * Herói em composição sobreposta: a headline atravessa o topo em degraus,
- * recuando mais a cada linha, e o monitor entra por baixo à esquerda, mais
- * pequeno e descido, a passar por trás da primeira linha. Só fica na secção
- * o que faz falta: o título, a promessa em duas linhas e uma ação.
+ * Herói em formato de cartaz: uma lousa curta no topo, o título a ocupar o
+ * ecrã, o site do cliente como plano largo por baixo e uma linha de créditos
+ * a fechar. Tudo dentro de um enquadramento com barras escuras em cima e em
+ * baixo — é isso que dá a leitura de sala, e não mais efeitos.
+ *
+ * Sem botões, por pedido: a ação vive no cabeçalho, que acompanha a página
+ * inteira.
  */
 export default function LpHero({ v }: { v: Vertical }) {
   const h = v.hero;
   let palavras = 0;
 
   return (
-    <section className="seam-bottom relative overflow-hidden pb-20 pt-28 md:pt-32 lg:pb-20 lg:pt-36">
+    <section className="seam-bottom relative flex min-h-[100dvh] flex-col justify-center overflow-hidden pb-10 pt-24 md:pt-28">
       <HeroBackdrop />
       <div
         className="pointer-events-none absolute inset-0"
-        style={{ background: "radial-gradient(120% 80% at 45% 20%, transparent 34%, rgba(5,7,14,0.55) 76%, var(--bg) 100%)" }}
+        style={{
+          background: "radial-gradient(130% 80% at 50% 24%, transparent 26%, rgba(5,7,14,0.55) 72%, var(--bg) 100%)",
+        }}
+        aria-hidden
       />
       <div
-        className="grid-lines pointer-events-none absolute inset-0 opacity-[0.13]"
-        style={{ maskImage: "radial-gradient(120% 82% at 50% 14%, #000 22%, transparent 80%)" }}
+        className="grid-lines pointer-events-none absolute inset-0 opacity-[0.1]"
+        style={{
+          maskImage: "radial-gradient(110% 74% at 50% 16%, #000 18%, transparent 76%)",
+        }}
+        aria-hidden
       />
-      <div className="noise-overlay pointer-events-none absolute inset-0" />
 
-      <span className="lp-bracket left-6 top-24 border-l border-t md:left-10" aria-hidden />
-      <span className="lp-bracket right-6 top-24 border-r border-t md:right-10" aria-hidden />
+      {/* barras de enquadramento */}
+      <span
+        className="pointer-events-none absolute inset-x-0 top-0 h-[8vh] bg-gradient-to-b from-bg to-transparent"
+        aria-hidden
+      />
+      <span
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[8vh] bg-gradient-to-t from-bg to-transparent"
+        aria-hidden
+      />
+      <span className="lp-bracket left-9 top-[13vh] hidden border-l border-t md:block" aria-hidden />
+      <span className="lp-bracket right-9 top-[13vh] hidden border-r border-t md:block" aria-hidden />
 
-      <div className="shell relative z-10">
-        {/* ── a headline, em degraus, por cima de tudo ── */}
-        <h1 className="relative z-20 font-display text-[clamp(34px,5.2vw,68px)] font-bold leading-[1.02] tracking-[-0.036em] text-text-primary">
-          {h.lines.map((l, i) => {
-            const from = palavras;
-            palavras += l.t.split(" ").length;
-            return (
-              <span
-                key={l.t}
-                className="block"
-                // o recuo cresce de linha para linha; em ecrã pequeno alinha tudo
-                style={{ marginLeft: `calc(${i} * clamp(0px, 4.4vw, 92px))` }}
+      <div className="shell relative z-10 flex w-full flex-col">
+        {/* ── a lousa ── */}
+        <p
+          {...up(0.02)}
+          className="lp-rise flex items-center gap-3 font-sans text-[9.5px] uppercase tracking-[0.16em] text-text-muted md:text-[11px] md:tracking-[0.3em]"
+        >
+          <span className="h-px w-7 bg-gold/70" aria-hidden />
+          {h.kicker}
+        </p>
+
+        {/* ── o título, com os créditos a acompanhar à direita ── */}
+        <div className="mt-6 flex flex-col md:mt-7 lg:grid lg:grid-cols-[1fr_260px] lg:items-end lg:gap-x-10">
+          <h1 className="relative z-20 order-1 lg:order-none lg:col-start-1 lg:row-start-1 font-display text-[clamp(30px,4.5vw,58px)] font-bold leading-[1.0] tracking-[-0.036em] text-text-primary">
+            {h.lines.map((l, i) => {
+              const from = palavras;
+              palavras += l.t.split(" ").length;
+              return (
+                <span key={l.t} className="block" style={{ marginLeft: `calc(${i} * clamp(0px, 3vw, 62px))` }}>
+                  {l.accent ? (
+                    <span className="accent-serif text-gold">
+                      <MaskedWords text={l.t} from={from} accent />
+                    </span>
+                  ) : (
+                    <MaskedWords text={l.t} from={from} />
+                  )}
+                </span>
+              );
+            })}
+          </h1>
+
+          {/* os créditos: rótulo pequeno em cima, o que interessa por baixo */}
+          <dl
+            {...up(0.5)}
+            className="lp-rise order-3 mt-9 grid grid-cols-1 gap-x-8 sm:grid-cols-3 lg:order-none lg:col-start-2 lg:row-start-1 lg:mt-0 lg:grid-cols-1 lg:gap-0 lg:border-l lg:border-line lg:pl-6"
+          >
+            {h.credits.map((c, i) => (
+              <div
+                key={c.label}
+                className={
+                  i > 0
+                    ? "mt-4 border-t border-line pt-4 sm:mt-0 sm:border-t-0 sm:pt-0 lg:mt-4 lg:border-t lg:pt-4"
+                    : ""
+                }
               >
-                {l.accent ? (
-                  <span className="accent-serif text-gold">
-                    <MaskedWords text={l.t} from={from} accent />
-                  </span>
-                ) : (
-                  <MaskedWords text={l.t} from={from} />
-                )}
-              </span>
-            );
-          })}
-        </h1>
+                <dt className="font-sans text-[10px] uppercase tracking-[0.26em] text-text-muted">{c.label}</dt>
+                {c.figure && <p className="stat-figure mt-2 text-[28px] leading-none">{c.figure}</p>}
+                <dd
+                  className={`font-sans text-[13.5px] leading-snug ${c.figure ? "mt-1.5 text-text-primary" : "mt-2 text-text-secondary"}`}
+                >
+                  {c.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
 
-        <div className="mt-10 grid grid-cols-1 items-start gap-12 lg:mt-7 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
-          {/* ── o monitor: mais pequeno, descido, a passar por trás da headline ── */}
-          <div {...up(0.34)} className="lp-rise relative z-10 order-2 lg:order-1 lg:pr-6">
-            <MockMonitor className="mx-auto max-w-[560px] lg:mx-0">
-              <div className="h-[240px] sm:h-[300px] lg:h-[326px]">
+          {/* ── o plano largo: o site do cliente ── */}
+          <div
+            {...up(0.38)}
+            className="lp-rise relative z-10 order-2 mt-7 md:mt-8 lg:order-none lg:col-span-2 lg:row-start-2"
+          >
+            <MockMonitor className="mx-auto w-full max-w-[648px]">
+              <div className="aspect-[2/1]">
                 <MockSiteVideo
                   webm="/img/lp/aldurr/site.webm"
                   mp4="/img/lp/aldurr/site.mp4"
@@ -97,37 +142,6 @@ export default function LpHero({ v }: { v: Vertical }) {
                 />
               </div>
             </MockMonitor>
-            <p className="mt-6 text-center font-sans text-[12.5px] text-text-muted lg:text-left">{h.proof}</p>
-          </div>
-
-          {/* ── a promessa, em duas linhas, e uma ação ── */}
-          <div className="order-1 max-w-md lg:order-2 lg:pt-3">
-            <p {...up(0.44)} className="lp-rise hero-sub [text-wrap:pretty]">
-              {h.sub}
-            </p>
-
-            <p
-              {...up(0.52)}
-              className="lp-rise mt-4 font-display text-[clamp(19px,1.9vw,25px)] font-bold leading-tight tracking-[-0.028em] text-text-primary"
-            >
-              <span className="stat-figure">{h.metricNumber}</span> {h.metric}
-            </p>
-
-            <div {...up(0.62)} className="lp-rise mt-9 flex flex-wrap items-center gap-3">
-              <CtaButton size="lg">
-                {h.cta} <ArrowRight size={17} />
-              </CtaButton>
-              {h.ctaSecondary && (
-                <Button
-                  variant="ghost"
-                  size="lg"
-                  className="px-1 underline-offset-[6px] hover:underline"
-                  onClick={() => scrollToId(h.ctaSecondary!.targetId)}
-                >
-                  {h.ctaSecondary.label}
-                </Button>
-              )}
-            </div>
           </div>
         </div>
       </div>

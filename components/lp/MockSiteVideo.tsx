@@ -37,6 +37,28 @@ export default function MockSiteVideo({
     // alguns browsers recusam o arranque automático até haver interação;
     // pedir outra vez depois de montar resolve os casos em que isso acontece
     v.play().catch(() => {});
+
+    // Descodificar vídeo fora do ecrã não serve a ninguém e rouba tempo ao
+    // fotograma. Enquanto não estiver à vista, fica parado.
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      },
+      { threshold: 0.05 },
+    );
+    io.observe(v);
+
+    const onVisibility = () => {
+      if (document.hidden) v.pause();
+      else v.play().catch(() => {});
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
   }, []);
 
   return (

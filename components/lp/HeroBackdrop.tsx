@@ -96,9 +96,17 @@ export default function HeroBackdrop() {
       ctx.globalCompositeOperation = "source-over";
     };
 
+    // Metade dos fotogramas chegam: a malha anda devagar e ninguém distingue
+    // 30 de 60 imagens por segundo aqui — mas o tempo poupado é o que faz o
+    // scroll deixar de tropeçar.
+    const INTERVALO = 1000 / 30;
+    let ultimo = 0;
+
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
       if (!visible || document.hidden) return;
+      if (now - ultimo < INTERVALO) return;
+      ultimo = now;
       paint((now - start) / 1000);
     };
 

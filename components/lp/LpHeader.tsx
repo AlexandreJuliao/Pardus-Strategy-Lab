@@ -6,7 +6,13 @@ import LpLockup from "@/components/lp/LpLockup";
 import CtaButton from "@/components/ui/CtaButton";
 import { ROOT_DOMAIN } from "@/lib/verticals";
 
-/** Cabeçalho mínimo das landing pages: lockup da vertical + uma só ação. */
+/**
+ * Cabeçalho mínimo das landing pages: lockup da vertical + uma só ação.
+ *
+ * O fundo é quase opaco em vez de desfocado: um backdrop-filter numa barra
+ * fixa obriga a desfocar tudo o que passa por trás a cada fotograma de scroll,
+ * e era um dos custos que faziam a página tropeçar.
+ */
 export default function LpHeader({ name, logo }: { name: string; logo?: string }) {
   const [scrolled, setScrolled] = useState(false);
 
@@ -20,7 +26,7 @@ export default function LpHeader({ name, logo }: { name: string; logo?: string }
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-premium ${
-        scrolled ? "border-b border-line bg-bg/80 backdrop-blur-xl" : "border-b border-transparent"
+        scrolled ? "border-b border-line bg-bg/[0.93]" : "border-b border-transparent"
       }`}
     >
       <div className="shell flex h-16 items-center justify-between md:h-[72px]">
