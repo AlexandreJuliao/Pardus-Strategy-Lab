@@ -21,17 +21,15 @@ export type Vertical = {
   logo?: string;
   seo: { title: string; description: string };
   hero: {
-    pre: string;
-    accent: string;
-    post?: string;
+    /** a headline em linhas; o recuo cresce de linha para linha */
+    lines: { t: string; accent?: boolean }[];
     sub: string;
-    /** a promessa em número: introdução, o número em dourado e o resto da frase */
-    metricPre: string;
     metricNumber: string;
     metric: string;
     cta: string;
     ctaSecondary?: { label: string; targetId: string };
-    footnote: string;
+    /** legenda por baixo do monitor */
+    proof: string;
   };
   stats: { value: string; label: string }[];
   statement: { pre: string; accent: string; post?: string; sub: string };
@@ -89,15 +87,17 @@ export const VERTICALS: Record<string, Vertical> = {
         "Sites profissionais para negócios em Portugal: design à medida, rápidos no telemóvel, ligados ao WhatsApp e a aparecer no Google. Desde 399€. Consultoria gratuita.",
     },
     hero: {
-      pre: "Sites que põem o telefone a",
-      accent: "tocar.",
-      sub: "Desenhamos, escrevemos e lançamos o site do teu negócio em duas semanas. Ligado ao Google e ao WhatsApp, a receber pedidos no dia em que entra no ar.",
-      metricPre: "Trabalhamos para um número",
+      lines: [
+        { t: "Websites à medida" },
+        { t: "que fazem o teu negócio" },
+        { t: "subir de nível", accent: true },
+      ],
+      sub: "Desenhamos, escrevemos e lançamos em duas semanas.",
       metricNumber: "2 a 10",
       metric: "pedidos de orçamento por mês.",
       cta: "Quero o meu site",
       ctaSecondary: { label: "Ver preços", targetId: "investimento" },
-      footnote: "Começa com 20 minutos de conversa, sem custo nem compromisso.",
+      proof: "Site que fizemos para a Al Durr, casas modulares",
     },
     stats: [
       { value: "2 sem.", label: "Do primeiro contacto ao site no ar" },
@@ -135,14 +135,13 @@ export const VERTICALS: Record<string, Vertical> = {
       },
     ],
     organic: {
-      pre: "O site é para trazer clientes",
-      accent: "de graça.",
-      intro: "Não fazemos montras. Cada página é construída para aparecer nas pesquisas que os teus clientes fazem mesmo, e para transformar essa visita num contacto.",
+      pre: "Clientes que te encontram",
+      accent: "sozinhos.",
+      intro: "Cada página é feita para aparecer nas pesquisas certas e transformar a visita num contacto.",
       points: [
-        "Escrevemos os textos à volta do que as pessoas procuram, com o teu serviço e a tua zona, e damos ao Google a estrutura que ele precisa para perceber o site.",
-        "Ficha técnica limpa e páginas rápidas: o Google premeia sites que abrem depressa no telemóvel, e as pessoas também.",
-        "Depois de a visita chegar, trabalhamos o caminho até ao contacto: onde entram os botões, o que se pede no formulário, o que se corta.",
-        "Ao fim de cada mês vês na plataforma quantas visitas vieram do Google e quantas se tornaram pedidos.",
+        "Textos escritos à volta do que as pessoas procuram mesmo.",
+        "Páginas rápidas no telemóvel, que é o que o Google premeia.",
+        "O caminho até ao contacto, pensado ao pormenor.",
       ],
       query: "casas modulares chave na mão",
       result: "Al Durr · Casas modulares em A-frame",

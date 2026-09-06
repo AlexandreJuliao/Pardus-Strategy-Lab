@@ -19,24 +19,25 @@ const ICONS: Record<Vertical["extras"]["items"][number]["icon"], LucideIcon> = {
 export default function LpExtras({ v }: { v: Vertical }) {
   const x = v.extras;
   return (
-    <section className="section-petrol relative overflow-hidden">
+    <section className="relative overflow-hidden text-text-primary">
+      {/* É o próprio fundo que se desvanece nas pontas. Antes havia duas faixas
+          escuras por cima do petrol, e isso lia-se como uma banda suja em vez
+          de uma passagem. */}
+      <div
+        className="section-petrol pointer-events-none absolute inset-0"
+        style={{
+          maskImage: "linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%)",
+        }}
+        aria-hidden
+      />
       <div className="grain-section" />
-      {/* a banda petrol entra e sai por degradê: sem o rasgo horizontal seco */}
-      <span
-        className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-24 md:h-32"
-        style={{ background: "linear-gradient(to bottom, var(--bg), transparent)" }}
-        aria-hidden
-      />
-      <span
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-24 md:h-32"
-        style={{ background: "linear-gradient(to top, var(--bg), transparent)" }}
-        aria-hidden
-      />
       <div
         className="pointer-events-none absolute inset-0"
-        style={{ background: "radial-gradient(60% 80% at 100% 0%, rgba(212,175,96,0.14), transparent 60%)" }}
+        style={{ background: "radial-gradient(58% 70% at 100% 12%, rgba(212,175,96,0.12), transparent 62%)" }}
+        aria-hidden
       />
-      <div className="shell relative z-10 grid grid-cols-1 gap-10 py-16 md:py-24 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+      <div className="shell relative z-10 grid grid-cols-1 gap-10 py-20 md:py-28 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <div>
           <span className="block h-px w-10 bg-gold/70" />
           <h2 className="text-h2 mt-6 [text-wrap:balance]">
