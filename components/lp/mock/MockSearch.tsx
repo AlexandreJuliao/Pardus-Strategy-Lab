@@ -5,7 +5,7 @@ export default function MockSearch() {
     <div className="rounded-[10px] border border-white/[0.07] bg-[#0b0f1a] p-4 md:p-5">
       <div className="flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-2">
         <Search size={13} className="text-text-muted" />
-        <span className="font-sans text-[12.5px] text-text-primary">transporte de madeira bragança</span>
+        <span className="font-sans text-[12.5px] text-text-primary">casas modulares portugal</span>
       </div>
 
       <div className="mt-4 space-y-3">
@@ -14,16 +14,16 @@ export default function MockSearch() {
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold font-display text-[10px] font-bold text-[#0a0a0a]">
               1
             </span>
-            <span className="font-sans text-[10.5px] text-text-secondary">imporwood.pt</span>
+            <span className="font-sans text-[10.5px] text-text-secondary">aldurr.pt</span>
           </div>
           <p className="mt-1.5 font-sans text-[13px] font-medium text-gold">
-            Imporwood · Transporte florestal em Bragança
+            Al Durr · Casas modulares em A-frame
           </p>
           <p className="mt-1 font-sans text-[11px] leading-snug text-text-secondary">
-            Rolaria, biomassa e cargas especiais. Da mata à serração em 48 horas, preço por tonelada…
+            Arquitetura em A-frame, construída em fábrica e montada no seu terreno. Chave na mão…
           </p>
           <span className="mt-2 inline-flex items-center gap-1 font-sans text-[10.5px] text-text-muted">
-            <MapPin size={10} /> Bragança · 34 viaturas · ★ 4,9
+            <MapPin size={10} /> Portugal · Chave na mão · ★ 4,9
           </span>
         </div>
 

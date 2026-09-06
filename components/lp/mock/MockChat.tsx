@@ -1,9 +1,9 @@
 import { MessageCircle } from "lucide-react";
 
 const MSGS = [
-  { who: "them", text: "Bom dia, fazem cargas para Aveiro?" },
-  { who: "us", text: "Bom dia. Fazemos. Quantas toneladas e onde carregamos?" },
-  { who: "them", text: "22 t de eucalipto, parque de Vinhais." },
+  { who: "them", text: "Bom dia, tenho um terreno em Sintra." },
+  { who: "us", text: "Bom dia. Que área tem, e já pensou em que modelo?" },
+  { who: "them", text: "1.200 m². Gostei do T2 Family." },
 ] as const;
 
 export default function MockChat() {
@@ -14,7 +14,7 @@ export default function MockChat() {
           <MessageCircle size={14} />
         </span>
         <div className="leading-tight">
-          <p className="font-sans text-[12px] font-medium text-text-primary">WhatsApp · Imporwood</p>
+          <p className="font-sans text-[12px] font-medium text-text-primary">WhatsApp · Al Durr</p>
           <p className="font-sans text-[10px] text-[#5fd0a8]">online</p>
         </div>
       </div>
