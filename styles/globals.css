@@ -740,3 +740,40 @@ select.field {
   .lp-reveal, .lp-reveal-mask > * { transition: none !important; }
   .lp-word > span { animation: none !important; }
 }
+
+/* ---- Subida nos resultados do Google (secção de aquisição orgânica) ----
+   A linha do cliente sobe de posição; as outras descem para lhe abrir espaço.
+   Linha = 48px + 7px de intervalo. */
+@keyframes lp-rank-ours {
+  0%, 14%   { transform: translateY(165px); }
+  26%, 40%  { transform: translateY(110px); }
+  52%, 66%  { transform: translateY(55px); }
+  78%, 100% { transform: translateY(0); }
+}
+@keyframes lp-rank-pos-4 { 0%, 20% { content: "4"; } }
+.lp-rank-ours { animation: lp-rank-ours 13s cubic-bezier(0.65, 0, 0.3, 1) infinite; }
+/* o número da posição acompanha a subida */
+.lp-rank-pos::after { content: "4"; animation: lp-rank-num 13s step-end infinite; }
+@keyframes lp-rank-num {
+  0%   { content: "4"; }
+  26%  { content: "3"; }
+  52%  { content: "2"; }
+  78%  { content: "1"; }
+}
+
+/* as outras posições deslizam para baixo à medida que são ultrapassadas */
+.lp-rank-other { animation-duration: 13s; animation-iteration-count: infinite; animation-timing-function: cubic-bezier(0.65, 0, 0.3, 1); }
+@keyframes lp-rank-o1 { 0%, 14% { transform: translateY(0); } 26%, 100% { transform: translateY(55px); } }
+@keyframes lp-rank-o2 { 0%, 40% { transform: translateY(55px); } 52%, 100% { transform: translateY(110px); } }
+@keyframes lp-rank-o3 { 0%, 66% { transform: translateY(110px); } 78%, 100% { transform: translateY(165px); } }
+@keyframes lp-rank-o4 { 0%, 100% { transform: translateY(165px); } }
+.lp-rank-other-1 { animation-name: lp-rank-o1; }
+.lp-rank-other-2 { animation-name: lp-rank-o2; transform: translateY(55px); }
+.lp-rank-other-3 { animation-name: lp-rank-o3; transform: translateY(110px); }
+.lp-rank-other-4 { animation-name: lp-rank-o4; transform: translateY(165px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-rank-ours, .lp-rank-other, .lp-rank-pos::after { animation: none !important; }
+  .lp-rank-ours { transform: translateY(0); }
+  .lp-rank-pos::after { content: "1"; }
+}

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import LpHero from "@/components/lp/LpHero";
 import LpStats from "@/components/lp/LpStats";
 import LpBento from "@/components/lp/LpBento";
-import LpLeadFlow from "@/components/lp/LpLeadFlow";
+import LpOrganic from "@/components/lp/LpOrganic";
 import LpExtras from "@/components/lp/LpExtras";
 import LpFeatures from "@/components/lp/LpFeatures";
 import LpProcess from "@/components/lp/LpProcess";
@@ -61,7 +61,7 @@ export default function VerticalPage({ params }: Props) {
         }
         sub={v.statement.sub}
       />
-      <LpLeadFlow v={v} />
+      <LpOrganic v={v} />
       <LpFeatures v={v} />
       <LpProcess v={v} />
       <LpPricing v={v} />

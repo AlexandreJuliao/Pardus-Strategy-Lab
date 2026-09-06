@@ -5,15 +5,12 @@ import CtaButton from "@/components/ui/CtaButton";
 import Button from "@/components/ui/Button";
 import HeroBackdrop from "@/components/lp/HeroBackdrop";
 import MockMonitor from "@/components/lp/MockMonitor";
-import MockAlDurr from "@/components/lp/mock/MockAlDurr";
+import MockSiteVideo from "@/components/lp/MockSiteVideo";
 import { scrollToId } from "@/lib/scrollTo";
 import type { Vertical } from "@/lib/verticals";
 
 /** Entrada escalonada, em CSS (ver .lp-rise em globals.css). */
 const up = (delay: number) => ({ style: { animationDelay: `${delay}s` } });
-
-/** As paragens do percurso da maquete, na ordem em que aparecem. */
-const CHAPTERS = ["Início", "Modelos", "Engenharia", "Processo", "Interiores", "Contacto"];
 
 /**
  * Cada palavra sobe de dentro da sua própria máscara, com um atraso a
@@ -72,25 +69,17 @@ export default function LpHero({ v }: { v: Vertical }) {
         {/* ── o monitor ── */}
         <div {...up(0.3)} className="lp-rise order-2 lg:order-1">
           <MockMonitor>
-            <div className="h-[300px] overflow-hidden sm:h-[360px] lg:h-[400px]">
-              <div className="lp-site-read">
-                <MockAlDurr />
-              </div>
+            <div className="h-[300px] sm:h-[360px] lg:h-[400px]">
+              <MockSiteVideo
+                webm="/img/lp/aldurr/site.webm"
+                mp4="/img/lp/aldurr/site.mp4"
+                poster="/img/lp/aldurr/site-poster.jpg"
+                alt="O site da Al Durr a ser percorrido, com as animações a correr"
+              />
             </div>
           </MockMonitor>
 
-          <ol className="mx-auto mt-8 flex max-w-xl flex-wrap items-center justify-center gap-x-3.5 gap-y-1.5">
-            {CHAPTERS.map((c, i) => (
-              <li
-                key={c}
-                className={`lp-chap lp-chap-${i + 1} flex items-center gap-1.5 whitespace-nowrap font-sans text-[9.5px] font-medium uppercase tracking-[0.13em]`}
-              >
-                <span className="lp-chap-dot h-1 w-1 rounded-full bg-current" />
-                {c}
-              </li>
-            ))}
-          </ol>
-          <p className="mt-3 text-center font-sans text-[12px] text-text-muted">
+          <p className="mt-7 text-center font-sans text-[12.5px] text-text-muted">
             Site que fizemos para a <span className="text-text-secondary">Al Durr</span>, casas modulares.
           </p>
         </div>
