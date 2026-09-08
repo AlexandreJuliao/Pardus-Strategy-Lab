@@ -30,110 +30,49 @@ function MaskedWords({ text, from = 0, accent = false }: { text: string; from?: 
 }
 
 /**
- * Herói em formato de cartaz: uma lousa curta no topo, o título a ocupar o
- * ecrã, o site do cliente como plano largo por baixo e uma linha de créditos
- * a fechar. Tudo dentro de um enquadramento com barras escuras em cima e em
- * baixo — é isso que dá a leitura de sala, e não mais efeitos.
+ * Herói: o computador ancorado à esquerda, a sair pela margem, e o título à
+ * direita a passar-lhe por cima. As linhas mais compridas avançam mais para
+ * dentro do monitor — é o texto a andar à volta do objeto em vez de ficar
+ * arrumado ao lado dele.
  *
- * Sem botões, por pedido: a ação vive no cabeçalho, que acompanha a página
- * inteira.
+ * O ambiente é azul petrol claro, não navy quase preto: é a luz que faz o
+ * ecrã parecer aceso e o objeto parecer estar num sítio.
+ *
+ * Sem botões, por pedido: a ação vive no cabeçalho, que acompanha a página.
  */
 export default function LpHero({ v }: { v: Vertical }) {
   const h = v.hero;
   let palavras = 0;
 
   return (
-    <section className="seam-bottom relative flex min-h-[100dvh] flex-col justify-center overflow-hidden pb-10 pt-24 md:pt-28">
-      <HeroBackdrop />
+    <section className="seam-bottom relative flex min-h-[100dvh] flex-col justify-center overflow-hidden pb-12 pt-24 md:pt-28">
+      {/* o ambiente: azul petrol aceso ao centro, a morrer nas pontas */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "radial-gradient(130% 80% at 50% 24%, transparent 26%, rgba(5,7,14,0.55) 72%, var(--bg) 100%)",
+          background:
+            "radial-gradient(125% 92% at 46% 44%, #2b4a79 0%, #223c66 26%, #17294a 52%, #0d1729 76%, var(--bg) 100%)",
         }}
         aria-hidden
       />
+      <HeroBackdrop />
       <div
-        className="grid-lines pointer-events-none absolute inset-0 opacity-[0.1]"
-        style={{
-          maskImage: "radial-gradient(110% 74% at 50% 16%, #000 18%, transparent 76%)",
-        }}
-        aria-hidden
-      />
-
-      {/* barras de enquadramento */}
-      <span
-        className="pointer-events-none absolute inset-x-0 top-0 h-[8vh] bg-gradient-to-b from-bg to-transparent"
-        aria-hidden
-      />
-      <span
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[8vh] bg-gradient-to-t from-bg to-transparent"
+        className="grid-lines pointer-events-none absolute inset-0 opacity-[0.07]"
+        style={{ maskImage: "radial-gradient(105% 72% at 50% 20%, #000 16%, transparent 74%)" }}
         aria-hidden
       />
       <span className="lp-bracket left-9 top-[13vh] hidden border-l border-t md:block" aria-hidden />
       <span className="lp-bracket right-9 top-[13vh] hidden border-r border-t md:block" aria-hidden />
 
-      <div className="shell relative z-10 flex w-full flex-col">
-        {/* ── a lousa ── */}
-        <p
-          {...up(0.02)}
-          className="lp-rise flex items-center gap-3 font-sans text-[9.5px] uppercase tracking-[0.16em] text-text-muted md:text-[11px] md:tracking-[0.3em]"
-        >
-          <span className="h-px w-7 bg-gold/70" aria-hidden />
-          {h.kicker}
-        </p>
-
-        {/* ── o título, com os créditos a acompanhar à direita ── */}
-        <div className="mt-6 flex flex-col md:mt-7 lg:grid lg:grid-cols-[1fr_260px] lg:items-end lg:gap-x-10">
-          <h1 className="relative z-20 order-1 lg:order-none lg:col-start-1 lg:row-start-1 font-display text-[clamp(30px,4.5vw,58px)] font-bold leading-[1.0] tracking-[-0.036em] text-text-primary">
-            {h.lines.map((l, i) => {
-              const from = palavras;
-              palavras += l.t.split(" ").length;
-              return (
-                <span key={l.t} className="block" style={{ marginLeft: `calc(${i} * clamp(0px, 3vw, 62px))` }}>
-                  {l.accent ? (
-                    <span className="accent-serif text-gold">
-                      <MaskedWords text={l.t} from={from} accent />
-                    </span>
-                  ) : (
-                    <MaskedWords text={l.t} from={from} />
-                  )}
-                </span>
-              );
-            })}
-          </h1>
-
-          {/* os créditos: rótulo pequeno em cima, o que interessa por baixo */}
-          <dl
-            {...up(0.5)}
-            className="lp-rise order-3 mt-9 grid grid-cols-1 gap-x-8 sm:grid-cols-3 lg:order-none lg:col-start-2 lg:row-start-1 lg:mt-0 lg:grid-cols-1 lg:gap-0 lg:border-l lg:border-line lg:pl-6"
-          >
-            {h.credits.map((c, i) => (
-              <div
-                key={c.label}
-                className={
-                  i > 0
-                    ? "mt-4 border-t border-line pt-4 sm:mt-0 sm:border-t-0 sm:pt-0 lg:mt-4 lg:border-t lg:pt-4"
-                    : ""
-                }
-              >
-                <dt className="font-sans text-[10px] uppercase tracking-[0.26em] text-text-muted">{c.label}</dt>
-                {c.figure && <p className="stat-figure mt-2 text-[28px] leading-none">{c.figure}</p>}
-                <dd
-                  className={`font-sans text-[13.5px] leading-snug ${c.figure ? "mt-1.5 text-text-primary" : "mt-2 text-text-secondary"}`}
-                >
-                  {c.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-
-          {/* ── o plano largo: o site do cliente ── */}
+      <div className="shell relative z-10 w-full">
+        <div className="flex flex-col lg:grid lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
+          {/* ── o computador, ancorado à esquerda ── */}
           <div
-            {...up(0.38)}
-            className="lp-rise relative z-10 order-2 mt-7 md:mt-8 lg:order-none lg:col-span-2 lg:row-start-2"
+            {...up(0.3)}
+            className="lp-rise relative order-2 mt-8 lg:order-none lg:col-start-1 lg:row-start-1 lg:-ml-[3vw] lg:mt-0"
           >
-            <MockMonitor className="mx-auto w-full max-w-[648px]">
-              <div className="aspect-[2/1]">
+            <MockMonitor className="mx-auto w-full max-w-[560px] lg:mx-0 lg:max-w-none">
+              <div className="aspect-[16/10]">
                 <MockSiteVideo
                   webm="/img/lp/aldurr/site.webm"
                   mp4="/img/lp/aldurr/site.mp4"
@@ -142,6 +81,77 @@ export default function LpHero({ v }: { v: Vertical }) {
                 />
               </div>
             </MockMonitor>
+          </div>
+
+          {/* ── o texto, à direita, a passar por cima do computador ── */}
+          <div className="relative z-20 order-1 lg:order-none lg:col-start-2 lg:row-start-1 lg:-ml-[31%] lg:text-right">
+            {/* véu só do lado do texto: é o que deixa o branco assentar em
+                cima do ecrã sem lhe tirar a imagem */}
+            <span
+              className="pointer-events-none absolute -inset-y-40 -right-[40vw] left-[22%] hidden lg:block"
+              style={{
+                // elipse, não retângulo: assim o véu não deixa arestas à vista
+                background:
+                  "radial-gradient(52% 42% at 60% 50%, rgba(8,15,29,0.7) 0%, rgba(8,15,29,0.45) 46%, rgba(8,15,29,0.16) 72%, transparent 90%)",
+              }}
+              aria-hidden
+            />
+
+            <p
+              {...up(0.02)}
+              className="lp-rise flex items-center gap-3 font-sans text-[9.5px] uppercase tracking-[0.16em] text-text-secondary md:text-[11px] md:tracking-[0.3em] lg:justify-end"
+            >
+              <span className="h-px w-7 bg-gold/80 lg:order-2" aria-hidden />
+              {h.kicker}
+            </p>
+
+            <h1
+              className="relative mt-5 font-display text-[clamp(31px,4.6vw,60px)] font-bold leading-[1.02] tracking-[-0.036em] text-text-primary md:mt-6"
+              style={{ textShadow: "0 2px 8px rgba(5,10,20,0.55), 0 4px 34px rgba(5,10,20,0.85)" }}
+            >
+              {h.lines.map((l, i) => {
+                const from = palavras;
+                palavras += l.t.split(" ").length;
+                return (
+                  <span key={l.t} className="block">
+                    {l.accent ? (
+                      <span className="accent-serif text-gold">
+                        <MaskedWords text={l.t} from={from} accent />
+                      </span>
+                    ) : (
+                      <MaskedWords text={l.t} from={from} />
+                    )}
+                  </span>
+                );
+              })}
+            </h1>
+
+            {/* os créditos: rótulo pequeno em cima, o que interessa por baixo */}
+            <dl
+              {...up(0.5)}
+              className="lp-rise relative mt-8 grid grid-cols-1 gap-x-8 sm:grid-cols-3 lg:ml-auto lg:mt-9 lg:max-w-[330px] lg:grid-cols-1 lg:gap-0"
+            >
+              {h.credits.map((c, i) => (
+                <div
+                  key={c.label}
+                  className={
+                    i > 0
+                      ? "mt-4 border-t border-white/10 pt-4 sm:mt-0 sm:border-t-0 sm:pt-0 lg:mt-4 lg:border-t lg:pt-4"
+                      : ""
+                  }
+                >
+                  <dt className="font-sans text-[10px] uppercase tracking-[0.26em] text-text-secondary/70">
+                    {c.label}
+                  </dt>
+                  {c.figure && <p className="stat-figure mt-2 text-[28px] leading-none">{c.figure}</p>}
+                  <dd
+                    className={`font-sans text-[13.5px] leading-snug ${c.figure ? "mt-1.5 text-text-primary" : "mt-2 text-[#cbd8ea]"}`}
+                  >
+                    {c.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
       </div>
