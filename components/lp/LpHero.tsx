@@ -1,8 +1,7 @@
 "use client";
 
-import HeroBackdrop from "@/components/lp/HeroBackdrop";
-import MonitorFoto from "@/components/lp/MonitorFoto";
 import MockSiteVideo from "@/components/lp/MockSiteVideo";
+import TiltStage from "@/components/lp/TiltStage";
 import type { Vertical } from "@/lib/verticals";
 
 /** Entrada escalonada, em CSS (ver .lp-rise em globals.css). */
@@ -30,14 +29,14 @@ function MaskedWords({ text, from = 0, accent = false }: { text: string; from?: 
 }
 
 /**
- * Herói: o computador — uma fotografia de estúdio, com o site a passar mesmo
- * lá dentro — ancorado à esquerda, a sair pela margem, e o título à
- * direita a passar-lhe por cima. As linhas mais compridas avançam mais para
- * dentro do monitor — é o texto a andar à volta do objeto em vez de ficar
- * arrumado ao lado dele.
+ * Herói: texto à esquerda com muito ar, e à direita o site do cliente a
+ * correr num ecrã sem moldura — uma placa de vidro em perspetiva, a flutuar,
+ * que roda de leve atrás do rato. Sem monitor, sem secretária, sem cenário:
+ * o próprio site é o objeto.
  *
- * O ambiente é azul petrol claro, não navy quase preto: é a luz que faz o
- * ecrã parecer aceso e o objeto parecer estar num sítio.
+ * O fundo é o navy da página, limpo, com uma só luz atrás da placa e uma
+ * grelha de pontos quase invisível. As linhas finas (a do horizonte, os
+ * cantos, os separadores) são o que dá a leitura de instrumento.
  *
  * Sem botões, por pedido: a ação vive no cabeçalho, que acompanha a página.
  */
@@ -46,73 +45,54 @@ export default function LpHero({ v }: { v: Vertical }) {
   let palavras = 0;
 
   return (
-    <section className="seam-bottom relative flex min-h-[100dvh] flex-col justify-center overflow-hidden pb-12 pt-24 md:pt-28">
-      {/* o ambiente: azul petrol aceso ao centro, a morrer nas pontas */}
+    <section className="seam-bottom relative flex min-h-[100dvh] flex-col justify-center overflow-hidden pb-16 pt-28 md:pt-32">
+      {/* uma luz só, atrás da placa */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(125% 92% at 46% 44%, #2b4a79 0%, #223c66 26%, #17294a 52%, #0d1729 76%, var(--bg) 100%)",
+            "radial-gradient(52% 58% at 70% 46%, rgba(46,84,132,0.38) 0%, rgba(46,84,132,0.12) 46%, transparent 72%)",
         }}
         aria-hidden
       />
-      <HeroBackdrop />
       <div
-        className="grid-lines pointer-events-none absolute inset-0 opacity-[0.07]"
-        style={{ maskImage: "radial-gradient(105% 72% at 50% 20%, #000 16%, transparent 74%)" }}
+        className="dot-grid pointer-events-none absolute inset-0 opacity-40"
+        style={{
+          maskImage: "radial-gradient(70% 70% at 62% 50%, #000 20%, transparent 78%)",
+          WebkitMaskImage: "radial-gradient(70% 70% at 62% 50%, #000 20%, transparent 78%)",
+        }}
         aria-hidden
       />
-      <span className="lp-bracket left-9 top-[13vh] hidden border-l border-t md:block" aria-hidden />
-      <span className="lp-bracket right-9 top-[13vh] hidden border-r border-t md:block" aria-hidden />
+      {/* linha do horizonte: passa por trás da placa, de lado a lado */}
+      <span
+        className="pointer-events-none absolute inset-x-0 top-[66%] hidden h-px lg:block"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, var(--border-strong) 30%, var(--border-strong) 70%, transparent 100%)",
+        }}
+        aria-hidden
+      />
+      <span className="lp-bracket left-9 top-[12vh] hidden border-l border-t md:block" aria-hidden />
+      <span className="lp-bracket right-9 top-[12vh] hidden border-r border-t md:block" aria-hidden />
 
       <div className="shell relative z-10 w-full">
-        <div className="flex flex-col lg:grid lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
-          {/* ── o computador, ancorado à esquerda ── */}
-          <div
-            {...up(0.3)}
-            className="lp-rise relative order-2 -mx-[13%] mt-2 w-[126%] lg:order-none lg:col-start-1 lg:row-start-1 lg:-ml-[21vw] lg:mr-0 lg:mt-0 lg:w-[166%]"
-          >
-            <MonitorFoto className="w-full">
-              <MockSiteVideo
-                webm="/img/lp/aldurr/site.webm"
-                mp4="/img/lp/aldurr/site.mp4"
-                poster="/img/lp/aldurr/site-poster.jpg"
-                alt="O site da Al Durr a ser percorrido, com as animações a correr"
-              />
-            </MonitorFoto>
-          </div>
-
-          {/* ── o texto, à direita, a passar por cima do computador ── */}
-          <div className="relative z-20 order-1 lg:order-none lg:col-start-2 lg:row-start-1 lg:-ml-[31%] lg:text-right">
-            {/* véu só do lado do texto: é o que deixa o branco assentar em
-                cima do ecrã sem lhe tirar a imagem */}
-            <span
-              className="pointer-events-none absolute -inset-y-40 -right-[40vw] left-[22%] hidden lg:block"
-              style={{
-                // elipse, não retângulo: assim o véu não deixa arestas à vista
-                background:
-                  "radial-gradient(52% 42% at 60% 50%, rgba(8,15,29,0.7) 0%, rgba(8,15,29,0.45) 46%, rgba(8,15,29,0.16) 72%, transparent 90%)",
-              }}
-              aria-hidden
-            />
-
+        <div className="grid grid-cols-1 gap-y-12 lg:grid-cols-[1fr_1.08fr] lg:items-center lg:gap-x-10">
+          {/* ── o texto ── */}
+          <div className="relative">
             <p
               {...up(0.02)}
-              className="lp-rise flex items-center gap-3 font-sans text-[9.5px] uppercase tracking-[0.16em] text-text-secondary md:text-[11px] md:tracking-[0.3em] lg:justify-end"
+              className="lp-rise flex items-center gap-3 font-sans text-[10px] uppercase tracking-[0.22em] text-text-muted md:text-[11px] md:tracking-[0.3em]"
             >
-              <span className="h-px w-7 bg-gold/80 lg:order-2" aria-hidden />
+              <span className="h-px w-7 bg-gold/80" aria-hidden />
               {h.kicker}
             </p>
 
-            <h1
-              className="relative mt-5 font-display text-[clamp(31px,4.6vw,60px)] font-bold leading-[1.02] tracking-[-0.036em] text-text-primary md:mt-6"
-              style={{ textShadow: "0 2px 8px rgba(5,10,20,0.55), 0 4px 34px rgba(5,10,20,0.85)" }}
-            >
-              {h.lines.map((l, i) => {
+            <h1 className="mt-7 font-display text-[clamp(31px,3.55vw,46px)] font-bold leading-[1.04] tracking-[-0.036em] text-text-primary md:mt-8">
+              {h.lines.map((l) => {
                 const from = palavras;
                 palavras += l.t.split(" ").length;
                 return (
-                  <span key={l.t} className="block">
+                  <span key={l.t} className="block lg:whitespace-nowrap">
                     {l.accent ? (
                       <span className="accent-serif text-gold">
                         <MaskedWords text={l.t} from={from} accent />
@@ -125,32 +105,100 @@ export default function LpHero({ v }: { v: Vertical }) {
               })}
             </h1>
 
-            {/* os créditos: rótulo pequeno em cima, o que interessa por baixo */}
-            <dl
-              {...up(0.5)}
-              className="lp-rise relative mt-8 grid grid-cols-1 gap-x-8 sm:grid-cols-3 lg:ml-auto lg:mt-9 lg:max-w-[330px] lg:grid-cols-1 lg:gap-0"
+            <p
+              {...up(0.3)}
+              className="lp-rise mt-7 max-w-[42ch] font-sans text-[clamp(15px,1.25vw,17px)] leading-relaxed text-text-secondary"
             >
-              {h.credits.map((c, i) => (
-                <div
-                  key={c.label}
-                  className={
-                    i > 0
-                      ? "mt-4 border-t border-white/10 pt-4 sm:mt-0 sm:border-t-0 sm:pt-0 lg:mt-4 lg:border-t lg:pt-4"
-                      : ""
-                  }
-                >
-                  <dt className="font-sans text-[10px] uppercase tracking-[0.26em] text-text-secondary/70">
-                    {c.label}
-                  </dt>
-                  {c.figure && <p className="stat-figure mt-2 text-[28px] leading-none">{c.figure}</p>}
-                  <dd
-                    className={`font-sans text-[13.5px] leading-snug ${c.figure ? "mt-1.5 text-text-primary" : "mt-2 text-[#cbd8ea]"}`}
-                  >
-                    {c.value}
-                  </dd>
-                </div>
-              ))}
+              {h.sub}
+            </p>
+
+            {/* leituras: um número que interessa e o que está no ecrã */}
+            <dl
+              {...up(0.42)}
+              className="lp-rise mt-10 grid grid-cols-2 gap-x-8 border-t border-line pt-6 sm:max-w-[460px]"
+            >
+              <div>
+                <dt className="font-sans text-[10px] uppercase tracking-[0.24em] text-text-muted">{h.metric.label}</dt>
+                <dd className="mt-2">
+                  <span className="stat-figure block whitespace-nowrap text-[30px] leading-none">
+                    {h.metric.figure}
+                  </span>
+                  <span className="mt-1.5 block font-sans text-[13px] leading-snug text-text-secondary">
+                    {h.metric.unit}
+                  </span>
+                </dd>
+              </div>
+              <div className="border-l border-line pl-6 sm:pl-8">
+                <dt className="font-sans text-[10px] uppercase tracking-[0.24em] text-text-muted">No ecrã</dt>
+                <dd className="mt-2">
+                  <span className="flex items-center gap-2 font-sans text-[17px] font-semibold leading-none text-text-primary">
+                    <span className="lp-live inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
+                    {h.live.name}
+                  </span>
+                  <span className="mt-1.5 block font-sans text-[13px] leading-snug text-text-secondary">
+                    {h.live.note}
+                  </span>
+                </dd>
+              </div>
             </dl>
+          </div>
+
+          {/* ── a placa de vidro com o site a correr ── */}
+          <div {...up(0.24)} className="lp-rise relative lg:-mr-[8vw]">
+            <div className="lp-float" style={{ perspective: "1700px" }}>
+              <TiltStage className="relative">
+                <div
+                  className="relative overflow-hidden rounded-[14px] md:rounded-[18px]"
+                  style={{
+                    background: "#0b1120",
+                    boxShadow: [
+                      "0 0 0 1px rgba(255,255,255,0.09)",
+                      "0 1px 0 rgba(255,255,255,0.16) inset",
+                      "0 70px 120px -50px rgba(0,0,0,0.9)",
+                      "0 30px 60px -30px rgba(5,10,24,0.8)",
+                    ].join(", "),
+                  }}
+                >
+                  <div className="aspect-[16/10]">
+                    <MockSiteVideo
+                      webm="/img/lp/aldurr/site.webm"
+                      mp4="/img/lp/aldurr/site.mp4"
+                      poster="/img/lp/aldurr/site-poster.jpg"
+                      alt="O site da Al Durr a ser percorrido, com as animações a correr"
+                    />
+                  </div>
+
+                  {/* o endereço, para se perceber que é um site a sério */}
+                  <div className="pointer-events-none absolute bottom-3 left-3 z-20 flex items-center gap-2 rounded-full border border-white/10 bg-[#05070e]/75 px-3 py-1.5 md:bottom-4 md:left-4">
+                    <span className="h-1.5 w-1.5 rounded-full bg-gold" aria-hidden />
+                    <span className="font-sans text-[11px] tracking-wide text-text-primary">{h.live.url}</span>
+                  </div>
+
+                  {/* aresta de luz em cima, dourada e curta */}
+                  <span
+                    className="pointer-events-none absolute inset-x-[18%] top-0 z-20 h-px"
+                    style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,96,0.7), transparent)" }}
+                    aria-hidden
+                  />
+                  {/* varrimento de luz no vidro, uma vez, à entrada */}
+                  <span
+                    className="lp-sweep pointer-events-none absolute -inset-y-10 left-0 z-20 w-[34%]"
+                    style={{
+                      background:
+                        "linear-gradient(90deg, transparent, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.11) 50%, rgba(255,255,255,0.05) 60%, transparent)",
+                    }}
+                    aria-hidden
+                  />
+                </div>
+              </TiltStage>
+            </div>
+
+            {/* a placa a pousar luz no chão */}
+            <div
+              className="pointer-events-none absolute inset-x-[12%] -bottom-10 h-16 blur-2xl"
+              style={{ background: "radial-gradient(50% 60% at 50% 50%, rgba(46,84,132,0.5), transparent 70%)" }}
+              aria-hidden
+            />
           </div>
         </div>
       </div>

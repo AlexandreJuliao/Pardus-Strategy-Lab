@@ -21,12 +21,16 @@ export type Vertical = {
   logo?: string;
   seo: { title: string; description: string };
   hero: {
-    /** faixa curta por cima do título, no lugar da lousa de um filme */
+    /** faixa curta por cima do título */
     kicker: string;
-    /** a headline em linhas; o recuo cresce de linha para linha */
+    /** a headline em linhas */
     lines: { t: string; accent?: boolean }[];
-    /** linha de créditos por baixo do ecrã: rótulo pequeno + o que interessa */
-    credits: { label: string; figure?: string; value: string }[];
+    /** uma frase, a única, por baixo do título */
+    sub: string;
+    /** o número que interessa */
+    metric: { label: string; figure: string; unit: string };
+    /** o que está a correr no ecrã */
+    live: { name: string; note: string; url: string };
   };
   stats: { value: string; label: string }[];
   statement: { pre: string; accent: string; post?: string; sub: string };
@@ -84,17 +88,15 @@ export const VERTICALS: Record<string, Vertical> = {
         "Sites profissionais para negócios em Portugal: design à medida, rápidos no telemóvel, ligados ao WhatsApp e a aparecer no Google. Desde 399€. Consultoria gratuita.",
     },
     hero: {
-      kicker: "Duas semanas · Preço fechado · Portugal",
+      kicker: "Websites · Portugal · Duas semanas",
       lines: [
         { t: "Websites à medida" },
         { t: "que fazem o teu negócio" },
         { t: "subir de nível", accent: true },
       ],
-      credits: [
-        { label: "O que entregamos", value: "Desenho, textos e lançamento — tudo feito por nós." },
-        { label: "O que muda", figure: "2 a 10", value: "pedidos de orçamento por mês." },
-        { label: "No ecrã", value: "Al Durr · casas modulares" },
-      ],
+      sub: "Desenhamos, escrevemos e lançamos. Preço fechado, sem surpresas — e o site já feito para trazer pedidos, não só para estar bonito.",
+      metric: { label: "O que muda", figure: "2 a 10", unit: "pedidos de orçamento por mês" },
+      live: { name: "Al Durr", note: "casas modulares", url: "aldurr.pt" },
     },
     stats: [
       { value: "2 sem.", label: "Do primeiro contacto ao site no ar" },
