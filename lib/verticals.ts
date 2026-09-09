@@ -21,16 +21,12 @@ export type Vertical = {
   logo?: string;
   seo: { title: string; description: string };
   hero: {
-    /** faixa curta por cima do título */
-    kicker: string;
-    /** a headline em linhas */
+    /** o título, em três linhas */
     lines: { t: string; accent?: boolean }[];
-    /** uma frase, a única, por baixo do título */
-    sub: string;
-    /** o número que interessa */
-    metric: { label: string; figure: string; unit: string };
-    /** o que está a correr no ecrã */
-    live: { name: string; note: string; url: string };
+    /** a assinatura, por baixo do ecrã */
+    tagline: string;
+    /** a pergunta, em rodapé do herói; `figure` acende a dourado */
+    question: { pre: string; figure: string; post: string };
   };
   stats: { value: string; label: string }[];
   statement: { pre: string; accent: string; post?: string; sub: string };
@@ -88,15 +84,13 @@ export const VERTICALS: Record<string, Vertical> = {
         "Sites profissionais para negócios em Portugal: design à medida, rápidos no telemóvel, ligados ao WhatsApp e a aparecer no Google. Desde 399€. Consultoria gratuita.",
     },
     hero: {
-      kicker: "Websites · Portugal · Duas semanas",
       lines: [
         { t: "Websites à medida" },
         { t: "que fazem o teu negócio" },
         { t: "subir de nível", accent: true },
       ],
-      sub: "Desenhamos, escrevemos e lançamos. Preço fechado, sem surpresas — e o site já feito para trazer pedidos, não só para estar bonito.",
-      metric: { label: "O que muda", figure: "2 a 10", unit: "pedidos de orçamento por mês" },
-      live: { name: "Al Durr", note: "casas modulares", url: "aldurr.pt" },
+      tagline: "Desenhamos, escrevemos e lançamos.",
+      question: { pre: "Já pensaste ter", figure: "2 a 10", post: "contactos novos todos os meses, sem teres de fazer nada?" },
     },
     stats: [
       { value: "2 sem.", label: "Do primeiro contacto ao site no ar" },
@@ -142,9 +136,9 @@ export const VERTICALS: Record<string, Vertical> = {
         "Páginas rápidas no telemóvel, que é o que o Google premeia.",
         "O caminho até ao contacto, pensado ao pormenor.",
       ],
-      query: "casas modulares chave na mão",
-      result: "Al Durr · Casas modulares em A-frame",
-      resultUrl: "aldurr.pt",
+      query: "remodelação de cozinha lisboa",
+      result: "Oficina do Azulejo · Remodelações em Lisboa",
+      resultUrl: "oficinadoazulejo.pt",
       cta: "Quero um site assim",
     },
     flow: {

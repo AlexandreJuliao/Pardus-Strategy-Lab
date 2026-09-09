@@ -783,25 +783,3 @@ select.field {
   .lp-rank-ours { transform: translateY(0); }
   .lp-rank-pos::after { content: "1"; }
 }
-
-/* ---- Placa de vidro do herói das LPs ----
-   Flutua devagar, apanha um varrimento de luz à entrada, e o ponto "ao vivo"
-   respira. Tudo por transform e opacity. */
-@keyframes lp-float {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -10px, 0); }
-}
-.lp-float { animation: lp-float 9s ease-in-out infinite; }
-@keyframes lp-sweep {
-  from { transform: translate3d(-160%, 0, 0) skewX(-18deg); }
-  to   { transform: translate3d(420%, 0, 0) skewX(-18deg); }
-}
-.lp-sweep { animation: lp-sweep 2.6s cubic-bezier(0.2, 0.7, 0.2, 1) 1.2s both; }
-@keyframes lp-live {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.7); }
-}
-.lp-live { animation: lp-live 2.2s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .lp-float, .lp-sweep, .lp-live { animation: none !important; }
-}
