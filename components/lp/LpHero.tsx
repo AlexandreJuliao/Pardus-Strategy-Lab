@@ -1,7 +1,7 @@
 "use client";
 
 import HeroBackdrop from "@/components/lp/HeroBackdrop";
-import MockMonitor from "@/components/lp/MockMonitor";
+import MonitorFoto from "@/components/lp/MonitorFoto";
 import MockSiteVideo from "@/components/lp/MockSiteVideo";
 import type { Vertical } from "@/lib/verticals";
 
@@ -30,7 +30,8 @@ function MaskedWords({ text, from = 0, accent = false }: { text: string; from?: 
 }
 
 /**
- * Herói: o computador ancorado à esquerda, a sair pela margem, e o título à
+ * Herói: o computador — uma fotografia de estúdio, com o site a passar mesmo
+ * lá dentro — ancorado à esquerda, a sair pela margem, e o título à
  * direita a passar-lhe por cima. As linhas mais compridas avançam mais para
  * dentro do monitor — é o texto a andar à volta do objeto em vez de ficar
  * arrumado ao lado dele.
@@ -69,18 +70,16 @@ export default function LpHero({ v }: { v: Vertical }) {
           {/* ── o computador, ancorado à esquerda ── */}
           <div
             {...up(0.3)}
-            className="lp-rise relative order-2 mt-8 lg:order-none lg:col-start-1 lg:row-start-1 lg:-ml-[3vw] lg:mt-0"
+            className="lp-rise relative order-2 -mx-[13%] mt-2 w-[126%] lg:order-none lg:col-start-1 lg:row-start-1 lg:-ml-[21vw] lg:mr-0 lg:mt-0 lg:w-[166%]"
           >
-            <MockMonitor className="mx-auto w-full max-w-[560px] lg:mx-0 lg:max-w-none">
-              <div className="aspect-[16/10]">
-                <MockSiteVideo
-                  webm="/img/lp/aldurr/site.webm"
-                  mp4="/img/lp/aldurr/site.mp4"
-                  poster="/img/lp/aldurr/site-poster.jpg"
-                  alt="O site da Al Durr a ser percorrido, com as animações a correr"
-                />
-              </div>
-            </MockMonitor>
+            <MonitorFoto className="w-full">
+              <MockSiteVideo
+                webm="/img/lp/aldurr/site.webm"
+                mp4="/img/lp/aldurr/site.mp4"
+                poster="/img/lp/aldurr/site-poster.jpg"
+                alt="O site da Al Durr a ser percorrido, com as animações a correr"
+              />
+            </MonitorFoto>
           </div>
 
           {/* ── o texto, à direita, a passar por cima do computador ── */}
