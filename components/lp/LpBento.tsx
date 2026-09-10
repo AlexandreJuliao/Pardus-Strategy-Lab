@@ -7,6 +7,10 @@ import MockSearch from "@/components/lp/mock/MockSearch";
 import MockChat from "@/components/lp/mock/MockChat";
 import MockScore from "@/components/lp/mock/MockScore";
 import MockChart from "@/components/lp/mock/MockChart";
+import MockPipeline from "@/components/lp/mock/MockPipeline";
+import MockAgenda from "@/components/lp/mock/MockAgenda";
+import MockInvoice from "@/components/lp/mock/MockInvoice";
+import MockAccess from "@/components/lp/mock/MockAccess";
 import type { MockKind, Vertical } from "@/lib/verticals";
 
 const MOCKS: Record<MockKind, React.ComponentType> = {
@@ -14,6 +18,10 @@ const MOCKS: Record<MockKind, React.ComponentType> = {
   chat: MockChat,
   score: MockScore,
   chart: MockChart,
+  pipeline: MockPipeline,
+  agenda: MockAgenda,
+  invoice: MockInvoice,
+  access: MockAccess,
 };
 
 /** Bento de funcionalidades, cada card com uma mini-UI a mostrar (não a dizer). */

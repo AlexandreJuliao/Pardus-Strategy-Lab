@@ -19,7 +19,7 @@ export default function LpLayout({
   if (!v) notFound();
   return (
     <>
-      <LpHeader name={v.name} logo={v.logo} />
+      <LpHeader name={v.name} nameShort={v.nameShort} logo={v.logo} />
       <main>{children}</main>
       <LpFooter name={v.name} logo={v.logo} />
     </>

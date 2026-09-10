@@ -783,3 +783,18 @@ select.field {
   .lp-rank-ours { transform: translateY(0); }
   .lp-rank-pos::after { content: "1"; }
 }
+
+/* ---- Linhas a entrar num feed "ao vivo" (herói e automações da LP Softwares) ---- */
+@keyframes lp-feed-in {
+  from { opacity: 0; transform: translate3d(0, -6px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+.lp-feed-in { animation: lp-feed-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes lp-live {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+.lp-live { animation: lp-live 2.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .lp-feed-in, .lp-live { animation: none !important; }
+}

@@ -2,7 +2,7 @@ import { FileText, Globe, ShieldCheck, Zap, LineChart, Phone, type LucideIcon } 
 import Reveal from "@/components/lp/Reveal";
 import type { Vertical } from "@/lib/verticals";
 
-const ICONS: Record<Vertical["features"][number]["icon"], LucideIcon> = {
+const ICONS: Record<NonNullable<Vertical["features"]>[number]["icon"], LucideIcon> = {
   text: FileText,
   globe: Globe,
   shield: ShieldCheck,
@@ -16,6 +16,8 @@ const ICONS: Record<Vertical["features"][number]["icon"], LucideIcon> = {
  * à esquerda fixa o assunto; cada linha é um item com o ícone a abrir.
  */
 export default function LpFeatures({ v }: { v: Vertical }) {
+  const features = v.features;
+  if (!features) return null;
   return (
     <section className="relative border-y border-line bg-bg-2/40">
       <div className="shell grid grid-cols-1 gap-10 py-14 md:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
@@ -30,7 +32,7 @@ export default function LpFeatures({ v }: { v: Vertical }) {
         </div>
 
         <ul className="divide-y divide-line border-t border-line">
-          {v.features.map((f, i) => {
+          {features.map((f, i) => {
             const Icon = ICONS[f.icon];
             return (
               <Reveal tag="li" key={f.title} delay={i * 0.1} className="grid grid-cols-[44px_1fr] gap-5 py-6 first:pt-0 lg:first:pt-6">

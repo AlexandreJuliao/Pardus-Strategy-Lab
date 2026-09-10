@@ -7,13 +7,13 @@ import type { Vertical } from "@/lib/verticals";
  * prazo de cada passo à vista. É uma sequência a sério, por isso os
  * números têm razão de existir aqui.
  */
-export default function LpProcess({ v }: { v: Vertical }) {
+export default function LpProcess({ v, intro = "Três passos, com o preço fechado logo no primeiro." }: { v: Vertical; intro?: string }) {
   return (
     <section className="seam-bottom relative overflow-hidden section-pad">
       <div className="shell">
         <SectionHeader
           title={<>Como <span className="accent-serif text-gold">funciona</span></>}
-          intro="Três passos, com o preço fechado logo no primeiro."
+          intro={intro}
         />
 
         <ol className="relative mt-14 grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">

@@ -38,8 +38,8 @@ export default function LpPricing({ v }: { v: Vertical }) {
                 <p className="font-display text-xl font-semibold text-text-primary">{plan.name}</p>
                 <p className="mt-2 font-sans text-[14.5px] leading-relaxed text-text-secondary">{plan.desc}</p>
                 <p className="mt-6 flex items-baseline gap-2">
-                  <span className="mono-tiny text-text-muted">desde</span>
-                  <span className="stat-figure text-[40px] leading-none">{plan.price}</span>
+                  {/\d/.test(plan.price) && <span className="mono-tiny text-text-muted">desde</span>}
+                  <span className={`stat-figure leading-none ${/\d/.test(plan.price) ? "text-[40px]" : "text-[30px]"}`}>{plan.price}</span>
                 </p>
                 <ul className="mt-6 flex-1 space-y-2.5">
                   {plan.items.map((it) => (

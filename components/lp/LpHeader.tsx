@@ -13,7 +13,7 @@ import { ROOT_DOMAIN } from "@/lib/verticals";
  * fixa obriga a desfocar tudo o que passa por trás a cada fotograma de scroll,
  * e era um dos custos que faziam a página tropeçar.
  */
-export default function LpHeader({ name, logo }: { name: string; logo?: string }) {
+export default function LpHeader({ name, nameShort, logo }: { name: string; nameShort?: string; logo?: string }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -30,14 +30,28 @@ export default function LpHeader({ name, logo }: { name: string; logo?: string }
       }`}
     >
       <div className="shell flex h-16 items-center justify-between md:h-[72px]">
-        <LpLockup name={name} src={logo} height={34} />
+        {nameShort ? (
+          <>
+            <span className="md:hidden">
+              <LpLockup name={nameShort} src={logo} height={34} />
+            </span>
+            <span className="hidden md:block">
+              <LpLockup name={name} src={logo} height={34} />
+            </span>
+          </>
+        ) : (
+          <LpLockup name={name} src={logo} height={34} />
+        )}
         <div className="flex items-center gap-5">
           <a
             href={`https://${ROOT_DOMAIN}`}
             className="group hidden items-center gap-1 font-sans text-[13px] text-text-secondary transition-colors hover:text-text-primary md:inline-flex"
           >
             Tudo o que fazemos
-            <ArrowUpRight size={13} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <ArrowUpRight
+              size={13}
+              className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
           </a>
           <CtaButton variant="outline" size="md">
             Consultoria gratuita

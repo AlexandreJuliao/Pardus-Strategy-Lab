@@ -24,6 +24,7 @@ const FUNNEL = [
 
 export default function LpOrganic({ v }: { v: Vertical }) {
   const o = v.organic;
+  if (!o) return null;
   return (
     <section className="seam-top relative overflow-hidden section-pad">
       <div className="dot-grid pointer-events-none absolute inset-0 opacity-25" />
