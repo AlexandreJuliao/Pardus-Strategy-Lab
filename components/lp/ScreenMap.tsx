@@ -3,20 +3,30 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Encaixa o que está lá dentro (o vídeo do site) no ecrã de uma fotografia,
- * em perspetiva.
+ * Encaixa o que está lá dentro (o vídeo do site, a plataforma) no ecrã de
+ * uma fotografia, em perspetiva.
  *
  * A fotografia foi feita com o ecrã em verde-chroma e os quatro cantos desse
  * verde estão em `cantos`, em píxeis da imagem original. Daí calcula-se a
- * homografia que leva o retângulo do vídeo a esse quadrilátero, e aplica-se
- * como `matrix3d`. Como a matriz depende do tamanho a que a imagem está a ser
- * mostrada, recalcula-se sempre que o contentor muda de largura — uma conta
- * pequena, uma vez por redimensionamento, nada por fotograma.
+ * homografia H que leva o retângulo de partida a esse quadrilátero.
  *
- * O resultado: o site passa mesmo dentro do ecrã, com a inclinação certa,
- * em qualquer tamanho.
+ * Como se aplica: não como um `matrix3d` com linha de perspetiva no próprio
+ * elemento — o WebKit (Safari) deita essa linha fora quando o elemento tem um
+ * vídeo, e fica um paralelogramo com verde à volta. Em vez disso, a
+ * perspetiva vive no pai (`perspective` + `perspective-origin` no canto do
+ * ecrã) e o filho leva uma transformação 3D *afim*: X = h11x+h12y+h13,
+ * Y = h21x+h22y+h23, Z = -d(h31x+h32y). A divisão pela profundidade que o
+ * pai faz (w = 1 - Z/d = 1 + h31x + h32y) devolve exatamente H. É CSS 3D
+ * normal, e todos os motores o compõem bem, vídeo incluído.
+ *
+ * A matriz depende do tamanho a que a imagem está a ser mostrada, por isso
+ * recalcula-se sempre que o contentor muda de largura — uma conta pequena,
+ * uma vez por redimensionamento, nada por fotograma.
  */
 export type Canto = [number, number];
+
+/** distância de perspetiva do pai; qualquer valor positivo serve, este mantém Z pequeno */
+const PROF = 1200;
 
 export default function ScreenMap({
   src,
@@ -52,17 +62,20 @@ export default function ScreenMap({
     if (!el || !alvo) return;
 
     const aplica = () => {
-      const s = el.clientWidth / largura;
+      const sc = el.clientWidth / largura;
       // origem = canto superior esquerdo da caixa de partida, já à escala
       const de: [number, number][] = [
         [0, 0],
-        [w0 * s, 0],
-        [w0 * s, h0 * s],
-        [0, h0 * s],
+        [w0 * sc, 0],
+        [w0 * sc, h0 * sc],
+        [0, h0 * sc],
       ];
-      const para = cantos.map(([x, y]) => [(x - x0) * s, (y - y0) * s] as [number, number]);
-      const m = homografia(de, para);
-      alvo.style.transform = `matrix3d(${m.join(",")})`;
+      const para = cantos.map(([x, y]) => [(x - x0) * sc, (y - y0) * sc] as [number, number]);
+      const h = homografia(de, para);
+      const [h11, h12, h13, h21, h22, h23, h31, h32] = h;
+      // 3D afim, por colunas, com a profundidade a carregar a perspetiva
+      const m = [h11, h21, -PROF * h31, 0, h12, h22, -PROF * h32, 0, 0, 0, 1, 0, h13, h23, 0, 1];
+      alvo.style.transform = `matrix3d(${m.map((n) => n.toFixed(6)).join(",")})`;
     };
 
     aplica();
@@ -74,7 +87,15 @@ export default function ScreenMap({
   }, []);
 
   return (
-    <div ref={caixa} className={`relative ${className}`} style={{ aspectRatio: `${largura} / ${altura}` }}>
+    <div
+      ref={caixa}
+      className={`relative ${className}`}
+      style={{
+        aspectRatio: `${largura} / ${altura}`,
+        perspective: `${PROF}px`,
+        perspectiveOrigin: `${(x0 / largura) * 100}% ${(y0 / altura) * 100}%`,
+      }}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
@@ -89,6 +110,7 @@ export default function ScreenMap({
       {/* o ecrã: a caixa de partida, posicionada em percentagem para acompanhar a imagem */}
       <div
         ref={ecra}
+        data-lp-ecra=""
         className="absolute overflow-hidden"
         style={{
           left: `${(x0 / largura) * 100}%`,
@@ -119,12 +141,8 @@ export default function ScreenMap({
   );
 }
 
-/**
- * Homografia que leva quatro pontos a outros quatro, devolvida já na ordem
- * (coluna a coluna) que o `matrix3d` do CSS espera.
- */
+/** Os oito coeficientes da homografia (h33 = 1) que leva quatro pontos a outros quatro. */
 function homografia(de: [number, number][], para: [number, number][]): number[] {
-  // sistema de 8 equações para os 8 coeficientes (h33 = 1)
   const A: number[][] = [];
   const b: number[] = [];
   for (let i = 0; i < 4; i++) {
@@ -135,10 +153,7 @@ function homografia(de: [number, number][], para: [number, number][]): number[] 
     A.push([0, 0, 0, x, y, 1, -v * x, -v * y]);
     b.push(v);
   }
-  const h = resolve(A, b);
-  const [a, bb, c, d, e, f, g, hh] = h;
-  // matriz 3x3 [[a,bb,c],[d,e,f],[g,hh,1]] → matrix3d 4x4 por colunas
-  return [a, d, 0, g, bb, e, 0, hh, 0, 0, 1, 0, c, f, 0, 1];
+  return resolve(A, b);
 }
 
 /** eliminação de Gauss com pivotagem parcial; 8x8, chega de sobra */
