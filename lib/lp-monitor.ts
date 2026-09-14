@@ -22,7 +22,7 @@ export type Aparelho = {
  *  é cortada rente à aresta da secretária, para encostar na secção seguinte
  *  sem a faixa escura da frente da mesa. */
 export const MONITOR: Aparelho = {
-  src: "/img/lp/aldurr/monitor.webp",
+  src: "/img/lp/aldurr/monitor-v2.webp",
   largura: 1030,
   altura: 866,
   cantos: [

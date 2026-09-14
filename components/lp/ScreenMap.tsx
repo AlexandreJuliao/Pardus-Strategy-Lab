@@ -62,15 +62,19 @@ export default function ScreenMap({
     if (!el || !alvo) return;
 
     const aplica = () => {
-      const sc = el.clientWidth / largura;
+      // escala medida nos dois eixos da caixa real, e não deduzida da largura:
+      // assim a matriz bate sempre com o retângulo que o CSS desenhou
+      const sx = el.clientWidth / largura;
+      const sy = el.clientHeight / altura;
+      if (!sx || !sy) return;
       // origem = canto superior esquerdo da caixa de partida, já à escala
       const de: [number, number][] = [
         [0, 0],
-        [w0 * sc, 0],
-        [w0 * sc, h0 * sc],
-        [0, h0 * sc],
+        [w0 * sx, 0],
+        [w0 * sx, h0 * sy],
+        [0, h0 * sy],
       ];
-      const para = cantos.map(([x, y]) => [(x - x0) * sc, (y - y0) * sc] as [number, number]);
+      const para = cantos.map(([x, y]) => [(x - x0) * sx, (y - y0) * sy] as [number, number]);
       const h = homografia(de, para);
       const [h11, h12, h13, h21, h22, h23, h31, h32] = h;
       // 3D afim, por colunas, com a profundidade a carregar a perspetiva
@@ -102,7 +106,11 @@ export default function ScreenMap({
         alt=""
         width={largura}
         height={altura}
-        className="block h-auto w-full select-none"
+        // a imagem não dita o tamanho da caixa: é a proporção dos dados que
+        // manda. Se o browser tiver em cache uma versão da foto com outra
+        // altura, esta é cortada em baixo e o ecrã continua no sítio certo
+        // (os cantos medem-se a partir do topo).
+        className="absolute inset-0 block h-full w-full select-none object-cover object-top"
         draggable={false}
         aria-hidden
       />
