@@ -31,6 +31,35 @@ function MaskedWords({ text, from = 0, accent = false }: { text: string; from?: 
 }
 
 /**
+ * «subir de nível», escrito a subir: cada palavra fica um degrau acima da
+ * anterior e um traço dourado desenha a escada por baixo, cobertor e espelho,
+ * até um ponto que pulsa no topo. As palavras continuam separadas por
+ * espaços no texto, para leitores de ecrã e para o Google.
+ */
+function Escada({ text, from }: { text: string; from: number }) {
+  const palavras = text.split(" ");
+  return (
+    <span className="lp-escada">
+      {palavras.map((word, i) => {
+        const entra = 0.06 + (from + i) * 0.055;
+        return (
+          <span
+            key={`${word}-${i}`}
+            className="lp-degrau"
+            style={{ ["--d" as string]: i, ["--t" as string]: `${entra + 0.7 + i * 0.28}s` }}
+          >
+            <span className="lp-word lp-word-accent">
+              <span style={{ animationDelay: `${entra}s` }}>{word}</span>
+            </span>
+            {i < palavras.length - 1 ? " " : <span className="lp-topo" aria-hidden />}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
+/**
  * Herói: uma fotografia de um computador, a sério, com o que a vertical faz
  * a passar dentro do ecrã — em perspetiva, como se estivesse a acontecer
  * neste momento (ver ScreenMap). Nos Websites é o site de um cliente a ser
@@ -38,12 +67,13 @@ function MaskedWords({ text, from = 0, accent = false }: { text: string; from?: 
  *
  * A fotografia ancora no canto de baixo à direita da secção e mede-se em
  * largura de ecrã: cresce com o monitor de quem vê, e a secretária chega
- * sempre ao fim da secção. Em ecrã largo o texto vive nos dois cantos da
- * esquerda — o título ao centro, a pergunta em baixo — e a assinatura fica
- * pousada na secretária. Em coluna única, tudo empilha pela ordem natural.
+ * sempre ao fim da secção. Em ecrã largo o texto desenha um L à volta do
+ * computador — o título grande em cima, a passar por cima do monitor, a
+ * pergunta no canto de baixo à esquerda. Em coluna única, tudo empilha pela
+ * ordem natural.
  *
- * Três frases e só três; sem rótulos, sem métricas, sem botões — a ação vive
- * no cabeçalho, que acompanha a página.
+ * Sem rótulos, sem métricas, sem botões — a ação vive no cabeçalho, que
+ * acompanha a página.
  */
 export default function LpHero({ v }: { v: Vertical }) {
   const h = v.hero;
@@ -59,16 +89,16 @@ export default function LpHero({ v }: { v: Vertical }) {
       <span className="lp-bracket right-9 top-[11vh] hidden border-r border-t md:block" aria-hidden />
 
       <div className="shell relative flex w-full flex-1 flex-col lg:static">
-        {/* ── o título ── */}
-        <h1 className="relative z-10 order-1 font-display text-[clamp(36px,3.7vw,54px)] font-semibold leading-[1.0] tracking-[-0.03em] text-text-primary lg:my-auto lg:max-w-[14ch] lg:pb-[6vh]">
+        {/* ── o título: em ecrã largo, por cima do monitor ── */}
+        <h1 className="lp-titulo relative z-10 order-1 font-display font-medium text-text-primary lg:mt-[clamp(8px,3.5vh,56px)]">
           {h.lines.map((l) => {
             const from = palavras;
             palavras += l.t.split(" ").length;
             return (
-              <span key={l.t} className="block lg:whitespace-nowrap">
+              <span key={l.t} className={`block lg:whitespace-nowrap ${l.escada ? "lp-linha-escada" : ""}`}>
                 {l.accent ? (
-                  <span className="accent-serif text-gold">
-                    <MaskedWords text={l.t} from={from} accent />
+                  <span className="accent-serif lp-titulo-acento text-gold">
+                    {l.escada ? <Escada text={l.t} from={from} /> : <MaskedWords text={l.t} from={from} accent />}
                   </span>
                 ) : (
                   <MaskedWords text={l.t} from={from} />
@@ -102,6 +132,7 @@ export default function LpHero({ v }: { v: Vertical }) {
           </div>
 
           {/* a assinatura, pousada na secretária */}
+          {h.tagline && (
           <p
             {...up(0.55)}
             className="lp-rise accent-serif mt-2 text-center text-[clamp(20px,1.55vw,30px)] leading-none text-[#efe9dc] lg:absolute lg:mt-0 lg:whitespace-nowrap lg:text-right"
@@ -114,17 +145,24 @@ export default function LpHero({ v }: { v: Vertical }) {
           >
             {h.tagline}
           </p>
+          )}
         </div>
 
         {/* ── a pergunta: canto de baixo à esquerda, à altura da secretária ── */}
         <p
-          {...up(0.72)}
-          className="lp-rise relative z-10 order-3 mb-10 mt-8 max-w-[34ch] lg:max-w-[40ch] font-sans text-[clamp(15px,1.15vw,18px)] leading-relaxed text-text-secondary lg:mb-[7vh] lg:mt-0"
+          {...up(0.95)}
+          className="lp-rise lp-pergunta relative z-10 order-3 mb-10 mt-8 max-w-[26ch] font-display text-text-primary lg:mb-[7vh] lg:mt-auto lg:max-w-none lg:whitespace-nowrap"
         >
-          <span className="mb-4 block h-px w-9 bg-gold/70" aria-hidden />
+          <span className="lp-sinal lg:absolute lg:-left-7 lg:top-[0.55em] lg:m-0" aria-hidden />
           {h.question.pre}{" "}
-          <span className="font-display text-[1.2em] font-semibold leading-none text-gold">{h.question.figure}</span>{" "}
-          {h.question.post}
+          <span className="accent-serif whitespace-nowrap text-[1.32em] leading-none text-gold">{h.question.figure}</span>{" "}
+          <span className="lg:block">{h.question.post}</span>
+          {h.question.tail && (
+            <>
+              {" "}
+              <span className="mt-1 block text-text-secondary">{h.question.tail}</span>
+            </>
+          )}
         </p>
       </div>
     </section>

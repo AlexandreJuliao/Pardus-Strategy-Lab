@@ -25,12 +25,12 @@ export type Vertical = {
   logo?: string;
   seo: { title: string; description: string };
   hero: {
-    /** o título, em três linhas */
-    lines: { t: string; accent?: boolean }[];
-    /** a assinatura, por baixo do ecrã */
-    tagline: string;
-    /** a pergunta, em rodapé do herói; `figure` acende a dourado */
-    question: { pre: string; figure: string; post: string };
+    /** o título, em três linhas; `escada` sobe a linha palavra a palavra */
+    lines: { t: string; accent?: boolean; escada?: boolean }[];
+    /** a assinatura, pousada na mesa (opcional) */
+    tagline?: string;
+    /** a pergunta, em rodapé do herói; `figure` acende a dourado, `tail` fica em tom baixo */
+    question: { pre: string; figure: string; post: string; tail?: string };
     /** a fotografia do aparelho (ver lib/lp-monitor.ts) */
     device: "monitor" | "laptop";
     /** o que corre dentro do ecrã */
@@ -112,10 +112,9 @@ export const VERTICALS: Record<string, Vertical> = {
       lines: [
         { t: "Websites à medida" },
         { t: "que fazem o teu negócio" },
-        { t: "subir de nível", accent: true },
+        { t: "subir de nível", accent: true, escada: true },
       ],
-      tagline: "Desenhamos, escrevemos e lançamos.",
-      question: { pre: "Já pensaste ter", figure: "2 a 10", post: "contactos novos todos os meses, sem teres de fazer nada?" },
+      question: { pre: "Já pensaste ter", figure: "2 a 10", post: "contactos novos todos os meses,", tail: "sem teres de fazer nada?" },
       device: "monitor",
       screen: {
         kind: "video",
@@ -265,7 +264,7 @@ export const VERTICALS: Record<string, Vertical> = {
         { t: "não o contrário.", accent: true },
       ],
       tagline: "Mapeamos, construímos, lançamos.",
-      question: { pre: "Já pensaste recuperar", figure: "10 horas", post: "por semana em trabalho que o sistema faz sozinho?" },
+      question: { pre: "Já pensaste recuperar", figure: "10 horas", post: "por semana em trabalho", tail: "que o sistema faz sozinho?" },
       device: "laptop",
       screen: { kind: "platform" },
     },
