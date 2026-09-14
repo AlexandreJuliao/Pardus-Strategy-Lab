@@ -18,11 +18,13 @@ export type Aparelho = {
 };
 
 /** Monitor de secretária, ligeiramente de lado. Os 170px de cima são fundo
- *  prolongado por síntese, para a foto ter ar antes do monitor. */
+ *  prolongado por síntese, para a foto ter ar antes do monitor; em baixo a foto
+ *  é cortada rente à aresta da secretária, para encostar na secção seguinte
+ *  sem a faixa escura da frente da mesa. */
 export const MONITOR: Aparelho = {
   src: "/img/lp/aldurr/monitor.webp",
   largura: 1030,
-  altura: 900,
+  altura: 866,
   cantos: [
     [234, 336],
     [730, 287],
