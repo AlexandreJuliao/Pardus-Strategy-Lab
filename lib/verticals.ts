@@ -25,8 +25,8 @@ export type Vertical = {
   logo?: string;
   seo: { title: string; description: string };
   hero: {
-    /** o título, em três linhas; `escada` sobe a linha palavra a palavra */
-    lines: { t: string; accent?: boolean; escada?: boolean }[];
+    /** o título em duas vozes: a primeira à esquerda, a segunda (accent) à direita, por cima do aparelho */
+    lines: { t: string; accent?: boolean }[];
     /** a assinatura, pousada na mesa (opcional) */
     tagline?: string;
     /** a pergunta, em rodapé do herói; `figure` acende a dourado, `tail` fica em tom baixo */
@@ -110,9 +110,8 @@ export const VERTICALS: Record<string, Vertical> = {
     },
     hero: {
       lines: [
-        { t: "Websites à medida" },
-        { t: "que fazem o teu negócio" },
-        { t: "subir de nível", accent: true, escada: true },
+        { t: "Um site à tua medida." },
+        { t: "Clientes a chegar sozinhos.", accent: true },
       ],
       question: { pre: "Já pensaste ter", figure: "2 a 10", post: "contactos novos todos os meses,", tail: "sem teres de fazer nada?" },
       device: "monitor-palco",
@@ -259,9 +258,8 @@ export const VERTICALS: Record<string, Vertical> = {
     },
     hero: {
       lines: [
-        { t: "Um sistema de gestão" },
-        { t: "feito à volta da tua empresa," },
-        { t: "não o contrário.", accent: true },
+        { t: "Um sistema à volta da tua empresa." },
+        { t: "Não o contrário.", accent: true },
       ],
       tagline: "Mapeamos, construímos, lançamos.",
       question: { pre: "Já pensaste recuperar", figure: "10 horas", post: "por semana em trabalho", tail: "que o sistema faz sozinho?" },

@@ -41,42 +41,6 @@ function MaskedWords({
 }
 
 /**
- * «subir de nível», escrito a subir: cada palavra fica um degrau acima da
- * anterior e um traço dourado desenha a escada por baixo, cobertor e espelho,
- * até um ponto que pulsa no topo. As palavras continuam separadas por
- * espaços no texto, para leitores de ecrã e para o Google.
- */
-function Escada({ text, from }: { text: string; from: number }) {
-  const palavras = text.split(" ");
-  return (
-    <span className="lp-escada">
-      {palavras.map((word, i) => {
-        const entra = 0.06 + (from + i) * 0.055;
-        return (
-          <span
-            key={`${word}-${i}`}
-            className="lp-degrau"
-            style={{
-              ["--d" as string]: i,
-              ["--t" as string]: `${entra + 0.7 + i * 0.28}s`,
-            }}
-          >
-            <span className="lp-word lp-word-accent">
-              <span style={{ animationDelay: `${entra}s` }}>{word}</span>
-            </span>
-            {i < palavras.length - 1 ? (
-              " "
-            ) : (
-              <span className="lp-topo" aria-hidden />
-            )}
-          </span>
-        );
-      })}
-    </span>
-  );
-}
-
-/**
  * Herói: uma fotografia de um computador, a sério, com o que a vertical faz
  * a passar dentro do ecrã — em perspetiva, como se estivesse a acontecer
  * neste momento (ver ScreenMap). Nos Websites é o site de um cliente a ser
@@ -84,10 +48,10 @@ function Escada({ text, from }: { text: string; from: number }) {
  *
  * A fotografia ancora no canto de baixo à direita da secção e mede-se em
  * largura de ecrã: cresce com o monitor de quem vê, e a secretária chega
- * sempre ao fim da secção. Em ecrã largo o texto desenha um L à volta do
- * computador — o título grande em cima, a passar por cima do monitor, a
- * pergunta no canto de baixo à esquerda. Em coluna única, tudo empilha pela
- * ordem natural.
+ * sempre ao fim da secção. Em ecrã largo o título fala em duas vozes: a
+ * afirmação em grotesco à esquerda e a consequência em itálico dourado à
+ * direita, pousada por cima do aparelho; a pergunta fica em nota no canto de
+ * baixo à esquerda. Em coluna única, tudo empilha pela ordem natural.
  *
  * Sem rótulos, sem métricas, sem botões — a ação vive no cabeçalho, que
  * acompanha a página.
@@ -123,18 +87,22 @@ export default function LpHero({ v }: { v: Vertical }) {
       />
 
       <div className="shell relative flex w-full flex-1 flex-col lg:static">
-        {/* ── o título: uma frase de abertura pequena e o acento em tamanho de cartaz ── */}
-        <h1 className="lp-titulo relative z-10 order-1 lg:mt-[clamp(8px,4vh,64px)]">
+        {/* ── o título em duas vozes: a afirmação à esquerda, a consequência à direita, por cima do aparelho ── */}
+        <h1 className="lp-titulo relative z-10 order-1 flex flex-col lg:mt-[clamp(8px,4vh,64px)]">
           {h.lines.map((l) => {
             const from = palavras;
             palavras += l.t.split(" ").length;
             return l.accent ? (
-              <span key={l.t} className="lp-titulo-grande accent-serif block text-gold lg:whitespace-nowrap">
-                {l.escada ? <Escada text={l.t} from={from} /> : <MaskedWords text={l.t} from={from} accent />}
+              <span
+                key={l.t}
+                className="lp-titulo-acento lp-focar accent-serif block self-start text-gold lg:self-end lg:whitespace-nowrap lg:text-right"
+                style={{ animationDelay: `${0.4 + from * 0.055}s` }}
+              >
+                {l.t}
               </span>
             ) : (
-              <span key={l.t} className="lp-titulo-intro block lg:inline">
-                <MaskedWords text={l.t} from={from} />{" "}
+              <span key={l.t} className="lp-titulo-linha block lg:whitespace-nowrap">
+                <MaskedWords text={l.t} from={from} />
               </span>
             );
           })}
