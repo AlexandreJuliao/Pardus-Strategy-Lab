@@ -123,27 +123,18 @@ export default function LpHero({ v }: { v: Vertical }) {
       />
 
       <div className="shell relative flex w-full flex-1 flex-col lg:static">
-        {/* ── o título: em ecrã largo, por cima do monitor ── */}
-        <h1 className="lp-titulo relative z-10 order-1 font-display text-text-primary lg:mt-[clamp(8px,3.5vh,56px)]">
-          {h.lines.map((l, i) => {
+        {/* ── o título: uma frase de abertura pequena e o acento em tamanho de cartaz ── */}
+        <h1 className="lp-titulo relative z-10 order-1 lg:mt-[clamp(8px,4vh,64px)]">
+          {h.lines.map((l) => {
             const from = palavras;
             palavras += l.t.split(" ").length;
-            return (
-              <span
-                key={l.t}
-                className={`block lg:whitespace-nowrap ${l.escada ? "lp-linha-escada" : ""} ${i === 1 && !l.accent ? "lp-titulo-ponte" : ""}`}
-              >
-                {l.accent ? (
-                  <span className="accent-serif lp-titulo-acento text-gold">
-                    {l.escada ? (
-                      <Escada text={l.t} from={from} />
-                    ) : (
-                      <MaskedWords text={l.t} from={from} accent />
-                    )}
-                  </span>
-                ) : (
-                  <MaskedWords text={l.t} from={from} />
-                )}
+            return l.accent ? (
+              <span key={l.t} className="lp-titulo-grande accent-serif block text-gold lg:whitespace-nowrap">
+                {l.escada ? <Escada text={l.t} from={from} /> : <MaskedWords text={l.t} from={from} accent />}
+              </span>
+            ) : (
+              <span key={l.t} className="lp-titulo-intro block lg:inline">
+                <MaskedWords text={l.t} from={from} />{" "}
               </span>
             );
           })}
