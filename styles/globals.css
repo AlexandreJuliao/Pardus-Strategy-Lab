@@ -794,96 +794,29 @@ select.field {
   .lp-feed-in, .lp-live { animation: none !important; }
 }
 
-/* ---- Herói das LPs: tipografia do título e da pergunta ---- */
+/* ---- Herói das LPs: o título com a gramática dos h2, um degrau acima ---- */
 .lp-titulo {
-  font-size: clamp(38px, min(4.4vw, 8.4dvh), 80px);
-  line-height: 0.98;
-  letter-spacing: -0.038em;
+  font-family: var(--font-display), var(--font-space-grotesk), sans-serif;
+  font-size: clamp(36px, min(4.3vw, 8dvh), 70px);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.028em;
   text-wrap: balance;
 }
-/* o Didone tem olho mais baixo que o grotesco: sobe um pouco para casar */
-.lp-titulo-acento { font-size: 1.14em; letter-spacing: -0.02em; }
+/* o Didone tem o olho mais baixo que o grotesco: sobe um pouco para casar */
+.lp-titulo-acento { font-size: 1.06em; }
 
-/* «subir de nível» a subir: cada palavra um degrau acima */
-.lp-linha-escada { margin-top: 0.34em; }
-.lp-escada { display: inline-block; white-space: nowrap; }
-.lp-degrau {
-  position: relative;
-  display: inline-block;
-  padding: 0 0.3em 0 0;
-  transform: translate3d(0, calc(var(--d) * -0.19em), 0);
-}
-.lp-degrau::before,
-.lp-degrau::after {
-  content: "";
-  position: absolute;
-  background: rgb(var(--gold-rgb) / 0.6);
-}
-/* o cobertor */
-.lp-degrau::before {
-  left: 0; right: 0; bottom: 0.08em;
-  height: max(1.5px, 0.02em);
-  transform-origin: left center;
-  animation: lp-traco-x 0.5s cubic-bezier(0.65, 0, 0.35, 1) var(--t) both;
-}
-/* o espelho, até ao degrau seguinte */
-.lp-degrau:not(:last-child)::after {
-  right: 0; bottom: 0.08em;
-  width: max(1.5px, 0.02em);
-  height: 0.19em;
-  transform-origin: center bottom;
-  animation: lp-traco-y 0.22s cubic-bezier(0.65, 0, 0.35, 1) calc(var(--t) + 0.5s) both;
-}
-@keyframes lp-traco-x { from { transform: scaleX(0); } to { transform: none; } }
-@keyframes lp-traco-y { from { transform: scaleY(0); } to { transform: none; } }
-/* o topo: um ponto que acende quando a escada lá chega, e pulsa */
-.lp-topo {
-  position: absolute;
-  right: 0; bottom: 0.08em;
-  width: 0.12em; height: 0.12em;
-  border-radius: 999px;
-  background: var(--gold-bright);
-  transform: translate(50%, 50%);
-  animation: lp-topo-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--t) + 0.45s) both;
-}
-.lp-topo::after {
-  content: "";
-  position: absolute; inset: 0;
-  border-radius: inherit;
-  border: 1px solid var(--gold);
-  animation: lp-ping 2.4s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--t) + 0.9s) infinite both;
-}
-@keyframes lp-topo-in { from { opacity: 0; transform: translate(50%, 50%) scale(0); } to { opacity: 1; transform: translate(50%, 50%); } }
-@keyframes lp-ping {
-  0%   { transform: scale(1); opacity: 0.9; }
-  70%, 100% { transform: scale(4.2); opacity: 0; }
+/* a foto-palco: em coluna única sangra até às bordas da página */
+.lp-palco { margin-inline: calc(-1 * clamp(20px, 5vw, 64px)); }
+@media (min-width: 1024px) {
+  /* a parede e a mesa continuam lisas para lá da foto: a borda esquerda da foto acaba nestas cores, e com a largura presa a 1,95× a altura a linha da mesa cai a 91,27% */
+  .lp-palco { margin-inline: 0; background: linear-gradient(180deg, #05070e 0 91.27%, #0e1824 91.27% 100%); }
 }
 
-/* a pergunta: grotesco em tamanho de leitura, cauda em tom baixo */
-.lp-pergunta {
-  font-size: clamp(19px, 1.45vw, 25px);
-  line-height: 1.34;
-  letter-spacing: -0.014em;
-  text-wrap: pretty;
-}
-/* o sinal de contacto a chegar */
-.lp-sinal {
-  position: relative;
-  display: block;
-  width: 8px; height: 8px;
-  margin: 0 0 1em 2px;
-  border-radius: 999px;
-  background: var(--gold);
-  box-shadow: 0 0 0 4px rgb(var(--gold-rgb) / 0.14);
-}
-.lp-sinal::after {
-  content: "";
-  position: absolute; inset: 0;
-  border-radius: inherit;
-  border: 1px solid var(--gold);
-  animation: lp-ping 2.4s cubic-bezier(0.16, 1, 0.3, 1) 1.6s infinite both;
-}
+/* entrada só em opacidade: um fundo que sobe deixava ver a secção por baixo */
+@keyframes lp-fade { from { opacity: 0; } to { opacity: 1; } }
+.lp-fade { animation: lp-fade 1.1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
 @media (prefers-reduced-motion: reduce) {
-  .lp-degrau::before, .lp-degrau::after, .lp-topo { animation: none; }
-  .lp-topo::after, .lp-sinal::after { animation: none; opacity: 0; }
+  .lp-fade { animation: none; }
 }

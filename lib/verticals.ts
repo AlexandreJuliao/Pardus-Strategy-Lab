@@ -25,14 +25,14 @@ export type Vertical = {
   logo?: string;
   seo: { title: string; description: string };
   hero: {
-    /** o título, em três linhas; `escada` sobe a linha palavra a palavra */
-    lines: { t: string; accent?: boolean; escada?: boolean }[];
+    /** o título, linha a linha; `accent` é a palavra final em itálico dourado (a mesma gramática dos h2) */
+    lines: { t: string; accent?: string }[];
     /** a assinatura, pousada na mesa (opcional) */
     tagline?: string;
-    /** a pergunta, em rodapé do herói; `figure` acende a dourado, `tail` fica em tom baixo */
-    question: { pre: string; figure: string; post: string; tail?: string };
+    /** a nota, em rodapé do herói; `figure` é o número, em branco */
+    question: { pre?: string; figure: string; post: string };
     /** a fotografia do aparelho (ver lib/lp-monitor.ts) */
-    device: "monitor" | "laptop";
+    device: "monitor" | "monitor-palco" | "laptop";
     /** o que corre dentro do ecrã */
     screen: { kind: "video"; webm: string; mp4: string; poster: string; alt: string } | { kind: "platform" };
   };
@@ -110,12 +110,11 @@ export const VERTICALS: Record<string, Vertical> = {
     },
     hero: {
       lines: [
-        { t: "Websites à medida" },
-        { t: "que fazem o teu negócio" },
-        { t: "subir de nível", accent: true, escada: true },
+        { t: "Websites à medida que fazem" },
+        { t: "o teu negócio", accent: "crescer." },
       ],
-      question: { pre: "Já pensaste ter", figure: "2 a 10", post: "contactos novos todos os meses,", tail: "sem teres de fazer nada?" },
-      device: "monitor",
+      question: { figure: "2 a 10", post: "contactos novos por mês, com o site a trabalhar por ti." },
+      device: "monitor-palco",
       screen: {
         kind: "video",
         webm: "/img/lp/aldurr/site.webm",
@@ -259,12 +258,12 @@ export const VERTICALS: Record<string, Vertical> = {
     },
     hero: {
       lines: [
-        { t: "Um sistema de gestão" },
-        { t: "feito à volta da tua empresa," },
-        { t: "não o contrário.", accent: true },
+        { t: "Um sistema de gestão feito" },
+        { t: "à volta da tua empresa," },
+        { t: "não o", accent: "contrário." },
       ],
       tagline: "Mapeamos, construímos, lançamos.",
-      question: { pre: "Já pensaste recuperar", figure: "10 horas", post: "por semana em trabalho", tail: "que o sistema faz sozinho?" },
+      question: { pre: "Já pensaste recuperar", figure: "10 horas", post: "por semana em trabalho que o sistema faz sozinho?" },
       device: "laptop",
       screen: { kind: "platform" },
     },
