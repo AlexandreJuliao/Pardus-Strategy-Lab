@@ -25,12 +25,12 @@ export type Vertical = {
   logo?: string;
   seo: { title: string; description: string };
   hero: {
-    /** o título em duas vozes: a primeira à esquerda, a segunda (accent) à direita, por cima do aparelho */
-    lines: { t: string; accent?: boolean }[];
+    /** o título, linha a linha; `accent` é a palavra final em itálico dourado (a mesma gramática dos h2) */
+    lines: { t: string; accent?: string }[];
     /** a assinatura, pousada na mesa (opcional) */
     tagline?: string;
-    /** a pergunta, em rodapé do herói; `figure` acende a dourado, `tail` fica em tom baixo */
-    question: { pre: string; figure: string; post: string; tail?: string };
+    /** a nota, em rodapé do herói; `figure` é o número, em branco */
+    question: { pre?: string; figure: string; post: string };
     /** a fotografia do aparelho (ver lib/lp-monitor.ts) */
     device: "monitor" | "monitor-palco" | "laptop";
     /** o que corre dentro do ecrã */
@@ -110,10 +110,10 @@ export const VERTICALS: Record<string, Vertical> = {
     },
     hero: {
       lines: [
-        { t: "Um site à tua medida." },
-        { t: "Clientes a chegar sozinhos.", accent: true },
+        { t: "Websites à medida que fazem" },
+        { t: "o teu negócio", accent: "crescer." },
       ],
-      question: { pre: "Já pensaste ter", figure: "2 a 10", post: "contactos novos todos os meses,", tail: "sem teres de fazer nada?" },
+      question: { figure: "2 a 10", post: "contactos novos por mês, com o site a trabalhar por ti." },
       device: "monitor-palco",
       screen: {
         kind: "video",
@@ -258,11 +258,12 @@ export const VERTICALS: Record<string, Vertical> = {
     },
     hero: {
       lines: [
-        { t: "Um sistema à volta da tua empresa." },
-        { t: "Não o contrário.", accent: true },
+        { t: "Um sistema de gestão feito" },
+        { t: "à volta da tua empresa," },
+        { t: "não o", accent: "contrário." },
       ],
       tagline: "Mapeamos, construímos, lançamos.",
-      question: { pre: "Já pensaste recuperar", figure: "10 horas", post: "por semana em trabalho", tail: "que o sistema faz sozinho?" },
+      question: { pre: "Já pensaste recuperar", figure: "10 horas", post: "por semana em trabalho que o sistema faz sozinho?" },
       device: "laptop",
       screen: { kind: "platform" },
     },

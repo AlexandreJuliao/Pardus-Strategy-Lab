@@ -794,38 +794,17 @@ select.field {
   .lp-feed-in, .lp-live { animation: none !important; }
 }
 
-/* ---- Tipografia das LPs: Geist em tudo, o Didone só no acento ---- */
-.lp-tipo {
-  --font-display: var(--font-geist-sans);
-  --font-space-grotesk: var(--font-geist-sans);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+/* ---- Herói das LPs: o título com a gramática dos h2, um degrau acima ---- */
+.lp-titulo {
+  font-family: var(--font-display), var(--font-space-grotesk), sans-serif;
+  font-size: clamp(36px, min(4.3vw, 8dvh), 70px);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.028em;
+  text-wrap: balance;
 }
-
-/* ---- Herói das LPs: o título em duas vozes ---- */
-.lp-titulo { text-wrap: balance; }
-/* a afirmação: grotesco médio, apertado */
-.lp-titulo-linha {
-  font-size: clamp(30px, min(4.1vw, 8dvh), 78px);
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.03em;
-  color: var(--text-primary);
-}
-/* a consequência: o Didone itálico, um pouco maior porque tem o olho mais baixo */
-.lp-titulo-acento {
-  margin-top: 0.22em;
-  font-size: clamp(32px, min(4.4vw, 8.6dvh), 84px);
-  line-height: 1;
-  letter-spacing: -0.01em;
-}
-@media (min-width: 1024px) { .lp-titulo-acento { margin-top: 0.28em; } }
-/* entra desfocada, vinda da direita, e fica nítida: a voz que responde à primeira */
-@keyframes lp-focar {
-  from { opacity: 0; filter: blur(14px); transform: translate3d(28px, 0, 0); }
-  to   { opacity: 1; filter: blur(0); transform: none; }
-}
-.lp-focar { animation: lp-focar 1.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
-@media (prefers-reduced-motion: reduce) { .lp-focar { animation: none; } }
+/* o Didone tem o olho mais baixo que o grotesco: sobe um pouco para casar */
+.lp-titulo-acento { font-size: 1.06em; }
 
 /* a foto-palco: em coluna única sangra até às bordas da página */
 .lp-palco { margin-inline: calc(-1 * clamp(20px, 5vw, 64px)); }

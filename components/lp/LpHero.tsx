@@ -48,10 +48,10 @@ function MaskedWords({
  *
  * A fotografia ancora no canto de baixo à direita da secção e mede-se em
  * largura de ecrã: cresce com o monitor de quem vê, e a secretária chega
- * sempre ao fim da secção. Em ecrã largo o título fala em duas vozes: a
- * afirmação em grotesco à esquerda e a consequência em itálico dourado à
- * direita, pousada por cima do aparelho; a pergunta fica em nota no canto de
- * baixo à esquerda. Em coluna única, tudo empilha pela ordem natural.
+ * sempre ao fim da secção. Em ecrã largo o título fica em cima à esquerda,
+ * com a mesma gramática dos h2 do resto da página (grotesco, uma palavra
+ * final em itálico dourado), e a nota no canto de baixo à esquerda. Em
+ * coluna única, tudo empilha pela ordem natural.
  *
  * Sem rótulos, sem métricas, sem botões — a ação vive no cabeçalho, que
  * acompanha a página.
@@ -87,22 +87,19 @@ export default function LpHero({ v }: { v: Vertical }) {
       />
 
       <div className="shell relative flex w-full flex-1 flex-col lg:static">
-        {/* ── o título em duas vozes: a afirmação à esquerda, a consequência à direita, por cima do aparelho ── */}
-        <h1 className="lp-titulo relative z-10 order-1 flex flex-col lg:mt-[clamp(8px,4vh,64px)]">
+        {/* ── o título: a gramática dos h2 da página, uma palavra final em itálico dourado ── */}
+        <h1 className="lp-titulo relative z-10 order-1 text-text-primary lg:mt-[clamp(8px,4vh,64px)]">
           {h.lines.map((l) => {
             const from = palavras;
-            palavras += l.t.split(" ").length;
-            return l.accent ? (
-              <span
-                key={l.t}
-                className="lp-titulo-acento lp-focar accent-serif block self-start text-gold lg:self-end lg:whitespace-nowrap lg:text-right"
-                style={{ animationDelay: `${0.4 + from * 0.055}s` }}
-              >
-                {l.t}
-              </span>
-            ) : (
-              <span key={l.t} className="lp-titulo-linha block lg:whitespace-nowrap">
+            palavras += l.t.split(" ").length + (l.accent ? l.accent.split(" ").length : 0);
+            return (
+              <span key={l.t} className="block lg:whitespace-nowrap">
                 <MaskedWords text={l.t} from={from} />
+                {l.accent && (
+                  <span className="accent-serif lp-titulo-acento text-gold">
+                    <MaskedWords text={l.accent} from={from + l.t.split(" ").length} accent />
+                  </span>
+                )}
               </span>
             );
           })}
@@ -175,17 +172,13 @@ export default function LpHero({ v }: { v: Vertical }) {
           </div>
         )}
 
-        {/* ── a pergunta: de leve, no canto de baixo à esquerda ── */}
+        {/* ── a nota: de leve, no canto de baixo à esquerda ── */}
         <p
           {...up(1.1)}
-          className="lp-fade relative z-10 order-3 mb-10 mt-6 max-w-[40ch] font-sans text-[clamp(13.5px,0.95vw,16px)] leading-relaxed text-text-secondary lg:mb-[6vh] lg:mt-auto"
+          className="lp-fade relative z-10 order-3 mb-10 mt-6 max-w-[44ch] font-sans text-[clamp(13.5px,0.95vw,16px)] leading-relaxed text-text-secondary [text-wrap:balance] lg:mb-[6vh] lg:mt-auto lg:max-w-none lg:whitespace-nowrap"
         >
-          {h.question.pre}{" "}
-          <span className="font-medium text-text-primary">
-            {h.question.figure}
-          </span>{" "}
-          {h.question.post}
-          {h.question.tail ? ` ${h.question.tail}` : ""}
+          {h.question.pre && `${h.question.pre} `}
+          <span className="font-medium text-text-primary">{h.question.figure}</span> {h.question.post}
         </p>
       </div>
     </section>
