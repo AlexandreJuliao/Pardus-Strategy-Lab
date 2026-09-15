@@ -19,8 +19,14 @@ import { useEffect, useRef } from "react";
  * pai faz (w = 1 - Z/d = 1 + h31x + h32y) devolve exatamente H. É CSS 3D
  * normal, e todos os motores o compõem bem, vídeo incluído.
  *
+ * A imagem ocupa a caixa como um `object-fit: cover` ancorado em `posicao`:
+ * numa caixa com a proporção da foto isso é a foto inteira; com `preenche`,
+ * a caixa é o pai todo e a foto corta nas pontas que sobram. As mesmas contas
+ * do browser (escala = máx. das duas razões, sobra × posição) dão onde os
+ * cantos caem, e o ecrã segue-os ao píxel.
+ *
  * A matriz depende do tamanho a que a imagem está a ser mostrada, por isso
- * recalcula-se sempre que o contentor muda de largura — uma conta pequena,
+ * recalcula-se sempre que o contentor muda de tamanho — uma conta pequena,
  * uma vez por redimensionamento, nada por fotograma.
  */
 export type Canto = [number, number];
@@ -32,9 +38,11 @@ export default function ScreenMap({
   src,
   largura,
   altura,
-  cantos,
+  cantos: cantosFoto,
   children,
   className = "",
+  preenche = false,
+  posicao = [0.5, 0],
 }: {
   src: string;
   largura: number;
@@ -43,12 +51,26 @@ export default function ScreenMap({
   cantos: [Canto, Canto, Canto, Canto];
   children: React.ReactNode;
   className?: string;
+  /** a caixa enche o pai (absolute inset-0) em vez de ter a proporção da foto */
+  preenche?: boolean;
+  /** onde a foto ancora quando corta, de 0 a 1 em x e y (como object-position) */
+  posicao?: [number, number];
 }) {
   const caixa = useRef<HTMLDivElement | null>(null);
   const ecra = useRef<HTMLDivElement | null>(null);
 
   // o retângulo de partida é a caixa que envolve o quadrilátero, em píxeis da
   // imagem original; o vídeo preenche-a e a matriz trata do resto
+  // sangra 1,5px da foto para fora a partir do centro: o verde-chroma tem a
+  // borda anti-aliased e, sem isto, fica um fio verde nas arestas do ecrã
+  const cx = cantosFoto.reduce((t, c) => t + c[0], 0) / 4;
+  const cy = cantosFoto.reduce((t, c) => t + c[1], 0) / 4;
+  const cantos = cantosFoto.map(([x, y]) => {
+    const dx = x - cx;
+    const dy = y - cy;
+    const n = Math.hypot(dx, dy) || 1;
+    return [x + (dx / n) * 2.1, y + (dy / n) * 2.1];
+  }) as [Canto, Canto, Canto, Canto];
   const xs = cantos.map((c) => c[0]);
   const ys = cantos.map((c) => c[1]);
   const x0 = Math.min(...xs);
@@ -62,19 +84,28 @@ export default function ScreenMap({
     if (!el || !alvo) return;
 
     const aplica = () => {
-      // escala medida nos dois eixos da caixa real, e não deduzida da largura:
-      // assim a matriz bate sempre com o retângulo que o CSS desenhou
-      const sx = el.clientWidth / largura;
-      const sy = el.clientHeight / altura;
-      if (!sx || !sy) return;
+      const W = el.clientWidth;
+      const H = el.clientHeight;
+      if (!W || !H) return;
+      // a mesma conta do object-fit: cover + object-position
+      const k = Math.max(W / largura, H / altura);
+      const ox = (W - largura * k) * posicao[0];
+      const oy = (H - altura * k) * posicao[1];
+      const ex = x0 * k + ox;
+      const ey = y0 * k + oy;
+      alvo.style.left = `${ex}px`;
+      alvo.style.top = `${ey}px`;
+      alvo.style.width = `${w0 * k}px`;
+      alvo.style.height = `${h0 * k}px`;
+      el.style.perspectiveOrigin = `${ex}px ${ey}px`;
       // origem = canto superior esquerdo da caixa de partida, já à escala
       const de: [number, number][] = [
         [0, 0],
-        [w0 * sx, 0],
-        [w0 * sx, h0 * sy],
-        [0, h0 * sy],
+        [w0 * k, 0],
+        [w0 * k, h0 * k],
+        [0, h0 * k],
       ];
-      const para = cantos.map(([x, y]) => [(x - x0) * sx, (y - y0) * sy] as [number, number]);
+      const para = cantos.map(([x, y]) => [(x - x0) * k, (y - y0) * k] as [number, number]);
       const h = homografia(de, para);
       const [h11, h12, h13, h21, h22, h23, h31, h32] = h;
       // 3D afim, por colunas, com a profundidade a carregar a perspetiva
@@ -93,9 +124,9 @@ export default function ScreenMap({
   return (
     <div
       ref={caixa}
-      className={`relative ${className}`}
+      className={`${preenche ? "absolute inset-0" : "relative"} ${className}`}
       style={{
-        aspectRatio: `${largura} / ${altura}`,
+        aspectRatio: preenche ? undefined : `${largura} / ${altura}`,
         perspective: `${PROF}px`,
         perspectiveOrigin: `${(x0 / largura) * 100}% ${(y0 / altura) * 100}%`,
       }}
@@ -106,16 +137,15 @@ export default function ScreenMap({
         alt=""
         width={largura}
         height={altura}
-        // a imagem não dita o tamanho da caixa: é a proporção dos dados que
-        // manda. Se o browser tiver em cache uma versão da foto com outra
-        // altura, esta é cortada em baixo e o ecrã continua no sítio certo
-        // (os cantos medem-se a partir do topo).
-        className="absolute inset-0 block h-full w-full select-none object-cover object-top"
+        // a imagem não dita o tamanho da caixa: é a caixa que manda, e a foto
+        // cobre-a pela mesma regra que a matriz usa
+        className="absolute inset-0 block h-full w-full select-none object-cover"
+        style={{ objectPosition: `${posicao[0] * 100}% ${posicao[1] * 100}%` }}
         draggable={false}
         aria-hidden
       />
 
-      {/* o ecrã: a caixa de partida, posicionada em percentagem para acompanhar a imagem */}
+      {/* o ecrã: a caixa de partida; em percentagem até o JS a medir em píxeis */}
       <div
         ref={ecra}
         data-lp-ecra=""

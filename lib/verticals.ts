@@ -32,7 +32,7 @@ export type Vertical = {
     /** a pergunta, em rodapé do herói; `figure` acende a dourado, `tail` fica em tom baixo */
     question: { pre: string; figure: string; post: string; tail?: string };
     /** a fotografia do aparelho (ver lib/lp-monitor.ts) */
-    device: "monitor" | "laptop";
+    device: "monitor" | "monitor-palco" | "laptop";
     /** o que corre dentro do ecrã */
     screen: { kind: "video"; webm: string; mp4: string; poster: string; alt: string } | { kind: "platform" };
   };
@@ -115,7 +115,7 @@ export const VERTICALS: Record<string, Vertical> = {
         { t: "subir de nível", accent: true, escada: true },
       ],
       question: { pre: "Já pensaste ter", figure: "2 a 10", post: "contactos novos todos os meses,", tail: "sem teres de fazer nada?" },
-      device: "monitor",
+      device: "monitor-palco",
       screen: {
         kind: "video",
         webm: "/img/lp/aldurr/site.webm",
