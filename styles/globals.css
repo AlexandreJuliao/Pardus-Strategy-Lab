@@ -820,3 +820,25 @@ select.field {
 @media (prefers-reduced-motion: reduce) {
   .lp-fade { animation: none; }
 }
+
+/* ---- Banda azul das LPs (o fundo dos posts da marca) ----
+   Base #335784 medida nos posts; esquerda e canto de cima mais fundos; uma
+   luz cinzenta-azulada, baça, em baixo à direita. */
+.lp-banda-azul {
+  background:
+    radial-gradient(55% 75% at 92% 78%, rgba(128, 146, 168, 0.34), transparent 70%),
+    radial-gradient(70% 95% at 0% 0%, rgba(22, 33, 56, 0.78), transparent 62%),
+    linear-gradient(90deg, #26406a 0%, #2f5180 38%, #335784 72%, #345885 100%);
+}
+/* um fio de luz que atravessa o canto de cima à direita */
+.lp-banda-traco {
+  top: 0;
+  left: 28%;
+  width: 90%;
+  height: 1px;
+  transform-origin: 0 0;
+  transform: rotate(9deg);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.07) 65%, transparent);
+}
+/* o grão dos posts: mais presente que o do resto da página */
+.lp-banda-grao { opacity: 0.22; }
