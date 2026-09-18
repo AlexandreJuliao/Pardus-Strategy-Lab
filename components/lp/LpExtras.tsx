@@ -12,7 +12,7 @@ const ICONS: Record<Vertical["extras"]["items"][number]["icon"], LucideIcon> = {
 };
 
 /**
- * Banda petrol, calma: o que se pode juntar ao site mais tarde. É um aparte,
+ * Banda azul, calma: o que se pode juntar ao site mais tarde. É um aparte,
  * não uma venda; por isso fica em lista curta, sem preços, com um só link
  * para o site principal.
  */
@@ -20,13 +20,15 @@ export default function LpExtras({ v }: { v: Vertical }) {
   const x = v.extras;
   return (
     <section className="relative overflow-hidden text-text-primary">
-      {/* Cor chapada, sem degradê nenhum: a banda passa a ser um bloco com
-          princípio e fim, e não uma mancha que se desfaz. Só o grão lhe dá
-          matéria. */}
-      <div className="pointer-events-none absolute inset-0" style={{ background: "#16243f" }} aria-hidden />
-      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/[0.09]" aria-hidden />
-      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-white/[0.09]" aria-hidden />
-      <div className="grain-section" />
+      {/* O azul dos posts da marca: petróleo claro à direita, mais fundo à
+          esquerda e no canto de cima, uma luz baça em baixo à direita e grão
+          por cima. A banda continua a ter princípio e fim — nada se desfaz
+          para a página. */}
+      <div className="lp-banda-azul pointer-events-none absolute inset-0" aria-hidden />
+      {/* o traço de luz em diagonal e o canto dourado, como nos posts */}
+      <span className="lp-banda-traco pointer-events-none absolute" aria-hidden />
+      <span className="lp-bracket z-10 left-6 top-6 hidden border-l border-t md:block" aria-hidden />
+      <div className="grain-section lp-banda-grao" />
       <div className="shell relative z-10 grid grid-cols-1 gap-10 py-20 md:py-28 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <div>
           <span className="block h-px w-10 bg-gold/70" />

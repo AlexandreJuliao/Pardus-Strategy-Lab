@@ -30,7 +30,7 @@ export type Vertical = {
     /** a assinatura, pousada na mesa (opcional) */
     tagline?: string;
     /** a nota, em rodapé do herói; `figure` é o número, em branco */
-    question: { pre?: string; figure: string; post: string };
+    question?: { pre?: string; figure: string; post: string };
     /** a fotografia do aparelho (ver lib/lp-monitor.ts) */
     device: "monitor" | "monitor-palco" | "laptop";
     /** o que corre dentro do ecrã */
@@ -110,10 +110,10 @@ export const VERTICALS: Record<string, Vertical> = {
     },
     hero: {
       lines: [
-        { t: "Websites à medida que fazem" },
-        { t: "o teu negócio", accent: "crescer." },
+        { t: "Do primeiro esboço" },
+        { t: "ao primeiro" },
+        { t: "", accent: "cliente." },
       ],
-      question: { figure: "2 a 10", post: "contactos novos por mês, com o site a trabalhar por ti." },
       device: "monitor-palco",
       screen: {
         kind: "video",
@@ -125,7 +125,7 @@ export const VERTICALS: Record<string, Vertical> = {
     },
     stats: [
       { value: "2 sem.", label: "Do primeiro contacto ao site no ar" },
-      { value: "98/100", label: "Velocidade no teste do Google" },
+      { value: "2 a 10", label: "Contactos novos por mês, com o site a trabalhar por ti" },
       { value: "100%", label: "Domínio, código e acessos teus" },
       { value: "24h", label: "Resposta a qualquer pedido" },
     ],

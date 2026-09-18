@@ -54,6 +54,7 @@ function Banda({ v }: { v: Vertical }) {
   return (
     <StatementBand
       tone="gold"
+      rasgada
       title={
         <>
           {v.statement.pre} <span className="accent-serif text-gold">{v.statement.accent}</span>

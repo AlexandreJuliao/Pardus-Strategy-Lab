@@ -16,7 +16,7 @@ export type Aparelho = {
   assinatura: { bottom: string; right: string };
   mascara: { esq: number; dir: number; topo: number };
   /** a foto já traz o fundo do herói inteiro: enche a secção, sem máscaras */
-  palco?: { posicao: [number, number] };
+  palco?: { posicao: [number, number]; foco: [number, number] };
 };
 
 /** Monitor de secretária, ligeiramente de lado. Os 170px de cima são fundo
@@ -53,7 +53,8 @@ export const MONITOR_PALCO: Aparelho = {
   ],
   assinatura: { bottom: "8%", right: "17%" },
   mascara: { esq: 0, dir: 100, topo: 0 },
-  palco: { posicao: [1, 1] },
+  // o centro do monitor, para os ecrãs em pé (telemóvel, tablet)
+  palco: { posicao: [1, 1], foco: [1150, 940] },
 };
 
 /** Portátil aberto, de lado. Cantos medidos depois da geração (ver scratchpad). */

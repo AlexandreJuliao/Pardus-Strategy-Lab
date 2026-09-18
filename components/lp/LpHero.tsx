@@ -48,10 +48,10 @@ function MaskedWords({
  *
  * A fotografia ancora no canto de baixo à direita da secção e mede-se em
  * largura de ecrã: cresce com o monitor de quem vê, e a secretária chega
- * sempre ao fim da secção. Em ecrã largo o título fica em cima à esquerda,
- * com a mesma gramática dos h2 do resto da página (grotesco, uma palavra
- * final em itálico dourado), e a nota no canto de baixo à esquerda. Em
- * coluna única, tudo empilha pela ordem natural.
+ * sempre ao fim da secção. O título fica em cima à esquerda, com a mesma
+ * gramática dos h2 do resto da página (grotesco, uma palavra final em
+ * itálico dourado), e no canto de baixo à esquerda um convite discreto a
+ * descer. Com a foto-palco, a composição é a mesma em todos os ecrãs.
  *
  * Sem rótulos, sem métricas, sem botões — a ação vive no cabeçalho, que
  * acompanha a página.
@@ -86,18 +86,19 @@ export default function LpHero({ v }: { v: Vertical }) {
         aria-hidden
       />
 
-      <div className="shell relative flex w-full flex-1 flex-col lg:static">
+      <div className={`shell flex w-full flex-1 flex-col ${ap.palco ? "static" : "relative lg:static"}`}>
         {/* ── o título: a gramática dos h2 da página, uma palavra final em itálico dourado ── */}
         <h1 className="lp-titulo relative z-10 order-1 text-text-primary lg:mt-[clamp(8px,4vh,64px)]">
-          {h.lines.map((l) => {
+          {h.lines.map((l, i) => {
             const from = palavras;
-            palavras += l.t.split(" ").length + (l.accent ? l.accent.split(" ").length : 0);
+            const n = l.t ? l.t.split(" ").length : 0;
+            palavras += n + (l.accent ? l.accent.split(" ").length : 0);
             return (
-              <span key={l.t} className="block lg:whitespace-nowrap">
-                <MaskedWords text={l.t} from={from} />
+              <span key={i} className="block whitespace-nowrap">
+                {l.t && <MaskedWords text={l.t} from={from} />}
                 {l.accent && (
                   <span className="accent-serif lp-titulo-acento text-gold">
-                    <MaskedWords text={l.accent} from={from + l.t.split(" ").length} accent />
+                    <MaskedWords text={l.accent} from={from + n} accent />
                   </span>
                 )}
               </span>
@@ -109,14 +110,12 @@ export default function LpHero({ v }: { v: Vertical }) {
         {ap.palco ? (
           // a foto é o fundo do herói inteiro: enche a secção, sem esbatidos,
           // e o ecrã segue a mesma conta do corte (ver ScreenMap)
-          <div
-            {...up(0.1)}
-            className="lp-fade lp-palco relative order-2 mt-2 aspect-[20/17] overflow-hidden lg:absolute lg:inset-0 lg:z-0 lg:mt-0 lg:aspect-auto"
-          >
-            {/* em coluna única a foto aproxima-se do monitor (175% de largura, canto de baixo à direita);
-                em ecrã largo enche a secção, com a largura presa a 1,95× a altura para o monitor
-                nunca subir para cima do título em ecrãs ultra-largos — o resto é parede lisa */}
-            <div className="absolute bottom-0 right-0 aspect-[1720/1323] w-[175%] lg:aspect-auto lg:h-full lg:w-[min(100%,195dvh)]">
+          <div {...up(0.1)} className="lp-fade lp-palco absolute inset-0 z-0">
+            {/* a foto enche o herói em qualquer ecrã; a largura fica presa a 1,95× a
+                altura para o monitor nunca subir para cima do título em ecrãs
+                ultra-largos (o resto é parede lisa), e em ecrãs em pé o monitor
+                fica ao centro (foco) em vez de cortado */}
+            <div className="absolute bottom-0 right-0 h-full w-[min(100%,195dvh)]">
               <ScreenMap
                 src={ap.src}
                 largura={ap.largura}
@@ -124,6 +123,7 @@ export default function LpHero({ v }: { v: Vertical }) {
                 cantos={ap.cantos}
                 preenche
                 posicao={ap.palco.posicao}
+                foco={ap.palco.foco}
               >
                 {ecra}
               </ScreenMap>
@@ -172,14 +172,25 @@ export default function LpHero({ v }: { v: Vertical }) {
           </div>
         )}
 
-        {/* ── a nota: de leve, no canto de baixo à esquerda ── */}
-        <p
-          {...up(1.1)}
-          className="lp-fade relative z-10 order-3 mb-10 mt-6 max-w-[44ch] font-sans text-[clamp(13.5px,0.95vw,16px)] leading-relaxed text-text-secondary [text-wrap:balance] lg:mb-[6vh] lg:mt-auto lg:max-w-none lg:whitespace-nowrap"
-        >
-          {h.question.pre && `${h.question.pre} `}
-          <span className="font-medium text-text-primary">{h.question.figure}</span> {h.question.post}
-        </p>
+        {/* ── a nota (Softwares) ou o convite a descer (Websites), no canto de baixo à esquerda ── */}
+        {h.question ? (
+          <p
+            {...up(1.1)}
+            className="lp-fade relative z-10 order-3 mb-10 mt-6 max-w-[44ch] font-sans text-[clamp(13.5px,0.95vw,16px)] leading-relaxed text-text-secondary [text-wrap:balance] lg:mb-[6vh] lg:mt-auto lg:max-w-none lg:whitespace-nowrap"
+          >
+            {h.question.pre && `${h.question.pre} `}
+            <span className="font-medium text-text-primary">{h.question.figure}</span> {h.question.post}
+          </p>
+        ) : (
+          <a
+            href="#numeros"
+            {...up(1.4)}
+            className="lp-fade lp-descer group relative z-10 order-3 mb-8 mt-auto inline-flex items-center gap-3 self-start font-sans text-[12.5px] tracking-[0.04em] text-text-secondary transition-colors hover:text-text-primary lg:mb-[6vh]"
+          >
+            <span className="lp-descer-trilho" aria-hidden />
+            Explorar
+          </a>
+        )}
       </div>
     </section>
   );
