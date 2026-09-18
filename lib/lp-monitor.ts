@@ -15,6 +15,8 @@ export type Aparelho = {
   cantos: [[number, number], [number, number], [number, number], [number, number]];
   assinatura: { bottom: string; right: string };
   mascara: { esq: number; dir: number; topo: number };
+  /** a foto já traz o fundo do herói inteiro: enche a secção, sem máscaras */
+  palco?: { posicao: [number, number] };
 };
 
 /** Monitor de secretária, ligeiramente de lado. Os 170px de cima são fundo
@@ -35,6 +37,25 @@ export const MONITOR: Aparelho = {
   mascara: { esq: 14, dir: 84, topo: 22 },
 };
 
+/** O mesmo monitor, com a parede e a mesa prolongadas por síntese (690px à
+ *  esquerda, 457px em cima) até dar para cobrir o herói todo em qualquer
+ *  proporção de ecrã de secretária. Ancora em baixo à direita: a mesa toca
+ *  sempre o fim da secção e o monitor fica sempre a ~60% da largura. */
+export const MONITOR_PALCO: Aparelho = {
+  src: "/img/lp/aldurr/monitor-palco.webp",
+  largura: 1720,
+  altura: 1323,
+  cantos: [
+    [924, 793],
+    [1420, 744],
+    [1377, 1139],
+    [873, 1131],
+  ],
+  assinatura: { bottom: "8%", right: "17%" },
+  mascara: { esq: 0, dir: 100, topo: 0 },
+  palco: { posicao: [1, 1] },
+};
+
 /** Portátil aberto, de lado. Cantos medidos depois da geração (ver scratchpad). */
 export const LAPTOP: Aparelho = {
   src: "/img/lp/softwares/laptop.webp",
@@ -50,4 +71,4 @@ export const LAPTOP: Aparelho = {
   mascara: { esq: 11, dir: 89, topo: 20 },
 };
 
-export const APARELHOS = { monitor: MONITOR, laptop: LAPTOP } as const;
+export const APARELHOS = { monitor: MONITOR, "monitor-palco": MONITOR_PALCO, laptop: LAPTOP } as const;

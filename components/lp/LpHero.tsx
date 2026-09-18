@@ -14,7 +14,15 @@ const up = (delay: number) => ({ style: { animationDelay: `${delay}s` } });
  * aumentar. O título continua a ser um `<h1>` com o texto todo lá dentro
  * para quem lê e para o Google; as janelas são só apresentação.
  */
-function MaskedWords({ text, from = 0, accent = false }: { text: string; from?: number; accent?: boolean }) {
+function MaskedWords({
+  text,
+  from = 0,
+  accent = false,
+}: {
+  text: string;
+  from?: number;
+  accent?: boolean;
+}) {
   return (
     <>
       {text.split(" ").map((word, i) => (
@@ -23,39 +31,12 @@ function MaskedWords({ text, from = 0, accent = false }: { text: string; from?: 
           className={`lp-word ${accent ? "lp-word-accent" : ""}`}
           style={{ marginRight: "0.24em" }}
         >
-          <span style={{ animationDelay: `${0.06 + (from + i) * 0.055}s` }}>{word}</span>
+          <span style={{ animationDelay: `${0.06 + (from + i) * 0.055}s` }}>
+            {word}
+          </span>
         </span>
       ))}
     </>
-  );
-}
-
-/**
- * «subir de nível», escrito a subir: cada palavra fica um degrau acima da
- * anterior e um traço dourado desenha a escada por baixo, cobertor e espelho,
- * até um ponto que pulsa no topo. As palavras continuam separadas por
- * espaços no texto, para leitores de ecrã e para o Google.
- */
-function Escada({ text, from }: { text: string; from: number }) {
-  const palavras = text.split(" ");
-  return (
-    <span className="lp-escada">
-      {palavras.map((word, i) => {
-        const entra = 0.06 + (from + i) * 0.055;
-        return (
-          <span
-            key={`${word}-${i}`}
-            className="lp-degrau"
-            style={{ ["--d" as string]: i, ["--t" as string]: `${entra + 0.7 + i * 0.28}s` }}
-          >
-            <span className="lp-word lp-word-accent">
-              <span style={{ animationDelay: `${entra}s` }}>{word}</span>
-            </span>
-            {i < palavras.length - 1 ? " " : <span className="lp-topo" aria-hidden />}
-          </span>
-        );
-      })}
-    </span>
   );
 }
 
@@ -67,10 +48,10 @@ function Escada({ text, from }: { text: string; from: number }) {
  *
  * A fotografia ancora no canto de baixo à direita da secção e mede-se em
  * largura de ecrã: cresce com o monitor de quem vê, e a secretária chega
- * sempre ao fim da secção. Em ecrã largo o texto desenha um L à volta do
- * computador — o título grande em cima, a passar por cima do monitor, a
- * pergunta no canto de baixo à esquerda. Em coluna única, tudo empilha pela
- * ordem natural.
+ * sempre ao fim da secção. Em ecrã largo o título fica em cima à esquerda,
+ * com a mesma gramática dos h2 do resto da página (grotesco, uma palavra
+ * final em itálico dourado), e a nota no canto de baixo à esquerda. Em
+ * coluna única, tudo empilha pela ordem natural.
  *
  * Sem rótulos, sem métricas, sem botões — a ação vive no cabeçalho, que
  * acompanha a página.
@@ -82,87 +63,122 @@ export default function LpHero({ v }: { v: Vertical }) {
   // nunca mais alta que a secção: a largura máxima em dvh sai da proporção da foto
   const larguraFoto = `clamp(600px, min(60vw, ${Math.round((ap.largura / ap.altura) * 100)}dvh), 1400px)`;
   let palavras = 0;
+  const ecra =
+    h.screen.kind === "video" ? (
+      <MockSiteVideo
+        webm={h.screen.webm}
+        mp4={h.screen.mp4}
+        poster={h.screen.poster}
+        alt={h.screen.alt}
+      />
+    ) : (
+      <MockPlatform />
+    );
 
   return (
     <section className="relative flex min-h-[100dvh] flex-col overflow-hidden pt-24 md:pt-28 lg:pb-0">
-      <span className="lp-bracket left-9 top-[11vh] hidden border-l border-t md:block" aria-hidden />
-      <span className="lp-bracket right-9 top-[11vh] hidden border-r border-t md:block" aria-hidden />
+      <span
+        className="lp-bracket z-10 left-9 top-[11vh] hidden border-l border-t md:block"
+        aria-hidden
+      />
+      <span
+        className="lp-bracket z-10 right-9 top-[11vh] hidden border-r border-t md:block"
+        aria-hidden
+      />
 
       <div className="shell relative flex w-full flex-1 flex-col lg:static">
-        {/* ── o título: em ecrã largo, por cima do monitor ── */}
-        <h1 className="lp-titulo relative z-10 order-1 font-display font-medium text-text-primary lg:mt-[clamp(8px,3.5vh,56px)]">
+        {/* ── o título: a gramática dos h2 da página, uma palavra final em itálico dourado ── */}
+        <h1 className="lp-titulo relative z-10 order-1 text-text-primary lg:mt-[clamp(8px,4vh,64px)]">
           {h.lines.map((l) => {
             const from = palavras;
-            palavras += l.t.split(" ").length;
+            palavras += l.t.split(" ").length + (l.accent ? l.accent.split(" ").length : 0);
             return (
-              <span key={l.t} className={`block lg:whitespace-nowrap ${l.escada ? "lp-linha-escada" : ""}`}>
-                {l.accent ? (
+              <span key={l.t} className="block lg:whitespace-nowrap">
+                <MaskedWords text={l.t} from={from} />
+                {l.accent && (
                   <span className="accent-serif lp-titulo-acento text-gold">
-                    {l.escada ? <Escada text={l.t} from={from} /> : <MaskedWords text={l.t} from={from} accent />}
+                    <MaskedWords text={l.accent} from={from + l.t.split(" ").length} accent />
                   </span>
-                ) : (
-                  <MaskedWords text={l.t} from={from} />
                 )}
               </span>
             );
           })}
         </h1>
 
-        {/* ── o computador: em ecrã largo, ancorado em baixo à direita e medido em vw ── */}
-        <div
-          {...up(0.22)}
-          className="lp-rise relative order-2 -mx-[6%] mt-6 lg:absolute lg:bottom-0 lg:right-0 lg:z-0 lg:mx-0 lg:mt-0 lg:w-[var(--lp-foto)]"
-          style={{ ["--lp-foto" as string]: larguraFoto }}
-        >
+        {/* ── o computador ── */}
+        {ap.palco ? (
+          // a foto é o fundo do herói inteiro: enche a secção, sem esbatidos,
+          // e o ecrã segue a mesma conta do corte (ver ScreenMap)
           <div
-            style={{
-              maskImage: mascara,
-              WebkitMaskImage: mascara,
-              maskComposite: "intersect",
-              WebkitMaskComposite: "source-in",
-            }}
+            {...up(0.1)}
+            className="lp-fade lp-palco relative order-2 mt-2 aspect-[20/17] overflow-hidden lg:absolute lg:inset-0 lg:z-0 lg:mt-0 lg:aspect-auto"
           >
-            <ScreenMap src={ap.src} largura={ap.largura} altura={ap.altura} cantos={ap.cantos} className="w-full">
-              {h.screen.kind === "video" ? (
-                <MockSiteVideo webm={h.screen.webm} mp4={h.screen.mp4} poster={h.screen.poster} alt={h.screen.alt} />
-              ) : (
-                <MockPlatform />
-              )}
-            </ScreenMap>
+            {/* em coluna única a foto aproxima-se do monitor (175% de largura, canto de baixo à direita);
+                em ecrã largo enche a secção, com a largura presa a 1,95× a altura para o monitor
+                nunca subir para cima do título em ecrãs ultra-largos — o resto é parede lisa */}
+            <div className="absolute bottom-0 right-0 aspect-[1720/1323] w-[175%] lg:aspect-auto lg:h-full lg:w-[min(100%,195dvh)]">
+              <ScreenMap
+                src={ap.src}
+                largura={ap.largura}
+                altura={ap.altura}
+                cantos={ap.cantos}
+                preenche
+                posicao={ap.palco.posicao}
+              >
+                {ecra}
+              </ScreenMap>
+            </div>
           </div>
-
-          {/* a assinatura, pousada na secretária */}
-          {h.tagline && (
-          <p
-            {...up(0.55)}
-            className="lp-rise accent-serif mt-2 text-center text-[clamp(20px,1.55vw,30px)] leading-none text-[#efe9dc] lg:absolute lg:mt-0 lg:whitespace-nowrap lg:text-right"
-            // em coluna única a assinatura é static e ignora isto; em ecrã largo é absolute e pousa na secretária
-            style={{
-              textShadow: "0 1px 18px rgba(3,6,14,0.7)",
-              bottom: ap.assinatura.bottom,
-              right: ap.assinatura.right,
-            }}
+        ) : (
+          <div
+            {...up(0.22)}
+            className="lp-rise relative order-2 -mx-[6%] mt-6 lg:absolute lg:bottom-0 lg:right-0 lg:z-0 lg:mx-0 lg:mt-0 lg:w-[var(--lp-foto)]"
+            style={{ ["--lp-foto" as string]: larguraFoto }}
           >
-            {h.tagline}
-          </p>
-          )}
-        </div>
+            <div
+              style={{
+                maskImage: mascara,
+                WebkitMaskImage: mascara,
+                maskComposite: "intersect",
+                WebkitMaskComposite: "source-in",
+              }}
+            >
+              <ScreenMap
+                src={ap.src}
+                largura={ap.largura}
+                altura={ap.altura}
+                cantos={ap.cantos}
+                className="w-full"
+              >
+                {ecra}
+              </ScreenMap>
+            </div>
 
-        {/* ── a pergunta: canto de baixo à esquerda, à altura da secretária ── */}
+            {/* a assinatura, pousada na secretária */}
+            {h.tagline && (
+              <p
+                {...up(0.55)}
+                className="lp-rise accent-serif mt-2 text-center text-[clamp(20px,1.55vw,30px)] leading-none text-[#efe9dc] lg:absolute lg:mt-0 lg:whitespace-nowrap lg:text-right"
+                // em coluna única a assinatura é static e ignora isto; em ecrã largo é absolute e pousa na secretária
+                style={{
+                  textShadow: "0 1px 18px rgba(3,6,14,0.7)",
+                  bottom: ap.assinatura.bottom,
+                  right: ap.assinatura.right,
+                }}
+              >
+                {h.tagline}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* ── a nota: de leve, no canto de baixo à esquerda ── */}
         <p
-          {...up(0.95)}
-          className="lp-rise lp-pergunta relative z-10 order-3 mb-10 mt-8 max-w-[26ch] font-display text-text-primary lg:mb-[7vh] lg:mt-auto lg:max-w-none lg:whitespace-nowrap"
+          {...up(1.1)}
+          className="lp-fade relative z-10 order-3 mb-10 mt-6 max-w-[44ch] font-sans text-[clamp(13.5px,0.95vw,16px)] leading-relaxed text-text-secondary [text-wrap:balance] lg:mb-[6vh] lg:mt-auto lg:max-w-none lg:whitespace-nowrap"
         >
-          <span className="lp-sinal lg:absolute lg:-left-7 lg:top-[0.55em] lg:m-0" aria-hidden />
-          {h.question.pre}{" "}
-          <span className="accent-serif whitespace-nowrap text-[1.32em] leading-none text-gold">{h.question.figure}</span>{" "}
-          <span className="lg:block">{h.question.post}</span>
-          {h.question.tail && (
-            <>
-              {" "}
-              <span className="mt-1 block text-text-secondary">{h.question.tail}</span>
-            </>
-          )}
+          {h.question.pre && `${h.question.pre} `}
+          <span className="font-medium text-text-primary">{h.question.figure}</span> {h.question.post}
         </p>
       </div>
     </section>
