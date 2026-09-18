@@ -7,7 +7,7 @@ import Reveal from "@/components/lp/Reveal";
  */
 export default function LpStats({ stats }: { stats: { value: string; label: string }[] }) {
   return (
-    <section className="relative -mt-px border-y border-line bg-bg-2/60">
+    <section id="numeros" className="relative -mt-px scroll-mt-16 border-y border-line bg-bg-2/60">
       <div
         className="pointer-events-none absolute inset-0"
         style={{ background: "radial-gradient(80% 140% at 50% 0%, rgba(212,175,96,0.07), transparent 62%)" }}
@@ -17,7 +17,7 @@ export default function LpStats({ stats }: { stats: { value: string; label: stri
           <Reveal
             key={s.label}
             delay={i * 0.08}
-            className={`px-1 text-center md:px-7 md:text-left ${
+            className={`border-line px-1 text-center md:px-7 md:text-left ${
               i % 2 === 1 ? "border-l border-line md:border-l" : ""
             } ${i === 0 ? "md:border-l-0" : "md:border-l"}`}
           >

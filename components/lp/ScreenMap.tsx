@@ -43,6 +43,7 @@ export default function ScreenMap({
   className = "",
   preenche = false,
   posicao = [0.5, 0],
+  foco,
 }: {
   src: string;
   largura: number;
@@ -55,8 +56,12 @@ export default function ScreenMap({
   preenche?: boolean;
   /** onde a foto ancora quando corta, de 0 a 1 em x e y (como object-position) */
   posicao?: [number, number];
+  /** ponto da foto (px) que fica ao centro quando a foto sobra na horizontal —
+   *  em ecrãs mais altos que largos, o aparelho fica ao meio em vez de cortado */
+  foco?: [number, number];
 }) {
   const caixa = useRef<HTMLDivElement | null>(null);
+  const foto = useRef<HTMLImageElement | null>(null);
   const ecra = useRef<HTMLDivElement | null>(null);
 
   // o retângulo de partida é a caixa que envolve o quadrilátero, em píxeis da
@@ -89,8 +94,10 @@ export default function ScreenMap({
       if (!W || !H) return;
       // a mesma conta do object-fit: cover + object-position
       const k = Math.max(W / largura, H / altura);
-      const ox = (W - largura * k) * posicao[0];
+      const sobraX = W - largura * k; // ≤ 0
+      const ox = foco && sobraX < -1 ? Math.min(0, Math.max(sobraX, W / 2 - foco[0] * k)) : sobraX * posicao[0];
       const oy = (H - altura * k) * posicao[1];
+      if (foto.current) foto.current.style.objectPosition = `${ox}px ${oy}px`;
       const ex = x0 * k + ox;
       const ey = y0 * k + oy;
       alvo.style.left = `${ex}px`;
@@ -133,6 +140,7 @@ export default function ScreenMap({
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
+        ref={foto}
         src={src}
         alt=""
         width={largura}
