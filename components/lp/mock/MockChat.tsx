@@ -8,7 +8,7 @@ const MSGS = [
 
 export default function MockChat() {
   return (
-    <div className="rounded-[10px] border border-white/[0.07] bg-[#0b0f1a] p-4">
+    <div className="rounded-[10px] border border-white/[0.07] bg-[#0b0f1a] p-3.5 md:p-4">
       <div className="flex items-center gap-2 border-b border-white/[0.06] pb-3">
         <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#25D366]/15 text-[#25D366]">
           <MessageCircle size={14} />
@@ -22,7 +22,7 @@ export default function MockChat() {
         {MSGS.map((m, i) => (
           <div key={i} className={`flex ${m.who === "us" ? "justify-end" : "justify-start"}`}>
             <span
-              className={`max-w-[85%] rounded-[12px] px-3 py-2 font-sans text-[11.5px] leading-snug ${
+              className={`max-w-[85%] rounded-[12px] px-3 py-2 font-sans text-[12.5px] leading-snug md:text-[11.5px] ${
                 m.who === "us"
                   ? "rounded-br-[3px] bg-gold text-[#0a0a0a]"
                   : "rounded-bl-[3px] border border-white/[0.08] bg-white/[0.03] text-text-primary"

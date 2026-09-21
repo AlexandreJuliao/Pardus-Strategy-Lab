@@ -2,7 +2,7 @@ import { Search, MapPin } from "lucide-react";
 
 export default function MockSearch() {
   return (
-    <div className="rounded-[10px] border border-white/[0.07] bg-[#0b0f1a] p-4 md:p-5">
+    <div className="rounded-[10px] border border-white/[0.07] bg-[#0b0f1a] p-3.5 md:p-5">
       <div className="flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-2">
         <Search size={13} className="text-text-muted" />
         <span className="font-sans text-[12.5px] text-text-primary">remodelação de cozinha lisboa</span>
@@ -14,12 +14,12 @@ export default function MockSearch() {
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold font-display text-[10px] font-bold text-[#0a0a0a]">
               1
             </span>
-            <span className="font-sans text-[10.5px] text-text-secondary">oficinadoazulejo.pt</span>
+            <span className="font-sans text-[11px] text-text-secondary md:text-[10.5px]">oficinadoazulejo.pt</span>
           </div>
-          <p className="mt-1.5 font-sans text-[13px] font-medium text-gold">
+          <p className="mt-1.5 font-sans text-[13.5px] font-medium text-gold md:text-[13px]">
             Oficina do Azulejo · Remodelações em Lisboa
           </p>
-          <p className="mt-1 font-sans text-[11px] leading-snug text-text-secondary">
+          <p className="mt-1 font-sans text-[11.5px] leading-snug text-text-secondary md:text-[11px]">
             Cozinhas e casas de banho remodeladas do princípio ao fim, com orçamento fechado e prazo escrito…
           </p>
           <span className="mt-2 inline-flex items-center gap-1 font-sans text-[10.5px] text-text-muted">
@@ -28,7 +28,7 @@ export default function MockSearch() {
         </div>
 
         {[70, 55].map((w, i) => (
-          <div key={i} className="px-3 opacity-50">
+          <div key={i} className={`px-3 opacity-50 ${i === 1 ? "hidden md:block" : ""}`}>
             <span className="block h-1.5 w-24 rounded-full bg-white/[0.12]" />
             <span className="mt-2 block h-2 rounded-full bg-white/[0.1]" style={{ width: `${w}%` }} />
             <span className="mt-1.5 block h-1.5 rounded-full bg-white/[0.06]" style={{ width: `${w + 15}%` }} />

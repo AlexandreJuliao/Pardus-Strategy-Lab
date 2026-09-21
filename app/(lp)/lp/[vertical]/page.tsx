@@ -105,7 +105,7 @@ export default function VerticalPage({ params }: Props) {
               O que vem no teu <span className="accent-serif text-gold">site</span>
             </>
           ),
-          intro: "Quatro coisas que vão dentro de todos os sites que fazemos. São elas que trazem os pedidos.",
+          intro: "Quatro coisas que vão em todos os sites que fazemos. São estas que trazem os pedidos.",
         };
 
   return (
@@ -128,14 +128,16 @@ export default function VerticalPage({ params }: Props) {
       <FAQ items={v.faq} intro="O que nos perguntam antes de começar." />
       <LeadForm
         origem={v.origem}
-        label="Consultoria gratuita"
+        label={v.cta.curto}
         title={<Titulo texto={v.form.title} />}
         intro={v.form.intro}
-        formTitle={v.template === "softwares" ? "Marcar o mapeamento" : "Marcar a minha consultoria"}
+        formTitle={v.cta.formTitle}
+        promessa={v.cta.promessa}
         cta={v.form.cta}
         negocioPlaceholder={v.form.negocioPlaceholder}
+        steps={v.form.steps}
       />
-      <MobileContactFab />
+      <MobileContactFab label={v.cta.flutuante} />
     </>
   );
 }

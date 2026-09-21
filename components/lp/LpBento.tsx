@@ -40,7 +40,7 @@ export default function LpBento({
       <div className="shell relative z-10">
         <SectionHeader title={title} intro={intro} align="center" />
 
-        <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-3 md:mt-12 md:grid-cols-3 md:gap-4">
           {v.bento.map((b, i) => {
             const Mock = MOCKS[b.mock];
             return (
@@ -55,17 +55,17 @@ export default function LpBento({
                     e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
                     e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
                   }}
-                  className="spotlight-card group relative flex h-full flex-col overflow-hidden rounded-[14px] border border-line bg-surface/60 p-3 transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:bg-surface"
+                  className="spotlight-card group relative flex h-full flex-col overflow-hidden rounded-[16px] border border-line bg-surface/60 p-2.5 transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:bg-surface md:rounded-[14px] md:p-3"
                 >
                   <span className="spotlight-glow" aria-hidden />
                   <div className="relative z-10">
                     <Mock />
                   </div>
-                  <div className="relative z-10 px-3 pb-3 pt-5">
-                    <h3 className="font-display text-[19px] font-semibold text-text-primary transition-colors group-hover:text-gold">
+                  <div className="relative z-10 px-3 pb-4 pt-5 md:pb-3">
+                    <h3 className="font-display text-[18.5px] font-semibold leading-snug text-text-primary transition-colors group-hover:text-gold md:text-[19px]">
                       {b.title}
                     </h3>
-                    <p className="mt-2 max-w-md font-sans text-[14px] leading-relaxed text-text-secondary">
+                    <p className="mt-2 max-w-md font-sans text-[14.5px] leading-[1.62] text-text-secondary md:text-[14px] md:leading-relaxed">
                       {b.desc}
                     </p>
                   </div>

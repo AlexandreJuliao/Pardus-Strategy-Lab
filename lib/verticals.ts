@@ -21,6 +21,9 @@ export type Vertical = {
   descriptor?: string;
   /** Vai no evento Lead (content_name), na coluna "origem" (n8n) e no source (Office) */
   origem: string;
+  /** como se chama a ação nesta vertical: cabeçalho, botão flutuante, cartão do
+   *  formulário e a frase "para marcar a tua ___" depois de enviar */
+  cta: { curto: string; flutuante: string; formTitle: string; promessa: string };
   /** lockup oficial da vertical; sem ele usa-se o tipográfico */
   logo?: string;
   seo: { title: string; description: string };
@@ -92,7 +95,14 @@ export type Vertical = {
     items: { icon: "bot" | "inbox" | "workflow" | "shop" | "care"; title: string; desc: string }[];
   };
   faq: { q: string; a: string }[];
-  form: { title: string; intro: string; cta: string; negocioPlaceholder: string };
+  form: {
+    title: string;
+    intro: string;
+    cta: string;
+    negocioPlaceholder: string;
+    /** os três passos ao lado do formulário; sem eles usam-se os do site */
+    steps?: { icon: "lupa" | "mapa" | "mao"; title: string; desc: string }[];
+  };
 };
 
 export const VERTICALS: Record<string, Vertical> = {
@@ -102,11 +112,12 @@ export const VERTICALS: Record<string, Vertical> = {
     template: "websites",
     name: "Websites",
     origem: "LP Websites",
+    cta: { curto: "Marcar conversa", flutuante: "Marcar conversa", formTitle: "Marcar a conversa", promessa: "conversa de 20 minutos" },
     logo: "/img/logo/pardus-websites.png",
     seo: {
       title: "PARDUS. Websites · O teu site pronto em 2 semanas",
       description:
-        "Sites profissionais para negócios em Portugal: design à medida, rápidos no telemóvel, ligados ao WhatsApp e a aparecer no Google. Desde 399€. Consultoria gratuita.",
+        "Sites profissionais para negócios em Portugal: design à medida, rápidos no telemóvel, ligados ao WhatsApp e a aparecer no Google. Desde 399€. Marca uma conversa de 20 minutos.",
     },
     hero: {
       lines: [
@@ -124,20 +135,20 @@ export const VERTICALS: Record<string, Vertical> = {
       },
     },
     stats: [
-      { value: "2 sem.", label: "Do primeiro contacto ao site no ar" },
-      { value: "2 a 10", label: "Contactos novos por mês, com o site a trabalhar por ti" },
+      { value: "2 sem.", label: "Do primeiro contacto ao lançamento" },
+      { value: "2 a 10", label: "Contactos novos por mês, depois do site no ar" },
       { value: "100%", label: "Domínio, código e acessos teus" },
       { value: "24h", label: "Resposta a qualquer pedido" },
     ],
     statement: {
       pre: "Um site bonito que não traz trabalho é só",
       accent: "decoração.",
-      sub: "Antes de desenhar o que quer que seja, perguntamos como é que este site te vai dar dinheiro.",
+      sub: "Antes de desenhar a primeira página, perguntamos quem precisa de te encontrar e o que o faz decidir.",
     },
     bento: [
       {
         title: "Apareces no Google",
-        desc: "Estrutura e textos escritos para as pesquisas que os teus clientes fazem mesmo, com o teu serviço e a tua zona.",
+        desc: "Estrutura e textos à volta das pesquisas que os teus clientes fazem, com o teu serviço e a tua zona.",
         mock: "search",
         wide: true,
       },
@@ -148,24 +159,24 @@ export const VERTICALS: Record<string, Vertical> = {
       },
       {
         title: "Rápido em qualquer telemóvel",
-        desc: "Mais de 70% das visitas vêm do telemóvel. O teu site abre em menos de 2 segundos, em qualquer rede.",
+        desc: "Mais de 70% das visitas vêm do telemóvel. O teu site abre em menos de 2 segundos, mesmo com rede fraca.",
         mock: "score",
       },
       {
         title: "Uma plataforma só tua",
-        desc: "Entras e vês tudo: quantas visitas teve o site, de onde vieram e quantos pedidos entraram, num painel que se lê em dois minutos. Os contactos ficam lá, com quem já respondeste e quem falta. E se quiseres mudar um texto ou uma foto, pedes por ali à equipa.",
+        desc: "As visitas, de onde vieram e os pedidos que entraram, num painel que se lê em dois minutos. Os contactos ficam lá, com quem já respondeste e quem falta. Para trocar um texto ou uma foto, pedes por ali.",
         mock: "chart",
         wide: true,
       },
     ],
     organic: {
-      pre: "Clientes que te encontram",
-      accent: "sozinhos.",
-      intro: "Cada página é feita para aparecer nas pesquisas certas e transformar a visita num contacto.",
+      pre: "O método é simples: começar pelo",
+      accent: "fim.",
+      intro: "Primeiro fica claro o que o site tem de conseguir. As páginas, os textos e o sítio onde fica o botão vêm todos daí.",
       points: [
-        "Textos escritos à volta do que as pessoas procuram mesmo.",
-        "Páginas rápidas no telemóvel, que é o que o Google premeia.",
-        "O caminho até ao contacto, pensado ao pormenor.",
+        "Começamos pelo que as pessoas escrevem no Google quando precisam de ti.",
+        "As páginas respondem a essas perguntas, em vez de falarem da empresa.",
+        "Depois medimos as aparições, os cliques e os pedidos. O que não estiver a dar, muda.",
       ],
       query: "remodelação de cozinha lisboa",
       result: "Oficina do Azulejo · Remodelações em Lisboa",
@@ -189,8 +200,8 @@ export const VERTICALS: Record<string, Vertical> = {
     features: [
       { icon: "text", title: "Textos e imagens incluídos", desc: "Escrevemos e escolhemos as imagens contigo. Não precisas de chegar com nada pronto." },
       { icon: "globe", title: "Domínio, alojamento e email", desc: "Registamos o teu domínio, pomos o site no ar e criamos o email profissional. Tudo em teu nome." },
-      { icon: "chart", title: "Acesso à plataforma", desc: "Um painel só teu com as visitas, os pedidos que entraram e um sítio para pedires alterações à equipa. Incluído, sem mensalidade obrigatória." },
-      { icon: "shield", title: "30 dias de acompanhamento", desc: "Depois do lançamento ficamos por perto: ajustes, dúvidas e afinações, sem custo." },
+      { icon: "chart", title: "Acesso à plataforma", desc: "Um painel só teu com as visitas, os pedidos que entraram e um sítio para pedires alterações à equipa. Vem incluído, e não há mensalidade para o usares." },
+      { icon: "shield", title: "30 dias de acompanhamento", desc: "Depois do lançamento ficamos por perto para ajustes e dúvidas, sem custo." },
     ],
     process: [
       { when: "Dia 1", title: "Conversa de 20 minutos", desc: "Percebemos o que fazes, quem te compra e o que o site tem de resolver. Sais da conversa com o preço fechado." },
@@ -225,22 +236,27 @@ export const VERTICALS: Record<string, Vertical> = {
         { icon: "inbox", title: "Gestão de pedidos", desc: "Todos os contactos num só sítio, com quem já respondeu e quem falta." },
         { icon: "workflow", title: "Automações", desc: "Orçamentos, lembretes e faturas a sair sozinhos." },
         { icon: "shop", title: "Loja online", desc: "Vender no próprio site, sem comissões de terceiros." },
-        { icon: "care", title: "Avença de cuidado", desc: "Atualizações, segurança e posição no Google, todos os meses." },
+        { icon: "care", title: "Avença mensal", desc: "Atualizações, segurança e posição no Google, todos os meses." },
       ],
     },
     faq: [
-      { q: "Quanto tempo demora mesmo?", a: "Uma landing page fica no ar em cerca de 7 dias úteis; um site profissional em 2 semanas. O prazo conta a partir da conversa inicial, e o que mais o atrasa é a aprovação do teu lado, por isso mantemos tudo simples." },
+      { q: "Quanto tempo demora mesmo?", a: "Uma landing page fica no ar em cerca de 7 dias úteis; um site profissional em 2 semanas. O prazo conta a partir da conversa inicial, e o que mais atrasa é a aprovação do teu lado. Por isso pedimos-te poucas coisas, e uma de cada vez." },
       { q: "O que preciso de vos dar?", a: "Quase nada: o nome do negócio, o que fazes e para quem, e o teu logótipo se tiveres. Os textos e as imagens tratamos nós contigo. Se não tiveres logótipo, fazemos um simples incluído." },
       { q: "O site fica meu ou vosso?", a: "Teu. Domínio em teu nome, alojamento na tua conta, código entregue. Se um dia quiseres mudar de agência, levas tudo contigo." },
       { q: "E depois do lançamento?", a: "Tens 30 dias de acompanhamento incluídos para ajustes e dúvidas. Depois, se quiseres que tratemos das atualizações, segurança e posição no Google todos os meses, há uma avença desde 90€/mês. Opcional." },
-      { q: "Como vejo os resultados do site?", a: "Damos-te acesso a uma plataforma nossa, só tua. Lá vês as visitas, de onde vieram e todos os pedidos que entraram, sem precisares de perceber de Google Analytics. É também por lá que pedes alterações: escreves o que queres mudar e a equipa trata." },
+      { q: "Como vejo os resultados do site?", a: "Damos-te uma conta na nossa plataforma, só tua. Lá vês as visitas, de onde vieram e todos os pedidos que entraram, sem precisares de perceber de Google Analytics. É também por lá que pedes alterações: escreves o que queres mudar e a equipa trata." },
       { q: "Como funciona o pagamento?", a: "Metade para arrancar, metade no lançamento, ou outra forma que te dê mais jeito. Falamos disso na primeira conversa, sem surpresas." },
     ],
     form: {
       title: "Vamos falar do teu site",
       intro: "20 minutos, sem custo. Ouvimos o que precisas, dizemos o que faz sentido fazer e quanto custa. Se não for connosco, dizemos isso também.",
-      cta: "Quero a minha consultoria gratuita",
+      cta: "Quero marcar a conversa",
       negocioPlaceholder: "Ex.: oficina, restaurante, escritório de advogados…",
+      steps: [
+        { icon: "lupa", title: "Ouvimos o que fazes", desc: "Quem te compra, como é que te encontram hoje e o que o site tem de trazer." },
+        { icon: "mapa", title: "Dizemos o que faz sentido", desc: "Que páginas precisas, o que vai escrito em cada uma e quanto custa. Na própria conversa." },
+        { icon: "mao", title: "Sem compromisso", desc: "Sais com um caminho claro na mão, avancemos juntos ou não." },
+      ],
     },
   },
   softwares: {
@@ -251,6 +267,7 @@ export const VERTICALS: Record<string, Vertical> = {
     nameShort: "Softwares",
     descriptor: "Sistemas de gestão à medida",
     origem: "LP Softwares",
+    cta: { curto: "Consultoria gratuita", flutuante: "Consultoria grátis", formTitle: "Marcar o mapeamento", promessa: "consultoria gratuita" },
     seo: {
       title: "PARDUS. Softwares de Gestão · Um sistema feito à volta da tua empresa",
       description:
