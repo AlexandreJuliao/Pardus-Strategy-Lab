@@ -35,14 +35,14 @@ function Gauge({ v, label }: { v: number; label: string }) {
           {v}
         </span>
       </div>
-      <span className="font-sans text-[9.5px] tracking-wide text-text-muted">{label}</span>
+      <span className="font-sans text-[10px] tracking-wide text-text-muted md:text-[9.5px]">{label}</span>
     </div>
   );
 }
 
 export default function MockScore() {
   return (
-    <div className="rounded-[10px] border border-white/[0.07] bg-[#0b0f1a] p-4 md:p-5">
+    <div className="rounded-[10px] border border-white/[0.07] bg-[#0b0f1a] p-3.5 md:p-5">
       <div className="flex items-center justify-between">
         <span className="font-sans text-[11px] text-text-secondary">Google PageSpeed · telemóvel</span>
         <span className="rounded-full border border-gold/30 bg-gold/[0.07] px-2 py-[3px] font-sans text-[9.5px] font-medium text-gold">
@@ -76,7 +76,7 @@ export default function MockScore() {
             </div>
           </div>
         ))}
-        <p className="pt-1 font-sans text-[10px] leading-snug text-text-muted">
+        <p className="pt-1 font-sans text-[11px] leading-snug text-text-muted md:text-[10px]">
           Metade das pessoas desiste de uma página que demora mais de 3 segundos.
         </p>
       </div>

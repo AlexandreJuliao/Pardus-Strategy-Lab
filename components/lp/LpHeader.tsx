@@ -13,7 +13,18 @@ import { ROOT_DOMAIN } from "@/lib/verticals";
  * fixa obriga a desfocar tudo o que passa por trás a cada fotograma de scroll,
  * e era um dos custos que faziam a página tropeçar.
  */
-export default function LpHeader({ name, nameShort, logo }: { name: string; nameShort?: string; logo?: string }) {
+export default function LpHeader({
+  name,
+  nameShort,
+  logo,
+  cta,
+}: {
+  name: string;
+  nameShort?: string;
+  logo?: string;
+  /** como se chama a ação nesta vertical */
+  cta: string;
+}) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -26,7 +37,7 @@ export default function LpHeader({ name, nameShort, logo }: { name: string; name
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-premium ${
-        scrolled ? "border-b border-line bg-bg/[0.93]" : "border-b border-transparent"
+        scrolled ? "border-b border-line bg-bg/[0.97]" : "border-b border-transparent"
       }`}
     >
       <div className="shell flex h-16 items-center justify-between md:h-[72px]">
@@ -54,7 +65,7 @@ export default function LpHeader({ name, nameShort, logo }: { name: string; name
             />
           </a>
           <CtaButton variant="outline" size="md">
-            Consultoria gratuita
+            {cta}
           </CtaButton>
         </div>
       </div>

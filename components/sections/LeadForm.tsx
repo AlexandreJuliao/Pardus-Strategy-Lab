@@ -21,19 +21,23 @@ type Errors = Partial<Record<keyof FormState, string>>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const STEPS = [
+const ICONES = { lupa: Search, mapa: Map, mao: HeartHandshake } as const;
+
+export type PassoConversa = { icon: keyof typeof ICONES; title: string; desc: string };
+
+const STEPS: PassoConversa[] = [
   {
-    icon: Search,
+    icon: "lupa",
     title: "Olhamos para o teu negócio",
     desc: "Percebemos como trabalhas hoje e onde se está a perder tempo, dinheiro ou clientes.",
   },
   {
-    icon: Map,
+    icon: "mapa",
     title: "Dizemos-te o que faz sentido",
     desc: "Onde a inteligência artificial pode automatizar trabalho, e o que muda com um site, uma loja ou um assistente.",
   },
   {
-    icon: HeartHandshake,
+    icon: "mao",
     title: "Sem compromisso",
     desc: "Sais com um caminho claro na mão, avancemos juntos ou não. A conversa é tua para levar.",
   },
@@ -50,6 +54,7 @@ export default function LeadForm({
   ),
   intro = "Marca uma conversa connosco, sem custo nenhum. Olhamos para o teu negócio e dizemos-te com honestidade o que faz sentido, e o que não faz.",
   formTitle = "Marcar a minha consultoria",
+  promessa = "consultoria gratuita",
   cta = "Quero a consultoria gratuita",
   negocioPlaceholder = "Ex.: clínica, loja, imobiliária, restaurante…",
   thanksPath,
@@ -61,6 +66,8 @@ export default function LeadForm({
   title?: React.ReactNode;
   intro?: string;
   formTitle?: string;
+  /** o que se promete marcar depois de enviar: "para marcar a tua ___" */
+  promessa?: string;
   cta?: string;
   negocioPlaceholder?: string;
   /**
@@ -69,7 +76,7 @@ export default function LeadForm({
    * é o /obrigado normal.
    */
   thanksPath?: string;
-  steps?: { icon: typeof Search; title: string; desc: string }[];
+  steps?: PassoConversa[];
 } = {}) {
   const router = useRouter();
   const pathname = usePathname();
@@ -156,7 +163,7 @@ export default function LeadForm({
 
           <div className="mt-10 space-y-6">
             {steps.map((s, i) => {
-              const Icon = s.icon;
+              const Icon = ICONES[s.icon];
               return (
                 <motion.div
                   key={s.title}
@@ -215,8 +222,7 @@ export default function LeadForm({
                   Pedido recebido!
                 </p>
                 <p className="mt-2 max-w-xs font-sans text-sm leading-relaxed text-text-secondary">
-                  Entramos em contacto em menos de 24 horas para marcar a tua
-                  consultoria gratuita. Até já.
+                  Entramos em contacto em menos de 24 horas para marcar a tua {promessa}. Até já.
                 </p>
               </motion.div>
             ) : (

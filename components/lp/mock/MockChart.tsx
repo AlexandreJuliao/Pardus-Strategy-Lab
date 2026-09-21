@@ -22,7 +22,7 @@ export default function MockChart() {
   const area = `${line} L${x(PTS.length - 1)},${H} L${x(0)},${H} Z`;
 
   return (
-    <div className="rounded-[10px] border border-white/[0.07] bg-[#0b0f1a] p-4 md:p-5">
+    <div className="rounded-[10px] border border-white/[0.07] bg-[#0b0f1a] p-3.5 md:p-5">
       {/* separadores da plataforma */}
       <div className="flex items-center gap-4 border-b border-white/[0.06] pb-2.5">
         {["Painel", "Pedidos", "Alterações"].map((t, i) => (
@@ -51,7 +51,7 @@ export default function MockChart() {
         </span>
       </div>
 
-      <svg viewBox={`0 0 ${W} ${H}`} className="mt-2 h-[86px] w-full">
+      <svg viewBox={`0 0 ${W} ${H}`} className="mt-2 h-[74px] w-full md:h-[86px]">
         <defs>
           <linearGradient id="lpArea" x1="0" x2="0" y1="0" y2="1">
             <stop offset="0" stopColor="#d4af60" stopOpacity="0.45" />
@@ -65,13 +65,13 @@ export default function MockChart() {
 
       {/* os contactos que entraram */}
       <div className="mt-3 space-y-1.5 border-t border-white/[0.06] pt-3">
-        {LEADS.map((l) => (
-          <div key={l.n} className="flex items-center gap-2.5">
+        {LEADS.map((l, i) => (
+          <div key={l.n} className={`flex items-center gap-2.5 ${i === 1 ? "hidden md:flex" : ""}`}>
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/[0.05] text-text-secondary">
               <User size={11} />
             </span>
             <span className="min-w-0 flex-1 leading-tight">
-              <span className="block truncate font-sans text-[11.5px] text-text-primary">{l.n}</span>
+              <span className="block truncate font-sans text-[12px] text-text-primary md:text-[11.5px]">{l.n}</span>
               <span className="block truncate font-sans text-[10px] text-text-muted">{l.w}</span>
             </span>
             <span

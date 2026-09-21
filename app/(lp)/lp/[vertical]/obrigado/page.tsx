@@ -23,7 +23,7 @@ export default function LpObrigado({ params }: { params: { vertical: string } })
         </h1>
         <p className="hero-sub mt-6 max-w-xl text-base">
           Entramos em contacto em <span className="text-text-primary">menos de 24 horas</span> (dias
-          úteis) para marcar a tua consultoria gratuita. Sem custo, sem compromisso.
+          úteis) para marcar a tua {v.cta.promessa}. Sem custo, sem compromisso.
         </p>
         <p className="mt-4 max-w-md font-sans text-sm text-text-secondary">
           Se for urgente, escreve para{" "}

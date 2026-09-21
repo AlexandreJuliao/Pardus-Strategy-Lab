@@ -22,7 +22,7 @@ export default function LpStats({ stats }: { stats: { value: string; label: stri
             } ${i === 0 ? "md:border-l-0" : "md:border-l"}`}
           >
             <p className="stat-figure text-[clamp(30px,3.4vw,46px)] leading-none">{s.value}</p>
-            <p className="mx-auto mt-2.5 max-w-[22ch] font-sans text-[13px] leading-snug text-text-secondary md:mx-0">
+            <p className="mx-auto mt-2.5 max-w-[19ch] font-sans text-[13px] leading-snug text-text-secondary [text-wrap:balance] md:mx-0 md:max-w-[22ch]">
               {s.label}
             </p>
           </Reveal>
