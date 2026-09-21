@@ -88,7 +88,7 @@ export default function LpHero({ v }: { v: Vertical }) {
 
       <div className={`shell flex w-full flex-1 flex-col ${ap.palco ? "static" : "relative lg:static"}`}>
         {/* ── o título: a gramática dos h2 da página, uma palavra final em itálico dourado ── */}
-        <h1 className="lp-titulo relative z-10 order-1 mt-[4vh] text-text-primary md:mt-0 lg:mt-[clamp(8px,4vh,64px)]">
+        <h1 className="lp-titulo relative z-10 order-1 mt-[7vh] text-text-primary md:mt-0 lg:mt-[clamp(8px,4vh,64px)]">
           {h.lines.map((l, i) => {
             const from = palavras;
             const n = l.t ? l.t.split(" ").length : 0;
@@ -114,11 +114,8 @@ export default function LpHero({ v }: { v: Vertical }) {
             {/* a foto enche o herói em qualquer ecrã; a largura fica presa a 1,95× a
                 altura para o monitor nunca subir para cima do título em ecrãs
                 ultra-largos (o resto é parede lisa), e em ecrãs em pé o monitor
-                fica ao centro (foco) em vez de cortado.
-                No telemóvel a caixa é mais alta que a secção: a foto sobe pela
-                largura, o monitor chega às margens e sobe ao encontro do
-                título — sem isso ficava um palmo de parede vazia a meio */}
-            <div className="absolute bottom-0 right-0 h-full w-[min(100%,195dvh)] max-[560px]:h-[max(100%,268vw)]">
+                fica ao centro (foco) em vez de cortado */}
+            <div className="absolute bottom-0 right-0 h-full w-[min(100%,195dvh)]">
               <ScreenMap
                 src={ap.src}
                 largura={ap.largura}
