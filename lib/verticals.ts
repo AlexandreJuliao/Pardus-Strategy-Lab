@@ -251,7 +251,7 @@ export const VERTICALS: Record<string, Vertical> = {
       title: "Vamos falar do teu site",
       intro: "20 minutos, sem custo. Ouvimos o que precisas, dizemos o que faz sentido fazer e quanto custa. Se não for connosco, dizemos isso também.",
       cta: "Quero marcar a conversa",
-      negocioPlaceholder: "Ex.: oficina, restaurante, escritório de advogados…",
+      negocioPlaceholder: "Ex.: Oficina Auto Ribeiro",
       steps: [
         { icon: "lupa", title: "Ouvimos o que fazes", desc: "Quem te compra, como é que te encontram hoje e o que o site tem de trazer." },
         { icon: "mapa", title: "Dizemos o que faz sentido", desc: "Que páginas precisas, o que vai escrito em cada uma e quanto custa. Na própria conversa." },
@@ -400,7 +400,7 @@ export const VERTICALS: Record<string, Vertical> = {
       title: "Vamos mapear a tua operação",
       intro: "45 minutos, sem custo. Ouvimos como a empresa trabalha hoje, dizemos o que faz sentido construir primeiro e quanto custa. Se não for connosco, dizemos isso também.",
       cta: "Quero a minha consultoria gratuita",
-      negocioPlaceholder: "Ex.: clínica, construtora, agência, mediador de seguros…",
+      negocioPlaceholder: "Ex.: Construções Lopes & Filhos",
     },
   },
 };

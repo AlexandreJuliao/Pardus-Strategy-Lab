@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Mail, MapPin, Calendar, ArrowUpRight, Clock } from "lucide-react";
 import PageHero from "@/components/sections/PageHero";
-import ContactForm from "@/components/sections/ContactForm";
+import LeadFormCard from "@/components/sections/LeadFormCard";
 import JsonLd from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
 
@@ -105,8 +105,13 @@ export default function ContactoPage() {
               </div>
             </div>
 
-            {/* form */}
-            <ContactForm />
+            {/* form — o mesmo da homepage e das LPs */}
+            <LeadFormCard
+              origem="Contacto"
+              formTitle="Conta-nos sobre o teu negócio"
+              promessa="conversa"
+              cta="Enviar pedido"
+            />
           </div>
         </div>
       </section>

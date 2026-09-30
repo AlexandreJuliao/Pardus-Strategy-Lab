@@ -72,8 +72,18 @@ const sections: LegalSection[] = [
         <h3>Do website</h3>
         <ul>
           <li>
-            Dados de contacto que nos dás no formulário: nome, email, telefone
-            (opcional) e a mensagem que escreves.
+            Dados de contacto que nos dás no formulário: nome, telemóvel, email,
+            o nome e a localidade do teu negócio e, se quiseres, o site ou
+            Instagram e a mensagem que escreves.
+          </li>
+          <li>
+            A origem do pedido: a página onde o preencheste e, quando chegas por
+            um anúncio, a campanha que te trouxe (parâmetros do endereço). Não
+            guardamos nada no teu browser para isso.
+          </li>
+          <li>
+            Para preparar a conversa, consultamos informação pública sobre o
+            teu negócio: site, perfil no Google, redes sociais e anúncios.
           </li>
           <li>
             Dados técnicos mínimos de funcionamento e de segurança (ex.: tipo de
