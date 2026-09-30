@@ -21,6 +21,19 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ATRIBUICAO = [
+  "pagina",
+  "referrer",
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_content",
+  "utm_term",
+  "gclid",
+  "gbraid",
+  "wbraid",
+  "fbclid",
+] as const;
 const s = (v: unknown, max: number) => String(v ?? "").trim().slice(0, max);
 
 export async function POST(req: Request) {
@@ -53,7 +66,17 @@ export async function POST(req: Request) {
     tipo: s(data.tipo, 100),
     budget: s(data.budget, 100),
     mensagem: s(data.mensagem, 4000),
+    localidade: s(data.localidade, 120),
+    site: s(data.site, 300),
   };
+
+  // Origem da visita, que o formulário junta sem perguntar (lib/attribution.ts).
+  // Só as chaves que vieram, para não encher a folha e o meta de vazios.
+  const atribuicao = Object.fromEntries(
+    ATRIBUICAO.map((k) => [k, s(data[k], 500)] as const).filter(([, v]) => v),
+  );
+  // Hora do servidor e não do browser: o relógio de quem preenche pode estar errado.
+  const recebidoEm = new Date().toISOString();
 
   // Entrega em DOIS sítios em paralelo: (1) webhook n8n → Google Sheets + email (fluxo
   // antigo), (2) caixa de Leads do Pardus OS. O envio tem sucesso se PELO MENOS UM
@@ -61,7 +84,7 @@ export async function POST(req: Request) {
   const toN8n = fetch(WEBHOOK, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ ...payload, ...atribuicao, recebidoEm }),
     signal: AbortSignal.timeout(12000),
   }).then((r) => r.ok).catch(() => false);
 
@@ -77,14 +100,21 @@ export async function POST(req: Request) {
       name: payload.nome,
       email: payload.email,
       phone: payload.telefone || null,
+      // O nome do negócio (LeadFormCard). `empresa` só existe em pedidos antigos.
+      company: payload.negocio || payload.empresa || null,
       message: payload.mensagem || null,
-      // Campos extra do site preservados no meta (empresa, negócio, tipo, budget).
+      // Campos extra do site preservados no meta. É daqui que o briefing parte:
+      // negócio + localidade + site chegam para o procurar online.
       meta: {
         empresa: payload.empresa || null,
         negocio: payload.negocio || null,
+        localidade: payload.localidade || null,
+        site: payload.site || null,
         tipo: payload.tipo || null,
         budget: payload.budget || null,
         origem: payload.origem || "Website",
+        ...atribuicao,
+        recebidoEm,
       },
     }),
     signal: AbortSignal.timeout(12000),
