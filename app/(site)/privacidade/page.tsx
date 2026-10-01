@@ -86,6 +86,14 @@ const sections: LegalSection[] = [
             teu negócio: site, perfil no Google, redes sociais e anúncios.
           </li>
           <li>
+            Se nos deres o teu telemóvel, a nossa <strong>assistente virtual</strong>{" "}
+            (com inteligência artificial) pode escrever-te pelo WhatsApp sobre o
+            teu pedido: algumas perguntas para preparar a conversa e marcar uma
+            reunião. Guardamos essa conversa junto do teu pedido. Podes pedir
+            para falar com uma pessoa a qualquer momento, ou escrever{" "}
+            <strong>PARAR</strong> para não voltarmos a contactar-te.
+          </li>
+          <li>
             Dados técnicos mínimos de funcionamento e de segurança (ex.: tipo de
             dispositivo, páginas visitadas), conforme a secção de{" "}
             <a href="#cookies">Cookies</a>.
@@ -137,8 +145,10 @@ const sections: LegalSection[] = [
       <>
         <ul>
           <li>
-            <strong>Responder a contactos e pedidos</strong>. Base:
-            diligências pré-contratuais / interesse legítimo.
+            <strong>Responder a contactos e pedidos</strong>, incluindo pelo
+            WhatsApp com o apoio de uma assistente virtual, e até dois lembretes
+            se ainda não tivermos conseguido falar contigo. Base: diligências
+            pré-contratuais / interesse legítimo.
           </li>
           <li>
             <strong>Prestar os serviços contratados</strong> (gestão de redes,
