@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ArrowRight } from "lucide-react";
-import { newEventId, trackLead } from "@/lib/tracking";
+import { newEventId, trackFormInvalid, trackLead } from "@/lib/tracking";
+import { scrollToEl } from "@/lib/scrollTo";
 import { atribuicao } from "@/lib/attribution";
 import { ROOT_DOMAIN, VERTICAL_SLUGS } from "@/lib/verticals";
 
@@ -25,6 +26,15 @@ interface FormState {
 type Errors = Partial<Record<keyof FormState, string>>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/** Ordem no ecrã e nome curto, para o aviso junto ao botão. */
+const OBRIGATORIOS: [keyof FormState, string][] = [
+  ["nome", "Nome"],
+  ["telefone", "Telemóvel"],
+  ["email", "Email"],
+  ["negocio", "Nome do negócio"],
+  ["localidade", "Localidade"],
+];
 
 export interface LeadFormCardProps {
   /** Vai no evento Lead (content_name), na coluna "Origem" da folha e no source do office */
@@ -69,6 +79,19 @@ export default function LeadFormCard({
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState(false);
   const [hp, setHp] = useState(""); // honeypot
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // O preenchimento automático do browser às vezes escreve no campo sem avisar
+  // o React. No envio junta-se ao estado o que está mesmo no ecrã, para não se
+  // pedir outra vez um campo que a pessoa já vê preenchido.
+  const lerFormulario = (): FormState => {
+    const dados = formRef.current ? new FormData(formRef.current) : null;
+    const valores = { ...form };
+    for (const k of Object.keys(valores) as (keyof FormState)[]) {
+      if (!valores[k].trim() && dados) valores[k] = String(dados.get(k) ?? "");
+    }
+    return valores;
+  };
 
   const update =
     (key: keyof FormState) =>
@@ -77,7 +100,7 @@ export default function LeadFormCard({
       setErrors((er) => ({ ...er, [key]: undefined }));
     };
 
-  const validate = (): boolean => {
+  const validate = (form: FormState): Errors => {
     const next: Errors = {};
     if (!form.nome.trim()) next.nome = "Diz-nos como te chamas.";
     // O primeiro contacto é por WhatsApp: sem um número que dê para lá chegar,
@@ -92,13 +115,29 @@ export default function LeadFormCard({
     // Site e mensagem opcionais de propósito: escrever um parágrafo no telemóvel
     // é a maior barreira do formulário e quem vem de um anúncio ainda não tem o
     // problema formulado. O resto encontra-se online e tira-se na chamada.
-    setErrors(next);
-    return Object.keys(next).length === 0;
+    return next;
   };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (sending || !validate()) return;
+    if (sending) return;
+    const valores = lerFormulario();
+    setForm(valores);
+    const next = validate(valores);
+    setErrors(next);
+    if (Object.keys(next).length) {
+      // No telemóvel o erro fica acima, fora do ecrã, e o botão parece não
+      // fazer nada (a 30/09 alguém carregou 9 vezes e desistiu). Leva-se a
+      // pessoa ao primeiro campo em falta e o aviso repete-se junto ao botão.
+      const primeiro = OBRIGATORIOS.find(([k]) => next[k])?.[0];
+      const campo = primeiro && formRef.current?.querySelector<HTMLElement>(`[name="${primeiro}"]`);
+      if (campo) {
+        scrollToEl(campo.closest("label") ?? campo, -120);
+        campo.focus({ preventScroll: true });
+      }
+      trackFormInvalid(origem, Object.keys(next));
+      return;
+    }
     setSending(true);
     setSendError(false);
     try {
@@ -108,7 +147,7 @@ export default function LeadFormCard({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           origem,
-          ...form,
+          ...valores,
           ...atribuicao(),
           pardus_hp: hp,
           eventId,
@@ -155,6 +194,7 @@ export default function LeadFormCard({
         ) : (
           <motion.form
             key="form"
+            ref={formRef}
             onSubmit={onSubmit}
             noValidate
             initial={{ opacity: 0 }}
@@ -171,6 +211,7 @@ export default function LeadFormCard({
                   className="field"
                   type="text"
                   autoComplete="name"
+                  name="nome"
                   value={form.nome}
                   onChange={update("nome")}
                   placeholder="O teu nome"
@@ -183,6 +224,7 @@ export default function LeadFormCard({
                   type="tel"
                   inputMode="tel"
                   autoComplete="tel"
+                  name="telefone"
                   value={form.telefone}
                   onChange={update("telefone")}
                   placeholder="912 345 678"
@@ -196,7 +238,8 @@ export default function LeadFormCard({
                 className="field"
                 type="email"
                 autoComplete="email"
-                value={form.email}
+                name="email"
+                  value={form.email}
                 onChange={update("email")}
                 placeholder="email@empresa.com"
                 aria-invalid={!!errors.email}
@@ -209,6 +252,7 @@ export default function LeadFormCard({
                   className="field"
                   type="text"
                   autoComplete="organization"
+                  name="negocio"
                   value={form.negocio}
                   onChange={update("negocio")}
                   placeholder={negocioPlaceholder}
@@ -220,6 +264,7 @@ export default function LeadFormCard({
                   className="field"
                   type="text"
                   autoComplete="address-level2"
+                  name="localidade"
                   value={form.localidade}
                   onChange={update("localidade")}
                   placeholder="Ex.: Braga"
@@ -235,7 +280,8 @@ export default function LeadFormCard({
                 autoComplete="url"
                 autoCapitalize="none"
                 spellCheck={false}
-                value={form.site}
+                name="site"
+                  value={form.site}
                 onChange={update("site")}
                 placeholder="www.onegocio.pt ou @onegocio"
                 aria-invalid={!!errors.site}
@@ -246,7 +292,8 @@ export default function LeadFormCard({
               <textarea
                 className="field resize-none"
                 rows={3}
-                value={form.mensagem}
+                name="mensagem"
+                  value={form.mensagem}
                 onChange={update("mensagem")}
                 placeholder="O que te tira mais tempo, ou onde sentes que perdes clientes"
                 aria-invalid={!!errors.mensagem}
@@ -264,6 +311,13 @@ export default function LeadFormCard({
               onChange={(e) => setHp(e.target.value)}
               className="pointer-events-none absolute left-[-9999px] h-0 w-0 opacity-0"
             />
+
+            {Object.keys(errors).some((k) => errors[k as keyof FormState]) && (
+              <p role="alert" className="font-sans text-[13px] text-gold">
+                Falta preencher ou corrigir:{" "}
+                {OBRIGATORIOS.filter(([k]) => errors[k]).map(([, nome]) => nome).join(", ")}.
+              </p>
+            )}
 
             <button
               type="submit"

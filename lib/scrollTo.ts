@@ -23,11 +23,16 @@ export function scrollToId(id: string) {
   if (typeof window === "undefined") return;
   const el = document.getElementById(id);
   if (!el) return;
+  scrollToEl(el);
+}
 
-  const detail: ScrollRequest = { el, offset: NAV_OFFSET, handled: false };
+/** O mesmo que scrollToId, para um elemento que já se tem na mão. */
+export function scrollToEl(el: HTMLElement, offset = NAV_OFFSET) {
+  if (typeof window === "undefined") return;
+  const detail: ScrollRequest = { el, offset, handled: false };
   window.dispatchEvent(new CustomEvent(SCROLL_EVENT, { detail }));
   if (detail.handled) return;
 
-  const top = el.getBoundingClientRect().top + window.scrollY + NAV_OFFSET;
+  const top = el.getBoundingClientRect().top + window.scrollY + offset;
   window.scrollTo({ top, behavior: "smooth" });
 }
