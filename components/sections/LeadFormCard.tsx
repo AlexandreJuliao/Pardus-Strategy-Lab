@@ -110,7 +110,7 @@ export default function LeadFormCard({
           origem,
           ...form,
           ...atribuicao(),
-          website: hp,
+          pardus_hp: hp,
           eventId,
           sourceUrl: window.location.href,
         }),
@@ -256,7 +256,7 @@ export default function LeadFormCard({
             {/* honeypot — invisível para humanos, apanha bots */}
             <input
               type="text"
-              name="website"
+              name="pardus_hp"
               tabIndex={-1}
               autoComplete="off"
               aria-hidden

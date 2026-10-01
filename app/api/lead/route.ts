@@ -36,6 +36,27 @@ const ATRIBUICAO = [
 ] as const;
 const s = (v: unknown, max: number) => String(v ?? "").trim().slice(0, max);
 
+/**
+ * Entrega a lead a um destino, com uma segunda tentativa quando a falha pode
+ * ser passageira (rede, timeout, 5xx, 429). Um 4xx que não seja 429 (token
+ * errado, validação) não melhora com nova tentativa. Cada falha fica nos logs
+ * da Vercel com o nome do destino, sem dados da pessoa.
+ */
+async function entregar(destino: string, url: string, init: RequestInit): Promise<boolean> {
+  for (let tentativa = 1; tentativa <= 2; tentativa++) {
+    try {
+      const r = await fetch(url, { ...init, signal: AbortSignal.timeout(8000) });
+      if (r.ok) return true;
+      console.error(`[lead] ${destino} respondeu ${r.status} (tentativa ${tentativa})`);
+      if (r.status < 500 && r.status !== 429) return false;
+    } catch (err) {
+      console.error(`[lead] ${destino} sem resposta (tentativa ${tentativa}): ${(err as Error).name}`);
+    }
+    if (tentativa < 2) await new Promise((res) => setTimeout(res, 800));
+  }
+  return false;
+}
+
 export async function POST(req: Request) {
   let data: Record<string, unknown>;
   try {
@@ -45,8 +66,12 @@ export async function POST(req: Request) {
   }
 
   // Honeypot: real users never fill this hidden field. Accept silently so bots
-  // don't learn they were caught, but never forward it.
-  if (s(data.website, 1)) {
+  // don't learn they were caught, but never forward it. O campo chamava-se
+  // `website`, um nome que o preenchimento automático do browser pode apanhar
+  // (e ao lado do "Site ou Instagram" ainda mais); passou a `pardus_hp`. O nome
+  // antigo continua a contar enquanto houver páginas abertas com o código velho.
+  if (s(data.pardus_hp, 1) || s(data.website, 1)) {
+    console.warn(`[lead] armadilha preenchida — descartada (${s(data.origem, 40) || "sem origem"})`);
     return NextResponse.json({ ok: true });
   }
 
@@ -80,15 +105,16 @@ export async function POST(req: Request) {
 
   // Entrega em DOIS sítios em paralelo: (1) webhook n8n → Google Sheets + email (fluxo
   // antigo), (2) caixa de Leads do Pardus OS. O envio tem sucesso se PELO MENOS UM
-  // recebeu — assim a lead nunca se perde por um dos destinos estar em baixo.
-  const toN8n = fetch(WEBHOOK, {
+  // recebeu — assim a lead nunca se perde por um dos destinos estar em baixo. Cada
+  // destino tem uma segunda tentativa, porque o CRM do office é onde a lead tem de
+  // acabar e uma falha passageira não a pode deixar só na Sheet.
+  const toN8n = entregar("n8n", WEBHOOK, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ ...payload, ...atribuicao, recebidoEm }),
-    signal: AbortSignal.timeout(12000),
-  }).then((r) => r.ok).catch(() => false);
+  });
 
-  const toOffice = fetch(OFFICE_LEADS_URL, {
+  const toOffice = entregar("office", OFFICE_LEADS_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -117,8 +143,7 @@ export async function POST(req: Request) {
         recebidoEm,
       },
     }),
-    signal: AbortSignal.timeout(12000),
-  }).then((r) => r.ok).catch(() => false);
+  });
 
   // Conversions API da Meta. Corre em paralelo com a entrega da lead e o
   // resultado não afeta a resposta: se a Meta estiver em baixo, a lead entra na
