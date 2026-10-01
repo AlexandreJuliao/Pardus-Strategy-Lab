@@ -7,6 +7,7 @@ declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
     gtag?: (...args: unknown[]) => void;
+    posthog?: { capture?: (event: string, props?: Record<string, unknown>) => void };
   }
 }
 
@@ -45,4 +46,14 @@ export async function trackLead(origem: string, eventId: string) {
   window.gtag?.("event", "generate_lead", { form_origem: origem });
 
   await new Promise((r) => setTimeout(r, 400));
+}
+
+/**
+ * Tentativa de envio travada pela validação. Sem isto, quem desiste por não
+ * ver o erro não deixa rasto nenhum: não chega à API nem ao n8n. Vai para o
+ * PostHog com os campos em falta (só os nomes, nunca o que foi escrito).
+ */
+export function trackFormInvalid(origem: string, campos: string[]) {
+  if (typeof window === "undefined") return;
+  window.posthog?.capture?.("formulario_incompleto", { origem, campos });
 }
