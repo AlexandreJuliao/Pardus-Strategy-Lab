@@ -1,4 +1,5 @@
 import LpLockup from "@/components/lp/LpLockup";
+import CookieSettingsButton from "@/components/legal/CookieSettingsButton";
 import { ROOT_DOMAIN } from "@/lib/verticals";
 
 export default function LpFooter({ name, logo }: { name: string; logo?: string }) {
@@ -19,9 +20,10 @@ export default function LpFooter({ name, logo }: { name: string; logo?: string }
         </div>
         <div className="flex flex-col gap-2 font-sans text-[13px] text-text-secondary md:items-end">
           <a href="mailto:geral@pardus-lab.com" className="hover:text-text-primary">geral@pardus-lab.com</a>
-          <div className="flex gap-5">
+          <div className="flex flex-wrap gap-x-5 gap-y-1 md:justify-end">
             <a href={`${site}/privacidade`} className="hover:text-text-primary">Privacidade</a>
             <a href={`${site}/termos`} className="hover:text-text-primary">Termos</a>
+            <CookieSettingsButton className="hover:text-text-primary" />
           </div>
           <p className="text-text-muted">© {new Date().getFullYear()} Pardus Strategy Lab</p>
         </div>

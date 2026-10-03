@@ -3,6 +3,7 @@ import { Schibsted_Grotesk, Cormorant, Bodoni_Moda } from "next/font/google";
 import "../styles/globals.css";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import Analytics from "@/components/Analytics";
+import CookieConsent from "@/components/CookieConsent";
 
 // Uma só grotesca para títulos e texto, com o contraste a vir do peso e da
 // escala. Schibsted Grotesk é um tipo editorial nórdico: tem carácter nas
@@ -114,6 +115,7 @@ export default function RootLayout({
         <SmoothScroll />
         <div className="grain-fixed" aria-hidden />
         {children}
+        <CookieConsent />
       </body>
     </html>
   );

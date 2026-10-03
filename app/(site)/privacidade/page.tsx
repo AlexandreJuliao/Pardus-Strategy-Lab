@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import LegalDoc, { type LegalSection } from "@/components/legal/LegalDoc";
+import CookieSettingsButton from "@/components/legal/CookieSettingsButton";
 import { LEGAL, SUBPROCESSORS } from "@/lib/legal";
 
 export const metadata: Metadata = {
@@ -293,12 +294,46 @@ const sections: LegalSection[] = [
     id: "cookies",
     title: "Cookies",
     content: (
-      <p>
-        O website usa apenas cookies e tecnologias essenciais ao seu
-        funcionamento e segurança. Caso venham a ser usadas ferramentas de
-        medição de audiência ou de publicidade (ex.: Meta Pixel), estas só serão
-        ativadas mediante o teu consentimento, através de um aviso próprio.
-      </p>
+      <>
+        <p>
+          Usamos cookies essenciais ao funcionamento do site e,{" "}
+          <strong>só se aceitares</strong> no aviso que aparece na primeira
+          visita, ferramentas de medição e de publicidade:
+        </p>
+        <ul>
+          <li>
+            <strong>Meta Pixel</strong> (Meta Platforms Ireland): medir e
+            otimizar os nossos anúncios no Facebook e no Instagram e mostrá-los
+            a quem já visitou o site. Cookies <code>_fbp</code> e{" "}
+            <code>_fbc</code>, durante 90 dias.
+          </li>
+          <li>
+            <strong>Google Analytics 4</strong> (Google Ireland): estatísticas
+            de visitas. Cookies <code>_ga</code> e <code>_ga_…</code>, durante 2
+            anos.
+          </li>
+        </ul>
+        <p>
+          Se não aceitares, nenhuma destas ferramentas é carregada no teu
+          navegador.
+        </p>
+        <p>
+          Usamos ainda o <strong>PostHog</strong> (servidores na União
+          Europeia) em modo sem cookies: não guarda nada no teu navegador e
+          conta visitas de forma agregada.
+        </p>
+        <p>
+          A tua escolha fica guardada num cookie essencial,{" "}
+          <code>pardus_consent</code>, durante 6 meses; depois disso voltamos a
+          perguntar. Podes mudar a tua escolha a qualquer momento em
+          «Definições de cookies», no rodapé, ou{" "}
+          <CookieSettingsButton className="text-gold underline underline-offset-2 hover:text-gold-bright">
+            aqui
+          </CookieSettingsButton>
+          . Se recusares depois de teres aceitado, apagamos do teu navegador os
+          cookies do Meta Pixel e do Google Analytics.
+        </p>
+      </>
     ),
   },
   {

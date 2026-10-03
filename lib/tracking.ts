@@ -1,7 +1,11 @@
 // Eventos de conversão para os anúncios.
-// O Meta Pixel e o GA4 são carregados em components/Analytics.tsx; aqui só
-// disparamos os eventos de negócio. Sem isto o Pixel só vê PageView e as
-// campanhas não conseguem otimizar para quem realmente preenche o formulário.
+// O Meta Pixel e o GA4 são carregados em components/Analytics.tsx, e só depois
+// de «Aceitar» no aviso de cookies; aqui só disparamos os eventos de negócio.
+// Sem isto o Pixel só vê PageView e as campanhas não conseguem otimizar para
+// quem realmente preenche o formulário. Quem recusa conta na mesma do lado do
+// servidor (API de Conversões, em app/api/lead/route.ts).
+
+import { lerEscolha } from "@/lib/consent";
 
 declare global {
   interface Window {
@@ -22,8 +26,8 @@ export function newEventId() {
 }
 
 /**
- * Dispara o evento de lead no Meta Pixel e no GA4. Chamar após submit com
- * sucesso — e com `await`, antes de navegar.
+ * Dispara o evento de lead no Meta Pixel e no GA4, se houver consentimento.
+ * Chamar após submit com sucesso — e com `await`, antes de navegar.
  *
  * O `fbq` envia o evento por pedido de rede assíncrono. Se navegarmos para
  * /obrigado no mesmo instante, o browser cancela esse pedido em voo: o Pixel
@@ -32,6 +36,9 @@ export function newEventId() {
  */
 export async function trackLead(origem: string, eventId: string) {
   if (typeof window === "undefined") return;
+  // Sem consentimento não se dispara nada no browser. O `fbq` pode existir na
+  // mesma, se a pessoa aceitou e depois recusou nesta visita.
+  if (lerEscolha() !== "aceite") return;
 
   // Meta Pixel — evento standard "Lead", o que as campanhas otimizam.
   // O eventID (maiúsculas, é o nome que o fbq espera) faz a deduplicação.

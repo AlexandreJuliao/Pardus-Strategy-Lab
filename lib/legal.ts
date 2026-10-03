@@ -19,7 +19,7 @@ export const LEGAL = {
   site: "https://pardus-lab.com",
   appHost: "office.pardus-lab.com",
   supervisoryAuthority: "Comissão Nacional de Proteção de Dados (CNPD), www.cnpd.pt",
-  lastUpdated: "1 de outubro de 2026",
+  lastUpdated: "3 de outubro de 2026",
 } as const;
 
 // Subprocessadores / destinatários dos dados (transparência RGPD art. 13 + Meta Platform Terms).
