@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, Mail, MapPin } from "lucide-react";
 import Logo from "@/components/ui/Logo";
+import CookieSettingsButton from "@/components/legal/CookieSettingsButton";
 
 const COLS: { title: string; links: { label: string; href: string }[] }[] = [
   {
@@ -124,6 +125,7 @@ export default function Footer() {
                 {l.label}
               </Link>
             ))}
+            <CookieSettingsButton className="mono-tiny text-text-muted transition-colors hover:text-gold" />
           </nav>
         </div>
       </div>

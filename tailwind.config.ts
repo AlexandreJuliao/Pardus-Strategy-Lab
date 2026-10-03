@@ -71,12 +71,19 @@ const config: Config = {
           "0%, 100%": { opacity: "0.4" },
           "50%": { opacity: "1" },
         },
+        // Só movimento, sem opacidade: o aviso de cookies nunca fica invisível,
+        // mesmo que a animação não corra (separador em segundo plano).
+        "aviso-sobe": {
+          "0%": { transform: "translateY(14px)" },
+          "100%": { transform: "translateY(0)" },
+        },
       },
       animation: {
         "bounce-chevron": "bounce-chevron 1.6s ease-in-out infinite",
         marquee: "marquee 38s linear infinite",
         "marquee-reverse": "marquee-reverse 38s linear infinite",
         "pulse-soft": "pulse-soft 3s ease-in-out infinite",
+        "aviso-sobe": "aviso-sobe 0.5s cubic-bezier(0.16, 1, 0.3, 1) both",
       },
     },
   },
