@@ -1,21 +1,32 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
+import {
+  COOKIES_DE_MEDICAO,
+  COOKIES_DO_CLARITY,
+  EVENTO_ESCOLHA,
+  apagarCookies,
+  lerEscolha,
+  type Escolha,
+} from "@/lib/consent";
 
 // Analytics do site público da Pardus.
 // - PostHog (comportamento: vistas, páginas, rage clicks, dead clicks) — é o que
-//   o office lê em Clientes → Pardus → Website. Entrou a 14/09/2026 para
-//   substituir o Microsoft Clarity, que sai depois de o PostHog dar dados.
-// - Microsoft Clarity (heatmaps + gravações + comportamento).
-// - Google Analytics 4 (gtag.js).
-// - Meta Pixel (Facebook/Instagram Ads — PageView + retargeting).
+//   o office lê em Clientes → Pardus → Website. Corre sempre, porque não guarda
+//   nada no browser (ver em baixo).
+// - Google Analytics 4 (gtag.js) e Meta Pixel (Facebook/Instagram Ads — PageView,
+//   Lead e retargeting): SÓ depois de «Aceitar» no aviso de cookies
+//   (components/CookieConsent.tsx). Antes disso não há um único pedido a
+//   googletagmanager.com nem a facebook.net. Quem recusa continua a contar nas
+//   campanhas pela API de Conversões, a partir do servidor (lib/metaCapi.ts),
+//   mas sem os cookies _fbp/_fbc.
+// - O Microsoft Clarity saiu a 03/10/2026: o PostHog já faz o mesmo sem cookies.
 // Todos os IDs são públicos por natureza (vão no HTML do browser), por isso ficam
 // hardcoded aqui. Tudo via next/script strategy="afterInteractive" → não bloqueia
 // o first paint.
 
-const CLARITY_ID = "xpvphllowj";
 const GA4_ID = "G-EZ1S3CPSZX";
 const META_PIXEL_ID = "1818427879129367";
 
@@ -27,11 +38,11 @@ const POSTHOG_KEY = "phc_upb6ARaaeGoWbuLjaW8GAtYG8cJtBjDuDA4qBwHZrWx7";
  * Configuração do PostHog neste site. Duas escolhas que não são as de omissão:
  *
  * - `cookieless_mode: "always"` — nada fica guardado no browser (nem cookie,
- *   nem localStorage). A política de privacidade (secção Cookies) promete que
- *   medição de audiência só com consentimento, e o site não tem aviso de
- *   consentimento. O visitante é contado por um hash feito no servidor do
- *   PostHog; o projeto tem o modo sem cookies ligado para isso funcionar.
- *   Preço: a mesma pessoa em dias diferentes conta como visitante novo.
+ *   nem localStorage). É isso que o deixa correr antes de a pessoa escolher no
+ *   aviso de cookies, e mesmo depois de recusar. O visitante é contado por um
+ *   hash feito no servidor do PostHog; o projeto tem o modo sem cookies ligado
+ *   para isso funcionar. Preço: a mesma pessoa em dias diferentes conta como
+ *   visitante novo.
  *
  * - `capture_pageview: "history_change"` — o site é uma SPA (App Router). Com o
  *   valor de omissão só a primeira página de cada visita era contada, pela
@@ -53,12 +64,39 @@ const POSTHOG_CONFIG = {
   capture_dead_clicks: true,
 };
 
+/** Os quatro sinais do Consent Mode v2 da Google, todos com o mesmo valor. */
+const consentGoogle = (v: "granted" | "denied") => ({
+  ad_storage: v,
+  ad_user_data: v,
+  ad_personalization: v,
+  analytics_storage: v,
+});
+
+/**
+ * Aplica a escolha ao que JÁ estiver carregado nesta página. Conta sobretudo
+ * quando a pessoa muda de ideias pelo «Definições de cookies» do rodapé: um
+ * script carregado não se descarrega, por isso há que lhe dizer para parar
+ * (`fbq('consent','revoke')`, Consent Mode da Google em "denied" e o
+ * interruptor `ga-disable-<id>`, que cala o GA4 de vez nesta página). Ao
+ * recusar, apagam-se também os cookies que o Pixel e o GA4 já tinham criado,
+ * incluindo os de visitas anteriores a este aviso existir.
+ */
+function aplicarEscolha(escolha: Escolha) {
+  const aceite = escolha === "aceite";
+  (window as unknown as Record<string, unknown>)[`ga-disable-${GA4_ID}`] = !aceite;
+  window.fbq?.("consent", aceite ? "grant" : "revoke");
+  window.gtag?.("consent", "update", consentGoogle(aceite ? "granted" : "denied"));
+  if (!aceite) apagarCookies(COOKIES_DE_MEDICAO);
+}
+
 /**
  * O snippet do Pixel só corre uma vez, no primeiro carregamento. Como o site é
  * uma SPA (App Router), navegar para /obrigado ou /servicos não disparava
  * PageView nenhum — daí o aviso "nenhum píxel foi acionado nesta página" no
  * Assistente do Píxel. Isto repõe o PageView a cada mudança de rota, o que
- * também é o que alimenta públicos de retargeting por página visitada.
+ * também é o que alimenta públicos de retargeting por página visitada. Só com
+ * consentimento: depois de recusar, o `fbq` e o `gtag` podem ainda existir na
+ * página (se a pessoa tinha aceitado antes).
  */
 function PageViewOnRouteChange() {
   const pathname = usePathname();
@@ -69,6 +107,7 @@ function PageViewOnRouteChange() {
       primeiraRota.current = false; // o snippet inicial já tratou desta
       return;
     }
+    if (lerEscolha() !== "aceite") return;
     window.fbq?.("track", "PageView");
     window.gtag?.("event", "page_view", { page_path: pathname });
   }, [pathname]);
@@ -77,6 +116,21 @@ function PageViewOnRouteChange() {
 }
 
 export default function Analytics() {
+  const [escolha, setEscolha] = useState<Escolha | null>(null);
+
+  useEffect(() => {
+    setEscolha(lerEscolha());
+    const muda = (e: Event) => setEscolha((e as CustomEvent<Escolha>).detail);
+    window.addEventListener(EVENTO_ESCOLHA, muda);
+    // O Clarity saiu do site; os cookies que deixou em visitas antigas vão com ele.
+    apagarCookies(COOKIES_DO_CLARITY);
+    return () => window.removeEventListener(EVENTO_ESCOLHA, muda);
+  }, []);
+
+  useEffect(() => {
+    if (escolha) aplicarEscolha(escolha);
+  }, [escolha]);
+
   return (
     <>
       <PageViewOnRouteChange />
@@ -90,50 +144,43 @@ export default function Analytics() {
         {`${POSTHOG_LOADER}
           posthog.init('${POSTHOG_KEY}', ${JSON.stringify(POSTHOG_CONFIG)});`}
       </Script>
-      {/* Microsoft Clarity */}
-      <Script id="ms-clarity" strategy="afterInteractive">
-        {`(function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "${CLARITY_ID}");`}
-      </Script>
 
-      {/* Google Analytics 4 — só quando a env estiver definida */}
-      {GA4_ID ? (
+      {/* Daqui para baixo, só com «Aceitar». Antes disso nem os scripts entram
+          na página. Se a pessoa aceitar a meio da visita, entram nesse momento
+          e contam a página onde está. Não há <noscript> do Pixel: sem
+          JavaScript não há aviso, e sem aviso não há consentimento. */}
+      {escolha === "aceite" ? (
         <>
-          <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} strategy="afterInteractive" />
+          {/* Google Analytics 4, com o Consent Mode v2 (modo básico): o
+              estado de omissão é "negado" e passa a "concedido" na linha a
+              seguir, porque este bloco só existe depois de «Aceitar». */}
           <Script id="ga4-init" strategy="afterInteractive">
-            {`window.dataLayer = window.dataLayer || [];
+            {`window['ga-disable-${GA4_ID}'] = false;
+              window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
+              gtag('consent', 'default', ${JSON.stringify(consentGoogle("denied"))});
+              gtag('consent', 'update', ${JSON.stringify(consentGoogle("granted"))});
               gtag('js', new Date());
               gtag('config', '${GA4_ID}');`}
           </Script>
+          <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} strategy="afterInteractive" />
+
+          {/* Meta Pixel */}
+          <Script id="meta-pixel" strategy="afterInteractive">
+            {`!function(f,b,e,v,n,t,s)
+              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+              n.queue=[];t=b.createElement(e);t.async=!0;
+              t.src=v;s=b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t,s)}(window, document,'script',
+              'https://connect.facebook.net/en_US/fbevents.js');
+              fbq('consent', 'grant');
+              fbq('init', '${META_PIXEL_ID}');
+              fbq('track', 'PageView');`}
+          </Script>
         </>
       ) : null}
-
-      {/* Meta Pixel */}
-      <Script id="meta-pixel" strategy="afterInteractive">
-        {`!function(f,b,e,v,n,t,s)
-          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-          n.queue=[];t=b.createElement(e);t.async=!0;
-          t.src=v;s=b.getElementsByTagName(e)[0];
-          s.parentNode.insertBefore(t,s)}(window, document,'script',
-          'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '${META_PIXEL_ID}');
-          fbq('track', 'PageView');`}
-      </Script>
-      <noscript>
-        <img
-          height="1"
-          width="1"
-          style={{ display: "none" }}
-          alt=""
-          src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
-        />
-      </noscript>
     </>
   );
 }

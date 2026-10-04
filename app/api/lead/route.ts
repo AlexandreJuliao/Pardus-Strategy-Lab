@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendLeadToMeta } from "@/lib/metaCapi";
+import { escolhaNoPedido } from "@/lib/consent";
 
 // Ingest endpoint for the site's lead forms. Validates, drops obvious bots,
 // then forwards a normalized payload to the n8n webhook, which writes the row
@@ -148,9 +149,14 @@ export async function POST(req: Request) {
   // Conversions API da Meta. Corre em paralelo com a entrega da lead e o
   // resultado não afeta a resposta: se a Meta estiver em baixo, a lead entra na
   // mesma. O eventId vem do browser para a Meta deduplicar com o pixel.
+  //
+  // Os cookies _fbp/_fbc são do Pixel e só seguem para a Meta se a pessoa tiver
+  // aceitado no aviso de cookies. Sem isso podiam ainda estar no browser (de
+  // uma visita antiga, antes de o aviso existir) e não podem ser usados.
   const cookies = req.headers.get("cookie") ?? "";
   const cookie = (nome: string) =>
     cookies.match(new RegExp(`(?:^|;\\s*)${nome}=([^;]+)`))?.[1];
+  const consentiu = escolhaNoPedido(cookies) === "aceite";
 
   const toMeta = sendLeadToMeta({
     eventId: s(data.eventId, 100) || crypto.randomUUID(),
@@ -161,8 +167,8 @@ export async function POST(req: Request) {
     sourceUrl: s(data.sourceUrl, 500) || undefined,
     clientIp: req.headers.get("x-forwarded-for")?.split(",")[0]?.trim(),
     userAgent: req.headers.get("user-agent") ?? undefined,
-    fbc: cookie("_fbc"),
-    fbp: cookie("_fbp"),
+    fbc: consentiu ? cookie("_fbc") : undefined,
+    fbp: consentiu ? cookie("_fbp") : undefined,
     // Permite validar a ligação na aba "Testar eventos" sem sujar os dados reais.
     testEventCode: s(data.testEventCode, 40) || process.env.META_CAPI_TEST_CODE,
   });
