@@ -41,6 +41,8 @@ export type CapiLead = {
   fbp?: string;
   /** Código do "Testar eventos" do Gestor de Eventos (ex.: TEST45319). */
   testEventCode?: string;
+  /** content_category do evento. Por omissão "Consultoria gratuita" (o formulário do site). */
+  categoria?: string;
 };
 
 /**
@@ -87,7 +89,7 @@ export async function sendLeadToMeta(lead: CapiLead): Promise<boolean> {
         user_data: userData,
         custom_data: {
           content_name: lead.origem ?? "Website",
-          content_category: "Consultoria gratuita",
+          content_category: lead.categoria ?? "Consultoria gratuita",
         },
       },
     ],

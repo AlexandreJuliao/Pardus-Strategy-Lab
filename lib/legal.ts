@@ -19,7 +19,7 @@ export const LEGAL = {
   site: "https://pardus-lab.com",
   appHost: "office.pardus-lab.com",
   supervisoryAuthority: "Comissão Nacional de Proteção de Dados (CNPD), www.cnpd.pt",
-  lastUpdated: "3 de outubro de 2026",
+  lastUpdated: "14 de outubro de 2026",
 } as const;
 
 // Subprocessadores / destinatários dos dados (transparência RGPD art. 13 + Meta Platform Terms).
@@ -31,8 +31,8 @@ export const SUBPROCESSORS: { name: string; purpose: string; location: string }[
   { name: "Vercel, Inc.", purpose: "Alojamento e entrega do website e da plataforma.", location: "EUA (SCCs)" },
   { name: "WhatsApp Ireland Limited (Meta)", purpose: "Mensagens de WhatsApp com quem nos pede contacto (WhatsApp Business Platform), incluindo a assistente virtual.", location: "União Europeia (Irlanda)" },
   { name: "Google Ireland Limited", purpose: "Consulta de informação pública sobre o negócio de quem nos contacta (ficha no Google e velocidade do site), para preparar a conversa.", location: "União Europeia (Irlanda)" },
-  { name: "OpenRouter / Groq", purpose: "Processamento de IA (resumos de reuniões, preparação de conversas comerciais e a assistente virtual de WhatsApp), sem treino de modelos com os dados.", location: "EUA (SCCs)" },
-  { name: "Resend, Inc.", purpose: "Envio de emails de resposta a pedidos e avisos da plataforma.", location: "EUA (SCCs)" },
+  { name: "OpenRouter / Groq", purpose: "Processamento de IA (resumos de reuniões, preparação de conversas comerciais, o relatório da Calculadora de Crescimento e a assistente virtual de WhatsApp), sem treino de modelos com os dados.", location: "EUA (SCCs)" },
+  { name: "Resend, Inc.", purpose: "Envio de emails de resposta a pedidos (incluindo o cálculo e o relatório da Calculadora de Crescimento) e avisos da plataforma.", location: "EUA (SCCs)" },
   { name: "Telegram Messenger Inc.", purpose: "Avisos internos à equipa da Pardus sobre novos pedidos de contacto.", location: "Fora da UE (SCCs)" },
   { name: "Hostinger International Ltd.", purpose: "Servidor das automações internas (n8n).", location: "União Europeia" },
 ];
