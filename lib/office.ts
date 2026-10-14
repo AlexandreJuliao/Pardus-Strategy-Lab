@@ -1,3 +1,5 @@
+import { isIP } from "node:net";
+
 // Ligação do servidor do site ao office (Pardus OS), para as rotas da
 // Calculadora. É o mesmo mecanismo de app/api/lead/route.ts: o pedido sai do
 // servidor com o cabeçalho `x-leads-token` e o `client_id` da Pardus, e o
@@ -62,13 +64,13 @@ export async function postOffice(
 }
 
 /**
- * O IP real de quem está no browser, como a Vercel o põe no pedido que chega
- * ao site: o primeiro valor de `x-forwarded-for`, ou `x-real-ip`. Quando o
- * site reencaminha, o office só vê o IP do servidor do site; este valor vai no
- * cabeçalho `x-calculadora-ip` para o office limitar por visitante.
+ * O IP de quem está no browser, só a partir do cabeçalho que a Vercel garante:
+ * `x-vercel-forwarded-for`. O `x-forwarded-for` e o `x-real-ip` NÃO servem,
+ * porque o cliente pode mandá-los com o valor que quiser e assim contornar o
+ * limite por visitante do office. Devolve null se não houver valor ou se não
+ * for um IP válido; nesse caso o cabeçalho `x-calculadora-ip` não segue.
  */
 export function ipDoBrowser(req: Request): string | null {
-  const xff = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  const ip = xff || req.headers.get("x-real-ip")?.trim() || "";
-  return ip ? ip.slice(0, 64) : null;
+  const bruto = req.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() ?? "";
+  return bruto && isIP(bruto) ? bruto : null;
 }
