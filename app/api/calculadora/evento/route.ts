@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { OFFICE_CLIENT_ID, postOffice } from "@/lib/office";
+import { OFFICE_CLIENT_ID, ipDoBrowser, postOffice } from "@/lib/office";
 import { limparEvento } from "@/lib/calculadora";
 
 // Contagem do funil da Calculadora (abriu → arrancou → cada ecrã → calculou →
@@ -26,6 +26,9 @@ export async function POST(req: Request) {
   const ev = limparEvento(bruto);
   if (!ev) return new NextResponse(null, { status: 400 });
 
+  const ip = ipDoBrowser(req);
+  const cabecalhosIp: Record<string, string> = ip ? { "x-calculadora-ip": ip } : {};
+
   await postOffice(
     "/api/calculadora/eventos",
     {
@@ -36,7 +39,12 @@ export async function POST(req: Request) {
       utm: ev.utm,
       lead_id: ev.lead_id,
     },
-    { tentativas: 1, timeoutMs: 4000 },
+    {
+      tentativas: 1,
+      timeoutMs: 4000,
+      // O office (#125) limita os eventos por visitante, não pelo IP do site.
+      cabecalhos: cabecalhosIp,
+    },
   );
 
   return new NextResponse(null, { status: 204 });

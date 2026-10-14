@@ -27,7 +27,11 @@ export type RespostaOffice = { ok: boolean; status: number; corpo: unknown };
 export async function postOffice(
   caminho: string,
   corpo: unknown,
-  { tentativas = 1, timeoutMs = 8000 }: { tentativas?: number; timeoutMs?: number } = {},
+  {
+    tentativas = 1,
+    timeoutMs = 8000,
+    cabecalhos = {},
+  }: { tentativas?: number; timeoutMs?: number; cabecalhos?: Record<string, string> } = {},
 ): Promise<RespostaOffice> {
   const token = process.env.OFFICE_LEADS_TOKEN;
   let ultimo: RespostaOffice = { ok: false, status: 0, corpo: null };
@@ -37,6 +41,7 @@ export async function postOffice(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...cabecalhos,
           ...(token ? { "x-leads-token": token } : {}),
         },
         body: JSON.stringify(corpo),
@@ -54,4 +59,16 @@ export async function postOffice(
     if (t < tentativas) await new Promise((res) => setTimeout(res, 800));
   }
   return ultimo;
+}
+
+/**
+ * O IP real de quem está no browser, como a Vercel o põe no pedido que chega
+ * ao site: o primeiro valor de `x-forwarded-for`, ou `x-real-ip`. Quando o
+ * site reencaminha, o office só vê o IP do servidor do site; este valor vai no
+ * cabeçalho `x-calculadora-ip` para o office limitar por visitante.
+ */
+export function ipDoBrowser(req: Request): string | null {
+  const xff = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const ip = xff || req.headers.get("x-real-ip")?.trim() || "";
+  return ip ? ip.slice(0, 64) : null;
 }
