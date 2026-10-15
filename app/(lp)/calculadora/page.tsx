@@ -51,8 +51,13 @@ export const metadata: Metadata = {
   },
 };
 
+// A mesma cor de base do fundo (components/calculadora/calculadora.css), para a
+// barra do browser continuar o fundo em vez de fazer uma faixa à parte.
+// Com o teclado aberto (Android), a página encolhe em vez de ficar tapada: o
+// passo está preso ao ecrã e o meio rola até ao campo onde se escreve.
 export const viewport: Viewport = {
-  themeColor: "#1a3462",
+  themeColor: "#213e6e",
+  interactiveWidget: "resizes-content",
 };
 
 export default function CalculadoraPage() {

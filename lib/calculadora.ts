@@ -206,6 +206,34 @@ export function ecraCompleto(e: number, r: Rascunho): boolean {
 }
 
 /**
+ * Partes de um ecrã. No telemóvel, cada passo tem de caber inteiro no ecrã,
+ * sem scroll, e os ecrãs 5 e 8 têm perguntas a mais para isso. Mostram-se em
+ * partes, uma a seguir à outra, mas continuam a ser o mesmo ecrã para o funil:
+ * o evento «ecra» sai uma vez, com o número de sempre (5 ou 8), e as respostas
+ * são as mesmas. O contrato com o office não muda.
+ *
+ * - Ecrã 5: canais + quem trata do marketing | onde anuncia (só se anuncia).
+ * - Ecrã 8: onde perde tempo | como gere | que áreas já cobre (só com programa
+ *   próprio ou CRM).
+ */
+export function partesDoEcra(e: number, r: Rascunho): number {
+  if (e === 5) return anuncia(r) ? 2 : 1;
+  if (e === 8) return precisaCobre(r) ? 3 : 2;
+  return 1;
+}
+
+/** Se a parte `p` do ecrã `e` já tem o que precisa para avançar. */
+export function parteCompleta(e: number, p: number, r: Rascunho): boolean {
+  if (e === 5) return p === 0 ? !!((r.canais?.length ?? 0) > 0 && r.mkt) : true;
+  if (e === 8) {
+    if (p === 0) return (r.tempo?.length ?? 0) >= 2;
+    if (p === 1) return !!r.gere;
+    return (r.cobre?.length ?? 0) > 0;
+  }
+  return ecraCompleto(e, r);
+}
+
+/**
  * Escolha múltipla: tocar de novo tira; «Ainda nada disto» é exclusivo (limpa
  * o resto, e escolher outra coisa tira-o). A ordem da lista é a ordem dos
  * toques, que é o que dá o ranking no ecrã 8.

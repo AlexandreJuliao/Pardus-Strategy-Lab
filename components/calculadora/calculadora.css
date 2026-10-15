@@ -12,14 +12,203 @@
   font-family: var(--font-calc-display), var(--font-calc-sans), sans-serif;
 }
 
-/* O fundo azul vivo com grão, preso ao ecrã por baixo de tudo. */
+/* ── Cada passo cabe inteiro no ecrã ──────────────────────────────────────
+   Do primeiro ecrã de perguntas ao obrigado, a página fica presa: cabeçalho em
+   cima, botão em baixo e a pergunta no meio, sem scroll. Para caber em
+   telemóveis baixos (iPhone SE: 667 e 568 de altura), as medidas encolhem com
+   a ALTURA do ecrã, não só com a largura: tipografia, espaços, altura das
+   caixas (nunca abaixo dos 44px de área de toque) e do botão. Em ecrãs muito
+   baixos, as ajudas secundárias escondem-se (.calc-ajuda). A capa não é
+   afetada: continua a ter scroll. */
+.calc-raiz {
+  --calc-margem: clamp(16px, 6vw, 24px);
+  --calc-topo: 56px;
+  --calc-gap: 26px;
+  --calc-gap-bloco: 12px;
+  --calc-gap-op: 8px;
+  --calc-op-h: 52px;
+  --calc-op-fs: 15px;
+  --calc-op-px: 14px;
+  --calc-titulo: 28px;
+  --calc-sub: 15px;
+  --calc-rotulo: 15px;
+  --calc-campo-h: 52px;
+  --calc-botao-h: 56px;
+  --calc-corpo-pt: 14px;
+  --calc-corpo-pb: 24px;
+  --calc-rodape-pt: 12px;
+  --calc-rodape-pb: 24px;
+  --calc-cartao-h: 56px;
+  --calc-cartao-py: 14px;
+  --calc-cartao-fs: 16px;
+  --calc-area-h: 96px;
+  --calc-bilhete-h: 112px;
+  --calc-bilhete-fs: 30px;
+  --calc-roda: 112px;
+}
+@media (min-width: 768px) and (min-height: 821px) {
+  .calc-raiz {
+    --calc-titulo: 32px;
+  }
+}
+@media (max-height: 820px) {
+  .calc-raiz {
+    --calc-titulo: clamp(24px, 3.3dvh, 26px);
+    --calc-gap: clamp(16px, 2.6dvh, 20px);
+    --calc-op-h: 48px;
+    --calc-campo-h: 48px;
+    --calc-botao-h: 52px;
+    --calc-corpo-pb: 16px;
+    --calc-area-h: 84px;
+    --calc-bilhete-h: 96px;
+    --calc-roda: 96px;
+  }
+}
+@media (max-height: 760px) {
+  .calc-raiz {
+    --calc-topo: 50px;
+    --calc-gap: 16px;
+    --calc-gap-bloco: 10px;
+    --calc-op-h: 46px;
+    --calc-op-fs: 14.5px;
+    --calc-titulo: 24px;
+    --calc-sub: 14px;
+    --calc-rotulo: 14.5px;
+    --calc-campo-h: 46px;
+    --calc-botao-h: 50px;
+    --calc-corpo-pt: 10px;
+    --calc-corpo-pb: 12px;
+    --calc-rodape-pb: 16px;
+    --calc-cartao-h: 50px;
+    --calc-cartao-py: 11px;
+    --calc-cartao-fs: 15.5px;
+    --calc-area-h: 72px;
+    --calc-bilhete-h: 88px;
+    --calc-bilhete-fs: 26px;
+    --calc-roda: 88px;
+  }
+}
+@media (max-height: 700px) {
+  .calc-raiz {
+    --calc-topo: 46px;
+    --calc-gap: 13px;
+    --calc-gap-bloco: 8px;
+    --calc-gap-op: 6px;
+    --calc-op-h: 44px;
+    --calc-op-fs: 14px;
+    --calc-op-px: 12px;
+    --calc-titulo: 22px;
+    --calc-sub: 13.5px;
+    --calc-rotulo: 14px;
+    --calc-campo-h: 44px;
+    --calc-botao-h: 48px;
+    --calc-corpo-pt: 8px;
+    --calc-rodape-pt: 10px;
+    --calc-rodape-pb: 12px;
+    --calc-cartao-h: 46px;
+    --calc-cartao-py: 9px;
+    --calc-cartao-fs: 15px;
+    --calc-area-h: 64px;
+    --calc-bilhete-h: 76px;
+    --calc-bilhete-fs: 24px;
+    --calc-roda: 76px;
+  }
+}
+@media (max-height: 620px) {
+  .calc-raiz {
+    --calc-topo: 44px;
+    --calc-gap: 10px;
+    --calc-op-fs: 13.5px;
+    --calc-op-px: 10px;
+    --calc-titulo: 20px;
+    --calc-sub: 13px;
+    --calc-rotulo: 13.5px;
+    --calc-botao-h: 46px;
+    --calc-corpo-pt: 6px;
+    --calc-corpo-pb: 8px;
+    --calc-cartao-h: 44px;
+    --calc-cartao-py: 7px;
+    --calc-cartao-fs: 14.5px;
+    --calc-area-h: 56px;
+    --calc-bilhete-h: 58px;
+    --calc-bilhete-fs: 22px;
+    --calc-roda: 64px;
+  }
+  .calc-ajuda {
+    display: none !important;
+  }
+}
+
+/* Com o formulário aberto, o documento não rola: só a capa tem scroll. */
+html:has(.calc-raiz[data-preso]),
+html:has(.calc-raiz[data-preso]) body {
+  overflow: hidden;
+}
+
+/* A grelha das escolhas: 2 colunas, e a última sozinha ocupa a linha. As
+   listas de opções curtas passam a 3 por linha nos ecrãs largos e nos
+   telemóveis baixos (a grelha passa a 6 colunas: 2 cada uma; se sobrarem
+   duas, 3 cada uma; se sobrar uma, a linha toda). */
+.calc-grelha {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--calc-gap-op);
+}
+.calc-grelha > .calc-so {
+  grid-column: span 2;
+}
+@media (min-width: 640px), (max-height: 760px) {
+  .calc-grelha[data-curtas] {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .calc-grelha[data-curtas] > * {
+    grid-column: span 2;
+  }
+  .calc-grelha[data-curtas] > .calc-r2 {
+    grid-column: span 3;
+  }
+  .calc-grelha[data-curtas] > .calc-r1 {
+    grid-column: span 6;
+  }
+}
+.calc-op {
+  min-height: var(--calc-op-h);
+  font-size: var(--calc-op-fs);
+  padding: 6px var(--calc-op-px);
+}
+
+/* Um só fundo para a página inteira.
+   O html e o body do site são quase pretos (#05070e). No telemóvel, tudo o que
+   fica fora da camada fixa mostra essa cor: o «salto» do iOS ao puxar a página
+   (overscroll), a faixa da barra de estado e a zona por trás das barras do
+   Safari, que no iOS 26 pinta com a cor do fundo da página e ignora o
+   theme-color. A camada azul via-se então como um retângulo por cima de um
+   fundo preto. Nesta página o html e o body passam a ter a cor de base do azul,
+   e a camada fixa acaba nessa mesma cor em cima e em baixo, para não haver
+   costura em lado nenhum. */
+html:has(.calc-raiz),
+html:has(.calc-raiz) body {
+  background-color: #213e6e;
+  background-image: none;
+}
+html:has(.calc-raiz) {
+  /* sem o salto do iOS nem o «puxar para atualizar» a meio do formulário */
+  overscroll-behavior: none;
+}
+
+/* O fundo azul vivo com grão, preso ao ecrã por baixo de tudo. A luz fica no
+   meio e desvanece até à cor de base antes das margens de cima e de baixo
+   (onde ficam a barra de estado e as barras do browser). */
 .calc-fundo {
   position: fixed;
   inset: 0;
   z-index: 0;
   isolation: isolate;
   pointer-events: none;
-  background: linear-gradient(165deg, #1a3462 0%, #284b83 52%, #3a5f95 100%);
+  background-color: #213e6e;
+  background-image:
+    radial-gradient(ellipse 85% 50% at 62% 58%, rgba(70, 109, 166, 0.62), rgba(70, 109, 166, 0) 100%),
+    radial-gradient(ellipse 70% 38% at 18% 30%, rgba(23, 45, 86, 0.55), rgba(23, 45, 86, 0) 100%);
 }
 .calc-fundo svg {
   position: absolute;
