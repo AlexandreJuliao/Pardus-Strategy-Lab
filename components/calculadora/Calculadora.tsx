@@ -37,7 +37,7 @@ import {
   parteCompleta,
   partesDoEcra,
   precisaCobre,
-  progresso,
+  progressoDoPasso,
   telefonePT,
   temInstagram,
   temSite,
@@ -121,6 +121,7 @@ export default function Calculadora() {
 
   const sessao = useRef("");
   const ecraAtual = useRef(0);
+  const pctMaximo = useRef(0);
   ecraAtual.current = ecra;
   const utm = useRef<Utm>({});
   const fbclid = useRef("");
@@ -457,13 +458,14 @@ export default function Calculadora() {
     tituloEcra = "Como gere isso hoje?";
     blocos = <Chips opcoes={GERE} valor={r.gere} aoEscolher={(v) => guardar("gere", v)} rotuloPadrao={tituloEcra} />;
   } else if (ecra === 8 && p === 2) {
-    // Só com programa próprio ou CRM.
-    tituloEcra = "Que áreas do negócio é que já cobre?";
+    // Só com programa próprio ou CRM; a pergunta diz qual dos dois escolheu.
+    const crm = r.gere === "Um CRM";
+    tituloEcra = crm ? "Que áreas do negócio o seu CRM já cobre?" : "Que áreas do negócio o seu programa já cobre?";
     blocos = (
       <>
         <Chips opcoes={COBRE} valor={r.cobre} aoEscolher={escolherVarios("cobre")} multi rotuloPadrao={tituloEcra} />
         <Campo
-          rotulo="Como se chama? (opcional)"
+          rotulo={crm ? "Como se chama o seu CRM? (opcional)" : "Como se chama o programa? (opcional)"}
           valor={r.qualSoft ?? ""}
           aoMudar={(v) => guardar("qualSoft", v)}
           ph="Ex.: Moloni, Primavera, HubSpot"
@@ -585,8 +587,13 @@ export default function Calculadora() {
 
   const naCapa = ecra === 0;
   const noFormulario = (ecra >= ECRA_PRIMEIRA_PERGUNTA && ecra <= ECRA_ULTIMA_PERGUNTA) || ecra === ECRA_CONTACTO;
-  // As partes de um ecrã avançam a barra aos bocadinhos, até ao ecrã seguinte.
-  const pct = noFormulario ? progresso(ecra === ECRA_CONTACTO ? 12 : ecra + p / partes) : 0;
+  // A barra só sobe ou fica igual. progressoDoPasso conta sempre com as partes
+  // condicionais (abrir uma não a faz descer), e o máximo já mostrado segura-a
+  // quando se volta atrás. Recalcular aqui é idempotente, por isso pode ser
+  // feito durante o render.
+  const pctPasso = noFormulario ? progressoDoPasso(ecra, p) : 0;
+  if (pctPasso > pctMaximo.current) pctMaximo.current = pctPasso;
+  const pct = noFormulario ? pctMaximo.current : 0;
   const dicaBarra =
     ecra >= 2 && ecra <= 3 ? "Cerca de 3 minutos" : (ecra >= 10 && ecra <= 11) || ecra === ECRA_CONTACTO ? "Quase a terminar" : "";
   const textoBotao =
@@ -594,14 +601,7 @@ export default function Calculadora() {
 
   return (
     <div className="calc-raiz relative min-h-[100svh]" data-preso={naCapa ? undefined : ""}>
-      <div className="calc-fundo" aria-hidden="true">
-        <svg>
-          <filter id="calc-grao">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#calc-grao)" />
-        </svg>
-      </div>
+      <div className="calc-fundo" aria-hidden="true" />
 
       {naCapa ? (
         <main>
