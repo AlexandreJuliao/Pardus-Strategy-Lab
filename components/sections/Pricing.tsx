@@ -17,15 +17,18 @@ import { fadeUp, staggerContainer } from "@/lib/animations";
  */
 
 const SITES = [
-  { name: "Landing page", desc: "Uma página, feita para captar.", price: "399€" },
-  { name: "Site profissional", desc: "Vários separadores, à tua medida.", price: "899€" },
-  { name: "Loja online", desc: "Vende a qualquer hora, sem comissões.", price: "1.899€" },
+  { name: "Landing page", desc: "Uma página, feita para captar.", price: "390€" },
+  { name: "Site profissional", desc: "Vários separadores, à tua medida.", price: "890€" },
+  { name: "Loja online", desc: "Vende a qualquer hora, sem comissões.", price: "1.890€" },
 ];
 
 const WORK = [
-  { outcome: "Responde aos clientes a qualquer hora", label: "Assistente / chatbot", price: "499€" },
-  { outcome: "Organiza leads e clientes num só sítio", label: "CRM à medida", price: "900€" },
-  { outcome: "Automatiza o trabalho que se repete", label: "Automações & integrações", price: "700€" },
+  { outcome: "Responde aos clientes a qualquer hora", label: "Assistente / chatbot", price: "390€" },
+  { outcome: "Organiza leads e clientes num só sítio", label: "CRM à medida", price: "790€" },
+  { outcome: "Automatiza o trabalho que se repete", label: "Automações & integrações", price: "250€" },
+  { outcome: "Aparece a quem procura na tua zona", label: "Ficha Google + SEO local", price: "290€" },
+  { outcome: "Põe-te à frente de quem pesquisa no Google", label: "Gestão de campanhas Google Ads", price: "95€/mês" },
+  { outcome: "Descobre o que está a travar o teu site", label: "Auditoria SEO e velocidade", price: "150€" },
 ];
 
 function Kicker({ children }: { children: React.ReactNode }) {
@@ -173,7 +176,7 @@ export default function Pricing() {
         >
           Adaptamo-nos a <span className="text-gold">várias formas de pagamento</span>.
           Precisas de acompanhamento contínuo? Avenças{" "}
-          <span className="text-text-primary">desde 90€/mês</span>.
+          <span className="text-text-primary">desde 95€/mês</span>.
         </motion.p>
       </div>
     </section>

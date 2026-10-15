@@ -117,7 +117,7 @@ export const VERTICALS: Record<string, Vertical> = {
     seo: {
       title: "PARDUS. Websites · O teu site pronto em 2 semanas",
       description:
-        "Sites profissionais para negócios em Portugal: design à medida, rápidos no telemóvel, ligados ao WhatsApp e a aparecer no Google. Desde 399€. Marca uma conversa de 20 minutos.",
+        "Sites profissionais para negócios em Portugal: design à medida, rápidos no telemóvel, ligados ao WhatsApp e a aparecer no Google. Desde 390€. Marca uma conversa de 20 minutos.",
     },
     hero: {
       lines: [
@@ -214,18 +214,18 @@ export const VERTICALS: Record<string, Vertical> = {
         {
           name: "Landing page",
           desc: "Uma página, para captar contactos a partir de anúncios ou do Google.",
-          price: "399€",
+          price: "390€",
           items: ["1 página com formulário e WhatsApp", "Textos e imagens incluídos", "Domínio e alojamento no 1.º ano", "No ar em 7 dias úteis"],
         },
         {
           name: "Site profissional",
           desc: "O site completo do teu negócio, com todas as páginas que precisas.",
-          price: "899€",
+          price: "890€",
           featured: true,
           items: ["Até 6 páginas (serviços, sobre, contactos…)", "Textos, imagens e SEO base", "Domínio, alojamento e email profissional", "Painel para editares sozinho", "30 dias de acompanhamento"],
         },
       ],
-      note: "Precisas de vender online? Temos lojas desde 1.899€. Adaptamo-nos a várias formas de pagamento e, se quiseres que cuidemos do site todos os meses, há avenças desde 90€/mês.",
+      note: "Precisas de vender online? Temos lojas desde 1.890€. Adaptamo-nos a várias formas de pagamento e, se quiseres que cuidemos do site todos os meses, há avenças desde 95€/mês.",
     },
     extras: {
       pre: "Quando o site estiver a trabalhar,",
@@ -243,7 +243,7 @@ export const VERTICALS: Record<string, Vertical> = {
       { q: "Quanto tempo demora mesmo?", a: "Uma landing page fica no ar em cerca de 7 dias úteis; um site profissional em 2 semanas. O prazo conta a partir da conversa inicial, e o que mais atrasa é a aprovação do teu lado. Por isso pedimos-te poucas coisas, e uma de cada vez." },
       { q: "O que preciso de vos dar?", a: "Quase nada: o nome do negócio, o que fazes e para quem, e o teu logótipo se tiveres. Os textos e as imagens tratamos nós contigo. Se não tiveres logótipo, fazemos um simples incluído." },
       { q: "O site fica meu ou vosso?", a: "Teu. Domínio em teu nome, alojamento na tua conta, código entregue. Se um dia quiseres mudar de agência, levas tudo contigo." },
-      { q: "E depois do lançamento?", a: "Tens 30 dias de acompanhamento incluídos para ajustes e dúvidas. Depois, se quiseres que tratemos das atualizações, segurança e posição no Google todos os meses, há uma avença desde 90€/mês. Opcional." },
+      { q: "E depois do lançamento?", a: "Tens 30 dias de acompanhamento incluídos para ajustes e dúvidas. Depois, se quiseres que tratemos das atualizações, segurança e posição no Google todos os meses, há uma avença desde 95€/mês. Opcional." },
       { q: "Como vejo os resultados do site?", a: "Damos-te uma conta na nossa plataforma, só tua. Lá vês as visitas, de onde vieram e todos os pedidos que entraram, sem precisares de perceber de Google Analytics. É também por lá que pedes alterações: escreves o que queres mudar e a equipa trata." },
       { q: "Como funciona o pagamento?", a: "Metade para arrancar, metade no lançamento, ou outra forma que te dê mais jeito. Falamos disso na primeira conversa, sem surpresas." },
     ],
