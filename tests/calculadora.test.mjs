@@ -12,6 +12,7 @@ import {
   parteCompleta,
   partesDoEcra,
   progresso,
+  progressoDoPasso,
   telefonePT,
 } from "../lib/calculadora.ts";
 
@@ -164,4 +165,29 @@ test("partes: o 5 e o 8 mostram-se em partes, que juntas pedem o mesmo que o ecr
   const r = { tempo: ["Faturação e cobranças", "Marcações e agenda"], gere: "Um CRM", cobre: ["Faturação"] };
   for (let p = 0; p < partesDoEcra(8, r); p++) assert.equal(parteCompleta(8, p, r), true);
   assert.equal(ecraCompleto(8, r), true);
+});
+
+test("barra: nunca desce ao avançar, e as partes condicionais não a fazem recuar", () => {
+  // todos os caminhos possíveis pelo formulário (com e sem anúncios, com e sem CRM)
+  for (const anuncios of [false, true]) {
+    for (const crm of [false, true]) {
+      const r = { canais: anuncios ? ["Anúncios pagos"] : ["Recomendações"], gere: crm ? "Um CRM" : "WhatsApp" };
+      const passos = [];
+      for (let e = 2; e <= 11; e++) for (let p = 0; p < partesDoEcra(e, r); p++) passos.push([e, p]);
+      passos.push([13, 0]);
+      let antes = 0;
+      for (const [e, p] of passos) {
+        const agora = progressoDoPasso(e, p);
+        assert.ok(agora >= antes, `desceu em ${e}.${p}: ${antes} → ${agora}`);
+        antes = agora;
+      }
+    }
+  }
+  // a barra de cada parte não depende das respostas (o que abre ou fecha partes)
+  assert.ok(progressoDoPasso(8, 1) > progressoDoPasso(8, 0));
+  assert.ok(progressoDoPasso(8, 2) > progressoDoPasso(8, 1));
+  assert.ok(progressoDoPasso(9, 0) > progressoDoPasso(8, 2));
+  // a curva continua igual nos ecrãs inteiros
+  assert.equal(progressoDoPasso(2), progresso(2));
+  assert.equal(progressoDoPasso(13), progresso(12));
 });

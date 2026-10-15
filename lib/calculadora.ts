@@ -255,6 +255,22 @@ export function progresso(n: number): number {
   return Math.round(8 + 90 * (1 - Math.pow(1 - t, 1.6)));
 }
 
+/** O máximo de partes que cada ecrã pode ter, contando as condicionais. */
+const PARTES_MAX: Readonly<Record<number, number>> = { 5: 2, 8: 3 };
+
+/**
+ * A barra num passo: o ecrã `e` e a parte `p` dele (o contacto conta como 12).
+ * Conta sempre com as partes condicionais, existam ou não, para a barra não
+ * descer quando uma escolha as abre (escolher «Um CRM» no ecrã 8, por
+ * exemplo): sem elas, salta-se essa fatia e a barra sobe mais no passo
+ * seguinte. Depende só do passo, nunca das respostas.
+ */
+export function progressoDoPasso(e: number, p = 0): number {
+  if (e === ECRA_CONTACTO) return progresso(12);
+  const total = PARTES_MAX[e] ?? 1;
+  return progresso(e + Math.min(Math.max(p, 0), total - 1) / total);
+}
+
 // ── Contacto ────────────────────────────────────────────────────────────────
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;

@@ -200,23 +200,47 @@ html:has(.calc-raiz) {
    meio e desvanece até à cor de base antes das margens de cima e de baixo
    (onde ficam a barra de estado e as barras do browser). */
 .calc-fundo {
+  /* Do tamanho do ecrã com as barras do browser escondidas (100lvh), e não
+     inset: 0: no iOS a barra do Safari esconde-se a meio do scroll da capa, o
+     ecrã fica mais alto, e uma camada inset: 0 crescia com ele, a luz descia
+     (46px no iPhone 390×844) e o fundo parecia ir atrás do scroll. Assim tem
+     sempre a mesma altura e nunca se repinta; por baixo, o html tem a mesma
+     cor de base. */
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  height: 100lvh;
   z-index: 0;
   isolation: isolate;
   pointer-events: none;
+  transform: translateZ(0);
   background-color: #213e6e;
   background-image:
     radial-gradient(ellipse 85% 50% at 62% 58%, rgba(70, 109, 166, 0.62), rgba(70, 109, 166, 0) 100%),
     radial-gradient(ellipse 70% 38% at 18% 30%, rgba(23, 45, 86, 0.55), rgba(23, 45, 86, 0) 100%);
 }
-.calc-fundo svg {
+/* O grão: uma textura pequena (a mesma do site, --grain) em mosaico, que o
+   browser pinta uma vez. Antes era um filtro SVG (feTurbulence) do tamanho do
+   ecrã, calculado ao vivo, que no iPhone aparecia aos bocados durante o
+   scroll. */
+.calc-fundo::after {
+  content: "";
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.16;
+  background-image: var(--grain);
+  background-size: 200px;
+  opacity: 0.14;
   mix-blend-mode: overlay;
+}
+
+/* O grão global do site fica POR CIMA do conteúdo (z-index 30): nesta página,
+   no telemóvel, via-se o texto a passar por baixo de uma película parada,
+   como se algo acompanhasse o scroll. A Calculadora já tem o seu grão no
+   fundo, por isso o global sai daqui. */
+html:has(.calc-raiz) .grain-fixed {
+  display: none;
 }
 
 .calc-raiz a:not([data-calc-botao]) {
