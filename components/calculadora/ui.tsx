@@ -81,8 +81,45 @@ export function Bloco({
 }
 
 /**
- * Botões de escolha. Com `multi`, tocar de novo tira; com `ordem`, cada botão
- * escolhido mostra a posição em que foi tocado.
+ * Quantas colunas de grelha ocupa cada opção, para as linhas ficarem sempre
+ * cheias: no telemóvel, 2 colunas e a última sozinha ocupa a linha toda; nos
+ * ecrãs largos (sm, 640px), 3 por linha quando as opções são curtas, com as
+ * que sobram a dividir a última linha entre si (a grelha larga tem 6 colunas:
+ * 2 cada uma por linha de 3, 3 cada uma se sobrarem 2, 6 se sobrar 1).
+ * As classes estão escritas por extenso para o Tailwind as encontrar.
+ */
+function vaosDaGrelha(total: number, i: number, tresLargas: boolean): string {
+  const sozinhaNoFim = total % 2 === 1 && i === total - 1;
+  const telemovel = sozinhaNoFim ? "col-span-2" : "";
+  if (!tresLargas) return sozinhaNoFim ? "col-span-2 sm:col-span-6" : "sm:col-span-3";
+  const resto = total % 3;
+  const naUltimaLinha = resto > 0 && i >= total - resto;
+  const largo = !naUltimaLinha ? "sm:col-span-2" : resto === 2 ? "sm:col-span-3" : "sm:col-span-6";
+  return `${telemovel} ${largo}`;
+}
+
+/**
+ * O texto da opção com as palavras hifenizadas inteiras («bem-estar» não parte
+ * em «bem-» / «estar» quando a coluna é estreita). Só muda a apresentação.
+ */
+function semPartirNoHifen(texto: string): React.ReactNode {
+  if (!texto.includes("-")) return texto;
+  return texto.split(" ").map((p, i) => (
+    <span key={i}>
+      {i > 0 ? " " : null}
+      {p.includes("-") ? <span className="whitespace-nowrap">{p}</span> : p}
+    </span>
+  ));
+}
+
+/** Opções curtas (até 18 letras) cabem 3 por linha nos ecrãs largos sem quebrar. */
+const CURTA = 18;
+
+/**
+ * Botões de escolha, em grelha: 2 colunas no telemóvel, 3 nos ecrãs largos
+ * quando as opções são curtas; cada linha com a altura da opção mais alta.
+ * Com `multi`, tocar de novo tira; com `ordem`, cada botão escolhido mostra a
+ * posição em que foi tocado.
  */
 export function Chips({
   opcoes,
@@ -106,15 +143,16 @@ export function Chips({
 }) {
   const id = useId();
   const lista = Array.isArray(valor) ? valor : [];
+  const tresLargas = opcoes.every((o) => o.length <= CURTA);
   return (
     <Bloco rotulo={rotulo} dica={dica} rotuloId={rotulo ? id : undefined}>
       <div
         role="group"
         aria-labelledby={rotulo ? id : undefined}
         aria-label={rotulo ? undefined : rotuloPadrao}
-        className="flex flex-wrap gap-2"
+        className="grid grid-cols-2 gap-2 sm:grid-cols-6"
       >
-        {opcoes.map((o) => {
+        {opcoes.map((o, i) => {
           const sel = multi ? lista.includes(o) : valor === o;
           const pos = ordem ? lista.indexOf(o) + 1 : 0;
           return (
@@ -123,7 +161,7 @@ export function Chips({
               type="button"
               aria-pressed={sel}
               onClick={() => aoEscolher(o)}
-              className={`inline-flex min-h-[44px] cursor-pointer items-center gap-2 rounded-[4px] border px-4 py-2.5 text-left text-[15px] font-medium transition-colors ${sel ? ON : OFF}`}
+              className={`flex min-h-[52px] min-w-0 cursor-pointer items-center gap-2 break-words rounded-[4px] border px-3.5 py-2.5 text-left text-[15px] font-medium leading-[1.3] transition-colors ${vaosDaGrelha(opcoes.length, i, tresLargas)} ${sel ? ON : OFF}`}
             >
               {pos > 0 ? (
                 <>
@@ -136,7 +174,7 @@ export function Chips({
                   <span className="sr-only">{`${pos}.º: `}</span>
                 </>
               ) : null}
-              {o}
+              <span className="min-w-0">{semPartirNoHifen(o)}</span>
             </button>
           );
         })}
@@ -219,19 +257,26 @@ export function AreaTexto({
   );
 }
 
+/**
+ * Cartões de escolha única. Um por linha no telemóvel (são as perguntas
+ * principais do ecrã, com frases inteiras); com `lado`, ficam lado a lado nos
+ * ecrãs largos, todos com a mesma altura.
+ */
 export function Cartoes({
   opcoes,
   valor,
   aoEscolher,
   rotuloPadrao,
+  lado = false,
 }: {
   opcoes: readonly (readonly [string, string])[];
   valor: string | undefined;
   aoEscolher: (v: string) => void;
   rotuloPadrao: string;
+  lado?: boolean;
 }) {
   return (
-    <div role="group" aria-label={rotuloPadrao} className="flex flex-col gap-2.5">
+    <div role="group" aria-label={rotuloPadrao} className={`grid grid-cols-1 gap-2.5 ${lado ? "sm:grid-cols-3" : ""}`}>
       {opcoes.map(([rot, sub]) => {
         const sel = valor === rot;
         return (
@@ -240,11 +285,11 @@ export function Cartoes({
             type="button"
             aria-pressed={sel}
             onClick={() => aoEscolher(rot)}
-            className={`flex min-h-[60px] cursor-pointer flex-col items-start gap-1 rounded-[4px] border px-4 py-3.5 text-left text-[#eef2f9] transition-colors ${
+            className={`flex min-h-[56px] min-w-0 cursor-pointer flex-col items-start justify-center gap-1 break-words rounded-[4px] border px-4 py-3.5 text-left text-[#eef2f9] transition-colors ${
               sel ? "border-[#d4af60] bg-[rgba(212,175,96,0.2)]" : "border-[rgba(238,242,249,0.25)] bg-[rgba(8,16,38,0.4)] hover:border-[rgba(238,242,249,0.45)]"
             }`}
           >
-            <span className="text-[16px] font-semibold">{rot}</span>
+            <span className="text-[16px] font-semibold leading-[1.3]">{rot}</span>
             {sub ? <span className={`text-[13px] ${sel ? "text-[#f3dc9f]" : "text-[#c3cde0]"}`}>{sub}</span> : null}
           </button>
         );

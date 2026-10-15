@@ -86,7 +86,7 @@ export default function Capa({
       />
 
       {/* ── Herói ── */}
-      <section className="relative mx-auto flex min-h-[100svh] w-full max-w-[1440px] flex-col gap-[18px] px-6 pb-7 pt-[26px] md:min-h-[min(900px,100svh)] md:gap-0 md:px-12 md:pb-16 md:pt-12 lg:px-24">
+      <section className="relative mx-auto flex min-h-[100svh] w-full max-w-[1440px] flex-col gap-[18px] px-6 pb-7 pt-[calc(26px_+_env(safe-area-inset-top))] md:min-h-[min(900px,100svh)] md:gap-0 md:px-12 md:pb-16 md:pt-[calc(48px_+_env(safe-area-inset-top))] lg:px-24">
         <header className="flex flex-col items-center gap-[18px] md:flex-row md:justify-between">
           <Logotipo className="text-[40px] tracking-[3px] md:text-[34px] md:tracking-[4px]" />
           <Eyebrow className="hidden md:block md:text-[13px]">Diagnóstico gratuito · 3 minutos</Eyebrow>
@@ -191,7 +191,7 @@ export default function Capa({
 
       {/* ── Como funciona ── */}
       <section className="bg-[rgba(8,16,38,0.45)]">
-        <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-9 px-6 pb-9 pt-10 md:gap-16 md:px-12 md:py-20 lg:px-24">
+        <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-9 px-6 pb-[max(36px,env(safe-area-inset-bottom))] pt-10 md:gap-16 md:px-12 md:py-20 lg:px-24">
           <div className="flex flex-col gap-3.5 md:gap-[18px]">
             <div className="flex flex-col gap-3.5 md:flex-row md:items-end md:justify-between md:gap-10">
               <div className="flex flex-col gap-2.5">

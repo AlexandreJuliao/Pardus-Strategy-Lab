@@ -51,8 +51,10 @@ export const metadata: Metadata = {
   },
 };
 
+// A mesma cor de base do fundo (components/calculadora/calculadora.css), para a
+// barra do browser continuar o fundo em vez de fazer uma faixa à parte.
 export const viewport: Viewport = {
-  themeColor: "#1a3462",
+  themeColor: "#213e6e",
 };
 
 export default function CalculadoraPage() {

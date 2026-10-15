@@ -472,7 +472,7 @@ export default function Calculadora() {
     tituloEcra = "Se só pudesse melhorar uma coisa este ano, qual seria?";
     blocos = (
       <>
-        <Cartoes opcoes={PRIOR} valor={r.prior} aoEscolher={(v) => guardar("prior", v)} rotuloPadrao={tituloEcra} />
+        <Cartoes opcoes={PRIOR} valor={r.prior} aoEscolher={(v) => guardar("prior", v)} rotuloPadrao={tituloEcra} lado />
         <Chips opcoes={PRAZO} valor={r.prazo} aoEscolher={(v) => guardar("prazo", v)} rotulo="Para quando quer começar?" />
       </>
     );
@@ -582,7 +582,7 @@ export default function Calculadora() {
       ) : null}
 
       {noFormulario ? (
-        <main className="fixed inset-0 z-10 flex flex-col">
+        <main className="fixed inset-0 z-10 flex flex-col pt-[env(safe-area-inset-top)]">
           <div className="flex h-14 shrink-0 items-center justify-between px-1.5 md:px-4">
             <button
               type="button"
@@ -634,7 +634,9 @@ export default function Calculadora() {
                 {blocos}
               </div>
             </div>
-            <div className="shrink-0 border-t border-[rgba(238,242,249,0.12)] bg-[rgba(10,22,50,0.55)] pb-[max(24px,env(safe-area-inset-bottom))] pt-3">
+            {/* Sem fundo próprio: uma faixa mais escura aqui ficava a fazer degrau com a
+                barra do browser, que mostra a cor de base da página. */}
+            <div className="shrink-0 border-t border-[rgba(238,242,249,0.12)] pb-[max(24px,env(safe-area-inset-bottom))] pt-3">
               <div className="mx-auto w-full max-w-[608px] px-6">
                 <p aria-live="polite" className="m-0 empty:hidden mb-2 text-center text-[13px] text-[#ffc9b8]">
                   {erroEnvio || (tentou && !ok && ecra !== ECRA_CONTACTO ? "Responda às perguntas deste passo para continuar." : "")}
@@ -655,7 +657,7 @@ export default function Calculadora() {
       ) : null}
 
       {ecra === ECRA_CALCULO ? (
-        <main className="fixed inset-0 z-10 flex flex-col items-center justify-center overflow-y-auto px-7 py-8">
+        <main className="fixed inset-0 z-10 flex flex-col items-center justify-center overflow-y-auto px-7 pb-[max(32px,env(safe-area-inset-bottom))] pt-[max(32px,env(safe-area-inset-top))]">
           <div className="flex w-full max-w-[480px] flex-col items-center gap-[30px]">
             <div className="calc-girar box-border flex h-28 w-28 items-center justify-center rounded-full border-[5px] border-dashed border-[#d4af60] bg-[#0c1a36] shadow-[0_14px_36px_rgba(4,10,30,0.55)]" aria-hidden="true">
               <span className="font-wordmark text-[34px] font-semibold text-[#f0d089]">P.</span>
@@ -696,7 +698,7 @@ export default function Calculadora() {
       ) : null}
 
       {ecra === ECRA_OBRIGADO ? (
-        <main className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[608px] flex-col gap-5 px-6 pb-8 pt-7">
+        <main className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[608px] flex-col gap-5 px-6 pb-[max(32px,env(safe-area-inset-bottom))] pt-[calc(28px_+_env(safe-area-inset-top))]">
           <Logotipo className="text-center text-[26px] tracking-[3px]" />
           <div className="flex flex-1 flex-col justify-center gap-[22px]">
             <div className="box-border flex h-16 w-16 items-center justify-center rounded-full border-4 border-dashed border-[#d4af60] bg-[#0c1a36] text-[#f0d089]" aria-hidden="true">

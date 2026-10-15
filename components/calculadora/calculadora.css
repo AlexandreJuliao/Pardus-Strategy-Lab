@@ -12,14 +12,38 @@
   font-family: var(--font-calc-display), var(--font-calc-sans), sans-serif;
 }
 
-/* O fundo azul vivo com grão, preso ao ecrã por baixo de tudo. */
+/* Um só fundo para a página inteira.
+   O html e o body do site são quase pretos (#05070e). No telemóvel, tudo o que
+   fica fora da camada fixa mostra essa cor: o «salto» do iOS ao puxar a página
+   (overscroll), a faixa da barra de estado e a zona por trás das barras do
+   Safari, que no iOS 26 pinta com a cor do fundo da página e ignora o
+   theme-color. A camada azul via-se então como um retângulo por cima de um
+   fundo preto. Nesta página o html e o body passam a ter a cor de base do azul,
+   e a camada fixa acaba nessa mesma cor em cima e em baixo, para não haver
+   costura em lado nenhum. */
+html:has(.calc-raiz),
+html:has(.calc-raiz) body {
+  background-color: #213e6e;
+  background-image: none;
+}
+html:has(.calc-raiz) {
+  /* sem o salto do iOS nem o «puxar para atualizar» a meio do formulário */
+  overscroll-behavior: none;
+}
+
+/* O fundo azul vivo com grão, preso ao ecrã por baixo de tudo. A luz fica no
+   meio e desvanece até à cor de base antes das margens de cima e de baixo
+   (onde ficam a barra de estado e as barras do browser). */
 .calc-fundo {
   position: fixed;
   inset: 0;
   z-index: 0;
   isolation: isolate;
   pointer-events: none;
-  background: linear-gradient(165deg, #1a3462 0%, #284b83 52%, #3a5f95 100%);
+  background-color: #213e6e;
+  background-image:
+    radial-gradient(ellipse 85% 50% at 62% 58%, rgba(70, 109, 166, 0.62), rgba(70, 109, 166, 0) 100%),
+    radial-gradient(ellipse 70% 38% at 18% 30%, rgba(23, 45, 86, 0.55), rgba(23, 45, 86, 0) 100%);
 }
 .calc-fundo svg {
   position: absolute;
