@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { waitUntil } from "@vercel/functions";
 import { sendLeadToMeta } from "@/lib/metaCapi";
 import { escolhaNoPedido } from "@/lib/consent";
 
@@ -146,9 +147,11 @@ export async function POST(req: Request) {
     }),
   });
 
-  // Conversions API da Meta. Corre em paralelo com a entrega da lead e o
-  // resultado não afeta a resposta: se a Meta estiver em baixo, a lead entra na
-  // mesma. O eventId vem do browser para a Meta deduplicar com o pixel.
+  // Conversions API da Meta. Começa já, em paralelo com a entrega da lead, mas a
+  // resposta não espera por ela: o `waitUntil` deixa a função viva até o envio
+  // acabar depois de a resposta sair. Quem preenche deixa de ficar à espera da
+  // Meta (até 8 s quando está lenta) e, se a Meta estiver em baixo, a lead entra
+  // na mesma. O eventId vem do browser para a Meta deduplicar com o pixel.
   //
   // Os cookies _fbp/_fbc são do Pixel e só seguem para a Meta se a pessoa tiver
   // aceitado no aviso de cookies. Sem isso podiam ainda estar no browser (de
@@ -170,10 +173,21 @@ export async function POST(req: Request) {
     fbc: consentiu ? cookie("_fbc") : undefined,
     fbp: consentiu ? cookie("_fbp") : undefined,
     // Permite validar a ligação na aba "Testar eventos" sem sujar os dados reais.
-    testEventCode: s(data.testEventCode, 40) || process.env.META_CAPI_TEST_CODE,
+    // Só pela variável de ambiente: vindo do pedido, qualquer pessoa podia marcar
+    // eventos reais como de teste e tirá-los dos dados das campanhas.
+    testEventCode: process.env.META_CAPI_TEST_CODE,
   });
+  // sendLeadToMeta já regista as suas falhas e não lança; o catch é só para uma
+  // exceção inesperada não ficar como rejeição solta depois da resposta.
+  waitUntil(
+    toMeta.catch((err) => {
+      console.error("[meta-capi] erro inesperado:", err);
+      return false;
+    }),
+  );
 
-  const [n8nOk, officeOk] = await Promise.all([toN8n, toOffice, toMeta]);
+  // A resposta só espera pelos destinos que decidem se a lead entrou.
+  const [n8nOk, officeOk] = await Promise.all([toN8n, toOffice]);
   if (!n8nOk && !officeOk) {
     return NextResponse.json({ ok: false, error: "delivery" }, { status: 502 });
   }

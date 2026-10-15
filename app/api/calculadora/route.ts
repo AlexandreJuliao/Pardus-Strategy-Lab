@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { waitUntil } from "@vercel/functions";
 import { sendLeadToMeta } from "@/lib/metaCapi";
 import { escolhaNoPedido } from "@/lib/consent";
 import { OFFICE_CLIENT_ID, postOffice } from "@/lib/office";
@@ -98,9 +99,11 @@ export async function POST(req: Request) {
     },
   };
 
-  // Conversions API da Meta, em paralelo e sem afetar a resposta. O eventId é o
-  // mesmo do Pixel no browser, para a Meta não contar a lead duas vezes. Os
-  // cookies _fbp/_fbc só seguem se a pessoa aceitou no aviso de cookies.
+  // Conversions API da Meta, em paralelo e sem afetar a resposta: o `waitUntil`
+  // deixa o envio acabar depois de a resposta sair, para quem preenche não ficar
+  // à espera da Meta. O eventId é o mesmo do Pixel no browser, para a Meta não
+  // contar a lead duas vezes. Os cookies _fbp/_fbc só seguem se a pessoa aceitou
+  // no aviso de cookies.
   const cookies = req.headers.get("cookie") ?? "";
   const cookie = (n: string) => cookies.match(new RegExp(`(?:^|;\\s*)${n}=([^;]+)`))?.[1];
   const consentiu = escolhaNoPedido(cookies) === "aceite";
@@ -119,7 +122,16 @@ export async function POST(req: Request) {
     fbp: consentiu ? cookie("_fbp") : undefined,
     testEventCode: process.env.META_CAPI_TEST_CODE,
   });
+  // sendLeadToMeta já regista as suas falhas e não lança; o catch é só para uma
+  // exceção inesperada não ficar como rejeição solta depois da resposta.
+  waitUntil(
+    toMeta.catch((err) => {
+      console.error("[meta-capi] erro inesperado:", err);
+      return false;
+    }),
+  );
 
+  // A resposta só espera pelo office e, se ele falhar, pela reserva no n8n.
   const office = await postOffice("/api/leads", corpoOffice, { tentativas: 2 });
   let leadId: string | null = null;
   if (office.ok) {
@@ -148,12 +160,10 @@ export async function POST(req: Request) {
       .then((r) => r.ok)
       .catch(() => false);
     if (!reserva) {
-      await toMeta.catch(() => false);
       return NextResponse.json({ ok: false, error: "delivery" }, { status: 502 });
     }
     console.error("[calculadora] office falhou; lead entregue só ao n8n (reserva)");
   }
 
-  await toMeta.catch(() => false);
   return NextResponse.json({ ok: true, lead_id: leadId });
 }
