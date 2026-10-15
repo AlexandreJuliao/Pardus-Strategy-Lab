@@ -34,6 +34,8 @@ import {
   anuncia,
   ecraCompleto,
   emailValido,
+  parteCompleta,
+  partesDoEcra,
   precisaCobre,
   progresso,
   telefonePT,
@@ -102,6 +104,8 @@ const TEXTOS_CALCULO = (site?: string) => [
 
 export default function Calculadora() {
   const [ecra, setEcra] = useState(0);
+  // A parte do ecrã à vista (os ecrãs 5 e 8 mostram-se em partes; ver partesDoEcra).
+  const [parte, setParte] = useState(0);
   const [r, setR] = useState<Rascunho>({});
   const [nome, setNome] = useState("");
   const [negocio, setNegocio] = useState("");
@@ -116,6 +120,8 @@ export default function Calculadora() {
   const [privacidade, setPrivacidade] = useState<{ seccao: string | null } | null>(null);
 
   const sessao = useRef("");
+  const ecraAtual = useRef(0);
+  ecraAtual.current = ecra;
   const utm = useRef<Utm>({});
   const fbclid = useRef("");
   const vistos = useRef(new Set<number>());
@@ -170,7 +176,7 @@ export default function Calculadora() {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
     if (corpo.current) corpo.current.scrollTop = 0;
     if (ecra !== 0) titulo.current?.focus({ preventScroll: true });
-  }, [ecra, evento]);
+  }, [ecra, parte, evento]);
 
   // «A calcular…»: os quatro passos, um a cada 1,4 s, e depois o contacto.
   useEffect(() => {
@@ -189,11 +195,12 @@ export default function Calculadora() {
   }, [ecra]);
 
   // ── Navegação, com o botão «voltar» do telemóvel a andar entre ecrãs ─────
-  function mudarEcra(e: number, modo: "novo" | "substituir" = "novo") {
+  function mudarEcra(e: number, modo: "novo" | "substituir" = "novo", p = 0) {
     setEcra(e);
+    setParte(p);
     try {
-      if (modo === "novo") window.history.pushState({ calc: e }, "");
-      else window.history.replaceState({ calc: e }, "");
+      if (modo === "novo") window.history.pushState({ calc: e, parte: p }, "");
+      else window.history.replaceState({ calc: e, parte: p }, "");
     } catch {
       /* sem histórico, os botões da página chegam */
     }
@@ -201,12 +208,17 @@ export default function Calculadora() {
 
   useEffect(() => {
     const aoVoltar = (ev: PopStateEvent) => {
-      const alvo = (ev.state as { calc?: unknown } | null)?.calc;
-      setEcra((atual) => {
-        if (atual === ECRA_OBRIGADO) return atual; // depois de enviar, não se volta ao formulário
-        if (typeof alvo !== "number") return 0;
-        return alvo === ECRA_CALCULO ? ECRA_ULTIMA_PERGUNTA : alvo;
-      });
+      const estado = ev.state as { calc?: unknown; parte?: unknown } | null;
+      const alvo = estado?.calc;
+      const alvoParte = typeof estado?.parte === "number" ? estado.parte : 0;
+      if (ecraAtual.current === ECRA_OBRIGADO) return; // depois de enviar, não se volta ao formulário
+      if (typeof alvo !== "number") {
+        setEcra(0);
+        setParte(0);
+        return;
+      }
+      setEcra(alvo === ECRA_CALCULO ? ECRA_ULTIMA_PERGUNTA : alvo);
+      setParte(alvo === ECRA_CALCULO ? 0 : alvoParte);
     };
     window.addEventListener("popstate", aoVoltar);
     return () => window.removeEventListener("popstate", aoVoltar);
@@ -240,19 +252,32 @@ export default function Calculadora() {
     mudarEcra(ECRA_PRIMEIRA_PERGUNTA);
   }
 
+  // As partes do ecrã à vista (1 na maior parte dos ecrãs).
+  const partes = partesDoEcra(ecra, r);
+  const p = Math.min(parte, partes - 1);
+  const ultimaParte = p === partes - 1;
+
   function voltar() {
+    if (p > 0) return mudarEcra(ecra, "novo", p - 1);
     if (ecra === ECRA_PRIMEIRA_PERGUNTA) return mudarEcra(0);
     if (ecra === ECRA_CONTACTO) return mudarEcra(ECRA_ULTIMA_PERGUNTA);
-    mudarEcra(ecra - 1);
+    mudarEcra(ecra - 1, "novo", partesDoEcra(ecra - 1, r) - 1);
   }
 
   const telefoneOk = !!telefonePT(tel);
   const emailOk = emailValido(email);
-  const ok = ecra === ECRA_CONTACTO ? emailOk && telefoneOk && consentiu : ecraCompleto(ecra, r);
+  const ok =
+    ecra === ECRA_CONTACTO
+      ? emailOk && telefoneOk && consentiu
+      : parteCompleta(ecra, p, r) && (!ultimaParte || ecraCompleto(ecra, r));
 
   function avancar() {
     if (!ok) {
       setTentou(true);
+      return;
+    }
+    if (!ultimaParte) {
+      mudarEcra(ecra, "novo", p + 1);
       return;
     }
     if (ecra === ECRA_ULTIMA_PERGUNTA) {
@@ -331,6 +356,8 @@ export default function Calculadora() {
 
   let tituloEcra = "";
   let sub = "";
+  /** o subtítulo pode esconder-se nos ecrãs muito baixos (.calc-ajuda) */
+  let subSecundario = false;
   let blocos: React.ReactNode = null;
 
   if (ecra === 2) {
@@ -353,7 +380,7 @@ export default function Calculadora() {
       <>
         <Chips opcoes={TEM} valor={r.tem} aoEscolher={escolherVarios("tem")} multi rotuloPadrao={tituloEcra} />
         {temSite(r) ? (
-          <div className="flex flex-col gap-3.5">
+          <div className="flex flex-col gap-[var(--calc-gap-bloco)]">
             <Campo
               rotulo="Endereço do site (opcional)"
               valor={r.site ?? ""}
@@ -363,7 +390,7 @@ export default function Calculadora() {
               inputMode="url"
               maxLength={300}
             />
-            <p className="m-0 text-[13px] leading-[1.45] text-[#c3cde0]">
+            <p className="calc-ajuda m-0 text-[13px] leading-[1.4] text-[#c3cde0]">
               Analisamos o site por si antes de lhe enviarmos o cálculo.
             </p>
           </div>
@@ -389,6 +416,10 @@ export default function Calculadora() {
         ) : null}
       </>
     );
+  } else if (ecra === 5 && p === 1) {
+    // Só para quem anuncia: a pergunta que antes aparecia por baixo, agora a seguir.
+    tituloEcra = "Onde anuncia?";
+    blocos = <Chips opcoes={ONDE} valor={r.onde} aoEscolher={escolherVarios("onde")} multi rotuloPadrao={tituloEcra} />;
   } else if (ecra === 5) {
     tituloEcra = "Como é que os clientes novos o encontram?";
     sub = "Escolha tudo o que se aplica.";
@@ -396,7 +427,6 @@ export default function Calculadora() {
       <>
         <Chips opcoes={CANAIS} valor={r.canais} aoEscolher={escolherVarios("canais")} multi rotuloPadrao={tituloEcra} />
         <Chips opcoes={MKT} valor={r.mkt} aoEscolher={(v) => guardar("mkt", v)} rotulo="Quem trata do marketing hoje?" />
-        {anuncia(r) ? <Chips opcoes={ONDE} valor={r.onde} aoEscolher={escolherVarios("onde")} multi rotulo="Onde anuncia?" /> : null}
       </>
     );
   } else if (ecra === 6) {
@@ -423,34 +453,37 @@ export default function Calculadora() {
         <Chips opcoes={TICKET} valor={r.ticket} aoEscolher={(v) => guardar("ticket", v)} rotulo="Quanto deixa, em média, cada cliente de cada vez?" />
       </>
     );
+  } else if (ecra === 8 && p === 1) {
+    tituloEcra = "Como gere isso hoje?";
+    blocos = <Chips opcoes={GERE} valor={r.gere} aoEscolher={(v) => guardar("gere", v)} rotuloPadrao={tituloEcra} />;
+  } else if (ecra === 8 && p === 2) {
+    // Só com programa próprio ou CRM.
+    tituloEcra = "Que áreas do negócio é que já cobre?";
+    blocos = (
+      <>
+        <Chips opcoes={COBRE} valor={r.cobre} aoEscolher={escolherVarios("cobre")} multi rotuloPadrao={tituloEcra} />
+        <Campo
+          rotulo="Como se chama? (opcional)"
+          valor={r.qualSoft ?? ""}
+          aoMudar={(v) => guardar("qualSoft", v)}
+          ph="Ex.: Moloni, Primavera, HubSpot"
+          maxLength={120}
+        />
+      </>
+    );
   } else if (ecra === 8) {
     tituloEcra = "Onde perde mais tempo todas as semanas?";
     sub = "Escolha pelo menos 2, por ordem: primeiro onde perde mais tempo.";
     blocos = (
-      <>
-        <Chips
-          opcoes={TEMPO}
-          valor={r.tempo}
-          aoEscolher={escolherVarios("tempo")}
-          multi
-          ordem
-          rotuloPadrao={tituloEcra}
-          dica="Toque de novo para tirar. A ordem atualiza-se sozinha."
-        />
-        <Chips opcoes={GERE} valor={r.gere} aoEscolher={(v) => guardar("gere", v)} rotulo="Como gere isso hoje?" />
-        {precisaCobre(r) ? (
-          <>
-            <Chips opcoes={COBRE} valor={r.cobre} aoEscolher={escolherVarios("cobre")} multi rotulo="Que áreas do negócio é que já cobre?" />
-            <Campo
-              rotulo="Como se chama? (opcional)"
-              valor={r.qualSoft ?? ""}
-              aoMudar={(v) => guardar("qualSoft", v)}
-              ph="Ex.: Moloni, Primavera, HubSpot"
-              maxLength={120}
-            />
-          </>
-        ) : null}
-      </>
+      <Chips
+        opcoes={TEMPO}
+        valor={r.tempo}
+        aoEscolher={escolherVarios("tempo")}
+        multi
+        ordem
+        rotuloPadrao={tituloEcra}
+        dica="Toque de novo para tirar. A ordem atualiza-se sozinha."
+      />
     );
   } else if (ecra === 9) {
     tituloEcra = "De 0 a 10, como avalia a organização do dia a dia?";
@@ -496,11 +529,12 @@ export default function Calculadora() {
   } else if (ecra === ECRA_CONTACTO) {
     tituloEcra = "O seu número está pronto";
     sub = "Diga-nos para onde o enviamos. Revela-se no seu email em poucos minutos, com tudo o que encontrámos.";
+    subSecundario = true;
     const bilhete = String(parseInt(sessao.current.replace(/-/g, "").slice(0, 6) || "0", 16) % 10000).padStart(4, "0");
     blocos = (
       <>
         <Bilhete rotulo={`Bilhete N.º ${bilhete} · ${neg || "o seu negócio"}`} />
-        <div className="flex flex-col gap-3.5">
+        <div className="flex flex-col gap-[var(--calc-gap-bloco)]">
           <Campo
             rotulo="Email"
             tipo="email"
@@ -535,10 +569,10 @@ export default function Calculadora() {
             {TEXTO_CONSENTIMENTO}
           </Caixa>
           {tentou && !consentiu ? (
-            <p className="m-0 pl-[34px] text-[13px] text-[#ffc9b8]">Para lhe enviarmos o cálculo, precisamos desta autorização.</p>
+            <p className="m-0 pl-[34px] text-[13px] leading-[1.35] text-[#ffc9b8]">Para lhe enviarmos o cálculo, precisamos desta autorização.</p>
           ) : null}
         </div>
-        <p className="m-0 text-[13px] leading-[1.45] text-[#c3cde0]">
+        <p className="m-0 text-[13px] leading-[1.4] text-[#c3cde0] [@media(max-height:700px)]:text-[12px]">
           Os seus dados não são vendidos nem cedidos a terceiros.{" "}
           <button type="button" onClick={() => abrirPrivacidade()} className="cursor-pointer text-[#f0d089] underline underline-offset-2 hover:text-[#ffe7b0]">
             Ler a política de privacidade
@@ -551,14 +585,15 @@ export default function Calculadora() {
 
   const naCapa = ecra === 0;
   const noFormulario = (ecra >= ECRA_PRIMEIRA_PERGUNTA && ecra <= ECRA_ULTIMA_PERGUNTA) || ecra === ECRA_CONTACTO;
-  const pct = noFormulario ? progresso(ecra === ECRA_CONTACTO ? 12 : ecra) : 0;
+  // As partes de um ecrã avançam a barra aos bocadinhos, até ao ecrã seguinte.
+  const pct = noFormulario ? progresso(ecra === ECRA_CONTACTO ? 12 : ecra + p / partes) : 0;
   const dicaBarra =
     ecra >= 2 && ecra <= 3 ? "Cerca de 3 minutos" : (ecra >= 10 && ecra <= 11) || ecra === ECRA_CONTACTO ? "Quase a terminar" : "";
   const textoBotao =
     ecra === ECRA_CONTACTO ? (enviando ? "A enviar…" : "Enviar e revelar o meu número") : ecra === ECRA_ULTIMA_PERGUNTA ? "Calcular o meu número" : "Continuar";
 
   return (
-    <div className="calc-raiz relative min-h-[100svh]">
+    <div className="calc-raiz relative min-h-[100svh]" data-preso={naCapa ? undefined : ""}>
       <div className="calc-fundo" aria-hidden="true">
         <svg>
           <filter id="calc-grao">
@@ -582,8 +617,11 @@ export default function Calculadora() {
       ) : null}
 
       {noFormulario ? (
-        <main className="fixed inset-0 z-10 flex flex-col pt-[env(safe-area-inset-top)]">
-          <div className="flex h-14 shrink-0 items-center justify-between px-1.5 md:px-4">
+        // Preso ao ecrã: cabeçalho em cima, botão em baixo e a pergunta no meio.
+        // O meio ainda pode rolar, só como rede de segurança (teclado aberto,
+        // telemóvel deitado); no estado normal cada passo cabe sem scroll.
+        <main className="fixed inset-0 z-10 flex flex-col overflow-hidden pt-[env(safe-area-inset-top)]">
+          <div className="flex h-[var(--calc-topo)] shrink-0 items-center justify-between px-1.5 md:px-4">
             <button
               type="button"
               aria-label="Voltar à pergunta anterior"
@@ -616,35 +654,37 @@ export default function Calculadora() {
           >
             <div className="h-1 bg-[#d4af60] transition-[width] duration-700 ease-[cubic-bezier(.2,.8,.2,1)]" style={{ width: `${pct}%` }} />
           </div>
-          <p className="mx-auto mb-0 mt-1.5 min-h-4 w-full max-w-[608px] px-6 text-right text-[12px] text-[#c3cde0]">{dicaBarra}</p>
+          <p className="calc-ajuda mx-auto mb-0 mt-1 min-h-4 w-full max-w-[608px] px-[var(--calc-margem)] text-right text-[12px] leading-4 text-[#c3cde0]">{dicaBarra}</p>
 
           <form onSubmit={ecra === ECRA_CONTACTO ? enviar : submeterPergunta} className="flex min-h-0 flex-1 flex-col" noValidate>
             <div ref={corpo} data-lenis-prevent className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-              <div className="relative mx-auto flex w-full max-w-[608px] flex-col gap-[26px] px-6 pb-6 pt-3.5">
-                <div className="flex flex-col gap-2.5">
+              <div className="relative mx-auto flex w-full max-w-[608px] flex-col gap-[var(--calc-gap)] px-[var(--calc-margem)] pb-[var(--calc-corpo-pb)] pt-[var(--calc-corpo-pt)]">
+                <div className="flex flex-col gap-2 [@media(max-height:700px)]:gap-1">
                   <h2
                     ref={titulo}
                     tabIndex={-1}
-                    className="calc-display m-0 text-[28px] font-[650] leading-[1.12] tracking-[-0.6px] outline-none md:text-[32px]"
+                    className="calc-display m-0 text-[length:var(--calc-titulo)] font-[650] leading-[1.12] tracking-[-0.6px] outline-none"
                   >
                     {tituloEcra}
                   </h2>
-                  {sub ? <p className="m-0 text-[15px] leading-[1.5] text-[#c3cde0]">{sub}</p> : null}
+                  {sub ? (
+                    <p className={`m-0 text-[length:var(--calc-sub)] leading-[1.4] text-[#c3cde0] ${subSecundario ? "calc-ajuda" : ""}`}>{sub}</p>
+                  ) : null}
                 </div>
                 {blocos}
               </div>
             </div>
             {/* Sem fundo próprio: uma faixa mais escura aqui ficava a fazer degrau com a
                 barra do browser, que mostra a cor de base da página. */}
-            <div className="shrink-0 border-t border-[rgba(238,242,249,0.12)] pb-[max(24px,env(safe-area-inset-bottom))] pt-3">
-              <div className="mx-auto w-full max-w-[608px] px-6">
+            <div className="shrink-0 border-t border-[rgba(238,242,249,0.12)] pb-[max(var(--calc-rodape-pb),env(safe-area-inset-bottom))] pt-[var(--calc-rodape-pt)]">
+              <div className="mx-auto w-full max-w-[608px] px-[var(--calc-margem)]">
                 <p aria-live="polite" className="m-0 empty:hidden mb-2 text-center text-[13px] text-[#ffc9b8]">
                   {erroEnvio || (tentou && !ok && ecra !== ECRA_CONTACTO ? "Responda às perguntas deste passo para continuar." : "")}
                 </p>
                 <button
                   type="submit"
                   aria-disabled={!ok || enviando}
-                  className={`h-14 w-full cursor-pointer rounded-[4px] border-0 text-[17px] font-bold transition-colors ${
+                  className={`h-[var(--calc-botao-h)] w-full cursor-pointer rounded-[4px] border-0 text-[17px] font-bold transition-colors ${
                     ok && !enviando ? "bg-[#d4af60] text-[#05070e] hover:bg-[#e2c47e]" : "bg-[rgba(8,16,38,0.45)] text-[#9fadc8]"
                   }`}
                 >
@@ -657,13 +697,13 @@ export default function Calculadora() {
       ) : null}
 
       {ecra === ECRA_CALCULO ? (
-        <main className="fixed inset-0 z-10 flex flex-col items-center justify-center overflow-y-auto px-7 pb-[max(32px,env(safe-area-inset-bottom))] pt-[max(32px,env(safe-area-inset-top))]">
-          <div className="flex w-full max-w-[480px] flex-col items-center gap-[30px]">
-            <div className="calc-girar box-border flex h-28 w-28 items-center justify-center rounded-full border-[5px] border-dashed border-[#d4af60] bg-[#0c1a36] shadow-[0_14px_36px_rgba(4,10,30,0.55)]" aria-hidden="true">
-              <span className="font-wordmark text-[34px] font-semibold text-[#f0d089]">P.</span>
+        <main className="fixed inset-0 z-10 flex flex-col items-center justify-center overflow-y-auto px-[var(--calc-margem)] pb-[max(16px,env(safe-area-inset-bottom))] pt-[max(16px,env(safe-area-inset-top))]">
+          <div className="flex w-full max-w-[480px] flex-col items-center gap-[clamp(14px,3.5dvh,30px)]">
+            <div className="calc-girar box-border flex h-[var(--calc-roda)] w-[var(--calc-roda)] items-center justify-center rounded-full border-[5px] border-dashed border-[#d4af60] bg-[#0c1a36] shadow-[0_14px_36px_rgba(4,10,30,0.55)]" aria-hidden="true">
+              <span className="font-wordmark text-[34px] font-semibold text-[#f0d089] [@media(max-height:700px)]:text-[26px]">P.</span>
             </div>
             <div className="flex flex-col items-center gap-2 text-center">
-              <h2 ref={titulo} tabIndex={-1} className="calc-display m-0 text-[30px] font-bold tracking-[-0.6px] outline-none">
+              <h2 ref={titulo} tabIndex={-1} className="calc-display m-0 text-[clamp(24px,4.2dvh,30px)] font-bold leading-[1.15] tracking-[-0.6px] outline-none">
                 A calcular o seu <span className="text-[#e2c47e]">número…</span>
               </h2>
               <p className="m-0 text-[15px] text-[#c3cde0]">{neg ? `Com as respostas sobre ${neg}.` : "Com as suas respostas."}</p>
@@ -673,7 +713,7 @@ export default function Calculadora() {
                 const feito = passo > i;
                 const atual = passo === i;
                 return (
-                  <li key={t} className="flex items-center gap-3.5 border-b border-[rgba(238,242,249,0.15)] py-3.5">
+                  <li key={t} className="flex items-center gap-3.5 border-b border-[rgba(238,242,249,0.15)] py-[clamp(8px,1.8dvh,14px)]">
                     <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center" aria-hidden="true">
                       {feito ? (
                         <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-[#d4af60] text-[#05070e]">
@@ -698,16 +738,17 @@ export default function Calculadora() {
       ) : null}
 
       {ecra === ECRA_OBRIGADO ? (
-        <main className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-[608px] flex-col gap-5 px-6 pb-[max(32px,env(safe-area-inset-bottom))] pt-[calc(28px_+_env(safe-area-inset-top))]">
-          <Logotipo className="text-center text-[26px] tracking-[3px]" />
-          <div className="flex flex-1 flex-col justify-center gap-[22px]">
-            <div className="box-border flex h-16 w-16 items-center justify-center rounded-full border-4 border-dashed border-[#d4af60] bg-[#0c1a36] text-[#f0d089]" aria-hidden="true">
+        <main className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="mx-auto flex min-h-full w-full max-w-[608px] flex-col gap-[clamp(10px,2.4dvh,20px)] px-[var(--calc-margem)] pb-[max(clamp(12px,3dvh,32px),env(safe-area-inset-bottom))] pt-[calc(clamp(12px,3.3dvh,28px)_+_env(safe-area-inset-top))]">
+          <Logotipo className="text-center text-[26px] tracking-[3px] [@media(max-height:700px)]:text-[22px]" />
+          <div className="flex flex-1 flex-col justify-center gap-[clamp(10px,2.6dvh,22px)]">
+            <div className="box-border flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-4 border-dashed border-[#d4af60] bg-[#0c1a36] text-[#f0d089] [@media(max-height:700px)]:h-12 [@media(max-height:700px)]:w-12" aria-hidden="true">
               <Visto tamanho={26} />
             </div>
-            <h2 ref={titulo} tabIndex={-1} className="calc-display m-0 text-[34px] font-bold leading-[1.08] tracking-[-0.8px] outline-none">
+            <h2 ref={titulo} tabIndex={-1} className="calc-display m-0 text-[clamp(26px,4.4dvh,34px)] font-bold leading-[1.08] tracking-[-0.8px] outline-none">
               {`Obrigado${primeiroNome ? `, ${primeiroNome}` : ""}.`}
             </h2>
-            <p className="m-0 text-[16px] leading-[1.5] text-[#d3dbea]">
+            <p className="m-0 text-[16px] leading-[1.45] text-[#d3dbea] [@media(max-height:700px)]:text-[15px]">
               {`O seu número${neg ? ` para ${neg}` : ""} vai a caminho de ${email.trim() || "o seu email"}.`}
             </p>
             <dl className="m-0 flex flex-col border-t border-[rgba(238,242,249,0.15)]">
@@ -716,9 +757,9 @@ export default function Calculadora() {
                 ["Junto", "O que encontrámos no Google, no site e nos anúncios"],
                 ["Se quiser", "Uma conversa de 20 minutos, sem compromisso"],
               ].map(([q, t]) => (
-                <div key={q} className="flex gap-3.5 border-b border-[rgba(238,242,249,0.15)] py-3.5">
+                <div key={q} className="flex gap-3.5 border-b border-[rgba(238,242,249,0.15)] py-[clamp(7px,1.6dvh,14px)]">
                   <dt className="w-[72px] shrink-0 text-[12px] font-semibold uppercase tracking-[2px] text-[#e2c47e]">{q}</dt>
-                  <dd className="m-0 text-[15px] leading-[1.4]">{t}</dd>
+                  <dd className="m-0 text-[15px] leading-[1.35] [@media(max-height:700px)]:text-[14px]">{t}</dd>
                 </div>
               ))}
             </dl>
@@ -729,13 +770,14 @@ export default function Calculadora() {
               target="_blank"
               rel="noopener noreferrer"
               data-calc-botao
-              className="flex h-14 items-center justify-center rounded-[4px] bg-[#d4af60] text-[17px] font-bold text-[#05070e] no-underline transition-colors hover:bg-[#e2c47e]"
+              className="flex h-[var(--calc-botao-h)] items-center justify-center rounded-[4px] bg-[#d4af60] text-[17px] font-bold text-[#05070e] no-underline transition-colors hover:bg-[#e2c47e]"
             >
               Marcar já a conversa
             </a>
             <a href="/" data-calc-botao className="flex h-11 items-center justify-center text-[14px] text-[#c3cde0] no-underline hover:text-[#eef2f9]">
               Voltar ao site
             </a>
+          </div>
           </div>
         </main>
       ) : null}

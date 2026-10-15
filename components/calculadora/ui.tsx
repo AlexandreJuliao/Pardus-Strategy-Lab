@@ -68,34 +68,30 @@ export function Bloco({
   rotuloId?: string;
 }) {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-[var(--calc-gap-bloco)]">
       {rotulo ? (
-        <p id={rotuloId} className="m-0 text-[15px] font-semibold leading-[1.4] text-[#eef2f9]">
+        <p id={rotuloId} className="m-0 text-[length:var(--calc-rotulo)] font-semibold leading-[1.35] text-[#eef2f9]">
           {rotulo}
         </p>
       ) : null}
       {children}
-      {dica ? <p className="m-0 text-[13px] leading-[1.45] text-[#c3cde0]">{dica}</p> : null}
+      {dica ? <p className="calc-ajuda m-0 text-[13px] leading-[1.4] text-[#c3cde0]">{dica}</p> : null}
     </div>
   );
 }
 
 /**
- * Quantas colunas de grelha ocupa cada opção, para as linhas ficarem sempre
- * cheias: no telemóvel, 2 colunas e a última sozinha ocupa a linha toda; nos
- * ecrãs largos (sm, 640px), 3 por linha quando as opções são curtas, com as
- * que sobram a dividir a última linha entre si (a grelha larga tem 6 colunas:
- * 2 cada uma por linha de 3, 3 cada uma se sobrarem 2, 6 se sobrar 1).
- * As classes estão escritas por extenso para o Tailwind as encontrar.
+ * As marcas de cada opção para a grelha (.calc-grelha em calculadora.css), para
+ * as linhas ficarem sempre cheias: com 2 colunas, a última sozinha ocupa a
+ * linha toda (calc-so); com 3 (opções curtas, em ecrãs largos ou telemóveis
+ * baixos), as que sobram dividem a última linha entre si (calc-r2, calc-r1).
  */
-function vaosDaGrelha(total: number, i: number, tresLargas: boolean): string {
-  const sozinhaNoFim = total % 2 === 1 && i === total - 1;
-  const telemovel = sozinhaNoFim ? "col-span-2" : "";
-  if (!tresLargas) return sozinhaNoFim ? "col-span-2 sm:col-span-6" : "sm:col-span-3";
+function vaosDaGrelha(total: number, i: number): string {
+  const marcas: string[] = [];
+  if (total % 2 === 1 && i === total - 1) marcas.push("calc-so");
   const resto = total % 3;
-  const naUltimaLinha = resto > 0 && i >= total - resto;
-  const largo = !naUltimaLinha ? "sm:col-span-2" : resto === 2 ? "sm:col-span-3" : "sm:col-span-6";
-  return `${telemovel} ${largo}`;
+  if (resto > 0 && i >= total - resto) marcas.push(resto === 2 ? "calc-r2" : "calc-r1");
+  return marcas.join(" ");
 }
 
 /**
@@ -112,12 +108,12 @@ function semPartirNoHifen(texto: string): React.ReactNode {
   ));
 }
 
-/** Opções curtas (até 18 letras) cabem 3 por linha nos ecrãs largos sem quebrar. */
+/** Opções curtas (até 18 letras) cabem 3 por linha sem partir palavras. */
 const CURTA = 18;
 
 /**
- * Botões de escolha, em grelha: 2 colunas no telemóvel, 3 nos ecrãs largos
- * quando as opções são curtas; cada linha com a altura da opção mais alta.
+ * Botões de escolha, em grelha: 2 colunas, ou 3 quando as opções são curtas e
+ * o ecrã é largo ou baixo; cada linha com a altura da opção mais alta.
  * Com `multi`, tocar de novo tira; com `ordem`, cada botão escolhido mostra a
  * posição em que foi tocado.
  */
@@ -150,7 +146,8 @@ export function Chips({
         role="group"
         aria-labelledby={rotulo ? id : undefined}
         aria-label={rotulo ? undefined : rotuloPadrao}
-        className="grid grid-cols-2 gap-2 sm:grid-cols-6"
+        className="calc-grelha"
+        data-curtas={tresLargas ? "" : undefined}
       >
         {opcoes.map((o, i) => {
           const sel = multi ? lista.includes(o) : valor === o;
@@ -161,7 +158,7 @@ export function Chips({
               type="button"
               aria-pressed={sel}
               onClick={() => aoEscolher(o)}
-              className={`flex min-h-[52px] min-w-0 cursor-pointer items-center gap-2 break-words rounded-[4px] border px-3.5 py-2.5 text-left text-[15px] font-medium leading-[1.3] transition-colors ${vaosDaGrelha(opcoes.length, i, tresLargas)} ${sel ? ON : OFF}`}
+              className={`calc-op flex min-w-0 cursor-pointer items-center gap-2 break-words rounded-[4px] border text-left font-medium leading-[1.25] transition-colors ${vaosDaGrelha(opcoes.length, i)} ${sel ? ON : OFF}`}
             >
               {pos > 0 ? (
                 <>
@@ -197,8 +194,8 @@ export function Escala({
   rotulo: string;
 }) {
   return (
-    <div className="flex flex-col gap-3">
-      <div role="group" aria-label={`${rotulo} (${min}; ${max})`} className="grid grid-cols-6 gap-2">
+    <div className="flex flex-col gap-[var(--calc-gap-bloco)]">
+      <div role="group" aria-label={`${rotulo} (${min}; ${max})`} className="grid grid-cols-6 gap-[var(--calc-gap-op)]">
         {Array.from({ length: 11 }, (_, n) => {
           const sel = valor === n;
           return (
@@ -207,7 +204,7 @@ export function Escala({
               type="button"
               aria-pressed={sel}
               onClick={() => aoEscolher(n)}
-              className={`calc-display h-[52px] cursor-pointer rounded-[4px] border text-[20px] font-semibold transition-colors ${sel ? ON : OFF}`}
+              className={`calc-display h-[var(--calc-op-h)] cursor-pointer rounded-[4px] border text-[20px] font-semibold transition-colors ${sel ? ON : OFF}`}
             >
               {n}
             </button>
@@ -236,8 +233,8 @@ export function AreaTexto({
   const id = useId();
   const dicaId = `${id}-dica`;
   return (
-    <div className="flex flex-col gap-3">
-      <label htmlFor={id} className="m-0 text-[15px] font-semibold leading-[1.4] text-[#eef2f9]">
+    <div className="flex flex-col gap-[var(--calc-gap-bloco)]">
+      <label htmlFor={id} className="m-0 text-[length:var(--calc-rotulo)] font-semibold leading-[1.35] text-[#eef2f9]">
         {rotulo}
       </label>
       <textarea
@@ -248,9 +245,9 @@ export function AreaTexto({
         rows={3}
         maxLength={500}
         aria-describedby={dicaId}
-        className="resize-none rounded-[4px] border border-[rgba(238,242,249,0.25)] bg-[rgba(8,16,38,0.4)] px-3.5 py-3 text-[16px] leading-[1.45] text-[#eef2f9] placeholder:text-[#93a3c2]"
+        className="h-[var(--calc-area-h)] resize-none rounded-[4px] border border-[rgba(238,242,249,0.25)] bg-[rgba(8,16,38,0.4)] px-3.5 py-2.5 text-[16px] leading-[1.45] text-[#eef2f9] placeholder:text-[#93a3c2]"
       />
-      <p id={dicaId} className="m-0 text-[13px] leading-[1.45] text-[#c3cde0]">
+      <p id={dicaId} className="calc-ajuda m-0 text-[13px] leading-[1.4] text-[#c3cde0]">
         Opcional, mas é o que mais nos ajuda a preparar o seu cálculo.
       </p>
     </div>
@@ -276,7 +273,7 @@ export function Cartoes({
   lado?: boolean;
 }) {
   return (
-    <div role="group" aria-label={rotuloPadrao} className={`grid grid-cols-1 gap-2.5 ${lado ? "sm:grid-cols-3" : ""}`}>
+    <div role="group" aria-label={rotuloPadrao} className={`grid grid-cols-1 gap-[var(--calc-gap-op)] ${lado ? "sm:grid-cols-3" : ""}`}>
       {opcoes.map(([rot, sub]) => {
         const sel = valor === rot;
         return (
@@ -285,11 +282,11 @@ export function Cartoes({
             type="button"
             aria-pressed={sel}
             onClick={() => aoEscolher(rot)}
-            className={`flex min-h-[56px] min-w-0 cursor-pointer flex-col items-start justify-center gap-1 break-words rounded-[4px] border px-4 py-3.5 text-left text-[#eef2f9] transition-colors ${
+            className={`flex min-h-[var(--calc-cartao-h)] min-w-0 cursor-pointer flex-col items-start justify-center gap-0.5 break-words rounded-[4px] border px-4 py-[var(--calc-cartao-py)] text-left text-[#eef2f9] transition-colors ${
               sel ? "border-[#d4af60] bg-[rgba(212,175,96,0.2)]" : "border-[rgba(238,242,249,0.25)] bg-[rgba(8,16,38,0.4)] hover:border-[rgba(238,242,249,0.45)]"
             }`}
           >
-            <span className="text-[16px] font-semibold leading-[1.3]">{rot}</span>
+            <span className="text-[length:var(--calc-cartao-fs)] font-semibold leading-[1.3]">{rot}</span>
             {sub ? <span className={`text-[13px] ${sel ? "text-[#f3dc9f]" : "text-[#c3cde0]"}`}>{sub}</span> : null}
           </button>
         );
@@ -306,7 +303,7 @@ export function Campo({
   tipo = "text",
   autoComplete,
   inputMode,
-  altura = 52,
+  altura = "var(--calc-campo-h)",
   erro,
   maxLength = 200,
   inputRef,
@@ -318,14 +315,15 @@ export function Campo({
   tipo?: "text" | "email" | "tel";
   autoComplete?: string;
   inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
-  altura?: number;
+  /** px, ou uma medida CSS (por omissão, a altura dos campos do formulário) */
+  altura?: number | string;
   erro?: string;
   maxLength?: number;
   inputRef?: React.Ref<HTMLInputElement>;
 }) {
   const id = useId();
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-[5px]">
       <label htmlFor={id} className="text-[13px] font-semibold text-[#d3dbea]">
         {rotulo}
       </label>
@@ -372,7 +370,7 @@ export function Caixa({
         onChange={(e) => aoMudar(e.target.checked)}
         className="mt-0.5 h-[22px] w-[22px] shrink-0 cursor-pointer accent-[#d4af60]"
       />
-      <span className="text-[14px] leading-[1.5] text-[#d3dbea]">{children}</span>
+      <span className="text-[14px] leading-[1.45] text-[#d3dbea] [@media(max-height:700px)]:text-[13px] [@media(max-height:700px)]:leading-[1.4]">{children}</span>
     </label>
   );
 }
@@ -390,7 +388,7 @@ export function Cadeado() {
 export function Bilhete({ rotulo }: { rotulo: string }) {
   return (
     <div
-      className="relative h-[112px] overflow-hidden rounded-[6px]"
+      className="relative h-[var(--calc-bilhete-h)] shrink-0 overflow-hidden rounded-[6px]"
       style={{ background: "linear-gradient(130deg, #a17834 0%, #e8c77e 30%, #f7e2a8 46%, #c79c4b 66%, #efd394 100%)" }}
       role="img"
       aria-label={`${rotulo}: o valor revela-se no seu email`}
@@ -409,9 +407,9 @@ export function Bilhete({ rotulo }: { rotulo: string }) {
       <div className="absolute inset-0 flex items-center justify-between px-[22px] text-[#2e1f08]">
         <div className="flex min-w-0 flex-col gap-1">
           <p className="m-0 truncate text-[10px] font-bold uppercase tracking-[2.5px]">{rotulo}</p>
-          <p className="calc-display m-0 text-[30px] font-bold">?.??? €</p>
+          <p className="calc-display m-0 text-[length:var(--calc-bilhete-fs)] font-bold leading-[1.1]">?.??? €</p>
         </div>
-        <div className="box-border flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-[3px] border-dashed border-[#d4af60] bg-[#0c1a36] text-[#f0d089]">
+        <div className="box-border flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-[3px] border-dashed border-[#d4af60] bg-[#0c1a36] text-[#f0d089] [@media(max-height:620px)]:h-10 [@media(max-height:620px)]:w-10">
           <Cadeado />
         </div>
       </div>

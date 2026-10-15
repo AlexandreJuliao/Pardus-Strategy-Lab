@@ -9,6 +9,8 @@ import {
   limparEvento,
   limparRespostas,
   limparUtm,
+  parteCompleta,
+  partesDoEcra,
   progresso,
   telefonePT,
 } from "../lib/calculadora.ts";
@@ -138,4 +140,28 @@ test("eventos: sem dados pessoais, ecrã só de 2 a 13, lead_id só no concluiu"
 
 test("utm: só as cinco chaves", () => {
   assert.deepEqual(limparUtm({ source: "meta", campaign: "calc", fbclid: "x", term: "" }), { source: "meta", campaign: "calc" });
+});
+
+test("partes: o 5 e o 8 mostram-se em partes, que juntas pedem o mesmo que o ecrã inteiro", () => {
+  assert.equal(partesDoEcra(2, {}), 1);
+  assert.equal(partesDoEcra(5, { canais: ["Recomendações"] }), 1);
+  assert.equal(partesDoEcra(5, { canais: ["Anúncios pagos"] }), 2);
+  assert.equal(partesDoEcra(8, { gere: "WhatsApp" }), 2);
+  assert.equal(partesDoEcra(8, { gere: "Um CRM" }), 3);
+
+  assert.equal(parteCompleta(5, 0, { canais: ["Anúncios pagos"] }), false);
+  assert.equal(parteCompleta(5, 0, { canais: ["Anúncios pagos"], mkt: "Sou eu" }), true);
+  assert.equal(parteCompleta(5, 1, { canais: ["Anúncios pagos"], mkt: "Sou eu" }), true); // «onde» é opcional
+  assert.equal(parteCompleta(8, 0, { tempo: ["Faturação e cobranças"] }), false);
+  assert.equal(parteCompleta(8, 0, { tempo: ["Faturação e cobranças", "Marcações e agenda"] }), true);
+  assert.equal(parteCompleta(8, 1, {}), false);
+  assert.equal(parteCompleta(8, 1, { gere: "Um CRM" }), true);
+  assert.equal(parteCompleta(8, 2, { gere: "Um CRM" }), false);
+  assert.equal(parteCompleta(8, 2, { gere: "Um CRM", cobre: ["Faturação"] }), true);
+  assert.equal(parteCompleta(7, 0, { volume: "Até 20" }), false);
+
+  // todas as partes completas ⇒ o ecrã completo (o que o servidor exige)
+  const r = { tempo: ["Faturação e cobranças", "Marcações e agenda"], gere: "Um CRM", cobre: ["Faturação"] };
+  for (let p = 0; p < partesDoEcra(8, r); p++) assert.equal(parteCompleta(8, p, r), true);
+  assert.equal(ecraCompleto(8, r), true);
 });
