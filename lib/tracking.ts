@@ -64,3 +64,30 @@ export function trackFormInvalid(origem: string, campos: string[]) {
   if (typeof window === "undefined") return;
   window.posthog?.capture?.("formulario_incompleto", { origem, campos });
 }
+
+// ── Calculadora de Crescimento ──────────────────────────────────────────────
+// Funções à parte das do formulário de consultoria, para o caminho antigo não
+// mudar. As mesmas regras: só com «Aceitar» no aviso de cookies.
+
+/** Quem carregou em «Começar o diagnóstico» (evento próprio no Pixel e no GA4). */
+export function trackCalculadoraInicio() {
+  if (typeof window === "undefined" || lerEscolha() !== "aceite") return;
+  window.fbq?.("trackCustom", "CalculadoraInicio");
+  window.gtag?.("event", "calculadora_inicio");
+}
+
+/**
+ * Envio concluído na Calculadora: evento standard "Lead" com o mesmo eventId
+ * que o servidor manda à API de Conversões, para a Meta deduplicar.
+ */
+export async function trackCalculadoraLead(eventId: string) {
+  if (typeof window === "undefined" || lerEscolha() !== "aceite") return;
+  window.fbq?.(
+    "track",
+    "Lead",
+    { content_name: "Calculadora de Crescimento", content_category: "Calculadora de Crescimento" },
+    { eventID: eventId },
+  );
+  window.gtag?.("event", "generate_lead", { form_origem: "calculadora" });
+  await new Promise((r) => setTimeout(r, 400));
+}

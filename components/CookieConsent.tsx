@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import Button from "@/components/ui/Button";
 import {
   EVENTO_DEFINICOES,
@@ -23,6 +24,9 @@ import {
  * - Não tapa o site nem prende o foco: dá para ler e navegar com ele aberto.
  */
 export default function CookieConsent() {
+  // A Calculadora usa o tratamento formal («o seu negócio») e não tem rodapé
+  // (as «Definições de cookies» estão na política, que lá abre numa janela).
+  const formal = usePathname()?.startsWith("/calculadora") ?? false;
   const [aberto, setAberto] = useState(false);
   const [atual, setAtual] = useState<Escolha | null>(null);
   const caixa = useRef<HTMLElement>(null);
@@ -81,10 +85,21 @@ export default function CookieConsent() {
       </div>
 
       <p id="cookies-texto" className="font-sans text-[13.5px] leading-relaxed text-text-secondary">
-        Usamos o essencial para o site funcionar. Se aceitares, usamos também o
-        Meta Pixel e o Google Analytics para medir visitas e anúncios e para
-        mostrar os nossos anúncios a quem já nos visitou. Podes mudar de ideias
-        quando quiseres em «Definições de cookies», no rodapé.{" "}
+        {formal ? (
+          <>
+            Usamos o essencial para o site funcionar. Se aceitar, usamos também
+            o Meta Pixel e o Google Analytics para medir visitas e anúncios e
+            para mostrar os nossos anúncios a quem já nos visitou. Pode mudar de
+            ideias quando quiser, na secção Cookies da política de privacidade.{" "}
+          </>
+        ) : (
+          <>
+            Usamos o essencial para o site funcionar. Se aceitares, usamos também o
+            Meta Pixel e o Google Analytics para medir visitas e anúncios e para
+            mostrar os nossos anúncios a quem já nos visitou. Podes mudar de ideias
+            quando quiseres em «Definições de cookies», no rodapé.{" "}
+          </>
+        )}
         <a
           href="/privacidade#cookies"
           className="text-gold underline underline-offset-2 hover:text-gold-bright"
@@ -95,7 +110,8 @@ export default function CookieConsent() {
 
       {atual ? (
         <p className="mt-3 font-sans text-[12.5px] text-text-muted">
-          Escolha atual: {atual === "aceite" ? "aceitaste" : "recusaste"}.
+          Escolha atual:{" "}
+          {formal ? (atual === "aceite" ? "aceitou" : "recusou") : atual === "aceite" ? "aceitaste" : "recusaste"}.
         </p>
       ) : null}
 
