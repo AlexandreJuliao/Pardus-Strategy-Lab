@@ -44,6 +44,7 @@ export default function LeadForm({
   negocioPlaceholder = "Ex.: Clínica Sorriso, Imobiliária Horizonte…",
   thanksPath,
   steps = STEPS,
+  layout = "split",
 }: {
   /** Vai no evento Lead (content_name) e na coluna "origem" da folha */
   origem?: string;
@@ -62,7 +63,68 @@ export default function LeadForm({
    */
   thanksPath?: string;
   steps?: PassoConversa[];
+  /** "center": título por cima, formulário ao centro e os passos por baixo */
+  layout?: "split" | "center";
 } = {}) {
+  const center = layout === "center";
+  const trust = ["Sem custo", "Sem compromisso", "Resposta em 24h"];
+
+  if (center) {
+    return (
+      <section
+        id="consultoria"
+        className="relative scroll-mt-24 overflow-hidden border-y border-line bg-bg-2/50 section-pad"
+      >
+        <AuroraGlow variant="cta" />
+        <div className="shell relative z-10 flex flex-col items-center">
+          <SectionHeader title={title} intro={intro} align="center" />
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            {trust.map((t) => (
+              <span key={t} className="flex items-center gap-2">
+                <Check size={14} strokeWidth={2.6} className="text-gold" />
+                <span className="font-sans text-[13.5px] text-text-secondary">{t}</span>
+              </span>
+            ))}
+          </div>
+
+          <div id="consultoria-form" className="mt-10 w-full max-w-2xl">
+            <LeadFormCard
+              origem={origem}
+              formTitle={formTitle}
+              promessa={promessa}
+              cta={cta}
+              negocioPlaceholder={negocioPlaceholder}
+              thanksPath={thanksPath}
+            />
+          </div>
+
+          <div className="mt-14 grid w-full max-w-5xl grid-cols-1 gap-8 sm:grid-cols-3">
+            {steps.map((s, i) => {
+              const Icon = ICONES[s.icon];
+              return (
+                <motion.div
+                  key={s.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex flex-col items-center gap-3 text-center"
+                >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[4px] border border-line bg-white/[0.02] text-gold">
+                    <Icon size={18} strokeWidth={1.7} />
+                  </span>
+                  <p className="font-sans text-[15px] font-medium text-text-primary">{s.title}</p>
+                  <p className="font-sans text-sm leading-relaxed text-text-secondary">{s.desc}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       id="consultoria"
@@ -107,7 +169,7 @@ export default function LeadForm({
           </div>
 
           <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-2">
-            {["Sem custo", "Sem compromisso", "Resposta em 24h"].map((t) => (
+            {trust.map((t) => (
               <span key={t} className="flex items-center gap-2">
                 <Check size={14} strokeWidth={2.6} className="text-gold" />
                 <span className="font-sans text-[13.5px] text-text-secondary">{t}</span>

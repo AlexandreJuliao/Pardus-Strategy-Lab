@@ -1,21 +1,21 @@
-import Hero from "@/components/sections/Hero";
-import Manifesto from "@/components/sections/Manifesto";
-import Marquee from "@/components/sections/Marquee";
-import Services from "@/components/sections/Services";
-import Capabilities from "@/components/sections/Capabilities";
-import StatementBand from "@/components/sections/StatementBand";
-import Process from "@/components/sections/Process";
-import StackTech from "@/components/sections/StackTech";
-import TechShowcase from "@/components/sections/TechShowcase";
-import Numbers from "@/components/sections/Numbers";
-import WordmarkStrip from "@/components/sections/WordmarkStrip";
-import SectionHeader from "@/components/ui/SectionHeader";
-import ProjectsGrid from "@/components/sections/ProjectsGrid";
-import WhyPardus from "@/components/sections/WhyPardus";
-import Pricing from "@/components/sections/Pricing";
+import "@/components/home/home.css";
+import IntroHome from "@/components/home/IntroHome";
+import HeroHome from "@/components/home/HeroHome";
+import ManifestoHome from "@/components/home/ManifestoHome";
+import MarqueeHome from "@/components/home/MarqueeHome";
+import ServicosHome from "@/components/home/ServicosHome";
+import CapacidadesHome from "@/components/home/CapacidadesHome";
+import FaixaHome from "@/components/home/FaixaHome";
+import ProcessoHome from "@/components/home/ProcessoHome";
+import TecnologiaHome from "@/components/home/TecnologiaHome";
+import AoVivoHome from "@/components/home/AoVivoHome";
+import ProjetosHome from "@/components/home/ProjetosHome";
+import PorqueHome from "@/components/home/PorqueHome";
+import MarcacaoHome from "@/components/home/MarcacaoHome";
+import PrecosHome from "@/components/home/PrecosHome";
+import EquipaHome from "@/components/home/EquipaHome";
+import FechoHome from "@/components/home/FechoHome";
 import FAQ from "@/components/sections/FAQ";
-import About from "@/components/sections/About";
-import Team from "@/components/sections/Team";
 import LeadForm from "@/components/sections/LeadForm";
 import MobileContactFab from "@/components/layout/MobileContactFab";
 import JsonLd from "@/components/seo/JsonLd";
@@ -27,6 +27,10 @@ import {
 } from "@/lib/schema";
 import { FAQ_ITEMS } from "@/lib/faq";
 
+// «Ficamos presos à vossa tecnologia?» já tem resposta em grande na secção da
+// equipa; aqui não se repete (nem no schema, que tem de bater com o ecrã).
+const HOME_FAQ = FAQ_ITEMS.filter((i) => !i.q.startsWith("Ficamos presos"));
+
 export default function HomePage() {
   return (
     <>
@@ -35,63 +39,35 @@ export default function HomePage() {
           organizationSchema,
           websiteSchema,
           serviceCatalogSchema,
-          faqSchema(FAQ_ITEMS),
+          faqSchema(HOME_FAQ),
         ]}
       />
-      <Hero />
-      <Manifesto />
-      <Marquee />
-      <Services />
-      <Capabilities />
-
-      <StatementBand
-        tone="gold"
+      <IntroHome />
+      <HeroHome />
+      <ManifestoHome />
+      <MarqueeHome />
+      <ServicosHome />
+      <CapacidadesHome />
+      <FaixaHome />
+      <ProcessoHome />
+      <TecnologiaHome />
+      <AoVivoHome />
+      <ProjetosHome />
+      <PorqueHome />
+      <MarcacaoHome />
+      <PrecosHome />
+      <EquipaHome />
+      <FAQ
+        items={HOME_FAQ}
+        layout="center"
         title={
           <>
-            Precisão. Inteligência.{" "}
-            <span className="accent-serif text-gold">Velocidade.</span>
+            Perguntas <span className="accent-serif text-gold">frequentes</span>
           </>
         }
-        sub="Três coisas que levamos para dentro de cada projeto."
       />
-
-      <Process />
-      <StackTech />
-      <TechShowcase />
-      <Numbers />
-
-      <WordmarkStrip />
-
-      <section id="projetos" className="relative section-pad">
-        <div className="shell mb-12">
-          <SectionHeader
-            label="// Projetos"
-            title={<>Sistemas reais, resultados <span className="accent-serif text-gold">reais</span></>}
-            intro="Uma amostra do que construímos. Cada projeto, um problema resolvido."
-          />
-        </div>
-        <ProjectsGrid showFilters={false} />
-      </section>
-
-      <WhyPardus />
-
-      <StatementBand
-        tone="blue"
-        title={
-          <>
-            O próximo salto do teu negócio{" "}
-            <span className="accent-serif text-gold">começa numa conversa.</span>
-          </>
-        }
-        sub="Meia hora, sem custo. Olhamos para o que fazes e dizemos-te o que faz sentido."
-        cta="Consultoria gratuita"
-      />
-
-      <Pricing />
-      <FAQ />
-      <About />
-      <Team />
-      <LeadForm />
+      <LeadForm layout="center" />
+      <FechoHome />
       <MobileContactFab />
     </>
   );

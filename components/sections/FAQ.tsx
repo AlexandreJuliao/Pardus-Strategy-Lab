@@ -10,24 +10,34 @@ export default function FAQ({
   items = QA,
   title = <>Perguntas frequentes</>,
   intro = "O que precisas de saber antes de começarmos.",
+  layout = "split",
 }: {
   items?: { q: string; a: string }[];
   title?: React.ReactNode;
   intro?: string;
+  /** "center": título por cima, perguntas numa coluna ao centro */
+  layout?: "split" | "center";
 } = {}) {
+  const center = layout === "center";
   const [open, setOpen] = useState<number | null>(0);
 
   return (
     <section className="relative section-pad">
       <div className="shell">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+        <div
+          className={
+            center
+              ? "flex flex-col gap-12"
+              : "grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr]"
+          }
+        >
           <SectionHeader
-            label="// FAQ"
             title={title}
             intro={intro}
+            align={center ? "center" : "left"}
           />
 
-          <div className="flex flex-col">
+          <div className={`flex flex-col ${center ? "mx-auto w-full max-w-3xl" : ""}`}>
             {items.map((item, i) => {
               const isOpen = open === i;
               return (

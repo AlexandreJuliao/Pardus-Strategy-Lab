@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ArrowRight } from "lucide-react";
 import { newEventId, trackFormInvalid, trackLead } from "@/lib/tracking";
 import { scrollToEl } from "@/lib/scrollTo";
 import { atribuicao } from "@/lib/attribution";
+import { PREFILL_EVENT, type PrefillDetail } from "@/lib/prefill";
 import { ROOT_DOMAIN, VERTICAL_SLUGS } from "@/lib/verticals";
 
 // O formulário de pedido do site, igual em todo o lado: homepage e LPs (dentro
@@ -80,6 +81,24 @@ export default function LeadFormCard({
   const [sendError, setSendError] = useState(false);
   const [hp, setHp] = useState(""); // honeypot
   const formRef = useRef<HTMLFormElement>(null);
+  const prefilled = useRef("");
+
+  // Outra parte da página pode escrever a mensagem por nós (ex.: o dia e a hora
+  // escolhidos no calendário). Só substitui o que estiver vazio ou o que ela
+  // própria escreveu antes, nunca o que a pessoa já escreveu.
+  useEffect(() => {
+    const on = (e: Event) => {
+      const msg = (e as CustomEvent<PrefillDetail>).detail?.mensagem?.trim();
+      if (!msg) return;
+      setForm((f) => {
+        if (f.mensagem.trim() && f.mensagem !== prefilled.current) return f;
+        prefilled.current = msg;
+        return { ...f, mensagem: msg };
+      });
+    };
+    window.addEventListener(PREFILL_EVENT, on);
+    return () => window.removeEventListener(PREFILL_EVENT, on);
+  }, []);
 
   // O preenchimento automático do browser às vezes escreve no campo sem avisar
   // o React. No envio junta-se ao estado o que está mesmo no ecrã, para não se
