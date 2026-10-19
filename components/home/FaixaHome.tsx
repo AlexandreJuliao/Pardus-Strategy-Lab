@@ -18,8 +18,14 @@ const PTS = [
 const LINES: [number, number][] = [];
 for (let i = 0; i < PTS.length; i++) for (let j = i + 1; j < PTS.length; j += 2) LINES.push([i, j]);
 const RADII = [300, 230, 160];
-// fases ao longo do pin: alinhar → ligar → acelerar
-const PH = [0.12, 0.42, 0.7];
+// fases ao longo do pin: alinhar → ligar → acelerar (cada uma com tempo para se ler)
+const PH = [0.1, 0.38, 0.66];
+// o que cada fase quer dizer, por baixo das palavras
+const CAP = [
+  "Cada detalhe no sítio, do primeiro pixel ao último euro.",
+  "Tudo ligado: os teus dados a trabalhar por ti.",
+  "Entregamos depressa, e o teu negócio responde na hora.",
+];
 
 export default function FaixaHome() {
   const ref = useScene<HTMLElement>(
@@ -33,7 +39,15 @@ export default function FaixaHome() {
       const nodes = qa(root, ".hm-fx-node");
       const lines = qa<SVGLineElement>(root, ".hm-fx-net line");
       const gy = q(root, ".hm-fx-gy");
-      return ({ p, T, t, rm }) => {
+      const caps = qa(root, ".hm-fx-cap span");
+      const bar = q(root, ".hm-fx-bar b");
+      // o scroll chega aos solavancos (roda do rato); a cena segue-o com inércia
+      let sp = -1;
+      let lastAct = -2;
+      return ({ p: raw, T, t, rm }) => {
+        sp = rm || sp < 0 ? raw : sp + (raw - sp) * 0.12;
+        if (Math.abs(raw - sp) < 0.0004) sp = raw;
+        const p = sp;
         const act = p < PH[1] ? 0 : p < PH[2] ? 1 : 2;
         words.forEach((w, i) => {
           const v = rm ? 1 : eo(seg(t, 0.05 + i * 0.12, 0.6 + i * 0.12));
@@ -48,14 +62,17 @@ export default function FaixaHome() {
           const n = nums[i];
           if (n) n.style.opacity = i === act || rm ? "1" : "0.35";
         });
-        if (sub) {
-          const v = rm ? 1 : eo(seg(p, PH[2] + 0.08, PH[2] + 0.18));
-          sub.style.opacity = v.toFixed(3);
-          sub.style.transform = v >= 1 ? "" : `translateY(${((1 - v) * 14).toFixed(1)}px)`;
+        // legenda da fase ativa; no fim, a frase que junta as três
+        const cap = rm ? 3 : p < PH[0] - 0.04 ? -1 : p > PH[2] + 0.24 ? 3 : act;
+        if (cap !== lastAct) {
+          lastAct = cap;
+          caps.forEach((c, i) => c.classList.toggle("is-on", i === cap));
+          sub?.classList.toggle("is-on", cap === 3);
         }
+        if (bar) bar.style.transform = `scaleX(${(rm ? 1 : seg(p, PH[0] - 0.04, PH[2] + 0.24)).toFixed(4)})`;
         const al = rm ? 1 : eob(seg(p, PH[0] - 0.08, PH[0] + 0.14));
-        const spin = Math.max(0, p - PH[2]) * 3.2;
-        const speed = spin * spin * 90 + spin * 220;
+        const spin = Math.max(0, p - PH[2]) * 3;
+        const speed = spin * spin * 60 + spin * 140;
         const base = rm ? 0 : T;
         const R = [
           [68, -30, speed + base * 8],
@@ -121,7 +138,17 @@ export default function FaixaHome() {
             </div>
           ))}
         </div>
-        <p className="hm-fx-sub">Três coisas que levamos para dentro de cada projeto.</p>
+        <div className="hm-fx-foot">
+          <span className="hm-fx-bar" aria-hidden>
+            <b />
+          </span>
+          <p className="hm-fx-cap">
+            {CAP.map((c) => (
+              <span key={c}>{c}</span>
+            ))}
+            <span className="hm-fx-sub">Três coisas que levamos para dentro de cada projeto.</span>
+          </p>
+        </div>
       </div>
     </section>
   );

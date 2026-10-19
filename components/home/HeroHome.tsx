@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { scrollToId, CTA_TARGET_ID } from "@/lib/scrollTo";
-import { clamp01, eio, eob, seg } from "./anim";
+import { clamp01, eio, eo, eob, lerp, q, qa, rise, seg } from "./anim";
+import { useScene } from "./useScene";
 
 const PHRASES = [
   "vender enquanto dormes.",
@@ -16,6 +17,32 @@ const TRUST = [
   { to: 24, unit: "h", label: ["tempo de", "resposta"] },
   { to: 100, unit: "%", label: ["código e", "acessos teus"] },
 ];
+
+// Os três pilares: a herói transforma-se neles ao descer (é a mesma cena).
+const PILARES = [
+  { t: "Presença", d: "Que te encontrem e confiem em ti à primeira.", tags: ["Site", "Loja online", "Ficha Google"] },
+  { t: "Captação", d: "Que quem procura o que fazes te contacte a ti.", tags: ["Google", "Anúncios", "Relatórios"] },
+  { t: "Sistema", d: "Que o trabalho de dentro ande sozinho e arrumado.", tags: ["Software", "Automação", "Organização"] },
+];
+
+// A frase dos pilares, palavra a palavra; `p` diz que pilar cada destaque acende.
+const FRASE: { w: string; p?: number }[] = [
+  { w: "Estamos" },
+  { w: "na" },
+  { w: "presença,", p: 0 },
+  { w: "na" },
+  { w: "captação", p: 1 },
+  { w: "e" },
+  { w: "no" },
+  { w: "sistema", p: 2 },
+  { w: "do" },
+  { w: "teu" },
+  { w: "negócio." },
+];
+
+// Ao longo do pin (0→1): a herói sai, o chão avança, os pilares sobem do chão,
+// acendem um de cada vez a partir de ON[0] e a partir de ON[3] ficam os três.
+const ON = [0.56, 0.66, 0.76, 0.86];
 
 // Pontos dourados a subir devagar no fundo (posição, tamanho, velocidade).
 const DOTS = Array.from({ length: 26 }, (_, i) => {
@@ -33,13 +60,100 @@ const DOTS = Array.from({ length: 26 }, (_, i) => {
 });
 
 export default function HeroHome() {
-  const root = useRef<HTMLElement>(null);
-  const content = useRef<HTMLDivElement>(null);
   const slot = useRef<HTMLSpanElement>(null);
   const floor = useRef<HTMLDivElement>(null);
   const horizon = useRef<HTMLDivElement>(null);
   const [idx, setIdx] = useState(0);
   const [out, setOut] = useState(-1);
+
+  // A cena do scroll: a herói recua e apaga-se, o chão continua a andar para a
+  // frente e os três pilares erguem-se dele, ligados por uma linha de ouro.
+  const root = useScene<HTMLElement>(
+    (el, desk) => {
+      const content = q(el, ".hm-hero-c");
+      const ground = q(el, ".hm-ground");
+      const travel = q(el, ".hm-floor-tr");
+      const glowB = q(el, ".hm-glow-b");
+      const kick = q(el, ".hm-pl-kick");
+      const words = qa(el, ".hm-pl-w");
+      const marks = qa(el, ".hm-pl-mk");
+      const rail = q(el, ".hm-pl-rail");
+      const cols = qa(el, ".hm-pl-col");
+      const beams = cols.map((c) => q(c, ".hm-pl-beam"));
+      const nodes = cols.map((c) => q(c, ".hm-pl-node"));
+      const parts = cols.map((c) => qa(c, ".hm-pl-r"));
+      const masks = cols.map((c) => q(c, ".hm-pl-word"));
+      const foot = q(el, ".hm-pl-foot");
+      const beamH = beams.map((b) => b?.offsetHeight ?? 0);
+      let lastOn = -2;
+
+      return ({ p, u, rm }) => {
+        const U = desk ? u : 1;
+        const cell = desk ? 80 * u : 48;
+        const P = rm ? 1 : p;
+
+        // 1. A herói recua para o fundo e apaga-se.
+        if (content) {
+          const e = rm ? 0 : eio(seg(p, 0.02, 0.2));
+          const o = rm ? 1 : 1 - eo(seg(p, 0.03, 0.17));
+          content.style.transform = e
+            ? `translate3d(0, ${(-150 * U * e).toFixed(1)}px, 0) scale(${(1 - 0.12 * e).toFixed(4)})`
+            : "";
+          content.style.opacity = o.toFixed(3);
+          content.style.visibility = o <= 0.01 ? "hidden" : "";
+        }
+
+        // 2. O chão desce e continua a andar: a câmara segue em frente.
+        const g = rm ? 0 : eio(seg(p, 0.04, 0.34));
+        if (ground) ground.style.transform = g ? `translate3d(0, ${((desk ? 230 : 120) * U * g).toFixed(1)}px, 0)` : "";
+        if (travel && !rm) travel.style.transform = `translate3d(0, ${((p * 2400 * U) % cell).toFixed(1)}px, 0)`;
+        if (glowB) glowB.style.opacity = (1 - 0.5 * g).toFixed(3);
+
+        // 3. A frase entra palavra a palavra.
+        rise(kick, eo(seg(P, 0.15, 0.24)), 24 * U);
+        words.forEach((w, i) => {
+          const v = eo(seg(P, 0.17 + i * 0.011, 0.27 + i * 0.011));
+          w.style.transform = v >= 1 ? "none" : `translate3d(0, ${lerp(135, 0, v).toFixed(1)}%, 0)`;
+        });
+
+        // 4. Os pilares erguem-se do chão; a linha de ouro liga-os por cima.
+        cols.forEach((_, i) => {
+          const b = eio(seg(P, 0.24 + i * 0.05, 0.42 + i * 0.05));
+          const beam = beams[i];
+          if (beam) beam.style.transform = b >= 1 ? "none" : `scaleY(${b.toFixed(4)})`;
+          const n = nodes[i];
+          if (n) {
+            n.style.opacity = b > 0 ? "1" : "0";
+            n.style.transform = `translate3d(0, ${((1 - b) * beamH[i]).toFixed(1)}px, 0) rotate(45deg)`;
+          }
+          parts[i].forEach((r, j) => rise(r, eo(seg(P, 0.32 + i * 0.05 + j * 0.025, 0.46 + i * 0.05 + j * 0.025)), 30 * U));
+          const m = masks[i];
+          if (m) {
+            const v = eo(seg(P, 0.33 + i * 0.05, 0.47 + i * 0.05));
+            m.style.transform = v >= 1 ? "none" : `translate3d(0, ${lerp(135, 0, v).toFixed(1)}%, 0)`;
+          }
+        });
+        if (rail) {
+          const r = eio(seg(P, 0.38, 0.56));
+          rail.style.transform = r >= 1 ? "none" : `scaleX(${r.toFixed(4)})`;
+        }
+
+        // 5. Um pilar acende de cada vez (com o destaque da frase); depois os três.
+        const on = rm ? 3 : P < ON[0] ? -1 : P < ON[1] ? 0 : P < ON[2] ? 1 : P < ON[3] ? 2 : 3;
+        if (on !== lastOn) {
+          lastOn = on;
+          cols.forEach((c, i) => {
+            c.classList.toggle("is-on", on === i || on === 3);
+            c.classList.toggle("is-dim", on >= 0 && on < 3 && on !== i);
+          });
+          marks.forEach((m) => m.classList.toggle("is-on", on === 3 || Number(m.dataset.p) === on));
+        }
+
+        rise(foot, eo(seg(P, 0.86, 0.95)), 20 * U);
+      };
+    },
+    { pin: true, at: 1 },
+  );
 
   // Largura do espaço da frase: segue a frase ativa, para o «a» deslizar.
   useEffect(() => {
@@ -78,18 +192,15 @@ export default function HeroHome() {
     }
   }, [idx]);
 
-  // Troca de frase: só com o herói à vista e sem movimento reduzido.
+  // Troca de frase: só com a herói à vista (no topo) e sem movimento reduzido.
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const hd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--hd")) || 0.15;
-    let visible = true;
-    const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting));
-    if (root.current) io.observe(root.current);
     let timer = 0;
     const next = (first: boolean) => {
       timer = window.setTimeout(
         () => {
-          if (visible && document.visibilityState === "visible") {
+          if (window.scrollY < window.innerHeight * 0.5 && document.visibilityState === "visible") {
             setIdx((i) => {
               setOut(i);
               return (i + 1) % PHRASES.length;
@@ -109,10 +220,7 @@ export default function HeroHome() {
       );
     };
     next(true);
-    return () => {
-      window.clearTimeout(timer);
-      io.disconnect();
-    };
+    return () => window.clearTimeout(timer);
   }, []);
 
   // Números de confiança: contam até ao valor (o 0 entra com um pulo).
@@ -141,116 +249,149 @@ export default function HeroHome() {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, []);
-
-  // Ao descer, o conteúdo afasta-se mais devagar do que a página e apaga-se.
-  useEffect(() => {
-    const el = content.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const y = window.scrollY;
-      const vh = window.innerHeight;
-      if (y > vh * 1.2) return;
-      el.style.transform = y > 0 ? `translateY(${(y * 0.32).toFixed(1)}px)` : "";
-      el.style.opacity = (1 - clamp01(y / (vh * 0.75))).toFixed(3);
-    };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    update();
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
+  }, [root]);
 
   return (
     <section ref={root} className="hm-hero" aria-labelledby="hm-hero-h">
-      <div className="hm-hero-bg" aria-hidden>
-        <div ref={floor} className="hm-floor">
-          <i />
-        </div>
-        <div ref={horizon} className="hm-horizon" />
-        <div className="hm-glow hm-glow-a" />
-        <div className="hm-glow hm-glow-b" />
-        <div className="hm-dots">
-          {DOTS.map((d, i) => (
-            <i
-              key={i}
-              style={
-                {
-                  "--x": `${d.x}%`,
-                  "--s": d.s,
-                  "--dur": `${d.d}s`,
-                  "--del": `${d.o}s`,
-                  "--a": d.a,
-                } as React.CSSProperties
-              }
-            />
-          ))}
-        </div>
-      </div>
-
-      <div ref={content} className="hm-hero-c">
-        <span className="hm-chip hm-hero-kick hm-in" style={{ "--d": "0s" } as React.CSSProperties}>
-          <i className="hm-live" /> Sites · Inteligência artificial · Automações
-        </span>
-
-        <h1 id="hm-hero-h" className="hm-hero-h">
-          <span className="sr-only">Pomos o teu negócio a {PHRASES[0]}</span>
-          <span aria-hidden className="hm-hero-ln hm-in" style={{ "--d": "0.1s" } as React.CSSProperties}>
-            Pomos o teu negócio<span className="hm-a-m"> a</span>
-          </span>
-          <span aria-hidden className="hm-hero-ln hm-hero-l2 hm-in" style={{ "--d": "0.24s" } as React.CSSProperties}>
-            <span className="hm-a">a</span>
-            <span ref={slot} className="hm-slot" data-i="0">
-              {PHRASES.map((p, i) => (
-                <span
-                  key={p}
-                  className={`hm-ph hm-acc ${i === idx ? "is-on" : ""} ${i === out ? "is-out" : ""}`}
-                >
-                  {p}
-                </span>
-              ))}
-            </span>
-          </span>
-        </h1>
-
-        <p className="hm-hero-sub hm-in" style={{ "--d": "0.45s" } as React.CSSProperties}>
-          Construímos sites, assistentes com inteligência artificial e automações à medida
-          para pequenas e médias empresas. Menos trabalho manual, mais clientes atendidos.
-        </p>
-
-        <div className="hm-hero-cta hm-in" style={{ "--d": "0.6s" } as React.CSSProperties}>
-          <button type="button" className="hm-btn hm-btn-lg" onClick={() => scrollToId(CTA_TARGET_ID)}>
-            Marcar consultoria grátis <b className="hm-arr">→</b>
-          </button>
-          <button type="button" className="hm-link" onClick={() => scrollToId("projetos")}>
-            ver projetos
-          </button>
-        </div>
-
-        <ul className="hm-trust hm-in" style={{ "--d": "0.75s" } as React.CSSProperties}>
-          {TRUST.map((n, i) => (
-            <li key={n.unit} className="hm-tk">
-              {i > 0 && <i className="hm-sep" aria-hidden />}
-              <b className="hm-num" aria-label={`${n.to}${n.unit}`}>
-                <span className="hm-num-v" aria-hidden>
-                  {n.to}
-                </span>
-                <small aria-hidden>{n.unit}</small>
+      <div className="hm-hero-stage">
+        <div className="hm-hero-bg" aria-hidden>
+          <div className="hm-ground">
+            <div ref={floor} className="hm-floor">
+              <b className="hm-floor-tr">
+                <i />
               </b>
-              <span className="hm-lb">
-                {n.label[0]}
-                <br />
-                {n.label[1]}
+            </div>
+            <div ref={horizon} className="hm-horizon" />
+          </div>
+          <div className="hm-glow hm-glow-a" />
+          <div className="hm-glow hm-glow-b" />
+          <div className="hm-dots">
+            {DOTS.map((d, i) => (
+              <i
+                key={i}
+                style={
+                  {
+                    "--x": `${d.x}%`,
+                    "--s": d.s,
+                    "--dur": `${d.d}s`,
+                    "--del": `${d.o}s`,
+                    "--a": d.a,
+                  } as React.CSSProperties
+                }
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="hm-hero-c">
+          <span className="hm-chip hm-hero-kick hm-in" style={{ "--d": "0s" } as React.CSSProperties}>
+            <i className="hm-live" /> Presença · Captação · Sistema
+          </span>
+
+          <h1 id="hm-hero-h" className="hm-hero-h">
+            <span className="sr-only">Pomos o teu negócio a {PHRASES[0]}</span>
+            <span aria-hidden className="hm-hero-ln hm-in" style={{ "--d": "0.1s" } as React.CSSProperties}>
+              Pomos o teu negócio<span className="hm-a-m"> a</span>
+            </span>
+            <span aria-hidden className="hm-hero-ln hm-hero-l2 hm-in" style={{ "--d": "0.24s" } as React.CSSProperties}>
+              <span className="hm-a">a</span>
+              <span ref={slot} className="hm-slot" data-i="0">
+                {PHRASES.map((p, i) => (
+                  <span
+                    key={p}
+                    className={`hm-ph hm-acc ${i === idx ? "is-on" : ""} ${i === out ? "is-out" : ""}`}
+                  >
+                    {p}
+                  </span>
+                ))}
               </span>
-            </li>
-          ))}
-        </ul>
+            </span>
+          </h1>
+
+          <p className="hm-hero-sub hm-in" style={{ "--d": "0.45s" } as React.CSSProperties}>
+            Fazemos o site, trazemos os clientes e arrumamos o trabalho de dentro, para pequenas e
+            médias empresas. Menos trabalho manual, mais clientes atendidos.
+          </p>
+
+          <div className="hm-hero-cta hm-in" style={{ "--d": "0.6s" } as React.CSSProperties}>
+            <button type="button" className="hm-btn hm-btn-lg" onClick={() => scrollToId(CTA_TARGET_ID)}>
+              Marcar consultoria grátis <b className="hm-arr">→</b>
+            </button>
+            <button type="button" className="hm-link" onClick={() => scrollToId("projetos")}>
+              ver projetos
+            </button>
+          </div>
+
+          <ul className="hm-trust hm-in" style={{ "--d": "0.75s" } as React.CSSProperties}>
+            {TRUST.map((n, i) => (
+              <li key={n.unit} className="hm-tk">
+                {i > 0 && <i className="hm-sep" aria-hidden />}
+                <b className="hm-num" aria-label={`${n.to}${n.unit}`}>
+                  <span className="hm-num-v" aria-hidden>
+                    {n.to}
+                  </span>
+                  <small aria-hidden>{n.unit}</small>
+                </b>
+                <span className="hm-lb">
+                  {n.label[0]}
+                  <br />
+                  {n.label[1]}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="hm-pl" aria-labelledby="hm-pl-h">
+          <div className="hm-pl-in">
+            <div className="hm-pl-head">
+              <span className="hm-chip hm-pl-kick">Onde entramos</span>
+              <h2 id="hm-pl-h" className="hm-pl-h">
+                {FRASE.map((f, i) => (
+                  <Fragment key={i}>
+                    <span className="hm-pl-m">
+                      <span className="hm-pl-w">
+                        {f.p === undefined ? (
+                          f.w
+                        ) : (
+                          <span className="hm-pl-mk hm-acc" data-p={f.p}>
+                            {f.w}
+                          </span>
+                        )}
+                      </span>
+                    </span>{" "}
+                  </Fragment>
+                ))}
+              </h2>
+            </div>
+
+            <div className="hm-pl-cols">
+              <i className="hm-pl-rail" aria-hidden />
+              {PILARES.map((pl, i) => (
+                <article key={pl.t} className="hm-pl-col">
+                  <i className="hm-pl-beam" aria-hidden />
+                  <i className="hm-pl-node" aria-hidden />
+                  <div className="hm-pl-body">
+                    <span className="hm-pl-n hm-pl-r">0{i + 1}</span>
+                    <h3 className="hm-pl-mask">
+                      <span className="hm-pl-word">{pl.t}</span>
+                    </h3>
+                    <p className="hm-pl-d hm-pl-r">{pl.d}</p>
+                    <ul className="hm-pl-tags hm-pl-r">
+                      {pl.tags.map((t) => (
+                        <li key={t}>{t}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <p className="hm-pl-foot">
+              <i aria-hidden /> Os três feitos pela mesma equipa, a falar contigo.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );

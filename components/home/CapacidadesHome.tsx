@@ -6,38 +6,41 @@ import Icon, { type IconName } from "./Icon";
 import { useScene } from "./useScene";
 import { clamp01, eio, eo, eob, ei, lerp, q, qa, seg, setText } from "./anim";
 
-const TABS: { t: string; ic: IconName; f: string[] }[] = [
+const TABS: { t: string; ic: IconName; d: string; f: string[] }[] = [
   {
-    t: "Websites",
+    t: "Presença",
     ic: "globe",
+    d: "Tudo o que faz um cliente encontrar-te e confiar em ti antes de falar contigo.",
     f: [
-      "Design feito à medida",
-      "Site rápido e moderno",
-      "Preparado para o Google",
-      "Editas o conteúdo sozinho",
-      "Abre depressa no telemóvel",
+      "Site à medida, rápido no telemóvel",
+      "Ficha Google arrumada e ligada ao site",
+      "Painel teu para editar e ver análises",
+      "Preparado para aparecer no Google",
+      "Acompanhamento depois da entrega",
     ],
   },
   {
-    t: "E-commerce",
-    ic: "cart",
+    t: "Captação",
+    ic: "target",
+    d: "Levamos quem procura o que fazes até ti, com cada euro de anúncio medido.",
     f: [
-      "Gestão de produtos",
-      "Pagamentos por cartão e MB Way",
-      "Painel de administração",
-      "Ligação ao teu stock",
-      "Emails automáticos de encomenda",
+      "Negócio todo arrumado no Google",
+      "Anúncios no Google e no Instagram",
+      "Cada contacto chega-te na hora",
+      "Ajustes todas as semanas",
+      "Relatório claro do investimento",
     ],
   },
   {
-    t: "Chatbots & Automações",
-    ic: "chat",
+    t: "Sistema",
+    ic: "bolt",
+    d: "O trabalho de dentro feito por software teu, sem papel nem esquecimentos.",
     f: [
-      "Assistente no WhatsApp e site",
-      "Percebe quem quer comprar",
-      "Regista tudo nos teus clientes",
-      "Trata dos pedidos comuns",
-      "Relatórios das conversas",
+      "Software feito à medida do negócio",
+      "Marcações, equipa e stock num só sítio",
+      "Assistente que responde e marca sozinho",
+      "Faturas e lembretes automáticos",
+      "Tudo organizado, e tudo teu",
     ],
   },
 ];
@@ -70,7 +73,7 @@ function DemoSite() {
       </div>
       <div className="hm-ui hm-cw-perf">
         <div className="hm-ui-h">
-          <span>Desempenho</span>
+          <span>O teu painel</span>
           <b className="hm-ui-live" />
         </div>
         <div className="hm-cw-ring">
@@ -78,13 +81,13 @@ function DemoSite() {
             <circle className="hm-g-bg" cx="60" cy="60" r="50" />
             <circle className="hm-cw-fg" cx="60" cy="60" r="50" />
           </svg>
-          <b className="hm-cw-score">98</b>
-          <span>velocidade</span>
+          <b className="hm-cw-score">4,9</b>
+          <span>★ no Google</span>
         </div>
         {[
-          ["Google", "Indexado"],
-          ["Telemóvel", "Adaptado"],
-          ["Segurança", "HTTPS"],
+          ["Ficha Google", "Completa"],
+          ["Site", "Online"],
+          ["Análises", "Ao vivo"],
         ].map(([a, b]) => (
           <div key={a} className="hm-cw-row">
             <Icon name="check" className="hm-ic-gold" />
@@ -96,8 +99,8 @@ function DemoSite() {
       <div className="hm-ui hm-cp-mail hm-cw-mail">
         <Icon name="target" className="hm-ic-gold" />
         <div>
-          <b>1.º resultado no Google</b>
-          <span>«arquitetos lisboa» · esta semana</span>
+          <b>Apareces no mapa</b>
+          <span>«arquitetos perto de mim» · 1.º lugar</span>
         </div>
       </div>
       <div className="hm-ui hm-cp-badge">
@@ -115,34 +118,34 @@ function DemoLoja() {
         <div className="hm-cp-prod-img">
           <Image src="/img/home/produto.jpg" alt="" fill sizes="(min-width:1024px) 20vw, 45vw" />
         </div>
-        <b>Creme de rosto</b>
-        <span className="hm-cp-price">34,90 €</span>
-        <span className="hm-cp-add">Adicionar ao carrinho</span>
+        <b>Pele nova em 4 semanas</b>
+        <span className="hm-cp-price hm-cp-spons">Patrocinado · Instagram</span>
+        <span className="hm-cp-add">Pedir informação</span>
       </div>
       <div className="hm-ui hm-cp-pay">
         <div className="hm-ui-h">
-          <span>Pagamento</span>
+          <span>Campanha</span>
         </div>
         <div className="hm-cp-opt">
-          <Icon name="card" />
-          <span>Cartão</span>
+          <Icon name="target" />
+          <span>Google · Pesquisa</span>
         </div>
         <div className="hm-cp-opt hm-cp-mbw">
-          <Icon name="bolt" />
-          <span>MB Way</span>
+          <Icon name="spark" />
+          <span>Instagram</span>
           <i className="hm-cp-radio" />
         </div>
-        <span className="hm-cp-paybtn">Pagar 34,90 €</span>
+        <span className="hm-cp-paybtn">240 € / mês · medido</span>
       </div>
       <div className="hm-ui hm-cp-mail">
         <Icon name="mail" className="hm-ic-gold" />
         <div>
-          <b>Encomenda confirmada</b>
-          <span>Enviado ao cliente · agora</span>
+          <b>Novo contacto pelo anúncio</b>
+          <span>Ana R. pediu informação · agora</span>
         </div>
       </div>
       <div className="hm-ui hm-cp-badge">
-        <span>Stock</span>
+        <span>Contactos este mês</span>
         <b className="hm-cp-stock">12</b>
       </div>
     </div>
@@ -158,40 +161,40 @@ function DemoChat() {
             P<em>.</em>
           </i>
           <div>
-            <b>Assistente Pardus</b>
-            <span>online · responde em segundos</span>
+            <b>Assistente da clínica</b>
+            <span>online · marca sozinho</span>
           </div>
           <b className="hm-ui-live" />
         </div>
         <div className="hm-cb-msgs">
-          <div className="hm-cb-m hm-cb-c">Quanto custa a entrega para o Porto?</div>
+          <div className="hm-cb-m hm-cb-c">Têm vaga amanhã de manhã?</div>
           <div className="hm-cb-ty">
             <i />
             <i />
             <i />
           </div>
-          <div className="hm-cb-m hm-cb-a">É grátis acima de 40 €. Quer que lhe envie o link da loja?</div>
-          <div className="hm-cb-m hm-cb-c">Sim, por favor!</div>
+          <div className="hm-cb-m hm-cb-a">Temos às 10h ou às 11h30. Qual prefere?</div>
+          <div className="hm-cb-m hm-cb-c">10h, obrigada!</div>
           <div className="hm-cb-ty">
             <i />
             <i />
             <i />
           </div>
           <div className="hm-cb-m hm-cb-a">
-            Aqui está: <u>loja.pt/porto</u> ✓
+            Marcado: <u>amanhã às 10h</u> ✓
           </div>
         </div>
       </div>
       <div className="hm-ui hm-cb-crm">
         <div className="hm-ui-h">
-          <span>Novo contacto</span>
-          <i className="hm-cp-tagq">Quente</i>
+          <span>Nova marcação</span>
+          <i className="hm-cp-tagq">Agenda</i>
         </div>
         <div className="hm-cb-who">
           <i className="hm-cb-ini">MS</i>
           <div>
             <b>Marta Silva</b>
-            <span>Interesse: encomenda</span>
+            <span>Consulta · amanhã, 10h</span>
           </div>
         </div>
         <div className="hm-cb-f">
@@ -200,21 +203,21 @@ function DemoChat() {
         </div>
         <div className="hm-cb-f">
           <span>Estado</span>
-          <em className="hm-cb-st">Link enviado ✓</em>
+          <em className="hm-cb-st">Na agenda ✓</em>
         </div>
       </div>
       <div className="hm-ui hm-cp-mail hm-cb-mail">
         <Icon name="mail" className="hm-ic-gold" />
         <div>
-          <b>Resumo do dia enviado</b>
+          <b>Lembrete e fatura enviados</b>
           <span>
-            <b className="hm-cb-n">12</b> conversas tratadas sozinho
+            <b className="hm-cb-n">12</b> tarefas feitas sozinho hoje
           </span>
         </div>
       </div>
       <div className="hm-ui hm-cp-badge">
-        <span>Respondido em</span>
-        <b>3 s</b>
+        <span>Poupado hoje</span>
+        <b>2 h</b>
       </div>
     </div>
   );
@@ -344,11 +347,11 @@ export default function CapacidadesHome() {
       });
       if (stage) stage.style.setProperty("--tilt", sc.toFixed(3));
 
-      // Websites: velocidade, linhas a confirmar, visitas a subir
+      // Presença: a nota no Google, o painel a confirmar, visitas a subir
       if (act === 0) {
         const gp = rm ? 1 : eio(seg(c, 0.4, 2.0));
         if (gfg) gfg.style.strokeDashoffset = (314 * (1 - 0.98 * gp)).toFixed(1);
-        setText(score, String(Math.round(98 * gp)));
+        setText(score, (4.9 * gp).toFixed(1).replace(".", ","));
         setText(vis, String(Math.round(128 * (rm ? 1 : eo(seg(c, 0.2, 2.6))))));
         rows.forEach((r, i) => {
           const v = rm ? 1 : clamp01(eob(seg(c, 1.0 + i * 0.3, 1.35 + i * 0.3)));
@@ -356,13 +359,13 @@ export default function CapacidadesHome() {
           r.style.transform = `translateX(${lerp(-16, 0, v).toFixed(1)}px)`;
         });
       }
-      // Loja: botão, MB Way, stock a descer
+      // Captação: o anúncio é clicado, a campanha escolhe o canal, entra um contacto
       if (act === 1) {
         add?.classList.toggle("is-on", c > 1.1);
         mbw?.classList.toggle("is-on", c > 1.9);
-        setText(stock, c > 2.6 ? "11" : "12");
+        setText(stock, c > 2.6 ? "13" : "12");
       }
-      // Chat: conversa a acontecer
+      // Sistema: o assistente marca, a agenda atualiza-se, o resto segue sozinho
       if (act === 2) {
         const MT = [0.4, 1.6, 2.7, 3.9];
         const TY = [
@@ -381,7 +384,7 @@ export default function CapacidadesHome() {
         tyd.forEach((d, j) => {
           d.style.opacity = (0.35 + 0.65 * (0.5 + 0.5 * Math.sin(T * 9 - (j % 3) * 0.9))).toFixed(3);
         });
-        setText(cbSt, rm || c > 4.2 ? "Link enviado ✓" : "Em conversa");
+        setText(cbSt, rm || c > 4.2 ? "Na agenda ✓" : "A marcar…");
         setText(cbN, String(Math.round(12 * (rm ? 1 : eo(seg(c, 1.0, 4.4))))));
       }
     };
@@ -395,8 +398,9 @@ export default function CapacidadesHome() {
           <h2 id="hm-cp-h" className="hm-h2">
             Tudo o que <span className="hm-acc">entregamos</span>
           </h2>
+          <p className="hm-cp-sub">Em três pilares. Escolhe um.</p>
         </div>
-        <div ref={tabsBox} className="hm-cp-tabs hm-ui" role="tablist" aria-label="Áreas">
+        <div ref={tabsBox} className="hm-cp-tabs hm-ui" role="tablist" aria-label="Pilares">
           <i className="hm-cp-ind" aria-hidden />
           {TABS.map((x, i) => (
             <button
@@ -415,6 +419,9 @@ export default function CapacidadesHome() {
           ))}
         </div>
         <div id="hm-cp-panel" role="tabpanel" aria-labelledby={`hm-cp-tab-${tab}`} className="hm-cp-panel">
+          <p key={tab} className="hm-cp-desc">
+            {TABS[tab].d}
+          </p>
           {TABS.map((x, i) => (
             <ul key={x.t} className="hm-cp-list" style={i === tab ? undefined : { display: "none" }}>
               {x.f.map((f, j) => (

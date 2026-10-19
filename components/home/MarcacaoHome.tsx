@@ -26,6 +26,12 @@ const MONTHS = [
   "dezembro",
 ];
 
+// Quem está do outro lado da conversa.
+const TEAM = [
+  { img: "/img/team/alexandre.jpg", n: "Alexandre Julião", r: "Fundador", d: "Estratégia, propostas e acompanhamento." },
+  { img: "/img/team/tomas.jpg", n: "Tomás Araújo", r: "Desenvolvimento", d: "Sites, sistemas e automações." },
+];
+
 type Cal = { year: number; month: number; lead: number; days: number; open: Set<number>; first: number };
 
 /** O mês a mostrar: o primeiro dia útil a partir de depois de amanhã e o resto desse mês. */
@@ -56,8 +62,20 @@ export default function MarcacaoHome() {
   const ref = useScene<HTMLElement>((root, desk) => {
     const head = qa(root, ".hm-bk-head > *");
     const card = q(root, ".hm-bk");
+    const team = qa(root, ".hm-tm-card");
     let auto = 0;
-    return ({ t, T, p, rm }) => {
+    return ({ t, T, p, u, rm }) => {
+      team.forEach((m, i) => {
+        const v = rm ? 1 : eo(seg(t, 0.5 + i * 0.25, 1.7 + i * 0.25));
+        m.style.opacity = v.toFixed(3);
+        if (!desk) {
+          m.style.transform = v >= 1 ? "" : `translateY(${lerp(30, 0, v).toFixed(1)}px)`;
+          return;
+        }
+        const side = i === 0 ? -1 : 1;
+        const bob = rm ? 0 : Math.sin(T * 0.6 + i * 2.2) * 7;
+        m.style.transform = `translate3d(${(lerp(120 * side, 0, v) * u).toFixed(1)}px, ${((lerp(90, 0, v) + bob - 30 * (p - 0.5)) * u).toFixed(1)}px, 0) rotate(${lerp(14 * side, 3.5 * side, v).toFixed(2)}deg)`;
+      });
       head.forEach((h, i) => {
         const v = rm ? 1 : eo(seg(t, 0.2 + i * 0.2, 0.8 + i * 0.2));
         h.style.opacity = v.toFixed(3);
@@ -120,23 +138,44 @@ export default function MarcacaoHome() {
       <div className="hm-cv hm-bk-cv">
         <div className="hm-glow hm-glow-gold hm-bk-glow" aria-hidden />
         <div className="hm-bk-head">
+          <span className="hm-chip hm-bk-chip">A nossa equipa</span>
           <h2 id="hm-bk-h" className="hm-h2">
             O próximo salto do teu negócio <br className="hm-desk-br" />
             <span className="hm-acc">começa numa conversa.</span>
           </h2>
           <p className="hm-body">
-            Meia hora, sem custo. Olhamos para o que fazes e dizemos-te o que faz sentido.
+            Somos o Alexandre e o Tomás. Meia hora, sem custo: olhamos para o que fazes e
+            dizemos-te o que faz sentido.
           </p>
         </div>
+
+        <ul className="hm-tm" aria-label="A nossa equipa">
+          {TEAM.map((m, i) => (
+            <li key={m.n} className={`hm-tm-card hm-tm-${i}`}>
+              <div className="hm-tm-ph">
+                <Image src={m.img} alt={m.n} fill sizes="(min-width:1024px) 16vw, 72px" />
+              </div>
+              <div className="hm-tm-tx">
+                <b>{m.n}</b>
+                <span>{m.r}</span>
+                <p>{m.d}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
 
         <div className="hm-bk-stage">
           <div className="hm-mk hm-bk-mk">
             <div className="hm-ui hm-bk">
               <div className="hm-bk-l">
-                <div className="hm-bk-av">
-                  <Image src="/img/team/alexandre.jpg" alt="" fill sizes="80px" />
+                <div className="hm-bk-avs">
+                  {TEAM.map((m) => (
+                    <div key={m.n} className="hm-bk-av">
+                      <Image src={m.img} alt="" fill sizes="80px" />
+                    </div>
+                  ))}
                 </div>
-                <span className="hm-bk-who">Alexandre Julião</span>
+                <span className="hm-bk-who">Alexandre ou Tomás</span>
                 <b className="hm-bk-t">Consultoria gratuita</b>
                 <span className="hm-bk-m">
                   <Icon name="cal" className="hm-ic-gold" /> 30 min

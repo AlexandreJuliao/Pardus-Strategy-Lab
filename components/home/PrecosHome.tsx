@@ -5,9 +5,8 @@ import { useScene } from "./useScene";
 import { eio, eo, lerp, q, qa, seg, setText } from "./anim";
 import { scrollToId, CTA_TARGET_ID } from "@/lib/scrollTo";
 
-// A oferta em 3 pilares (fechada a 19/10/2026): o mesmo que components/sections/Pricing.tsx
-// e o catálogo do Pardus OS. Mudar um preço é mudar os três, no mesmo dia.
-// \u00a0 entre o número e o € para nunca partir a linha a meio do preço.
+// A oferta em 3 pilares (fechada a 19/10/2026). Mudar um preço aqui é mudar também
+// components/sections/Pricing.tsx e o catálogo do Pardus OS, no mesmo dia.
 const AR: {
   n: string;
   t: string;
@@ -26,27 +25,39 @@ const AR: {
     from: "site desde",
     v: 890,
     per: "",
-    li: ["Loja online desde 1.890\u00a0€", "Ficha Google ligada ao site", "Acompanhamento a 25\u00a0€/mês"],
+    li: [
+      "Painel próprio para gerires o site e veres todas as análises",
+      "Ficha Google ligada ao site, para te encontrarem no mapa",
+      "Acompanhamento depois da entrega",
+    ],
   },
   {
     n: "02",
     t: "Captação",
     hint: "Não te chegam clientes novos pelo Google.",
     ic: "target",
-    from: "gestão de anúncios",
+    from: "desde",
     v: 150,
     per: "/mês",
-    li: ["Arrumar a casa: 100\u00a0€, uma vez", "Anúncios desde 240\u00a0€/mês, pagos à Google", "Contrato mínimo de 3 meses"],
+    li: [
+      "Arrumamos todo o teu negócio no Google",
+      "Gerimos o teu investimento em anúncios, com relatório",
+      "Contrato mínimo de 3 meses",
+    ],
   },
   {
     n: "03",
     t: "Sistema",
     hint: "Chegam pedidos e está tudo desorganizado.",
     ic: "flow",
-    from: "começa no diagnóstico",
-    v: 150,
+    from: "desde",
+    v: 490,
     per: "",
-    li: ["Base comum e módulos por área", "Equipa, marcações, stock e cobranças", "Abate ao projeto se avançares em 30 dias"],
+    li: [
+      "Feito de raiz à medida do teu negócio",
+      "Equipa, marcações, stock e cobranças",
+      "Software teu, processos automáticos e tudo organizado",
+    ],
   },
 ];
 
