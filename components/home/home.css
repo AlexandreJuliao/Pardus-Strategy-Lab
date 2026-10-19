@@ -4411,7 +4411,11 @@
   gap: 8px;
   padding: 24px;
   overflow: hidden;
-  border-color: rgb(var(--gold-rgb) / calc(0.14 + 0.5 * var(--hot, 0)));
+  border-color: rgb(var(--gold-rgb) / 0.14);
+  transition: border-color 0.8s ease;
+}
+.hm-pc.is-hot {
+  border-color: rgb(var(--gold-rgb) / 0.6);
 }
 .hm-pc-top {
   display: flex;
@@ -4434,6 +4438,12 @@
   font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--text-primary);
+}
+.hm-pc-hint {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--text-secondary);
 }
 .hm-pc-from {
   margin-top: 8px;
@@ -4515,32 +4525,34 @@
   height: 180%;
   background: linear-gradient(90deg, transparent, rgb(var(--text-primary-rgb) / 0.07), transparent);
   pointer-events: none;
+  will-change: transform;
 }
 @media (min-width: 1024px) {
   .hm-pc-head {
     position: absolute;
     left: calc(160 * var(--u));
-    top: calc(130 * var(--u));
+    top: calc(120 * var(--u));
     width: calc(1600 * var(--u));
     gap: calc(14 * var(--u));
   }
   .hm-pc-row {
     position: absolute;
     left: calc(160 * var(--u));
-    top: calc(400 * var(--u));
+    top: calc(370 * var(--u));
     width: calc(1600 * var(--u));
     max-width: none;
     margin: 0;
+    align-items: stretch;
     grid-template-columns: repeat(3, calc(500 * var(--u)));
     gap: calc(40 * var(--u));
   }
   .hm-pc {
-    height: calc(560 * var(--u));
-    gap: calc(10 * var(--u));
-    padding: calc(34 * var(--u));
+    min-height: calc(560 * var(--u));
+    gap: calc(8 * var(--u));
+    padding: calc(30 * var(--u)) calc(34 * var(--u));
   }
   .hm-pc-top {
-    margin-bottom: calc(20 * var(--u));
+    margin-bottom: calc(12 * var(--u));
   }
   .hm-pc-n {
     font-size: max(11px, calc(16 * var(--u)));
@@ -4552,12 +4564,15 @@
   .hm-pc-t {
     font-size: calc(40 * var(--u));
   }
+  .hm-pc-hint {
+    font-size: max(12px, calc(18 * var(--u)));
+  }
   .hm-pc-from {
-    margin-top: calc(16 * var(--u));
+    margin-top: calc(14 * var(--u));
     font-size: max(12px, calc(18 * var(--u)));
   }
   .hm-pc-p b {
-    font-size: calc(84 * var(--u));
+    font-size: calc(76 * var(--u));
   }
   .hm-pc-p small {
     font-size: calc(26 * var(--u));
@@ -4837,4 +4852,53 @@
   .hm-fe-lab {
     font-size: max(13px, calc(22 * var(--u)));
   }
+}
+
+/* ==========================================================================
+   Modo leve: browser sem aceleração gráfica (o BOOT da abertura põe hm-lite
+   no <html>). Tudo o que é desenhado pelo processador a cada fotograma sai:
+   loops decorativos, o desfoque da barra e o grão por cima da página. O que
+   conta a história ao descer fica igual.
+   ========================================================================== */
+.hm-lite .grain-fixed,
+.hm-lite .hm-dots {
+  display: none !important;
+}
+.hm-lite header {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.hm-lite header.backdrop-blur-xl {
+  background-color: rgb(var(--bg-rgb) / 0.97) !important;
+}
+.hm-lite .hm-floor i,
+.hm-lite .hm-glow,
+.hm-lite .hm-num,
+.hm-lite .hm-btn::after,
+.hm-lite .hm-live,
+.hm-lite .hm-ui-live,
+.hm-lite .hm-intro-glow,
+.hm-lite .hm-vg-ia path,
+.hm-lite .hm-vg-core,
+.hm-lite .hm-vg-app i,
+.hm-lite .hm-caret::after {
+  animation: none !important;
+}
+.hm-lite .hm-ui,
+.hm-lite .hm-sv-card,
+.hm-lite .hm-pj-win,
+.hm-lite .hm-av-ph,
+.hm-lite .hm-eq-card,
+.hm-lite .hm-pq-tile,
+.hm-lite .hm-sk-hub,
+.hm-lite .hm-btn {
+  box-shadow: none !important;
+}
+.hm-lite .hm-sv-view,
+.hm-lite .hm-floor {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+.hm-lite .hm-floor {
+  opacity: 0.55;
 }

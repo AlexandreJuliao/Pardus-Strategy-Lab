@@ -3,11 +3,14 @@
 import { useEffect, useRef } from "react";
 
 const SEEN_KEY = "pardus-intro";
+// «1» quando o browser desenha sem placa gráfica (aceleração desligada): a
+// página corta os movimentos decorativos em loop para não ir abaixo dos 30 fps.
+const LITE_KEY = "pardus-lite";
 
 // Corre antes de o resto da página ser desenhado: decide se a abertura passa
 // (primeira visita da sessão, sem âncora no endereço, sem movimento reduzido)
 // e marca o <html> para o CSS esconder a abertura ou atrasar a entrada do herói.
-const BOOT = `(function(){var d=document.documentElement;d.classList.add('js');try{var s=sessionStorage.getItem('${SEEN_KEY}');var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(s||rm||location.hash||d.classList.contains('intro-gone')){d.classList.add('intro-skip')}else{d.classList.add('intro-run');d.style.setProperty('--hd','1.45s')}}catch(e){d.classList.add('intro-skip')}})();`;
+const BOOT = `(function(){var d=document.documentElement;d.classList.add('js');try{var s=sessionStorage.getItem('${SEEN_KEY}');var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;if(s||rm||location.hash||d.classList.contains('intro-gone')){d.classList.add('intro-skip')}else{d.classList.add('intro-run');d.style.setProperty('--hd','1.45s')}}catch(e){d.classList.add('intro-skip')}setTimeout(function(){var l;try{l=sessionStorage.getItem('${LITE_KEY}')}catch(e){}if(l==null){l='0';try{var c=document.createElement('canvas'),g=c.getContext('webgl')||c.getContext('experimental-webgl');if(!g){l='1'}else{var x=g.getExtension('WEBGL_debug_renderer_info'),r=String(x?g.getParameter(x.UNMASKED_RENDERER_WEBGL):g.getParameter(g.RENDERER));if(/swiftshader|llvmpipe|software|basic render/i.test(r))l='1';var lc=g.getExtension('WEBGL_lose_context');if(lc)lc.loseContext()}}catch(e){}try{sessionStorage.setItem('${LITE_KEY}',l)}catch(e){}}if(l==='1')d.classList.add('hm-lite')},0)})();`;
 
 /**
  * Abertura: o logótipo grande ao centro, letra a letra, que depois voa para o

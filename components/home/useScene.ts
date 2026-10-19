@@ -49,6 +49,7 @@ export function useScene<T extends HTMLElement = HTMLElement>(
   useEffect(() => {
     const root = ref.current;
     if (!root) return;
+    const html = document.documentElement;
     const mqDesk = window.matchMedia(DESK);
     const mqReduced = window.matchMedia(REDUCED);
     let render: Render | void;
@@ -75,7 +76,7 @@ export function useScene<T extends HTMLElement = HTMLElement>(
         : clamp01((vh - r.top) / (vh + r.height));
       render({
         t: t0 < 0 ? -1 : rm ? 999 : (now - t0) / 1000,
-        T: rm ? 0 : now / 1000,
+        T: rm || html.classList.contains("hm-lite") ? 0 : now / 1000,
         p,
         u: desk ? Math.min(vw / 1920, vh / 1080) : 1,
         desk,

@@ -2,15 +2,52 @@
 
 import Icon, { type IconName } from "./Icon";
 import { useScene } from "./useScene";
-import { clamp01, eio, eo, lerp, q, qa, seg, setText } from "./anim";
+import { eio, eo, lerp, q, qa, seg, setText } from "./anim";
 import { scrollToId, CTA_TARGET_ID } from "@/lib/scrollTo";
 
-// Tabela de 15/10: o ponto de partida de cada área. O valor final fecha-se
-// com o cliente, antes de começar.
-const AR: { n: string; t: string; ic: IconName; v: number; per: string; li: string[] }[] = [
-  { n: "01", t: "Branding & Web", ic: "brush", v: 390, per: "", li: ["Landing page", "Site profissional", "Loja online"] },
-  { n: "02", t: "Captação", ic: "target", v: 95, per: "/mês", li: ["Ficha Google e SEO local", "Gestão de Google Ads", "Auditoria SEO e velocidade"] },
-  { n: "03", t: "Automação", ic: "flow", v: 250, per: "", li: ["Automações e integrações", "Chatbot de WhatsApp", "CRM à medida"] },
+// A oferta em 3 pilares (fechada a 19/10/2026): o mesmo que components/sections/Pricing.tsx
+// e o catálogo do Pardus OS. Mudar um preço é mudar os três, no mesmo dia.
+// \u00a0 entre o número e o € para nunca partir a linha a meio do preço.
+const AR: {
+  n: string;
+  t: string;
+  hint: string;
+  ic: IconName;
+  from: string;
+  v: number;
+  per: string;
+  li: string[];
+}[] = [
+  {
+    n: "01",
+    t: "Presença",
+    hint: "Não te encontram, ou não passas confiança online.",
+    ic: "globe",
+    from: "site desde",
+    v: 890,
+    per: "",
+    li: ["Loja online desde 1.890\u00a0€", "Ficha Google ligada ao site", "Acompanhamento a 25\u00a0€/mês"],
+  },
+  {
+    n: "02",
+    t: "Captação",
+    hint: "Não te chegam clientes novos pelo Google.",
+    ic: "target",
+    from: "gestão de anúncios",
+    v: 150,
+    per: "/mês",
+    li: ["Arrumar a casa: 100\u00a0€, uma vez", "Anúncios desde 240\u00a0€/mês, pagos à Google", "Contrato mínimo de 3 meses"],
+  },
+  {
+    n: "03",
+    t: "Sistema",
+    hint: "Chegam pedidos e está tudo desorganizado.",
+    ic: "flow",
+    from: "começa no diagnóstico",
+    v: 150,
+    per: "",
+    li: ["Base comum e módulos por área", "Equipa, marcações, stock e cobranças", "Abate ao projeto se avançares em 30 dias"],
+  },
 ];
 
 export default function PrecosHome() {
@@ -53,8 +90,8 @@ export default function PrecosHome() {
           const sp = (((T - 2) * 0.35 - i * 0.18) % 1.4 + 1.4) % 1.4;
           c.sh.style.transform = `translateX(${(sp * 750 - 250).toFixed(1)}%) rotate(18deg)`;
         }
-        const hot = rm ? 0 : clamp01(1 - Math.abs(((T * 0.5) % 3) - i - 0.5) * 1.2);
-        c.el.style.setProperty("--hot", hot.toFixed(3));
+        const hot = !rm && T > 0 && Math.floor((T * 0.5) % 3) === i;
+        if (c.el.classList.contains("is-hot") !== hot) c.el.classList.toggle("is-hot", hot);
       });
     };
   });
@@ -67,7 +104,8 @@ export default function PrecosHome() {
             Preços claros, <span className="hm-acc">sem letra pequena.</span>
           </h2>
           <p className="hm-body">
-            Mostramos o ponto de partida. O valor final fecha-se contigo, antes de começar.
+            Fazemos a presença, a captação e o sistema do teu negócio. Escolhe pelo que te está
+            a faltar; o valor final fecha-se contigo antes de começar.
           </p>
         </div>
         <ul className="hm-pc-row">
@@ -78,10 +116,11 @@ export default function PrecosHome() {
                 <Icon name={c.ic} className="hm-ic-gold hm-pc-ic" />
               </div>
               <h3 className="hm-pc-t">{c.t}</h3>
-              <span className="hm-pc-from">desde</span>
+              <p className="hm-pc-hint">{c.hint}</p>
+              <span className="hm-pc-from">{c.from}</span>
               <span className="hm-pc-p">
                 <b>
-                  <span className="hm-pc-v">{c.v}</span> €
+                  <span className="hm-pc-v">{c.v}</span>{"\u00a0"}€
                 </b>
                 {c.per && <small>{c.per}</small>}
               </span>

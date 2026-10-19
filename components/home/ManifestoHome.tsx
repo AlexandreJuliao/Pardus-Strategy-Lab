@@ -52,6 +52,9 @@ export default function ManifestoHome() {
       const dias = qa(root, ".hm-mani-pin .hm-mani-dia");
       const glow = q(root, ".hm-mani-glow");
       const N = ws.length;
+      // posições das palavras (não mudam com a opacidade; o setup corre outra vez no resize)
+      const pos = ws.map((w) => [w.offsetLeft + w.offsetWidth + 6, w.offsetTop, w.offsetHeight]);
+      let lastI = -1;
       return ({ p, T, rm }) => {
         const x = rm ? N + 2 : seg(p, 0.03, 0.74) * (N + 1.5);
         ws.forEach((w, i) => {
@@ -64,9 +67,10 @@ export default function ManifestoHome() {
           const w = ws[i];
           const show = !rm && x > 0.2 && x < N + 1;
           caret.style.opacity = show ? "1" : "0";
-          if (show && w) {
-            caret.style.transform = `translate(${(w.offsetLeft + w.offsetWidth + 6).toFixed(1)}px, ${w.offsetTop.toFixed(1)}px)`;
-            caret.style.height = `${w.offsetHeight}px`;
+          if (show && w && i !== lastI) {
+            lastI = i;
+            caret.style.transform = `translate(${pos[i][0].toFixed(1)}px, ${pos[i][1].toFixed(1)}px)`;
+            caret.style.height = `${pos[i][2]}px`;
           }
         }
         rules.forEach((r, i) => {
