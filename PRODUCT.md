@@ -22,7 +22,7 @@ Emoções-alvo: confiança, calma, "isto é gente séria que fala a minha língu
 2. Um herói visual por secção; um acento itálico dourado por headline — só um.
 3. Contraste de cor como assinatura: secções invertidas (dourado sólido, petrol) intercaladas com navy, com grão por cima.
 4. O leopardo é o momento de assinatura do Hero — não se espalha.
-5. Preços à vista (site desde 890€) — transparência vende. A oferta está em 3 pilares (Branding, Captar, Organizar), fechada a 19/10/2026; o preço de cada um vive em `components/sections/Pricing.tsx` e `lib/verticals.ts`, e no catálogo do Pardus OS (`lib/lead-briefing/catalogo.ts`).
+5. Preços à vista (site desde 890€) — transparência vende. A oferta está em 3 pilares (Presença, Captação, Sistema), fechada a 19/10/2026; o preço de cada um vive em `components/sections/Pricing.tsx` e `lib/verticals.ts`, e no catálogo do Pardus OS (`lib/lead-briefing/catalogo.ts`).
 
 ## Accessibility
 Contraste AA em todos os pares (navy sobre dourado, claro sobre petrol/navy). prefers-reduced-motion respeitado em todas as animações (já implementado).

@@ -9,9 +9,9 @@ import { fadeUp, staggerContainer } from "@/lib/animations";
 
 /**
  * Investimento — a oferta em 3 pilares (fechada a 19/10/2026; fonte: «Pardus — Oferta e preços»):
- *   1. Branding — uma imagem digital sólida (site, loja, ficha Google, acompanhamento)
- *   2. Captar — clientes novos pelo Google (arrumar a casa, gestão, anúncios, página de destino)
- *   3. Organizar — um sistema só para a operação (vende-se o diagnóstico, nunca o sistema)
+ *   1. Presença — uma imagem digital sólida (site, loja, ficha Google, acompanhamento)
+ *   2. Captação — clientes novos pelo Google (arrumar a casa, gestão, anúncios, página de destino)
+ *   3. Sistema — onde ficam clientes, equipa, stock e cobranças (vende-se o diagnóstico, nunca o sistema)
  * "desde" = chão (só o site e a loja variam com o negócio); tudo o resto é preço fixo.
  * Valores sem IVA. Preço no código = `lib/lead-briefing/catalogo.ts` do Pardus OS: mudar um é mudar os dois, no mesmo dia.
  */
@@ -65,12 +65,12 @@ export default function Pricing() {
         <SectionHeader
           label="// Investimento"
           title={<>Preços claros, <span className="accent-serif text-gold">sem letra pequena.</span></>}
-          intro="Ajudamos o negócio a ter uma imagem digital sólida, a captar clientes e a organizar-se. Três caminhos, cada um com o preço à vista: escolhe pelo que te está a faltar. O valor final fecha-se contigo antes de começar."
+          intro="Fazemos a presença, a captação e o sistema do teu negócio. Três caminhos, cada um com o preço à vista: escolhe pelo que te está a faltar. O valor final fecha-se contigo antes de começar."
         />
 
-        {/* 1 — Branding */}
+        {/* 1 — Presença */}
         <div className="mt-14">
-          <Kicker n="1" nome="Branding" hint="Não te encontram, ou não passas confiança online." />
+          <Kicker n="1" nome="Presença" hint="Não te encontram, ou não passas confiança online." />
           <motion.div
             variants={staggerContainer}
             initial="hidden"
@@ -102,9 +102,9 @@ export default function Pricing() {
           </motion.div>
         </div>
 
-        {/* 2 — Captar */}
+        {/* 2 — Captação */}
         <div className="mt-16">
-          <Kicker n="2" nome="Captar" hint="Não te chegam clientes novos. Primeiro arrumamos a casa, depois ligamos os anúncios." />
+          <Kicker n="2" nome="Captação" hint="Não te chegam clientes novos. Primeiro arrumamos a casa, depois ligamos os anúncios." />
           <div className="overflow-hidden rounded-[8px] border border-line">
             {CAPTAR.map((w, i) => (
               <motion.div
@@ -133,9 +133,9 @@ export default function Pricing() {
           </p>
         </div>
 
-        {/* 3 — Organizar */}
+        {/* 3 — Sistema */}
         <div className="mt-16">
-          <Kicker n="3" nome="Organizar" hint="Chegam pedidos e está tudo desorganizado." />
+          <Kicker n="3" nome="Sistema" hint="Chegam pedidos e está tudo desorganizado." />
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -145,7 +145,7 @@ export default function Pricing() {
           >
             <div className="max-w-xl">
               <p className="font-display text-[19px] font-semibold text-text-primary">
-                Um sistema só para a operação, começando pelo diagnóstico
+                Onde ficam clientes, equipa, stock e cobranças, começando pelo diagnóstico
               </p>
               <p className="mt-1 font-sans text-[14px] leading-relaxed text-text-secondary">
                 90 minutos contigo e um mapa de uma página com as áreas de que o negócio precisa e o

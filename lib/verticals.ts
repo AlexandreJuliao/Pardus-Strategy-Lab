@@ -230,11 +230,11 @@ export const VERTICALS: Record<string, Vertical> = {
     extras: {
       pre: "Quando o site estiver a trabalhar,",
       accent: "há mais.",
-      intro: "Também ajudamos a captar clientes novos pelo Google e a organizar o negócio por dentro. Nada disto é preciso para arrancar, mas quando fizer falta já sabes a quem pedir.",
+      intro: "Também tratamos da captação de clientes novos pelo Google e do sistema onde ficam clientes, equipa, stock e cobranças. Nada disto é preciso para arrancar, mas quando fizer falta já sabes a quem pedir.",
       items: [
         { icon: "inbox", title: "Ficha Google e chamadas medidas", desc: "A ficha em ordem e a contagem de quem liga e escreve a partir do site." },
         { icon: "bot", title: "Anúncios no Google", desc: "Gerimos as campanhas e mostramos o resultado no painel; os anúncios pagas tu, direto à Google." },
-        { icon: "workflow", title: "Organizar o negócio", desc: "Pedidos, equipa, stock e faturação num sistema só. Começa por um diagnóstico." },
+        { icon: "workflow", title: "Sistema", desc: "Onde ficam clientes, equipa, stock e cobranças. Começa por um diagnóstico." },
         { icon: "shop", title: "Loja online", desc: "Vender no próprio site, sem comissões de terceiros." },
         { icon: "care", title: "Acompanhamento", desc: "Painel com as métricas do site e das redes, todos os meses." },
       ],
