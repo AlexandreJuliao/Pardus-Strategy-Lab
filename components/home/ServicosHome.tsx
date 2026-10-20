@@ -1,88 +1,20 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useScene } from "./useScene";
 import { clamp01, eio, eo, lerp, q, qa, seg } from "./anim";
 import { scrollToEl } from "@/lib/scrollTo";
 
-type Kind = "ia" | "web" | "shop" | "chat" | "app" | "plan";
-
-const SV: { n: string; t: string; d: string; slug: string; v: Kind }[] = [
-  { n: "01", t: "Sistemas de IA", d: "Assistentes inteligentes que tratam do trabalho repetitivo por ti.", slug: "sistemas-de-ia", v: "ia" },
-  { n: "02", t: "Websites", d: "Sites rápidos, bonitos e pensados para transformar visitantes em clientes.", slug: "websites", v: "web" },
-  { n: "03", t: "E-commerce", d: "Lojas online feitas para vender, com pagamentos, stock e relatórios.", slug: "e-commerce", v: "shop" },
-  { n: "04", t: "Chatbots & Automações", d: "Respondem aos teus clientes na hora, no WhatsApp e no site.", slug: "chatbots-automacoes", v: "chat" },
-  { n: "05", t: "Apps Empresariais", d: "Gestão de clientes, painéis e portais à medida.", slug: "apps-empresariais", v: "app" },
-  { n: "06", t: "Consultoria em IA", d: "Análise, plano por prioridades e formação da equipa.", slug: "consultoria-em-ia", v: "plan" },
+// Fotografias geradas no kie.ai (nano-banana-2), na paleta da marca.
+const SV: { n: string; t: string; d: string; slug: string; img: string }[] = [
+  { n: "01", t: "Sistemas de IA", d: "Assistentes inteligentes que tratam do trabalho repetitivo por ti.", slug: "sistemas-de-ia", img: "/img/home/servicos/ia.jpg" },
+  { n: "02", t: "Websites", d: "Sites rápidos, bonitos e pensados para transformar visitantes em clientes.", slug: "websites", img: "/img/home/servicos/web.jpg" },
+  { n: "03", t: "E-commerce", d: "Lojas online feitas para vender, com pagamentos, stock e relatórios.", slug: "e-commerce", img: "/img/home/servicos/loja.jpg" },
+  { n: "04", t: "Chatbots & Automações", d: "Respondem aos teus clientes na hora, no WhatsApp e no site.", slug: "chatbots-automacoes", img: "/img/home/servicos/chat.jpg" },
+  { n: "05", t: "Apps Empresariais", d: "Gestão de clientes, painéis e portais à medida.", slug: "apps-empresariais", img: "/img/home/servicos/apps.jpg" },
+  { n: "06", t: "Consultoria em IA", d: "Análise, plano por prioridades e formação da equipa.", slug: "consultoria-em-ia", img: "/img/home/servicos/consultoria.jpg" },
 ];
-
-function Visual({ kind }: { kind: Kind }) {
-  switch (kind) {
-    case "ia":
-      return (
-        <div className="hm-vg hm-vg-ia" aria-hidden>
-          <svg viewBox="0 0 472 230" preserveAspectRatio="none">
-            <path d="M236 115 L80 54 M236 115 L86 180 M236 115 L396 115" />
-          </svg>
-          <i className="hm-vg-n hm-vg-n1">CRM</i>
-          <i className="hm-vg-n hm-vg-n2">Email</i>
-          <i className="hm-vg-n hm-vg-n3">WhatsApp</i>
-          <b className="hm-vg-core">IA</b>
-        </div>
-      );
-    case "web":
-      return (
-        <div className="hm-vg hm-vg-web" aria-hidden>
-          <div className="hm-minibar">
-            <i />
-            <i />
-            <i />
-            <b />
-          </div>
-          <i className="hm-bar w70" />
-          <i className="hm-bar w50" />
-          <i className="hm-pill" />
-        </div>
-      );
-    case "shop":
-      return (
-        <div className="hm-vg hm-vg-shop" aria-hidden>
-          <div className="hm-vg-prod" />
-          <div className="hm-vg-shop-r">
-            <i className="hm-bar w70" />
-            <span className="hm-vg-price">49,90€</span>
-            <span className="hm-vg-mbw">MB Way</span>
-          </div>
-          <b className="hm-vg-cart">1</b>
-        </div>
-      );
-    case "chat":
-      return (
-        <div className="hm-vg hm-vg-chat" aria-hidden>
-          <span className="hm-bub hm-bub-c">Fazem entregas no Porto?</span>
-          <span className="hm-bub hm-bub-a">Fazemos, em 24h.</span>
-        </div>
-      );
-    case "app":
-      return (
-        <div className="hm-vg hm-vg-app" aria-hidden>
-          {[40, 62, 48, 80, 70, 92].map((h, i) => (
-            <i key={i} style={{ height: `${h}%` }} />
-          ))}
-        </div>
-      );
-    case "plan":
-      return (
-        <div className="hm-vg hm-vg-plan" aria-hidden>
-          {["Análise", "Prioridades", "Formação"].map((x) => (
-            <span key={x}>
-              <b>✓</b> {x}
-            </span>
-          ))}
-        </div>
-      );
-  }
-}
 
 const STEPS = SV.length - 1;
 /** Progresso do pin → posição na fila, com uma pausa em cada cartão. */
@@ -99,7 +31,7 @@ export default function ServicosHome() {
       const track = q(root, ".hm-sv-track");
       const cards = qa(root, ".hm-sv-card");
       const idx = qa(root, ".hm-sv-idx button");
-      const vgs = cards.map((c) => q(c, ".hm-vg"));
+      const vgs = cards.map((c) => q(c, ".hm-sv-ph"));
       if (!desk) {
         // No telemóvel a fila é um carrossel nativo; só as entradas animam.
         [track, ...head, ...cards].forEach((e) => {
@@ -190,7 +122,9 @@ export default function ServicosHome() {
                   className="hm-sv-card"
                   style={{ "--i": i } as React.CSSProperties}
                 >
-                  <Visual kind={s.v} />
+                  <div className="hm-sv-ph" aria-hidden>
+                    <Image src={s.img} alt="" fill sizes="(min-width:1024px) 30vw, 80vw" />
+                  </div>
                   <span className="hm-sv-n" aria-hidden>
                     {s.n}
                   </span>
