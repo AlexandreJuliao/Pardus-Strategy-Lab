@@ -16,7 +16,7 @@ Dark editorial-premium: navy profundo dominante, dourado como único acento, sec
 | `--blue` (petrol) | `#2e5484` | atmosfera + secções petrol; nunca 2º acento |
 | `--blue-deep` | `#14203a` | petrol profundo (gradientes) |
 | `--cream` | `#f4ecdb` | cards claros (equipa, pricing destacado, quotes) |
-| `--text-primary` / `secondary` / `muted` | `#eef2f9` / `#9aa3b6` / `#5a6274` | texto |
+| `--text-primary` / `secondary` / `muted` | `#eef2f9` / `#9aa3b6` / `#7b8599` | texto |
 
 Regras: navy domina; ~2–3 secções de cor invertida por página (dourada → texto navy; petrol → texto claro + acento dourado); nunca duas invertidas iguais adjacentes.
 
