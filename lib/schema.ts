@@ -3,7 +3,7 @@
 import { LEGAL } from "@/lib/legal";
 import { SERVICES } from "@/lib/services";
 
-const SITE = "https://pardus-lab.com";
+const SITE = "https://www.pardus-lab.com";
 const ORG_ID = `${SITE}/#organization`;
 const WEBSITE_ID = `${SITE}/#website`;
 

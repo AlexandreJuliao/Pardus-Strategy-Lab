@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Contacto",
   description:
     "Vamos construir algo juntos. Conta-nos o teu projeto. Respondemos em menos de 24 horas. Pardus Strategy Lab, Lisboa, Portugal.",
-  alternates: { canonical: "https://pardus-lab.com/contacto" },
+  alternates: { canonical: "https://www.pardus-lab.com/contacto" },
   openGraph: {
     title: "Contacto · Pardus Strategy Lab",
     description: "Vamos construir algo juntos.",
