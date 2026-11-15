@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { SERVICE_SLUGS } from "@/lib/services";
 import { PROJECT_SLUGS } from "@/lib/projects";
 
-const SITE_URL = "https://pardus-lab.com";
+const SITE_URL = "https://www.pardus-lab.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

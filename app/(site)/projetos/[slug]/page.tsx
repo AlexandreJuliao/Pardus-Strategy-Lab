@@ -25,7 +25,7 @@ export function generateMetadata({
   return {
     title: p.name,
     description: p.description,
-    alternates: { canonical: `https://pardus-lab.com/projetos/${p.slug}` },
+    alternates: { canonical: `https://www.pardus-lab.com/projetos/${p.slug}` },
     openGraph: {
       title: `${p.name} · Pardus Strategy Lab`,
       description: p.tagline,

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Serviços",
   description:
     "Soluções completas de desenvolvimento e inteligência artificial: sistemas de IA, websites, e-commerce, chatbots, apps empresariais e consultoria.",
-  alternates: { canonical: "https://pardus-lab.com/servicos" },
+  alternates: { canonical: "https://www.pardus-lab.com/servicos" },
   openGraph: {
     title: "Serviços · Pardus Strategy Lab",
     description:

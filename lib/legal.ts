@@ -16,7 +16,7 @@ export const LEGAL = {
   privacyEmail: "geral@pardus-lab.com",
   contactEmail: "geral@pardus-lab.com",
   phone: "+351 913 387 098",
-  site: "https://pardus-lab.com",
+  site: "https://www.pardus-lab.com",
   appHost: "office.pardus-lab.com",
   supervisoryAuthority: "Comissão Nacional de Proteção de Dados (CNPD), www.cnpd.pt",
   lastUpdated: "14 de outubro de 2026",
