@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { waitUntil } from "@vercel/functions";
 import { sendLeadToMeta } from "@/lib/metaCapi";
+import { sendLeadToGa4 } from "@/lib/ga4";
 import { escolhaNoPedido } from "@/lib/consent";
 import { OFFICE_CLIENT_ID, postOffice } from "@/lib/office";
 import {
@@ -163,6 +164,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: "delivery" }, { status: 502 });
     }
     console.error("[calculadora] office falhou; lead entregue só ao n8n (reserva)");
+  }
+
+  // GA4 pelo servidor só para quem não aceitou os cookies (ver lib/ga4.ts).
+  if (!consentiu) {
+    waitUntil(sendLeadToGa4({ origem: "calculadora", pagina: s(data.sourceUrl, 500) || undefined }));
   }
 
   return NextResponse.json({ ok: true, lead_id: leadId });

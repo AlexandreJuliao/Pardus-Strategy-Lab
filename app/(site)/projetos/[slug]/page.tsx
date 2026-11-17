@@ -23,8 +23,8 @@ export function generateMetadata({
   const p = getProject(params.slug);
   if (!p) return {};
   return {
-    title: p.name,
-    description: p.description,
+    title: p.seoTitle ?? p.name,
+    description: p.seoDescription ?? p.description,
     alternates: { canonical: `https://www.pardus-lab.com/projetos/${p.slug}` },
     openGraph: {
       title: `${p.name} · Pardus Strategy Lab`,
