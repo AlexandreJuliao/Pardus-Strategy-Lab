@@ -11,6 +11,7 @@ import {
   lerEscolha,
   type Escolha,
 } from "@/lib/consent";
+import { GA4_ID } from "@/lib/ga4";
 
 // Analytics do site público da Pardus.
 // - PostHog (comportamento: vistas, páginas, rage clicks, dead clicks) — é o que
@@ -28,7 +29,6 @@ import {
 // vai em "lazyOnload" (só depois do load) para os 120 KB dele não atrasarem o LCP
 // no telemóvel (auditoria de 15/11/2026: /projetos com LCP de 6,5 s).
 
-const GA4_ID = "G-EZ1S3CPSZX";
 const META_PIXEL_ID = "1818427879129367";
 
 // Chave PÚBLICA do projeto PostHog da Pardus (organização própria, criada pelo

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { waitUntil } from "@vercel/functions";
 import { sendLeadToMeta } from "@/lib/metaCapi";
+import { sendLeadToGa4 } from "@/lib/ga4";
 import { escolhaNoPedido } from "@/lib/consent";
 
 // Ingest endpoint for the site's lead forms. Validates, drops obvious bots,
@@ -190,6 +191,12 @@ export async function POST(req: Request) {
   const [n8nOk, officeOk] = await Promise.all([toN8n, toOffice]);
   if (!n8nOk && !officeOk) {
     return NextResponse.json({ ok: false, error: "delivery" }, { status: 502 });
+  }
+
+  // GA4 pelo servidor só para quem não aceitou os cookies (quem aceitou conta
+  // pelo browser); depois de a lead entrar, e sem a resposta esperar por ele.
+  if (!consentiu) {
+    waitUntil(sendLeadToGa4({ origem: payload.origem, pagina: s(data.sourceUrl, 500) || undefined }));
   }
 
   return NextResponse.json({ ok: true });

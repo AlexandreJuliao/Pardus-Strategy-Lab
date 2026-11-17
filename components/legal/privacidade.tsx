@@ -346,6 +346,13 @@ export const SECCOES_PRIVACIDADE: LegalSection[] = [
           conta visitas de forma agregada.
         </p>
         <p>
+          Quando envias um pedido de contacto sem teres aceitado os cookies, o
+          nosso servidor avisa o Google Analytics de que entrou um pedido: só o
+          formulário e a página de origem, com um identificador aleatório e sem
+          dados teus. Serve para sabermos quantos contactos o site gera, e nada
+          fica guardado no teu navegador.
+        </p>
+        <p>
           A tua escolha fica guardada num cookie essencial,{" "}
           <code>pardus_consent</code>, durante 6 meses; depois disso voltamos a
           perguntar. Podes mudar a tua escolha a qualquer momento em

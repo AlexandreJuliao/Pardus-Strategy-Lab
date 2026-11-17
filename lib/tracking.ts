@@ -3,7 +3,7 @@
 // de «Aceitar» no aviso de cookies; aqui só disparamos os eventos de negócio.
 // Sem isto o Pixel só vê PageView e as campanhas não conseguem otimizar para
 // quem realmente preenche o formulário. Quem recusa conta na mesma do lado do
-// servidor (API de Conversões, em app/api/lead/route.ts).
+// servidor (API de Conversões, em lib/metaCapi.ts, e GA4, em lib/ga4.ts).
 
 import { lerEscolha } from "@/lib/consent";
 
