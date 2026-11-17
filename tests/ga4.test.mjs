@@ -1,7 +1,7 @@
 // Envio da lead ao GA4 pelo servidor (lib/ga4.ts), com o fetch simulado.
 import { test, afterEach } from "node:test";
 import assert from "node:assert/strict";
-import { GA4_ID, sendLeadToGa4 } from "../lib/ga4.ts";
+import { GA4_ID, paginaLimpa, sendLeadToGa4 } from "../lib/ga4.ts";
 
 const fetchOriginal = globalThis.fetch;
 afterEach(() => {
@@ -37,6 +37,18 @@ test("envia generate_lead com a origem e sem dados da pessoa", async () => {
       params: { form_origem: "Homepage", page_location: "https://www.pardus-lab.com/" },
     },
   ]);
+});
+
+test("a página vai sem query string e só dos domínios da Pardus", () => {
+  assert.equal(
+    paginaLimpa("https://www.pardus-lab.com/contacto?email=a%40b.pt&gclid=x#form"),
+    "https://www.pardus-lab.com/contacto",
+  );
+  assert.equal(paginaLimpa("https://websites.pardus-lab.com/"), "https://websites.pardus-lab.com/");
+  assert.equal(paginaLimpa("https://evil-pardus-lab.com/"), undefined);
+  assert.equal(paginaLimpa("http://www.pardus-lab.com/"), undefined);
+  assert.equal(paginaLimpa("lixo"), undefined);
+  assert.equal(paginaLimpa(undefined), undefined);
 });
 
 test("falha do Google não lança", async () => {

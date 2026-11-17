@@ -16,7 +16,23 @@ export const GA4_ID = "G-EZ1S3CPSZX";
  * Segredo em GA4_MP_SECRET (Admin → Fluxos de dados → Measurement Protocol).
  * Sem ele, não envia e avisa nos logs. Nunca lança.
  */
+/**
+ * A página vem do browser: só se aceita um URL dos domínios da Pardus, e sem
+ * query string nem fragmento (podem trazer gclid, fbclid ou até um email).
+ */
+export function paginaLimpa(url?: string): string | undefined {
+  try {
+    const u = new URL(url ?? "");
+    if (u.protocol !== "https:") return undefined;
+    if (u.hostname !== "pardus-lab.com" && !u.hostname.endsWith(".pardus-lab.com")) return undefined;
+    return u.origin + u.pathname;
+  } catch {
+    return undefined;
+  }
+}
+
 export async function sendLeadToGa4(lead: { origem: string; pagina?: string }): Promise<boolean> {
+  const pagina = paginaLimpa(lead.pagina);
   const secret = process.env.GA4_MP_SECRET;
   if (!secret) {
     console.error("[ga4-mp] GA4_MP_SECRET em falta — evento NÃO enviado");
@@ -35,7 +51,7 @@ export async function sendLeadToGa4(lead: { origem: string; pagina?: string }): 
               name: "generate_lead",
               params: {
                 form_origem: lead.origem,
-                ...(lead.pagina ? { page_location: lead.pagina } : {}),
+                ...(pagina ? { page_location: pagina } : {}),
               },
             },
           ],
