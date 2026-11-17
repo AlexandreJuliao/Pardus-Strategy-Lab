@@ -1,0 +1,52 @@
+# Portão do site: corre em cada pull request e em cada push para `main`.
+# Lint, testes e build. Se algum falhar, o PR fica vermelho.
+# Sem segredos: o build passa sem variáveis de ambiente (as integrações
+# — Meta CAPI, office — desligam-se sozinhas quando faltam).
+# Os minutos de Actions são partilhados pela conta toda: um só trabalho,
+# cache do npm e do Next, e um push novo num PR cancela o run anterior.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    name: Lint · Testes · Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Testes
+        run: npm test
+
+      - name: Cache do Next
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: next-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+          restore-keys: next-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+
+      - name: Build
+        run: npm run build
