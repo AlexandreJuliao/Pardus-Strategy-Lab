@@ -109,6 +109,8 @@ export default function RootLayout({
     <html
       lang="pt-PT"
       className={`${schibsted.variable} ${cormorant.variable} ${bodoni.variable}`}
+      // a abertura da homepage marca o <html> (js, intro-run…) antes de o React chegar
+      suppressHydrationWarning
     >
       <body>
         <Analytics />
