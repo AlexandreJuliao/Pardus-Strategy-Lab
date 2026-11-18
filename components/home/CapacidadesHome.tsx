@@ -235,11 +235,12 @@ export default function CapacidadesHome() {
   const tabsBox = useRef<HTMLDivElement>(null);
 
   const choose = useCallback((i: number, byUser: boolean) => {
+    // segura mesmo que já esteja neste separador, senão roda logo a seguir
+    if (byUser) heldUntil.current = performance.now() + HOLD_MS;
     if (i === tabRef.current) return;
     prev.current = tabRef.current;
     tabRef.current = i;
     since.current = performance.now();
-    if (byUser) heldUntil.current = performance.now() + HOLD_MS;
     setTab(i);
   }, []);
 
