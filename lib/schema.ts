@@ -25,7 +25,7 @@ export const organizationSchema = {
   vatID: LEGAL.nif,
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Lisboa",
+    addressLocality: "Mafra",
     addressRegion: "Lisboa",
     addressCountry: "PT",
   },

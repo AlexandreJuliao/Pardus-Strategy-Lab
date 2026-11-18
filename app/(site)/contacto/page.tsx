@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Mail, MapPin, Calendar, ArrowUpRight, Clock } from "lucide-react";
+import { Mail, MapPin, Calendar, Clock } from "lucide-react";
 import PageHero from "@/components/sections/PageHero";
 import LeadFormCard from "@/components/sections/LeadFormCard";
 import JsonLd from "@/components/seo/JsonLd";
@@ -9,7 +8,7 @@ import { breadcrumbSchema } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "Contacto",
   description:
-    "Vamos construir algo juntos. Conta-nos o teu projeto. Respondemos em menos de 24 horas. Pardus Strategy Lab, Lisboa, Portugal.",
+    "Vamos construir algo juntos. Conta-nos o teu projeto. Respondemos em menos de 24 horas. Pardus Strategy Lab, Mafra, Lisboa.",
   alternates: { canonical: "https://www.pardus-lab.com/contacto" },
   openGraph: {
     title: "Contacto · Pardus Strategy Lab",
@@ -31,7 +30,7 @@ export default function ContactoPage() {
         title={<>Vamos falar do <span className="accent-serif text-gold">teu negócio.</span></>}
         meta={
           <p className="font-sans text-sm text-text-secondary">
-            Resposta em <span className="text-text-primary">24h</span> · Lisboa
+            Resposta em <span className="text-text-primary">24h</span> · Mafra, Lisboa
           </p>
         }
       />
@@ -63,7 +62,7 @@ export default function ContactoPage() {
                   <span className="flex h-11 w-11 items-center justify-center rounded-[4px] border border-line bg-white/[0.02] text-gold">
                     <MapPin size={18} />
                   </span>
-                  <span className="font-sans text-[15px]">Lisboa, Portugal</span>
+                  <span className="font-sans text-[15px]">Mafra, Lisboa</span>
                 </div>
 
                 <div className="flex items-center gap-4 text-text-secondary">
@@ -90,19 +89,6 @@ export default function ContactoPage() {
                   </span>
                 </span>
               </a>
-
-              <div className="mt-10 flex items-center gap-3">
-                {["LinkedIn", "GitHub"].map((s) => (
-                  <Link
-                    key={s}
-                    href="#"
-                    className="group inline-flex items-center gap-1.5 rounded-[4px] border border-line px-4 py-2 mono-tiny text-text-secondary transition-colors hover:border-gold/40 hover:text-gold"
-                  >
-                    {s}
-                    <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </Link>
-                ))}
-              </div>
             </div>
 
             {/* form — o mesmo da homepage e das LPs */}

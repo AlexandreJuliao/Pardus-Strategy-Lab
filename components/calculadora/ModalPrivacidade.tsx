@@ -104,7 +104,7 @@ export default function ModalPrivacidade({ seccao, aoFechar }: { seccao: string 
           </button>
         </div>
         <div ref={corpo} data-lenis-prevent onClick={cliques} className="relative overflow-y-auto overscroll-contain px-6 pb-8 pt-5">
-          <p className="m-0 mb-6 text-[13px] text-[#93a3c2]">Atualizado · {LEGAL.lastUpdated}</p>
+          <p className="m-0 mb-6 text-[13px] text-[#93a3c2]">Atualizado · {LEGAL.privacyUpdated}</p>
           <div className="legal-prose space-y-10">
             {SECCOES_PRIVACIDADE.map((s, i) => (
               <section key={s.id} id={`priv-${s.id}`}>

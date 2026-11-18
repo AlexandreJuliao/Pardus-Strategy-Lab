@@ -64,9 +64,9 @@ export const COBRE = [
 ] as const;
 /** [valor guardado, área que lhe corresponde, mostrada por baixo no cartão] */
 export const PRIOR = [
-  ["Imagem e site", "Branding & Web"],
-  ["Mais clientes", "Visibilidade & Captação"],
-  ["Menos trabalho manual", "Automações & Software"],
+  ["Imagem e site", "Presença"],
+  ["Mais clientes", "Captação"],
+  ["Menos trabalho manual", "Sistema"],
 ] as const;
 export const PRAZO = ["Já este mês", "Nos próximos 3 meses", "Ainda este ano", "Só estou a explorar"] as const;
 export const INV = [
@@ -81,13 +81,13 @@ export const SECOES = [
   "",
   "",
   "O negócio",
-  "Branding & Web",
-  "Branding & Web",
-  "Visibilidade",
-  "Visibilidade",
+  "Presença",
+  "Presença",
+  "Captação",
+  "Captação",
   "O seu mês",
-  "Automações",
-  "Automações",
+  "Sistema",
+  "Sistema",
   "Prioridades",
   "Investimento",
   "",
