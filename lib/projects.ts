@@ -8,6 +8,9 @@ export interface ProjectData {
   category: "IA & Automação" | "Websites" | "E-commerce" | "Apps";
   tagline: string;
   description: string;
+  /** Só para o Google, quando o nome ou a descrição passam o limite (título ≤ 60 com o sufixo, descrição ≤ 160). */
+  seoTitle?: string;
+  seoDescription?: string;
   intro: string;
   problem: string;
   builtItems: string[];
@@ -22,6 +25,9 @@ export interface ProjectData {
 export const PROJECTS: ProjectData[] = [
   {
     slug: "website-arquitetura-autor",
+    seoTitle: "Website 3D para arquitetura de autor",
+    seoDescription:
+      "Site multilíngue e imersivo, com modelos 3D no browser, para uma marca de arquitetura de casas à medida. Feito para transformar visitas em contactos.",
     name: "Website imersivo para arquitetura de autor",
     category: "Websites",
     tagline: "Um site que se visita como se percorresse a casa.",
@@ -56,6 +62,9 @@ export const PROJECTS: ProjectData[] = [
   },
   {
     slug: "central-contactos-ia",
+    seoTitle: "Central de contactos com assistente IA",
+    seoDescription:
+      "Email, Instagram, Facebook e WhatsApp num só sítio, com um assistente de IA que responde e encaminha cada contacto para quem deve tratar dele.",
     name: "Central de contactos com assistente inteligente",
     category: "IA & Automação",
     tagline: "Todas as conversas, um só sítio, e uma resposta sempre pronta.",
@@ -90,6 +99,7 @@ export const PROJECTS: ProjectData[] = [
   },
   {
     slug: "loja-bem-estar-emagrecimento",
+    seoTitle: "Loja online de suplementos e bem-estar",
     name: "Loja online de bem-estar e emagrecimento",
     category: "E-commerce",
     tagline: "Uma loja pensada para vender enquanto a equipa dorme.",
@@ -124,6 +134,8 @@ export const PROJECTS: ProjectData[] = [
   },
   {
     slug: "plataforma-gestao-agencia",
+    seoDescription:
+      "Plataforma de gestão para uma agência criativa: tarefas, equipa, finanças, projetos e agenda com horas por pessoa, tudo reunido numa só app.",
     name: "Plataforma de gestão para uma agência",
     category: "Apps",
     tagline: "A operação toda de uma agência, dentro de uma app só.",
@@ -158,6 +170,8 @@ export const PROJECTS: ProjectData[] = [
   },
   {
     slug: "assistente-consultas-nutricao",
+    seoDescription:
+      "Assistente para uma profissional de nutrição: conversa com quem chega, tira dúvidas e marca consultas sozinho, sem ninguém a responder.",
     name: "Assistente que marca consultas sozinho",
     category: "IA & Automação",
     tagline: "Perguntas respondidas e consultas marcadas, sem ninguém a meio.",

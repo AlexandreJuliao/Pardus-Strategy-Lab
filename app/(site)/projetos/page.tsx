@@ -12,7 +12,7 @@ const projectsItemList = {
   itemListElement: PROJECTS.map((p, i) => ({
     "@type": "ListItem",
     position: i + 1,
-    url: `https://pardus-lab.com/projetos/${p.slug}`,
+    url: `https://www.pardus-lab.com/projetos/${p.slug}`,
     name: p.name,
   })),
 };
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   title: "Projetos",
   description:
     "Sistemas reais, resultados mensuráveis. Projetos de IA, automação, websites, e-commerce e apps empresariais da Pardus Strategy Lab.",
-  alternates: { canonical: "https://pardus-lab.com/projetos" },
+  alternates: { canonical: "https://www.pardus-lab.com/projetos" },
   openGraph: {
     title: "Projetos · Pardus Strategy Lab",
     description: "Sistemas reais. Resultados mensuráveis.",
@@ -50,6 +50,8 @@ export default function ProjetosPage() {
           </p>
         }
       />
+      {/* Os cartões usam H3 (na homepage ficam debaixo de um H2); aqui o H2 faltava. */}
+      <h2 className="sr-only">Todos os projetos</h2>
       <ProjectsGrid />
       <CTAFinal />
     </>

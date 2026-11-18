@@ -42,7 +42,7 @@
 
   --text-primary: #eef2f9;
   --text-secondary: #9aa3b6;
-  --text-muted: #5a6274;
+  --text-muted: #7b8599; /* ≥4,5:1 de #05070e a #161d30 (WCAG AA) */
 
   /* RGB triplets for the tokens above — lets Tailwind's `/NN` opacity
      modifier (bg-gold/50, border-gold/40, bg-bg-2/50...) actually compose
@@ -64,7 +64,7 @@
   --blue-deep-rgb: 20 32 58;
   --text-primary-rgb: 238 242 249;
   --text-secondary-rgb: 154 163 182;
-  --text-muted-rgb: 90 98 116;
+  --text-muted-rgb: 123 133 153;
   --cream-rgb: 244 236 219;
   --cream-ink-rgb: 10 14 26;
   --bronze-rgb: 180 113 42;

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --test --disable-warning=MODULE_TYPELESS_PACKAGE_JSON tests/"
+    "test": "node --test --disable-warning=MODULE_TYPELESS_PACKAGE_JSON 'tests/*.test.mjs'"
   },
   "dependencies": {
     "@vercel/functions": "3.9.9",

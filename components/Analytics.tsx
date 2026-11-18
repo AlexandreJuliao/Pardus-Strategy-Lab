@@ -11,6 +11,7 @@ import {
   lerEscolha,
   type Escolha,
 } from "@/lib/consent";
+import { GA4_ID } from "@/lib/ga4";
 
 // Analytics do site público da Pardus.
 // - PostHog (comportamento: vistas, páginas, rage clicks, dead clicks) — é o que
@@ -24,10 +25,10 @@ import {
 //   mas sem os cookies _fbp/_fbc.
 // - O Microsoft Clarity saiu a 03/10/2026: o PostHog já faz o mesmo sem cookies.
 // Todos os IDs são públicos por natureza (vão no HTML do browser), por isso ficam
-// hardcoded aqui. Tudo via next/script strategy="afterInteractive" → não bloqueia
-// o first paint.
+// hardcoded aqui. Tudo via next/script, que não bloqueia o first paint; o PostHog
+// vai em "lazyOnload" (só depois do load) para os 120 KB dele não atrasarem o LCP
+// no telemóvel (auditoria de 15/11/2026: /projetos com LCP de 6,5 s).
 
-const GA4_ID = "G-EZ1S3CPSZX";
 const META_PIXEL_ID = "1818427879129367";
 
 // Chave PÚBLICA do projeto PostHog da Pardus (organização própria, criada pelo
@@ -140,7 +141,7 @@ export default function Analytics() {
           "posthog.init is not a function" e não regista nada — foi o primeiro
           teste, a 14/09/2026. Tirado de docs/onboarding/.../js-snippet-builder.ts
           no repositório do PostHog. */}
-      <Script id="posthog" strategy="afterInteractive">
+      <Script id="posthog" strategy="lazyOnload">
         {`${POSTHOG_LOADER}
           posthog.init('${POSTHOG_KEY}', ${JSON.stringify(POSTHOG_CONFIG)});`}
       </Script>
