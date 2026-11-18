@@ -46,7 +46,7 @@ export default function CTAFinal() {
           </Magnetic>
         </motion.div>
         <motion.p variants={fadeUp} className="mt-6 mono-tiny text-[#6b4f22]">
-          geral@pardus-lab.com · Lisboa, Portugal
+          geral@pardus-lab.com · Mafra, Lisboa
         </motion.p>
 
         <motion.div variants={fadeUp} className="mt-12">
