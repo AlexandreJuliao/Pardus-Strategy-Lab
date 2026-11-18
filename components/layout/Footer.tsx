@@ -85,7 +85,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2.5 font-sans text-sm text-text-secondary">
                 <MapPin size={15} className="text-gold" />
-                Lisboa, Portugal
+                Mafra, Lisboa
               </li>
             </ul>
             {SOCIALS.length > 0 && (

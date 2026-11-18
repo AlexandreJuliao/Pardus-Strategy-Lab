@@ -8,7 +8,7 @@ import CtaButton from "@/components/ui/CtaButton";
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const FACTS: [string, string][] = [
-  ["Onde estamos", "Lisboa, Portugal"],
+  ["Onde estamos", "Mafra, Lisboa"],
   ["O que fazemos", "IA · Web · Automação"],
   ["Como começamos", "Consultoria gratuita"],
 ];
