@@ -84,7 +84,7 @@ export type Vertical = {
   process: { when: string; title: string; desc: string }[];
   pricing?: {
     intro: string;
-    plans: { name: string; desc: string; price: string; items: string[]; featured?: boolean }[];
+    plans: { name: string; desc: string; items: string[]; featured?: boolean }[];
     note: string;
   };
   /** aparte: o que se pode juntar ao site mais tarde */
@@ -117,7 +117,7 @@ export const VERTICALS: Record<string, Vertical> = {
     seo: {
       title: "PARDUS. Websites · O teu site pronto em 2 semanas",
       description:
-        "Sites profissionais para negócios em Portugal: design à medida, rápidos no telemóvel, ligados ao WhatsApp e a aparecer no Google. Desde 890€. Marca uma conversa de 20 minutos.",
+        "Sites profissionais para negócios em Portugal: design à medida, rápidos no telemóvel, ligados ao WhatsApp e a aparecer no Google. Marca uma conversa de 20 minutos.",
     },
     hero: {
       lines: [
@@ -200,7 +200,7 @@ export const VERTICALS: Record<string, Vertical> = {
     features: [
       { icon: "text", title: "Textos e imagens incluídos", desc: "Escrevemos e escolhemos as imagens contigo. Não precisas de chegar com nada pronto." },
       { icon: "globe", title: "Domínio, alojamento e email", desc: "Registamos o teu domínio, pomos o site no ar e criamos o email profissional. Tudo em teu nome." },
-      { icon: "chart", title: "Acesso à plataforma", desc: "Um painel só teu com as visitas, os pedidos que entraram e um sítio para pedires alterações à equipa. Durante o projeto está incluído; depois da entrega mantém-se com o acompanhamento (25€/mês)." },
+      { icon: "chart", title: "Acesso à plataforma", desc: "Um painel só teu com as visitas, os pedidos que entraram e um sítio para pedires alterações à equipa. Durante o projeto está incluído; depois da entrega mantém-se com o acompanhamento." },
       { icon: "shield", title: "30 dias de ajustes", desc: "Depois do lançamento ficamos por perto 30 dias para afinar o que ficou por afinar e tirar dúvidas, sem custo." },
     ],
     process: [
@@ -209,23 +209,21 @@ export const VERTICALS: Record<string, Vertical> = {
       { when: "Dia 12", title: "Lançamento e formação", desc: "Pomos no ar, ligamos o Google e o WhatsApp, e mostramos-te como mudar textos e imagens sozinho." },
     ],
     pricing: {
-      intro: "Preço fechado antes de começar. O valor final depende do que o teu site precisa, mas parte daqui.",
+      intro: "Dois pontos de partida. Pede a proposta e fechamos contigo o que o teu negócio precisa, antes de começar.",
       plans: [
         {
           name: "Site profissional",
           desc: "O site completo do teu negócio, pensado para o que vendes.",
-          price: "890€",
           featured: true,
           items: ["Até 6 páginas (serviços, sobre, contactos…)", "Textos, imagens e SEO base", "Domínio e alojamento em teu nome", "Painel para editares sozinho", "30 dias de ajustes incluídos"],
         },
         {
           name: "Loja online",
           desc: "Para vender no teu próprio site, a qualquer hora, sem comissões de terceiros.",
-          price: "1.890€",
           items: ["Catálogo de produtos e carrinho de compras", "Pagamentos e envios configurados", "Textos, imagens e SEO base", "Domínio e alojamento em teu nome", "30 dias de ajustes incluídos"],
         },
       ],
-      note: "A ficha Google (95€, taxa fixa) faz-se dentro de um site ou de uma loja. Domínio, alojamento e conta de anúncios ficam em teu nome ou passam ao custo. Depois da entrega, o acompanhamento custa 25€/mês (ou 250€/ano) e as alterações fora do âmbito 45€/hora. Adaptamo-nos a várias formas de pagamento.",
+      note: "A ficha Google faz-se dentro de um site ou de uma loja. Domínio, alojamento e conta de anúncios ficam em teu nome. Adaptamo-nos a várias formas de pagamento.",
     },
     extras: {
       pre: "Quando o site estiver a trabalhar,",
@@ -243,8 +241,8 @@ export const VERTICALS: Record<string, Vertical> = {
       { q: "Quanto tempo demora mesmo?", a: "Um site profissional fica no ar em cerca de 2 semanas; numa loja online o prazo depende do catálogo e dizemo-lo na conversa inicial. O prazo conta a partir dessa conversa, e o que mais atrasa é a aprovação do teu lado. Por isso pedimos-te poucas coisas, e uma de cada vez." },
       { q: "O que preciso de vos dar?", a: "Quase nada: o nome do negócio, o que fazes e para quem, e o teu logótipo se tiveres. Os textos e as imagens tratamos nós contigo. Se não tiveres logótipo, falamos disso na conversa: dentro de um projeto de site fazemo-lo, orçamentado à parte." },
       { q: "O site fica meu ou vosso?", a: "Teu. Domínio em teu nome, alojamento na tua conta, código entregue. Se um dia quiseres mudar de agência, levas tudo contigo." },
-      { q: "E depois do lançamento?", a: "Tens 30 dias de ajustes incluídos para afinar o que ficou por afinar e tirar dúvidas. Depois, se quiseres o painel com as métricas do site e das redes, há o acompanhamento a 25€/mês (ou 250€/ano). Opcional. Alterações novas pagam-se a 45€/hora." },
-      { q: "Como vejo os resultados do site?", a: "Damos-te uma conta na nossa plataforma, só tua. Lá vês as visitas, de onde vieram e todos os pedidos que entraram, sem precisares de perceber de Google Analytics. Depois da entrega, o acompanhamento (25€/mês) mantém o painel. É também por lá que pedes alterações; o que estiver fora do âmbito do projeto paga-se a 45€/hora." },
+      { q: "E depois do lançamento?", a: "Tens 30 dias de ajustes incluídos para afinar o que ficou por afinar e tirar dúvidas. Depois, se quiseres o painel com as métricas do site e das redes, há o acompanhamento, que é opcional. Alterações novas orçamentam-se à parte." },
+      { q: "Como vejo os resultados do site?", a: "Damos-te uma conta na nossa plataforma, só tua. Lá vês as visitas, de onde vieram e todos os pedidos que entraram, sem precisares de perceber de Google Analytics. Depois da entrega, o acompanhamento mantém o painel. É também por lá que pedes alterações; o que estiver fora do âmbito do projeto orçamenta-se à parte." },
       { q: "Como funciona o pagamento?", a: "Metade para arrancar, metade no lançamento, ou outra forma que te dê mais jeito. Falamos disso na primeira conversa, sem surpresas." },
     ],
     form: {
@@ -358,23 +356,21 @@ export const VERTICALS: Record<string, Vertical> = {
       { when: "A partir daí", title: "Módulo a módulo", desc: "Faturação, equipas, relatórios, portal do cliente: cada módulo entra quando o anterior já está a pagar-se. Acompanhamos as primeiras semanas de uso e afinamos o que não encaixa." },
     ],
     pricing: {
-      intro: "Não há tabela do sistema: o diagnóstico fecha o preço de cada módulo antes de se escrever uma linha. Para saberes por onde anda, parte daqui.",
+      intro: "Começa sempre por um diagnóstico, que fecha o âmbito de cada módulo antes de se escrever uma linha. Depois cresce ao ritmo da tua equipa.",
       plans: [
         {
           name: "Diagnóstico",
           desc: "O primeiro passo: perceber onde o negócio perde tempo e o que vale a pena organizar.",
-          price: "150€",
-          items: ["90 minutos contigo e com quem faz o trabalho", "Mapa de uma página com as áreas de que precisas", "Preço fechado de cada módulo", "Abatido ao projeto se avançares em 30 dias"],
+          items: ["90 minutos contigo e com quem faz o trabalho", "Mapa de uma página com as áreas de que precisas", "Âmbito fechado de cada módulo"],
         },
         {
           name: "Base e módulos",
           desc: "Uma base comum a tudo, mais os módulos por área, ao ritmo da tua equipa.",
-          price: "à medida",
           featured: true,
           items: ["Base com clientes e pedidos, tarefas e painel do dono", "Módulos: equipa, marcações e serviços, stock e compras, faturação, atendimento", "Acessos por função e versão para telemóvel", "Ligação ao teu programa de faturação certificado", "Código e dados em teu nome"],
         },
       ],
-      note: "Cada módulo tem um preço fechado e uma pequena mensalidade; o que sair da lista de cada módulo paga-se a 45€/hora. Alojamento e custos de API (WhatsApp, IA) passam ao custo. Adaptamo-nos a várias formas de pagamento.",
+      note: "Cada módulo tem o âmbito fechado no diagnóstico, antes de começar. Adaptamo-nos a várias formas de pagamento.",
     },
     extras: {
       pre: "Quando o sistema estiver a trabalhar,",
@@ -393,7 +389,7 @@ export const VERTICALS: Record<string, Vertical> = {
       { q: "Quanto tempo até a equipa estar a usar?", a: "O primeiro módulo fica no ar em cerca de 4 semanas a contar do mapeamento, já com dados reais. Os seguintes entram ao ritmo que a equipa aguenta: não vale a pena lançar tudo de uma vez." },
       { q: "O código e os dados são meus?", a: "Sim. Código entregue, base de dados em conta tua, acessos em teu nome. Se um dia quiseres mudar de fornecedor, levas tudo contigo." },
       { q: "Funciona no telemóvel?", a: "De raiz. A equipa que anda na rua usa a mesma plataforma no telemóvel: ordens, fotos, assinaturas. Quem está no escritório vê tudo a chegar." },
-      { q: "E se a minha empresa mudar?", a: "Muda o sistema. É esse o ponto de ser à medida: novos campos, novas etapas, novos relatórios entram como alterações (45€/hora) ou como um módulo novo, sem recomeçar do zero." },
+      { q: "E se a minha empresa mudar?", a: "Muda o sistema. É esse o ponto de ser à medida: novos campos, novas etapas, novos relatórios entram como alterações ou como um módulo novo, sem recomeçar do zero." },
       { q: "Como funciona o pagamento?", a: "Cada módulo tem preço fechado no mapeamento. Pagas uma parte ao arrancar e o resto quando o módulo está a ser usado. Adaptamo-nos a várias formas de pagamento." },
     ],
     form: {

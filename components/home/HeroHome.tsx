@@ -13,7 +13,7 @@ const PHRASES = [
 ];
 
 const TRUST = [
-  { to: 0, unit: "€", label: ["primeira", "consultoria"] },
+  { to: 30, unit: "min", label: ["primeira conversa,", "grátis"] },
   { to: 24, unit: "h", label: ["tempo de", "resposta"] },
   { to: 100, unit: "%", label: ["código e", "acessos teus"] },
 ];

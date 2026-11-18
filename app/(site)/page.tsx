@@ -8,7 +8,7 @@ import FaixaHome from "@/components/home/FaixaHome";
 import ProjetosHome from "@/components/home/ProjetosHome";
 import CompromissosHome from "@/components/home/CompromissosHome";
 import MarcacaoHome from "@/components/home/MarcacaoHome";
-import PrecosHome from "@/components/home/PrecosHome";
+import PilaresHome from "@/components/home/PilaresHome";
 import FechoHome from "@/components/home/FechoHome";
 import ContactoHome from "@/components/home/ContactoHome";
 import MobileContactFab from "@/components/layout/MobileContactFab";
@@ -28,7 +28,7 @@ export default function HomePage() {
       <ProjetosHome />
       <CompromissosHome />
       <MarcacaoHome />
-      <PrecosHome />
+      <PilaresHome />
       <ContactoHome />
       <FechoHome />
       <MobileContactFab />

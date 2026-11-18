@@ -5,6 +5,14 @@ const nextConfig = {
     // Lint is run separately; don't fail production builds on lint warnings.
     ignoreDuringBuilds: true,
   },
+  // A cache de build que a Vercel restaura trouxe para produção o CSS antigo do
+  // next/font (18/11/2026): o HTML pedia a classe de fonte nova e o CSS só tinha
+  // a antiga, e o site caiu para Times. Sem cache do webpack no build de produção,
+  // cada build gera o CSS de raiz (custa uns segundos). O `next dev` não muda.
+  webpack: (config, { dev }) => {
+    if (!dev) config.cache = false;
+    return config;
+  },
   // Backoffice/agenda migrou para office.pardus-lab.com. Links de cliente antigos
   // (portais) que ainda batam no domínio público são reencaminhados para lá,
   // para não partirem bookmarks partilhados antes da migração.

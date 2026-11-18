@@ -5,7 +5,7 @@ import CtaButton from "@/components/ui/CtaButton";
 import Reveal from "@/components/lp/Reveal";
 import type { Vertical } from "@/lib/verticals";
 
-/** Só nas verticais de produto. "desde" = chão; o preço fecha-se na conversa. */
+/** Só nas verticais de produto. Sem preços (OP#240): o valor fecha-se na proposta. */
 export default function LpPricing({ v }: { v: Vertical }) {
   const p = v.pricing;
   if (!p) return null;
@@ -17,7 +17,7 @@ export default function LpPricing({ v }: { v: Vertical }) {
       <AuroraGlow variant="pricing" />
       <div className="shell relative z-10">
         <SectionHeader
-          title={<>Preços claros, <span className="accent-serif text-gold">sem letra pequena.</span></>}
+          title={<>Escolhe por <span className="accent-serif text-gold">onde começar.</span></>}
           intro={p.intro}
           align="center"
         />
@@ -37,10 +37,6 @@ export default function LpPricing({ v }: { v: Vertical }) {
                 )}
                 <p className="font-display text-xl font-semibold text-text-primary">{plan.name}</p>
                 <p className="mt-2 font-sans text-[14.5px] leading-relaxed text-text-secondary">{plan.desc}</p>
-                <p className="mt-6 flex items-baseline gap-2">
-                  {/\d/.test(plan.price) && <span className="mono-tiny text-text-muted">desde</span>}
-                  <span className={`stat-figure leading-none ${/\d/.test(plan.price) ? "text-[40px]" : "text-[30px]"}`}>{plan.price}</span>
-                </p>
                 <ul className="mt-6 flex-1 space-y-2.5">
                   {plan.items.map((it) => (
                     <li key={it} className="flex items-start gap-2.5 font-sans text-[14px] text-text-secondary">
