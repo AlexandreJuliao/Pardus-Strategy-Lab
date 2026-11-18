@@ -19,7 +19,7 @@ export const LEGAL = {
   site: "https://www.pardus-lab.com",
   appHost: "office.pardus-lab.com",
   supervisoryAuthority: "Comissão Nacional de Proteção de Dados (CNPD), www.cnpd.pt",
-  lastUpdated: "14 de outubro de 2026",
+  lastUpdated: "18 de novembro de 2026",
   // A privacidade muda mais vezes do que os termos; tem a sua própria data.
   privacyUpdated: "18 de novembro de 2026",
 } as const;

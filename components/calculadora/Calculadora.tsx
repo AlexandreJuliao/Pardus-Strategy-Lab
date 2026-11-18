@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import "./calculadora.css";
 import Capa from "./Capa";
 import ModalPrivacidade from "./ModalPrivacidade";
-import { AreaTexto, Bilhete, Caixa, Campo, Cartoes, Chips, Escala, Eyebrow, Logotipo, Visto } from "./ui";
+import { AreaTexto, Caixa, Campo, Cartoes, Chips, Escala, Eyebrow, Logotipo, Visto } from "./ui";
 import {
   CANAIS,
   COBRE,
@@ -392,7 +392,7 @@ export default function Calculadora() {
               maxLength={300}
             />
             <p className="calc-ajuda m-0 text-[13px] leading-[1.4] text-[#c3cde0]">
-              Analisamos o site por si antes de lhe enviarmos o cálculo.
+              Analisamos o site por si antes de lhe enviarmos o diagnóstico.
             </p>
           </div>
         ) : null}
@@ -529,13 +529,11 @@ export default function Calculadora() {
       </>
     );
   } else if (ecra === ECRA_CONTACTO) {
-    tituloEcra = "O seu número está pronto";
-    sub = "Diga-nos para onde o enviamos. Revela-se no seu email em poucos minutos, com tudo o que encontrámos.";
+    tituloEcra = "O seu diagnóstico está pronto";
+    sub = "Diga-nos para onde o enviamos. Chega ao seu email em poucos minutos, com tudo o que encontrámos.";
     subSecundario = true;
-    const bilhete = String(parseInt(sessao.current.replace(/-/g, "").slice(0, 6) || "0", 16) % 10000).padStart(4, "0");
     blocos = (
       <>
-        <Bilhete rotulo={`Bilhete N.º ${bilhete} · ${neg || "o seu negócio"}`} />
         <div className="flex flex-col gap-[var(--calc-gap-bloco)]">
           <Campo
             rotulo="Email"
@@ -571,7 +569,7 @@ export default function Calculadora() {
             {TEXTO_CONSENTIMENTO}
           </Caixa>
           {tentou && !consentiu ? (
-            <p className="m-0 pl-[34px] text-[13px] leading-[1.35] text-[#ffc9b8]">Para lhe enviarmos o cálculo, precisamos desta autorização.</p>
+            <p className="m-0 pl-[34px] text-[13px] leading-[1.35] text-[#ffc9b8]">Para lhe enviarmos o diagnóstico, precisamos desta autorização.</p>
           ) : null}
         </div>
         <p className="m-0 text-[13px] leading-[1.4] text-[#c3cde0] [@media(max-height:700px)]:text-[12px]">
@@ -597,7 +595,7 @@ export default function Calculadora() {
   const dicaBarra =
     ecra >= 2 && ecra <= 3 ? "Cerca de 3 minutos" : (ecra >= 10 && ecra <= 11) || ecra === ECRA_CONTACTO ? "Quase a terminar" : "";
   const textoBotao =
-    ecra === ECRA_CONTACTO ? (enviando ? "A enviar…" : "Enviar e revelar o meu número") : ecra === ECRA_ULTIMA_PERGUNTA ? "Calcular o meu número" : "Continuar";
+    ecra === ECRA_CONTACTO ? (enviando ? "A enviar…" : "Enviar o meu diagnóstico") : ecra === ECRA_ULTIMA_PERGUNTA ? "Preparar o meu diagnóstico" : "Continuar";
 
   return (
     <div className="calc-raiz relative min-h-[100svh]" data-preso={naCapa ? undefined : ""}>
@@ -704,7 +702,7 @@ export default function Calculadora() {
             </div>
             <div className="flex flex-col items-center gap-2 text-center">
               <h2 ref={titulo} tabIndex={-1} className="calc-display m-0 text-[clamp(24px,4.2dvh,30px)] font-bold leading-[1.15] tracking-[-0.6px] outline-none">
-                A calcular o seu <span className="text-[#e2c47e]">número…</span>
+                A preparar o seu <span className="text-[#e2c47e]">diagnóstico…</span>
               </h2>
               <p className="m-0 text-[15px] text-[#c3cde0]">{neg ? `Com as respostas sobre ${neg}.` : "Com as suas respostas."}</p>
             </div>
@@ -749,11 +747,11 @@ export default function Calculadora() {
               {`Obrigado${primeiroNome ? `, ${primeiroNome}` : ""}.`}
             </h2>
             <p className="m-0 text-[16px] leading-[1.45] text-[#d3dbea] [@media(max-height:700px)]:text-[15px]">
-              {`O seu número${neg ? ` para ${neg}` : ""} vai a caminho de ${email.trim() || "o seu email"}.`}
+              {`O seu diagnóstico${neg ? ` para ${neg}` : ""} vai a caminho de ${email.trim() || "o seu email"}.`}
             </p>
             <dl className="m-0 flex flex-col border-t border-[rgba(238,242,249,0.15)]">
               {[
-                ["Agora", "O seu número no email, por área"],
+                ["Agora", "O seu diagnóstico no email, por área"],
                 ["Junto", "O que encontrámos no Google, no site e nos anúncios"],
                 ["Se quiser", "Uma conversa de 20 minutos, sem compromisso"],
               ].map(([q, t]) => (

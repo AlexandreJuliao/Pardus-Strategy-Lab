@@ -19,13 +19,13 @@ const ANALISAMOS: [string, string, string][] = [
 const PASSOS = [
   "Responde a perguntas rápidas, quase todas com um toque.",
   "Enquanto responde, analisamos o seu site, a ficha do Google e os anúncios.",
-  "Recebe o seu número por email, com o que encontrámos online.",
+  "Recebe o seu diagnóstico por email, com o que encontrámos online.",
 ];
 
 const FAQ: [string, string][] = [
   ["É mesmo gratuito?", "Sim. Sem compromisso e sem pedir cartão."],
   ["Quanto tempo leva?", "Cerca de 3 minutos."],
-  ["O que recebo?", "O investimento estimado por área e o que encontrámos online sobre o seu negócio."],
+  ["O que recebo?", "Por onde começar, área a área, e o que encontrámos online sobre o seu negócio."],
 ];
 
 const BOTAO_OURO =
@@ -97,24 +97,18 @@ export default function Capa({
             <div className="flex flex-col gap-2.5 md:gap-[26px]">
               <Eyebrow className="text-center md:hidden">Diagnóstico gratuito · 3 minutos</Eyebrow>
               <h1 className="calc-display m-0 text-center text-[40px] font-bold leading-[1.02] tracking-[-1.2px] md:text-left md:text-[clamp(52px,5vw,72px)] md:leading-none md:tracking-[-2.4px]">
-                Quanto custa <span className="text-[#e2c47e]">crescer o seu Negócio?</span>
+                O que falta para <span className="text-[#e2c47e]">crescer o seu Negócio?</span>
               </h1>
               <p className="m-0 text-center text-[15px] leading-[1.5] text-[#d3dbea] md:max-w-[540px] md:text-left md:text-[20px]">
-                Analisamos o seu negócio online e dizemos-lhe, com números, o que melhorar primeiro
-                <span className="hidden md:inline"> e quanto investir</span>.
+                Analisamos o seu negócio online e dizemos-lhe o que melhorar primeiro
+                <span className="hidden md:inline">, área a área</span>.
               </p>
             </div>
 
             {/* Cartão do telemóvel */}
             <div className="flex flex-col gap-3 rounded-[6px] border border-[rgba(212,175,96,0.5)] bg-[rgba(8,16,38,0.42)] p-[18px] md:hidden">
-              <div className="flex items-center justify-between gap-3">
-                <Eyebrow className="text-[12px] tracking-[2.5px]">Recebe por email, grátis</Eyebrow>
-                <p className="calc-display calc-pulsar m-0 shrink-0 whitespace-nowrap rounded-[4px] bg-[rgba(212,175,96,0.18)] px-2.5 py-1 text-[15px] font-bold text-[#f0d089]">
-                  <span aria-hidden="true">?.??? €</span>
-                  <span className="sr-only">Valor por revelar</span>
-                </p>
-              </div>
-              {["Quanto investir para crescer, por área", "O que encontrámos no seu site, no Google e nos anúncios", "Como está face aos concorrentes da sua zona"].map((t) => (
+              <Eyebrow className="text-[12px] tracking-[2.5px]">Recebe por email, grátis</Eyebrow>
+              {["O que melhorar primeiro, por área", "O que encontrámos no seu site, no Google e nos anúncios", "Como está face aos concorrentes da sua zona"].map((t) => (
                 <div key={t} className="flex items-start gap-2.5">
                   <Bola className="mt-px" />
                   <p className="m-0 text-[15px] leading-[1.4]">{t}</p>
@@ -163,13 +157,7 @@ export default function Capa({
 
           {/* Cartão do computador */}
           <aside className="hidden w-[min(520px,42vw)] shrink-0 flex-col gap-1.5 rounded-[8px] border border-[rgba(212,175,96,0.5)] bg-[rgba(8,16,38,0.45)] px-8 py-[30px] shadow-[0_30px_70px_rgba(4,10,30,0.35)] md:flex">
-            <div className="flex items-center justify-between gap-4 pb-2.5">
-              <Eyebrow className="text-[13px]">O que analisamos por si</Eyebrow>
-              <p className="calc-display calc-pulsar m-0 shrink-0 whitespace-nowrap rounded-[4px] bg-[rgba(212,175,96,0.18)] px-3 py-1.5 text-[18px] font-bold text-[#f0d089]">
-                <span aria-hidden="true">?.??? €</span>
-                <span className="sr-only">Valor por revelar</span>
-              </p>
-            </div>
+            <Eyebrow className="pb-2.5 text-[13px]">O que analisamos por si</Eyebrow>
             {ANALISAMOS.filter((a) => a[2]).map(([t, , curta]) => (
               <div key={t} className="flex items-start gap-3.5 border-t border-[rgba(238,242,249,0.12)] py-3.5">
                 <Bola px={24} icone={15} className="mt-px" />
@@ -180,7 +168,7 @@ export default function Capa({
               </div>
             ))}
             <p className="m-0 mt-2.5 border-t border-[rgba(212,175,96,0.4)] pt-4 text-[15px] leading-[1.5] text-[#eef2f9]">
-              Recebe por email <b className="text-[#f0d089]">quanto investir, por área</b>, e tudo o que encontrámos.
+              Recebe por email <b className="text-[#f0d089]">o que melhorar primeiro, por área</b>, e tudo o que encontrámos.
             </p>
           </aside>
         </div>
@@ -200,7 +188,7 @@ export default function Capa({
                   Olhamos para o seu negócio como um cliente olharia.
                 </h2>
                 <p className="m-0 text-[15px] leading-[1.5] text-[#d3dbea] md:hidden">
-                  Antes de lhe dar um número, olhamos para o seu negócio como um cliente olharia.
+                  Antes do diagnóstico, olhamos para o seu negócio como um cliente olharia.
                 </p>
               </div>
               <p className="m-0 hidden max-w-[340px] text-right text-[14px] leading-[1.5] text-[#c3cde0] md:block">

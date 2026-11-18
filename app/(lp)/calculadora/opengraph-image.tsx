@@ -1,10 +1,10 @@
 import { ImageResponse } from "next/og";
 
 // Imagem de partilha da Calculadora (Open Graph e Twitter): o fundo azul do
-// desenho aprovado, o título e o bilhete com o valor por revelar.
+// desenho aprovado e o título.
 
 export const runtime = "edge";
-export const alt = "Calculadora de Crescimento Pardus · Quanto custa crescer o seu negócio?";
+export const alt = "Calculadora de Crescimento Pardus · O que falta para crescer o seu negócio?";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -34,28 +34,14 @@ export default function Imagem() {
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
           <div style={{ display: "flex", flexWrap: "wrap", fontSize: 76, fontWeight: 700, lineHeight: 1.02, letterSpacing: -2 }}>
-            <span>Quanto custa&nbsp;</span>
+            <span>O que falta para&nbsp;</span>
             <span style={{ color: "#e2c47e" }}>crescer o seu negócio?</span>
           </div>
           <div style={{ display: "flex", fontSize: 28, color: "#d3dbea", maxWidth: 1040 }}>
-            Imagem, site, Google, anúncios e automações: quanto investir, por área.
+            Imagem, site, Google, anúncios e automações: o que melhorar primeiro, por área.
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <div
-            style={{
-              display: "flex",
-              padding: "10px 22px",
-              borderRadius: 4,
-              background: "rgba(212,175,96,0.18)",
-              border: "1px solid rgba(212,175,96,0.6)",
-              color: "#f0d089",
-              fontSize: 34,
-              fontWeight: 700,
-            }}
-          >
-            ?.??? €
-          </div>
           <div style={{ display: "flex", fontSize: 24, color: "#c3cde0" }}>Calculadora de Crescimento Pardus</div>
         </div>
       </div>
