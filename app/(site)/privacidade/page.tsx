@@ -18,6 +18,7 @@ export default function PrivacidadePage() {
       title="Política de Privacidade"
       subtitle="Como recolhemos, usamos e protegemos dados pessoais, com transparência e em conformidade com o RGPD."
       sections={SECCOES_PRIVACIDADE}
+      updated={LEGAL.privacyUpdated}
     />
   );
 }

@@ -13,7 +13,7 @@ const ATUALIZADO = {
   projetos: "2026-09-05",
   projeto: "2026-11-17",
   contacto: "2026-09-30",
-  privacidade: "2026-11-17",
+  privacidade: "2026-11-18",
   legal: "2026-10-14",
 } as const;
 

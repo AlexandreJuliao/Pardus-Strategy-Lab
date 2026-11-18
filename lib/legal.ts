@@ -1,7 +1,7 @@
 // Identidade legal + subprocessadores — fonte ÚNICA para as páginas legais.
 // Atualizar aqui reflete em /privacidade, /termos e /eliminacao-de-dados.
 //
-// ⚠️ CAMPOS A CONFIRMAR (marcados TODO): o Julian tem de dar estes dados para
+// ⚠️ CAMPOS A CONFIRMAR (marcados TODO): o Alexandre tem de dar estes dados para
 // a informação coincidir com o que for submetido na Meta / LinkedIn / TikTok.
 
 export const LEGAL = {
@@ -20,11 +20,13 @@ export const LEGAL = {
   appHost: "office.pardus-lab.com",
   supervisoryAuthority: "Comissão Nacional de Proteção de Dados (CNPD), www.cnpd.pt",
   lastUpdated: "14 de outubro de 2026",
+  // A privacidade muda mais vezes do que os termos; tem a sua própria data.
+  privacyUpdated: "18 de novembro de 2026",
 } as const;
 
 // Subprocessadores / destinatários dos dados (transparência RGPD art. 13 + Meta Platform Terms).
 export const SUBPROCESSORS: { name: string; purpose: string; location: string }[] = [
-  { name: "Meta Platforms Ireland Ltd.", purpose: "Gestão de páginas e contas de Facebook e Instagram e campanhas publicitárias, a pedido do titular da conta.", location: "União Europeia (Irlanda)" },
+  { name: "Meta Platforms Ireland Ltd.", purpose: "Gestão de páginas e contas de Facebook e Instagram e campanhas publicitárias, a pedido do titular da conta; medição dos anúncios da própria Pardus (Conversions API).", location: "União Europeia (Irlanda)" },
   { name: "LinkedIn Ireland Unlimited Company", purpose: "Gestão de páginas e publicações de LinkedIn, a pedido do titular da conta.", location: "União Europeia (Irlanda)" },
   { name: "TikTok Technology Limited", purpose: "Gestão de conta e publicações de TikTok, a pedido do titular da conta.", location: "União Europeia / EUA (com cláusulas contratuais-tipo)" },
   { name: "Supabase, Inc.", purpose: "Base de dados e autenticação da plataforma de gestão.", location: "União Europeia / EUA (SCCs)" },
