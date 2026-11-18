@@ -353,6 +353,23 @@ export const SECCOES_PRIVACIDADE: LegalSection[] = [
           fica guardado no teu navegador.
         </p>
         <p>
+          Quando envias um pedido de contacto (no formulário ou na Calculadora
+          de Crescimento), o nosso servidor comunica-o também à Meta, pela{" "}
+          <strong>Conversions API</strong>, mesmo que não tenhas aceitado os
+          cookies. Seguem o teu email, nome, telemóvel e país, cada um
+          transformado num código irreversível (hash SHA-256) que a Meta compara
+          com as contas de Facebook e Instagram, mais o endereço IP, o tipo de
+          navegador, a página e o nome do formulário; nada mais do que
+          preencheste (mensagem, negócio ou respostas da Calculadora). Os
+          identificadores do Meta Pixel (<code>_fbp</code> e <code>_fbc</code>)
+          só seguem se tiveres aceitado os cookies. Serve para sabermos que
+          anúncios trazem contactos e para a Meta aprender a quem os mostrar.
+          Base: interesse legítimo. Podes opor-te escrevendo para{" "}
+          <a href={`mailto:${LEGAL.privacyEmail}`}>{LEGAL.privacyEmail}</a>; se
+          preferires que nada siga para a Meta, fala connosco por email ou
+          telefone em vez de usares o formulário.
+        </p>
+        <p>
           A tua escolha fica guardada num cookie essencial,{" "}
           <code>pardus_consent</code>, durante 6 meses; depois disso voltamos a
           perguntar. Podes mudar a tua escolha a qualquer momento em
