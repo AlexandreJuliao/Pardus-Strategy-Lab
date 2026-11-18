@@ -1577,11 +1577,12 @@
     width: calc(540 * var(--u));
     height: calc(720 * var(--u));
     padding: calc(34 * var(--u));
-    gap: calc(14 * var(--u));
+    gap: calc(10 * var(--u));
   }
+  /* mais pequeno desde que o cartão leva o pilar: o texto tem de caber na altura fixa */
   .hm-sv-n {
-    margin-top: calc(18 * var(--u));
-    font-size: calc(150 * var(--u));
+    margin-top: 0;
+    font-size: calc(104 * var(--u));
   }
   .hm-sv-t {
     font-size: calc(40 * var(--u));
