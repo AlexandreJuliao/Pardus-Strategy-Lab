@@ -26,7 +26,7 @@ const texto = Space_Grotesk({
   display: "swap",
 });
 
-const URL_PAGINA = "https://pardus-lab.com/calculadora";
+const URL_PAGINA = "https://www.pardus-lab.com/calculadora";
 const TITULO = "Calculadora de Crescimento Pardus · Quanto custa crescer o seu negócio?";
 const DESCRICAO =
   "Saiba em 3 minutos quanto deve investir para crescer no digital: imagem, site, Google, anúncios e automações.";

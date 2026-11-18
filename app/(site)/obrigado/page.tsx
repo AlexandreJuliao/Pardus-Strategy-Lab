@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Obrigado",
   description: "Recebemos o teu pedido. Entramos em contacto em menos de 24 horas.",
   robots: { index: false, follow: false },
-  alternates: { canonical: "https://pardus-lab.com/obrigado" },
+  alternates: { canonical: "https://www.pardus-lab.com/obrigado" },
 };
 
 export default function ObrigadoPage() {

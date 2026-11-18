@@ -414,11 +414,11 @@ export function getVertical(slug: string): Vertical | undefined {
 
 /**
  * O URL público da landing page. Enquanto o subdomínio não tiver registo DNS,
- * a página vive no domínio principal, em pardus-lab.com/<slug> — é este o URL
- * que os anúncios usam e o que vai no canónico. Quando o DNS estiver de pé,
- * troca-se pelo subdomínio e repõe-se o redirecionamento
- * no middleware.
+ * a página vive no domínio principal, em www.pardus-lab.com/<slug> — é este o
+ * URL que vai no canónico (o domínio sem www redireciona para o www na Vercel).
+ * Quando o DNS estiver de pé, troca-se pelo subdomínio e repõe-se o
+ * redirecionamento no middleware.
  */
 export function verticalUrl(slug: string) {
-  return `https://${ROOT_DOMAIN}/${slug}`;
+  return `https://www.${ROOT_DOMAIN}/${slug}`;
 }
