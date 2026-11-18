@@ -1447,6 +1447,13 @@
 .hm-sv-card:hover .hm-sv-n {
   color: var(--gold);
 }
+.hm-sv-p {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
 .hm-sv-t {
   font-weight: 600;
   font-size: 22px;

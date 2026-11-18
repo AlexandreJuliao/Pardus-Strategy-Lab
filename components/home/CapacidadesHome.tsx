@@ -45,6 +45,9 @@ const TABS: { t: string; ic: IconName; d: string; f: string[] }[] = [
   },
 ];
 
+/** Outra secção pede um separador: `new CustomEvent(PILAR_EVENT, { detail: índice })`. */
+export const PILAR_EVENT = "pardus:pilar";
+
 const AUTO_MS = 7600; // tempo em cada separador quando ninguém mexe
 const HOLD_MS = 16000; // depois de um clique, o separador fica quieto este tempo
 
@@ -239,6 +242,12 @@ export default function CapacidadesHome() {
     if (byUser) heldUntil.current = performance.now() + HOLD_MS;
     setTab(i);
   }, []);
+
+  useEffect(() => {
+    const on = (e: Event) => choose((e as CustomEvent<number>).detail, true);
+    window.addEventListener(PILAR_EVENT, on);
+    return () => window.removeEventListener(PILAR_EVENT, on);
+  }, [choose]);
 
   // Indicador dourado que desliza para o separador ativo.
   useEffect(() => {

@@ -3,17 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useScene } from "./useScene";
+import { PILAR_EVENT } from "./CapacidadesHome";
 import { clamp01, eio, eo, lerp, q, qa, seg } from "./anim";
-import { scrollToEl } from "@/lib/scrollTo";
+import { scrollToEl, scrollToId } from "@/lib/scrollTo";
 
-// Fotografias geradas no kie.ai (nano-banana-2), na paleta da marca.
-const SV: { n: string; t: string; d: string; slug: string; img: string }[] = [
-  { n: "01", t: "Sistemas de IA", d: "Assistentes inteligentes que tratam do trabalho repetitivo por ti.", slug: "sistemas-de-ia", img: "/img/home/servicos/ia.jpg" },
-  { n: "02", t: "Websites", d: "Sites rápidos, bonitos e pensados para transformar visitantes em clientes.", slug: "websites", img: "/img/home/servicos/web.jpg" },
-  { n: "03", t: "E-commerce", d: "Lojas online feitas para vender, com pagamentos, stock e relatórios.", slug: "e-commerce", img: "/img/home/servicos/loja.jpg" },
-  { n: "04", t: "Chatbots & Automações", d: "Respondem aos teus clientes na hora, no WhatsApp e no site.", slug: "chatbots-automacoes", img: "/img/home/servicos/chat.jpg" },
-  { n: "05", t: "Apps Empresariais", d: "Gestão de clientes, painéis e portais à medida.", slug: "apps-empresariais", img: "/img/home/servicos/apps.jpg" },
-  { n: "06", t: "Consultoria em IA", d: "Análise, plano por prioridades e formação da equipa.", slug: "consultoria-em-ia", img: "/img/home/servicos/consultoria.jpg" },
+// Dois serviços por pilar (a oferta de 19/10/2026). Fotografias geradas no kie.ai (nano-banana-2).
+// shortcut: a Captação reutiliza ia.jpg e consultoria.jpg; trocar por fotos próprias quando houver.
+// Os da Captação não têm página própria: abrem o separador Captação de «Tudo o que entregamos».
+const SV: { n: string; p: string; t: string; d: string; img: string; slug?: string; tab?: number }[] = [
+  { n: "01", p: "Presença", t: "Site profissional", d: "Pensado para o que vendes, rápido no telemóvel e ligado à ficha Google.", slug: "websites", img: "/img/home/servicos/web.jpg" },
+  { n: "02", p: "Presença", t: "Loja online", d: "Vende a qualquer hora, com pagamentos e stock, sem comissões.", slug: "e-commerce", img: "/img/home/servicos/loja.jpg" },
+  { n: "03", p: "Captação", t: "Ficha Google e chamadas medidas", d: "O teu negócio arrumado no Google, com chamadas, formulários e WhatsApp medidos.", tab: 1, img: "/img/home/servicos/ia.jpg" },
+  { n: "04", p: "Captação", t: "Anúncios no Google", d: "Apareces a quem procura o que fazes, com cada euro medido e relatório.", tab: 1, img: "/img/home/servicos/consultoria.jpg" },
+  { n: "05", p: "Sistema", t: "Software de gestão", d: "Clientes, equipa, marcações, stock e cobranças num só sítio, feito à medida.", slug: "apps-empresariais", img: "/img/home/servicos/apps.jpg" },
+  { n: "06", p: "Sistema", t: "Atendimento com chatbot", d: "Responde aos teus clientes na hora, no WhatsApp e no site.", slug: "chatbots-automacoes", img: "/img/home/servicos/chat.jpg" },
 ];
 
 const STEPS = SV.length - 1;
@@ -96,12 +99,12 @@ export default function ServicosHome() {
               O que <span className="hm-acc">construímos</span>
             </h2>
             <p className="hm-body">
-              Seis formas de te ajudar, uma só equipa. Do site à inteligência artificial,
+              Dois serviços em cada pilar: presença, captação e sistema. Uma só equipa,
               tudo ligado.
             </p>
             <ol className="hm-sv-idx">
               {SV.map((s, i) => (
-                <li key={s.slug}>
+                <li key={s.n}>
                   <button type="button" onClick={() => goTo(i)}>
                     <span>{s.n}</span>
                     {s.t}
@@ -115,26 +118,44 @@ export default function ServicosHome() {
           </div>
           <div className="hm-sv-view">
             <div className="hm-sv-track">
-              {SV.map((s, i) => (
-                <Link
-                  key={s.slug}
-                  href={`/servicos/${s.slug}`}
-                  className="hm-sv-card"
-                  style={{ "--i": i } as React.CSSProperties}
-                >
-                  <div className="hm-sv-ph" aria-hidden>
-                    <Image src={s.img} alt="" fill sizes="(min-width:1024px) 30vw, 80vw" />
-                  </div>
-                  <span className="hm-sv-n" aria-hidden>
-                    {s.n}
-                  </span>
-                  <span className="hm-sv-t">{s.t}</span>
-                  <span className="hm-sv-d">{s.d}</span>
-                  <span className="hm-sv-go">
-                    Ver serviço <span aria-hidden>→</span>
-                  </span>
-                </Link>
-              ))}
+              {SV.map((s, i) => {
+                const inner = (
+                  <>
+                    <div className="hm-sv-ph" aria-hidden>
+                      <Image src={s.img} alt="" fill sizes="(min-width:1024px) 30vw, 80vw" />
+                    </div>
+                    <span className="hm-sv-n" aria-hidden>
+                      {s.n}
+                    </span>
+                    <span className="hm-sv-p">{s.p}</span>
+                    <span className="hm-sv-t">{s.t}</span>
+                    <span className="hm-sv-d">{s.d}</span>
+                    <span className="hm-sv-go">
+                      {s.slug ? "Ver serviço" : "Ver o que inclui"} <span aria-hidden>→</span>
+                    </span>
+                  </>
+                );
+                const style = { "--i": i } as React.CSSProperties;
+                return s.slug ? (
+                  <Link key={s.n} href={`/servicos/${s.slug}`} className="hm-sv-card" style={style}>
+                    {inner}
+                  </Link>
+                ) : (
+                  <a
+                    key={s.n}
+                    href="#capacidades"
+                    className="hm-sv-card"
+                    style={style}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.dispatchEvent(new CustomEvent(PILAR_EVENT, { detail: s.tab }));
+                      scrollToId("capacidades");
+                    }}
+                  >
+                    {inner}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
