@@ -2,30 +2,19 @@
 
 import Icon, { type IconName } from "./Icon";
 import { useScene } from "./useScene";
-import { eio, eo, lerp, q, qa, seg, setText } from "./anim";
+import { eo, lerp, q, qa, seg } from "./anim";
 import { scrollToId, CTA_TARGET_ID } from "@/lib/scrollTo";
 
-// A oferta em 3 pilares (fechada a 19/10/2026). Mudar um preço aqui é mudar também
-// components/sections/Pricing.tsx e o catálogo do Pardus OS, no mesmo dia.
-const AR: {
-  n: string;
-  t: string;
-  hint: string;
-  ic: IconName;
-  from: string;
-  v: number;
-  per: string;
-  li: string[];
-}[] = [
+// Os 3 pilares, sem preços: o site não mostra valores (OP#240, 18/11/2026).
+// O preço fecha-se na proposta; o catálogo vive no Pardus OS.
+const AR: { n: string; t: string; hint: string; ic: IconName; li: string[] }[] = [
   {
     n: "01",
     t: "Presença",
     hint: "Não te encontram, ou não passas confiança online.",
     ic: "globe",
-    from: "site desde",
-    v: 890,
-    per: "",
     li: [
+      "Site ou loja online à medida, rápidos no telemóvel",
       "Painel próprio para gerires o site e veres todas as análises",
       "Ficha Google ligada ao site, para te encontrarem no mapa",
       "Acompanhamento depois da entrega",
@@ -36,14 +25,10 @@ const AR: {
     t: "Captação",
     hint: "Não te chegam clientes novos pelo Google.",
     ic: "target",
-    from: "desde",
-    v: 150,
-    per: "/mês",
     li: [
-      "Arrumamos o teu negócio no Google: 100 € uma vez",
-      "Gerimos os anúncios, com relatório",
-      "+ anúncios desde 240 €/mês, pagos à Google",
-      "Contrato mínimo de 3 meses",
+      "Arrumamos todo o teu negócio no Google",
+      "Chamadas, formulários e WhatsApp medidos",
+      "Gerimos os anúncios no Google, com relatório",
     ],
   },
   {
@@ -51,26 +36,21 @@ const AR: {
     t: "Sistema",
     hint: "Chegam pedidos e está tudo desorganizado.",
     ic: "flow",
-    from: "diagnóstico",
-    v: 150,
-    per: "",
     li: [
-      "90 minutos contigo e um mapa com o preço fechado",
-      "Os 150 € abatem ao projeto se avançares em 30 dias",
-      "Depois: equipa, marcações, stock e cobranças, à medida",
+      "Começa por um diagnóstico de 90 minutos contigo",
+      "Equipa, marcações, stock e cobranças num só sítio",
+      "Software teu, feito à medida do negócio",
     ],
   },
 ];
 
-export default function PrecosHome() {
+export default function PilaresHome() {
   const ref = useScene<HTMLElement>((root, desk) => {
     const head = qa(root, ".hm-pc-head > *");
-    const cards = qa(root, ".hm-pc").map((el, i) => ({
+    const cards = qa(root, ".hm-pc").map((el) => ({
       el,
-      v: q(el, ".hm-pc-v"),
       li: qa(el, ".hm-pc-l li"),
       sh: q(el, ".hm-pc-shine"),
-      to: AR[i].v,
     }));
     return ({ t, T, p, rm, vh }) => {
       head.forEach((h, i) => {
@@ -92,7 +72,6 @@ export default function PrecosHome() {
         c.el.style.transform = desk
           ? `perspective(1600px) translateY(${(lerp(80, 0, v) - 30 * sc + Math.sin(T * 0.9 + i) * 4).toFixed(1)}px) rotateX(${lerp(35, 0, v).toFixed(1)}deg) rotateY(${((i - 1) * -3 * (1 - v)).toFixed(1)}deg)`
           : `translateY(${lerp(40, 0, v).toFixed(1)}px)`;
-        setText(c.v, String(Math.round(c.to * (rm ? 1 : eio(seg(tt, 0.9, 2.0))))));
         c.li.forEach((x, j) => {
           const w = rm ? 1 : eo(seg(tt, 1.3 + j * 0.12, 1.7 + j * 0.12));
           x.style.opacity = w.toFixed(3);
@@ -109,15 +88,15 @@ export default function PrecosHome() {
   });
 
   return (
-    <section ref={ref} id="precos" className="hm-sec hm-pc-sec" aria-labelledby="hm-pc-h">
+    <section ref={ref} id="pilares" className="hm-sec hm-pc-sec" aria-labelledby="hm-pc-h">
       <div className="hm-cv hm-pc-cv">
         <div className="hm-pc-head">
           <h2 id="hm-pc-h" className="hm-h2">
-            Preços claros, <span className="hm-acc">sem letra pequena.</span>
+            Escolhe pelo que <span className="hm-acc">te está a faltar.</span>
           </h2>
           <p className="hm-body">
-            Fazemos a presença, a captação e o sistema do teu negócio. Escolhe pelo que te está
-            a faltar; o valor final fecha-se contigo antes de começar.
+            Fazemos a presença, a captação e o sistema do teu negócio. Pede uma proposta e
+            fechamos contigo o que faz sentido, antes de começar.
           </p>
         </div>
         <ul className="hm-pc-row">
@@ -129,13 +108,6 @@ export default function PrecosHome() {
               </div>
               <h3 className="hm-pc-t">{c.t}</h3>
               <p className="hm-pc-hint">{c.hint}</p>
-              <span className="hm-pc-from">{c.from}</span>
-              <span className="hm-pc-p">
-                <b>
-                  <span className="hm-pc-v">{c.v}</span>{"\u00a0"}€
-                </b>
-                {c.per && <small>{c.per}</small>}
-              </span>
               <i className="hm-pc-r" aria-hidden />
               <ul className="hm-pc-l">
                 {c.li.map((x) => (

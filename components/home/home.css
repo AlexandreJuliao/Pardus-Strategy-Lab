@@ -3595,7 +3595,7 @@
 }
 
 /* ==========================================================================
-   Preços
+   Pilares (sem preços)
    ========================================================================== */
 .hm-pc-head {
   position: relative;
@@ -3654,28 +3654,6 @@
   margin: 0;
   font-size: 14px;
   line-height: 1.4;
-  color: var(--text-secondary);
-}
-.hm-pc-from {
-  margin-top: 8px;
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-.hm-pc-p {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-}
-.hm-pc-p b {
-  font-weight: 700;
-  font-size: 54px;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  font-variant-numeric: tabular-nums;
-  color: var(--gold);
-}
-.hm-pc-p small {
-  font-size: 17px;
   color: var(--text-secondary);
 }
 .hm-pc-r {
@@ -3777,16 +3755,6 @@
   }
   .hm-pc-hint {
     font-size: max(12px, calc(18 * var(--u)));
-  }
-  .hm-pc-from {
-    margin-top: calc(14 * var(--u));
-    font-size: max(12px, calc(18 * var(--u)));
-  }
-  .hm-pc-p b {
-    font-size: calc(76 * var(--u));
-  }
-  .hm-pc-p small {
-    font-size: calc(26 * var(--u));
   }
   .hm-pc-r {
     margin: calc(14 * var(--u)) 0;

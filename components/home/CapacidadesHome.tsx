@@ -138,7 +138,7 @@ function DemoLoja() {
           <span>Instagram</span>
           <i className="hm-cp-radio" />
         </div>
-        <span className="hm-cp-paybtn">240 € / mês · medido</span>
+        <span className="hm-cp-paybtn">Cada clique medido</span>
       </div>
       <div className="hm-ui hm-cp-mail">
         <Icon name="mail" className="hm-ic-gold" />
