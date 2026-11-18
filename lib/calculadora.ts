@@ -91,7 +91,7 @@ export const SECOES = [
   "Prioridades",
   "Investimento",
   "",
-  "O seu número",
+  "O seu diagnóstico",
   "",
 ] as const;
 

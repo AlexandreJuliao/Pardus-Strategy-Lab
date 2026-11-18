@@ -3,8 +3,8 @@
 import { useId } from "react";
 
 // As peças dos ecrãs da Calculadora, tal como estão no desenho aprovado
-// (Main.dc.html): botões de escolha, escala de 0 a 10, cartões, campos,
-// caixa de consentimento e o bilhete dourado.
+// (Main.dc.html): botões de escolha, escala de 0 a 10, cartões, campos
+// e caixa de consentimento.
 
 const ON = "border-[#d4af60] bg-[rgba(212,175,96,0.2)] text-[#fff3d6]";
 const OFF = "border-[rgba(238,242,249,0.25)] bg-[rgba(8,16,38,0.4)] text-[#e6ebf4] hover:border-[rgba(238,242,249,0.45)]";
@@ -248,7 +248,7 @@ export function AreaTexto({
         className="h-[var(--calc-area-h)] resize-none rounded-[4px] border border-[rgba(238,242,249,0.25)] bg-[rgba(8,16,38,0.4)] px-3.5 py-2.5 text-[16px] leading-[1.45] text-[#eef2f9] placeholder:text-[#93a3c2]"
       />
       <p id={dicaId} className="calc-ajuda m-0 text-[13px] leading-[1.4] text-[#c3cde0]">
-        Opcional, mas é o que mais nos ajuda a preparar o seu cálculo.
+        Opcional, mas é o que mais nos ajuda a preparar o seu diagnóstico.
       </p>
     </div>
   );
@@ -372,47 +372,5 @@ export function Caixa({
       />
       <span className="text-[14px] leading-[1.45] text-[#d3dbea] [@media(max-height:700px)]:text-[13px] [@media(max-height:700px)]:leading-[1.4]">{children}</span>
     </label>
-  );
-}
-
-export function Cadeado() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="5" y="11" width="14" height="10" rx="2" />
-      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
-    </svg>
-  );
-}
-
-/** O bilhete dourado do ecrã do contacto, com o número ainda escondido. */
-export function Bilhete({ rotulo }: { rotulo: string }) {
-  return (
-    <div
-      className="relative h-[var(--calc-bilhete-h)] shrink-0 overflow-hidden rounded-[6px]"
-      style={{ background: "linear-gradient(130deg, #a17834 0%, #e8c77e 30%, #f7e2a8 46%, #c79c4b 66%, #efd394 100%)" }}
-      role="img"
-      aria-label={`${rotulo}: o valor revela-se no seu email`}
-    >
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "repeating-linear-gradient(45deg, rgba(255,255,255,0.10) 0px, rgba(255,255,255,0.10) 5px, rgba(90,60,10,0.06) 5px, rgba(90,60,10,0.06) 10px)",
-        }}
-      />
-      <div
-        className="calc-brilho absolute -bottom-5 -top-5 left-0 w-[60px]"
-        style={{ background: "linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.65), rgba(255,255,255,0))" }}
-      />
-      <div className="absolute inset-0 flex items-center justify-between px-[22px] text-[#2e1f08]">
-        <div className="flex min-w-0 flex-col gap-1">
-          <p className="m-0 truncate text-[10px] font-bold uppercase tracking-[2.5px]">{rotulo}</p>
-          <p className="calc-display m-0 text-[length:var(--calc-bilhete-fs)] font-bold leading-[1.1]">?.??? €</p>
-        </div>
-        <div className="box-border flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-[3px] border-dashed border-[#d4af60] bg-[#0c1a36] text-[#f0d089] [@media(max-height:620px)]:h-10 [@media(max-height:620px)]:w-10">
-          <Cadeado />
-        </div>
-      </div>
-    </div>
   );
 }

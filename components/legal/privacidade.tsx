@@ -85,7 +85,7 @@ export const SECCOES_PRIVACIDADE: LegalSection[] = [
             equipa, o que já tem, como chegam os clientes, volume e valor médio
             das vendas, onde perde tempo, prioridades e intenção de investimento),
             mais o texto e a hora do consentimento que deste. Usamo-los para
-            calcular a estimativa de investimento, enviá-la por email, preparar
+            preparar o diagnóstico, enviá-lo por email, preparar
             um relatório sobre o teu negócio e falar contigo sobre o pedido.
           </li>
           <li>
@@ -159,7 +159,7 @@ export const SECCOES_PRIVACIDADE: LegalSection[] = [
           </li>
           <li>
             <strong>Enviar o resultado da Calculadora de Crescimento</strong>{" "}
-            (a estimativa e, depois, um relatório) e contactar-te por email e
+            (o diagnóstico e, depois, um relatório) e contactar-te por email e
             WhatsApp sobre esse pedido. Base: consentimento, dado na caixa do
             último passo e revogável a qualquer momento (pelo link
             «Deixar de receber» nos emails, escrevendo PARAR no WhatsApp ou para
